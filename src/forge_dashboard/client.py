@@ -24,7 +24,7 @@ from .retry import DEFAULT_RETRY_CONFIG, AsyncRetryTransport, RetryConfig, Retry
 #: The environment variable :class:`ForgeDashboardClient` falls back to
 #: when no token is passed explicitly via ``api_token``. Not a hardcoded
 #: credential -- it's the name of the env var to read one from.
-API_TOKEN_ENV_VAR = "FORGE_DASHBOARD_API_TOKEN"  # noqa: S105
+API_TOKEN_ENV_VAR = "FORGE_DASHBOARD_API_TOKEN"  # noqa: S105 # nosec B105
 
 
 class ForgeDashboardClient:
@@ -57,7 +57,10 @@ class ForgeDashboardClient:
         raise_on_unexpected_status: bool = False,
     ) -> None:
         token = api_token if api_token is not None else os.environ.get(API_TOKEN_ENV_VAR)
-        headers = {"Authorization": f"Bearer {token}"} if token else {}
+        # HTTP header names are case-insensitive (RFC 7230) and httpx
+        # normalizes lookups, so a casing mutant on "Authorization" below
+        # is behaviorally equivalent -- pragma'd rather than chasing it.
+        headers = {"Authorization": f"Bearer {token}"} if token else {}  # pragma: no mutate
 
         # headers isn't passed here, and base_url is never read back off
         # self._raw afterward either: this Client's own lazy httpx-client

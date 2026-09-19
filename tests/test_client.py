@@ -75,6 +75,31 @@ def test_ahealth_returns_parsed_body() -> None:
     assert asyncio.run(client.ahealth()).status == "ok"
 
 
+def test_health_raises_typeerror_for_undocumented_status() -> None:
+    # 204 is undocumented for health (only 200 is), so the generated client
+    # parses it to None -- health should raise a clear TypeError rather
+    # than returning None typed as Health.
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(204, request=request)
+
+    httpx_client = httpx.Client(base_url="https://example.test", transport=httpx.MockTransport(handler))
+    client = ForgeDashboardClient("https://example.test", httpx_client=httpx_client)
+
+    with pytest.raises(TypeError, match="unexpected health response body"):
+        client.health()
+
+
+def test_ahealth_raises_typeerror_for_undocumented_status() -> None:
+    async def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(204, request=request)
+
+    async_client = httpx.AsyncClient(base_url="https://example.test", transport=httpx.MockTransport(handler))
+    client = ForgeDashboardClient("https://example.test", httpx_async_client=async_client)
+
+    with pytest.raises(TypeError, match="unexpected health response body"):
+        asyncio.run(client.ahealth())
+
+
 def test_get_version_returns_parsed_body() -> None:
     def handler(request: httpx.Request) -> httpx.Response:
         return httpx.Response(200, json={"version": "1.2.3"}, request=request)
