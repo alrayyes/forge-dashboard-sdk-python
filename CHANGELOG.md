@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v0.1.3...v0.1.4) (2026-09-25)
+
+
+### Bug Fixes
+
+* **deps:** regenerate uv.lock to match pyproject.toml's version ([9dbf843](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/9dbf843380fc8fe56e42d6708c18f8661ca8bd4a))
+
 ## [0.1.3](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v0.1.2...v0.1.3) (2026-09-21)
 
 
