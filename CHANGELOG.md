@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.5](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v0.1.4...v0.1.5) (2026-09-25)
+
+
+### Bug Fixes
+
+* bump hatchling from 1.32.0 to 1.32.4 ([#22](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/22)) ([7f998b6](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/7f998b6a8a42f54e2cead59fa43fe5b6dab411f8))
+* **ci:** sync uv.lock after release, not just before ([#23](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/23)) ([3791868](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/3791868effbad14e7c530f8cfeefc79ae2e914c2))
+
 ## [0.1.4](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v0.1.3...v0.1.4) (2026-09-25)
 
 
