@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v1.0.0...v1.0.1) (2026-09-26)
+
+
+### Bug Fixes
+
+* **ci:** auto-merge the post-release uv.lock sync PR ([6bd6ee5](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/6bd6ee5782dcb4fb21cb775615a51d84cd135446))
+
 ## [1.0.0](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v0.1.14...v1.0.0) (2026-09-26)
 
 
