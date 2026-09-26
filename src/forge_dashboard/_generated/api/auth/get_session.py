@@ -65,7 +65,7 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 
 ) -> Response[Error | SessionUser]:
     """ Who, if anyone, the current session cookie belongs to
@@ -91,7 +91,7 @@ def sync_detailed(
 
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 
 ) -> Error | SessionUser | None:
     """ Who, if anyone, the current session cookie belongs to
@@ -112,7 +112,7 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 
 ) -> Response[Error | SessionUser]:
     """ Who, if anyone, the current session cookie belongs to
@@ -138,7 +138,7 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 
 ) -> Error | SessionUser | None:
     """ Who, if anyone, the current session cookie belongs to

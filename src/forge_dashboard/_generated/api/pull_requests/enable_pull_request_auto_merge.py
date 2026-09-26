@@ -28,7 +28,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/pull-requests/merge",
+        "url": "/api/pull-requests/auto-merge",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -73,13 +73,6 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_404
 
-    if response.status_code == 409:
-        response_409 = Error.from_dict(response.json())
-
-
-
-        return response_409
-
     if response.status_code == 429:
         response_429 = Error.from_dict(response.json())
 
@@ -115,14 +108,17 @@ def sync_detailed(
     body: PullRequestActionRequest,
 
 ) -> Response[Any | Error]:
-    """ Merge one pull request, on the signed-in user's behalf
+    """ Arm a pull request's own native auto-merge, on the signed-in user's behalf
 
-     Merges the named pull request using its repo's own configured
-    default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
-    looks up the repo's configured default merge style first and
-    passes that explicitly. Neither takes a method override here;
-    picking one is out of scope for this endpoint.
+     GitHub only, today. Enables the named pull request's own
+    auto-merge via GitHub's `enablePullRequestAutoMerge` GraphQL
+    mutation — REST has no equivalent endpoint. Unlike Merge, that
+    mutation asks for an explicit merge method rather than picking
+    the repo's own default itself, so this looks the repo's allowed
+    methods up first and picks one with the same merge > squash >
+    rebase precedence Merge already uses; no override is exposed
+    here either. The pull request stays open and unmerged until the
+    forge's own required checks pass on their own.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
@@ -153,14 +149,17 @@ def sync(
     body: PullRequestActionRequest,
 
 ) -> Any | Error | None:
-    """ Merge one pull request, on the signed-in user's behalf
+    """ Arm a pull request's own native auto-merge, on the signed-in user's behalf
 
-     Merges the named pull request using its repo's own configured
-    default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
-    looks up the repo's configured default merge style first and
-    passes that explicitly. Neither takes a method override here;
-    picking one is out of scope for this endpoint.
+     GitHub only, today. Enables the named pull request's own
+    auto-merge via GitHub's `enablePullRequestAutoMerge` GraphQL
+    mutation — REST has no equivalent endpoint. Unlike Merge, that
+    mutation asks for an explicit merge method rather than picking
+    the repo's own default itself, so this looks the repo's allowed
+    methods up first and picks one with the same merge > squash >
+    rebase precedence Merge already uses; no override is exposed
+    here either. The pull request stays open and unmerged until the
+    forge's own required checks pass on their own.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
@@ -186,14 +185,17 @@ async def asyncio_detailed(
     body: PullRequestActionRequest,
 
 ) -> Response[Any | Error]:
-    """ Merge one pull request, on the signed-in user's behalf
+    """ Arm a pull request's own native auto-merge, on the signed-in user's behalf
 
-     Merges the named pull request using its repo's own configured
-    default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
-    looks up the repo's configured default merge style first and
-    passes that explicitly. Neither takes a method override here;
-    picking one is out of scope for this endpoint.
+     GitHub only, today. Enables the named pull request's own
+    auto-merge via GitHub's `enablePullRequestAutoMerge` GraphQL
+    mutation — REST has no equivalent endpoint. Unlike Merge, that
+    mutation asks for an explicit merge method rather than picking
+    the repo's own default itself, so this looks the repo's allowed
+    methods up first and picks one with the same merge > squash >
+    rebase precedence Merge already uses; no override is exposed
+    here either. The pull request stays open and unmerged until the
+    forge's own required checks pass on their own.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
@@ -224,14 +226,17 @@ async def asyncio(
     body: PullRequestActionRequest,
 
 ) -> Any | Error | None:
-    """ Merge one pull request, on the signed-in user's behalf
+    """ Arm a pull request's own native auto-merge, on the signed-in user's behalf
 
-     Merges the named pull request using its repo's own configured
-    default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
-    looks up the repo's configured default merge style first and
-    passes that explicitly. Neither takes a method override here;
-    picking one is out of scope for this endpoint.
+     GitHub only, today. Enables the named pull request's own
+    auto-merge via GitHub's `enablePullRequestAutoMerge` GraphQL
+    mutation — REST has no equivalent endpoint. Unlike Merge, that
+    mutation asks for an explicit merge method rather than picking
+    the repo's own default itself, so this looks the repo's allowed
+    methods up first and picks one with the same merge > squash >
+    rebase precedence Merge already uses; no override is exposed
+    here either. The pull request stays open and unmerged until the
+    forge's own required checks pass on their own.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.

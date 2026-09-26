@@ -1,10 +1,12 @@
 """ Contains all the data models used in inputs/outputs """
 
+from .admin_invite import AdminInvite
+from .admin_invite_create_request import AdminInviteCreateRequest
+from .admin_invite_create_response import AdminInviteCreateResponse
 from .admin_user import AdminUser
 from .api_token import APIToken
 from .api_token_create_request import APITokenCreateRequest
 from .api_token_create_response import APITokenCreateResponse
-from .bot_pr_updates_response import BotPrUpdatesResponse
 from .check import Check
 from .check_state import CheckState
 from .ci_status import CIStatus
@@ -29,7 +31,10 @@ from .rate_limit import RateLimit
 from .receive_forgejo_webhook_body import ReceiveForgejoWebhookBody
 from .receive_git_hub_webhook_body import ReceiveGitHubWebhookBody
 from .register_begin_request import RegisterBeginRequest
+from .registration_status import RegistrationStatus
+from .repo_ignore_request import RepoIgnoreRequest
 from .repo_status import RepoStatus
+from .request_log_entry import RequestLogEntry
 from .session_user import SessionUser
 from .settings_request import SettingsRequest
 from .settings_response import SettingsResponse
@@ -45,11 +50,13 @@ from .web_authn_ceremony_options import WebAuthnCeremonyOptions
 from .webhook_ensure_request import WebhookEnsureRequest
 
 __all__ = (
+    "AdminInvite",
+    "AdminInviteCreateRequest",
+    "AdminInviteCreateResponse",
     "AdminUser",
     "APIToken",
     "APITokenCreateRequest",
     "APITokenCreateResponse",
-    "BotPrUpdatesResponse",
     "Check",
     "CheckState",
     "CIStatus",
@@ -74,7 +81,10 @@ __all__ = (
     "ReceiveForgejoWebhookBody",
     "ReceiveGitHubWebhookBody",
     "RegisterBeginRequest",
+    "RegistrationStatus",
+    "RepoIgnoreRequest",
     "RepoStatus",
+    "RequestLogEntry",
     "SessionUser",
     "SettingsRequest",
     "SettingsResponse",

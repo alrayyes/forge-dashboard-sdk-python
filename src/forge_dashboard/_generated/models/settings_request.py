@@ -34,7 +34,6 @@ class SettingsRequest:
             forgejo_url (str | Unset):
             forgejo_token (str | Unset):
             forgejo_username (str | Unset):
-            allow_bot_pr_updates (bool | Unset):
             renovate_rebase_label (str | Unset):
      """
 
@@ -43,7 +42,6 @@ class SettingsRequest:
     forgejo_url: str | Unset = UNSET
     forgejo_token: str | Unset = UNSET
     forgejo_username: str | Unset = UNSET
-    allow_bot_pr_updates: bool | Unset = UNSET
     renovate_rebase_label: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -62,8 +60,6 @@ class SettingsRequest:
 
         forgejo_username = self.forgejo_username
 
-        allow_bot_pr_updates = self.allow_bot_pr_updates
-
         renovate_rebase_label = self.renovate_rebase_label
 
 
@@ -81,8 +77,6 @@ class SettingsRequest:
             field_dict["forgejoToken"] = forgejo_token
         if forgejo_username is not UNSET:
             field_dict["forgejoUsername"] = forgejo_username
-        if allow_bot_pr_updates is not UNSET:
-            field_dict["allowBotPrUpdates"] = allow_bot_pr_updates
         if renovate_rebase_label is not UNSET:
             field_dict["renovateRebaseLabel"] = renovate_rebase_label
 
@@ -103,8 +97,6 @@ class SettingsRequest:
 
         forgejo_username = d.pop("forgejoUsername", UNSET)
 
-        allow_bot_pr_updates = d.pop("allowBotPrUpdates", UNSET)
-
         renovate_rebase_label = d.pop("renovateRebaseLabel", UNSET)
 
         settings_request = cls(
@@ -113,7 +105,6 @@ class SettingsRequest:
             forgejo_url=forgejo_url,
             forgejo_token=forgejo_token,
             forgejo_username=forgejo_username,
-            allow_bot_pr_updates=allow_bot_pr_updates,
             renovate_rebase_label=renovate_rebase_label,
         )
 

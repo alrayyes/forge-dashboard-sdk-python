@@ -57,6 +57,13 @@ class PullRequest:
                 get recomputed just because the base moved), so folding this
                 into mergeStatus would force picking one and losing the
                 other.
+            empty (bool): Whether merging this pull request would produce an empty
+                commit — its content already landed on the base branch some
+                other way. False whenever this service can't tell (the
+                unauthenticated GitHub REST fallback, or a Forgejo instance
+                old enough not to report additions/deletions/changed_files on
+                its list endpoint), never a false positive: a pull request
+                this never confirms empty just renders as it always has.
             auto_merge_enabled (bool | Unset): Whether auto-merge is currently scheduled on this pull request.
                 Omitted when the owning forge has no way to report this at all
                 (Forgejo, today) — never false in that case, since this service
@@ -76,6 +83,7 @@ class PullRequest:
     ci: CIStatus
     merge_status: MergeStatus
     behind: bool
+    empty: bool
     auto_merge_enabled: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -116,6 +124,8 @@ class PullRequest:
 
         behind = self.behind
 
+        empty = self.empty
+
         auto_merge_enabled = self.auto_merge_enabled
 
 
@@ -135,6 +145,7 @@ class PullRequest:
             "ci": ci,
             "mergeStatus": merge_status,
             "behind": behind,
+            "empty": empty,
         })
         if auto_merge_enabled is not UNSET:
             field_dict["autoMergeEnabled"] = auto_merge_enabled
@@ -196,6 +207,8 @@ class PullRequest:
 
         behind = d.pop("behind")
 
+        empty = d.pop("empty")
+
         auto_merge_enabled = d.pop("autoMergeEnabled", UNSET)
 
         pull_request = cls(
@@ -212,6 +225,7 @@ class PullRequest:
             ci=ci,
             merge_status=merge_status,
             behind=behind,
+            empty=empty,
             auto_merge_enabled=auto_merge_enabled,
         )
 

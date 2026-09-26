@@ -8,49 +8,43 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.admin_invite import AdminInvite
 from ...models.error import Error
-from ...models.webhook_ensure_request import WebhookEnsureRequest
 from typing import cast
 
 
 
 def _get_kwargs(
-    *,
-    body: WebhookEnsureRequest,
-
+    
 ) -> dict[str, Any]:
-    headers: dict[str, Any] = {}
-
+    
 
     
 
     
 
     _kwargs: dict[str, Any] = {
-        "method": "post",
-        "url": "/api/repos/unignore",
+        "method": "get",
+        "url": "/api/admin/invites",
     }
 
-    _kwargs["json"] = body.to_dict()
 
-    headers["Content-Type"] = "application/json"
-
-    _kwargs["headers"] = headers
     return _kwargs
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | None:
-    if response.status_code == 204:
-        response_204 = cast(Any, None)
-        return response_204
-
-    if response.status_code == 400:
-        response_400 = Error.from_dict(response.json())
-
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | list[AdminInvite] | None:
+    if response.status_code == 200:
+        response_200 = []
+        _response_200 = response.json()
+        for response_200_item_data in (_response_200):
+            response_200_item = AdminInvite.from_dict(response_200_item_data)
 
 
-        return response_400
+
+            response_200.append(response_200_item)
+
+        return response_200
 
     if response.status_code == 401:
         response_401 = Error.from_dict(response.json())
@@ -59,13 +53,20 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | list[AdminInvite]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -77,29 +78,24 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     *,
     client: AuthenticatedClient,
-    body: WebhookEnsureRequest,
 
-) -> Response[Any | Error]:
-    """ Stop ignoring one tracked repo
+) -> Response[Error | list[AdminInvite]]:
+    """ List outstanding registration invites
 
-     The reverse of POST /api/repos/ignore. Idempotent: un-ignoring a
-    repo that was never ignored is a no-op, not an error.
-
-    Args:
-        body (WebhookEnsureRequest): Which repo to create or fix up a webhook on.
+     Every invite that's neither consumed nor expired — never the raw
+    token, only its own stable id (see AdminInvite).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[Error | list[AdminInvite]]
      """
 
 
     kwargs = _get_kwargs(
-        body=body,
-
+        
     )
 
     response = client.get_httpx_client().request(
@@ -111,58 +107,48 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient,
-    body: WebhookEnsureRequest,
 
-) -> Any | Error | None:
-    """ Stop ignoring one tracked repo
+) -> Error | list[AdminInvite] | None:
+    """ List outstanding registration invites
 
-     The reverse of POST /api/repos/ignore. Idempotent: un-ignoring a
-    repo that was never ignored is a no-op, not an error.
-
-    Args:
-        body (WebhookEnsureRequest): Which repo to create or fix up a webhook on.
+     Every invite that's neither consumed nor expired — never the raw
+    token, only its own stable id (see AdminInvite).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        Error | list[AdminInvite]
      """
 
 
     return sync_detailed(
         client=client,
-body=body,
 
     ).parsed
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
-    body: WebhookEnsureRequest,
 
-) -> Response[Any | Error]:
-    """ Stop ignoring one tracked repo
+) -> Response[Error | list[AdminInvite]]:
+    """ List outstanding registration invites
 
-     The reverse of POST /api/repos/ignore. Idempotent: un-ignoring a
-    repo that was never ignored is a no-op, not an error.
-
-    Args:
-        body (WebhookEnsureRequest): Which repo to create or fix up a webhook on.
+     Every invite that's neither consumed nor expired — never the raw
+    token, only its own stable id (see AdminInvite).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[Error | list[AdminInvite]]
      """
 
 
     kwargs = _get_kwargs(
-        body=body,
-
+        
     )
 
     response = await client.get_async_httpx_client().request(
@@ -174,28 +160,23 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient,
-    body: WebhookEnsureRequest,
 
-) -> Any | Error | None:
-    """ Stop ignoring one tracked repo
+) -> Error | list[AdminInvite] | None:
+    """ List outstanding registration invites
 
-     The reverse of POST /api/repos/ignore. Idempotent: un-ignoring a
-    repo that was never ignored is a no-op, not an error.
-
-    Args:
-        body (WebhookEnsureRequest): Which repo to create or fix up a webhook on.
+     Every invite that's neither consumed nor expired — never the raw
+    token, only its own stable id (see AdminInvite).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        Error | list[AdminInvite]
      """
 
 
     return (await asyncio_detailed(
         client=client,
-body=body,
 
     )).parsed

@@ -9,14 +9,14 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error import Error
-from ...models.webhook_ensure_request import WebhookEnsureRequest
+from ...models.repo_ignore_request import RepoIgnoreRequest
 from typing import cast
 
 
 
 def _get_kwargs(
     *,
-    body: WebhookEnsureRequest,
+    body: RepoIgnoreRequest,
 
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
@@ -76,21 +76,27 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
-    body: WebhookEnsureRequest,
+    client: AuthenticatedClient,
+    body: RepoIgnoreRequest,
 
 ) -> Response[Any | Error]:
-    """ Hide one tracked repo's pull requests and issues from the dashboard and Insights
+    """ Hide one tracked repo's pull requests, issues, or both from the dashboard and Insights
 
      Reversible, not destructive (#363): the repo itself keeps
     appearing in GET /api/dashboard's `repos` array with accurate
     webhook-coverage status, and keeps being fetched and counted —
-    only its pullRequests/issues entries stop appearing there and on
-    Insights. Idempotent: ignoring an already-ignored repo is a
-    no-op, not an error.
+    only the pullRequests and/or issues entries the request scopes
+    (#511) stop appearing there and on Insights. A repeat call
+    replaces the previously saved scope rather than merging with it
+    (ignoring PRs only, then issues only, ends with only issues
+    ignored) — idempotent for an identical repeat, not additive
+    across different scopes.
 
     Args:
-        body (WebhookEnsureRequest): Which repo to create or fix up a webhook on.
+        body (RepoIgnoreRequest): Which repo to ignore, and in which scope(s) (#511). At least one
+            of prs/issues must be true — a request with both false is
+            rejected with 400 rather than silently doing nothing; use POST
+            /api/repos/unignore to clear both at once instead.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -114,21 +120,27 @@ def sync_detailed(
 
 def sync(
     *,
-    client: AuthenticatedClient | Client,
-    body: WebhookEnsureRequest,
+    client: AuthenticatedClient,
+    body: RepoIgnoreRequest,
 
 ) -> Any | Error | None:
-    """ Hide one tracked repo's pull requests and issues from the dashboard and Insights
+    """ Hide one tracked repo's pull requests, issues, or both from the dashboard and Insights
 
      Reversible, not destructive (#363): the repo itself keeps
     appearing in GET /api/dashboard's `repos` array with accurate
     webhook-coverage status, and keeps being fetched and counted —
-    only its pullRequests/issues entries stop appearing there and on
-    Insights. Idempotent: ignoring an already-ignored repo is a
-    no-op, not an error.
+    only the pullRequests and/or issues entries the request scopes
+    (#511) stop appearing there and on Insights. A repeat call
+    replaces the previously saved scope rather than merging with it
+    (ignoring PRs only, then issues only, ends with only issues
+    ignored) — idempotent for an identical repeat, not additive
+    across different scopes.
 
     Args:
-        body (WebhookEnsureRequest): Which repo to create or fix up a webhook on.
+        body (RepoIgnoreRequest): Which repo to ignore, and in which scope(s) (#511). At least one
+            of prs/issues must be true — a request with both false is
+            rejected with 400 rather than silently doing nothing; use POST
+            /api/repos/unignore to clear both at once instead.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -147,21 +159,27 @@ body=body,
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
-    body: WebhookEnsureRequest,
+    client: AuthenticatedClient,
+    body: RepoIgnoreRequest,
 
 ) -> Response[Any | Error]:
-    """ Hide one tracked repo's pull requests and issues from the dashboard and Insights
+    """ Hide one tracked repo's pull requests, issues, or both from the dashboard and Insights
 
      Reversible, not destructive (#363): the repo itself keeps
     appearing in GET /api/dashboard's `repos` array with accurate
     webhook-coverage status, and keeps being fetched and counted —
-    only its pullRequests/issues entries stop appearing there and on
-    Insights. Idempotent: ignoring an already-ignored repo is a
-    no-op, not an error.
+    only the pullRequests and/or issues entries the request scopes
+    (#511) stop appearing there and on Insights. A repeat call
+    replaces the previously saved scope rather than merging with it
+    (ignoring PRs only, then issues only, ends with only issues
+    ignored) — idempotent for an identical repeat, not additive
+    across different scopes.
 
     Args:
-        body (WebhookEnsureRequest): Which repo to create or fix up a webhook on.
+        body (RepoIgnoreRequest): Which repo to ignore, and in which scope(s) (#511). At least one
+            of prs/issues must be true — a request with both false is
+            rejected with 400 rather than silently doing nothing; use POST
+            /api/repos/unignore to clear both at once instead.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -185,21 +203,27 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
-    body: WebhookEnsureRequest,
+    client: AuthenticatedClient,
+    body: RepoIgnoreRequest,
 
 ) -> Any | Error | None:
-    """ Hide one tracked repo's pull requests and issues from the dashboard and Insights
+    """ Hide one tracked repo's pull requests, issues, or both from the dashboard and Insights
 
      Reversible, not destructive (#363): the repo itself keeps
     appearing in GET /api/dashboard's `repos` array with accurate
     webhook-coverage status, and keeps being fetched and counted —
-    only its pullRequests/issues entries stop appearing there and on
-    Insights. Idempotent: ignoring an already-ignored repo is a
-    no-op, not an error.
+    only the pullRequests and/or issues entries the request scopes
+    (#511) stop appearing there and on Insights. A repeat call
+    replaces the previously saved scope rather than merging with it
+    (ignoring PRs only, then issues only, ends with only issues
+    ignored) — idempotent for an identical repeat, not additive
+    across different scopes.
 
     Args:
-        body (WebhookEnsureRequest): Which repo to create or fix up a webhook on.
+        body (RepoIgnoreRequest): Which repo to ignore, and in which scope(s) (#511). At least one
+            of prs/issues must be true — a request with both false is
+            rejected with 400 rather than silently doing nothing; use POST
+            /api/repos/unignore to clear both at once instead.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
