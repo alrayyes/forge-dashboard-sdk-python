@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.9](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v0.1.8...v0.1.9) (2026-09-26)
+
+
+### Bug Fixes
+
+* **deps:** use bun ecosystem for dependabot, not npm ([586aec9](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/586aec9038caf04cdd64b2ba566734e8d9c150bc))
+* **deps:** use bun ecosystem for dependabot, not npm ([9b40081](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/9b40081233eb829f9d81ec9f70b02f6288fcdc82)), closes [#18](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/18)
+
 ## [0.1.8](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v0.1.7...v0.1.8) (2026-09-26)
 
 
