@@ -1,0 +1,20 @@
+# forge-dashboard-sdk-python
+
+> Official Python client for forge-dashboard's REST API, generated from its
+> OpenAPI spec with openapi-python-client. Handles auth (personal API
+> tokens) and retries (429/5xx with backoff and jitter) so callers don't
+> hand-roll HTTP against the API.
+
+Requires Python 3.12+ and a running forge-dashboard instance. Every
+endpoint except `health`, `get_version` and the two webhook receivers
+needs a personal API token.
+
+## Docs
+
+- [README](https://github.com/alrayyes/forge-dashboard-sdk-python#readme): install, authentication and usage examples.
+- [API reference](https://alrayyes.github.io/forge-dashboard-sdk-python/reference/): generated from the code's docstrings — `ForgeDashboardClient`, `APIError`, `decode_error`.
+- [PyPI package](https://pypi.org/project/forge-dashboard-sdk/): install with `pip install forge-dashboard-sdk`.
+
+## Source
+
+- [Repository](https://github.com/alrayyes/forge-dashboard-sdk-python): source, issues and CONTRIBUTING.md for regenerating the client and the release process.
