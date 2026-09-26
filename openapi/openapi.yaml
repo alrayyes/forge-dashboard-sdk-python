@@ -83,10 +83,38 @@ tags:
       description for how a token authenticates once generated here.
 
 paths:
+  /api/auth/registration-status:
+    get:
+      operationId: getRegistrationStatus
+      summary: Whether self-registration is open
+      description: |
+        Unauthenticated — a visitor deciding whether to show the login
+        page's own "Register a new passkey instead" button has no session
+        yet by definition. `open` is true only on a fresh instance with
+        zero registered users; once any account exists, self-registration
+        is closed and every registration after that requires a valid
+        `inviteToken` (see POST /api/auth/register/begin).
+      tags: [auth]
+      responses:
+        "200":
+          description: The current registration status.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegistrationStatus"
+
   /api/auth/register/begin:
     post:
       operationId: beginRegistration
       summary: Start a passkey registration ceremony
+      description: |
+        The very first registration on a fresh instance (zero registered
+        users — see GET /api/auth/registration-status) needs no
+        `inviteToken` and bootstraps that account as admin. Every
+        registration after that requires a valid, unexpired, unconsumed
+        `inviteToken` issued by an admin (POST /api/admin/invites) for
+        exactly this `username` — the invite's own `displayName` is what's
+        actually used, not this request's.
       tags: [auth]
       requestBody:
         required: true
@@ -103,6 +131,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/WebAuthnCeremonyOptions"
+        "403":
+          description: |
+            Self-registration is closed (an account already exists) and
+            no valid, unexpired, unconsumed invite for this username was
+            presented.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "409":
           description: That username is already registered.
           content:
@@ -219,6 +256,7 @@ paths:
       operationId: getSession
       summary: Who, if anyone, the current session cookie belongs to
       tags: [auth]
+      security: [{ bearerAuth: [] }]
       responses:
         "200":
           description: The current session's user.
@@ -241,6 +279,7 @@ paths:
         Every passkey on the account (#355), oldest first — not just the
         one used to establish the current session.
       tags: [auth]
+      security: [{ bearerAuth: [] }]
       responses:
         "200":
           description: Every registered passkey.
@@ -267,6 +306,7 @@ paths:
         account; this is how an already-registered user adds a second
         (or third...) passkey, e.g. a laptop and a security key (#355).
       tags: [auth]
+      security: [{ bearerAuth: [] }]
       responses:
         "200":
           description: |
@@ -290,6 +330,7 @@ paths:
       operationId: finishAddCredential
       summary: Complete an add-credential ceremony
       tags: [auth]
+      security: [{ bearerAuth: [] }]
       parameters:
         - name: label
           in: query
@@ -338,6 +379,7 @@ paths:
         app is WebAuthn-only with no password fallback, so deleting it
         would lock the account out entirely.
       tags: [auth]
+      security: [{ bearerAuth: [] }]
       parameters:
         - name: id
           in: path
@@ -369,6 +411,7 @@ paths:
         whether one is currently on file. There is no way to read a saved
         token back out through this API.
       tags: [settings]
+      security: [{ bearerAuth: [] }]
       responses:
         "200":
           description: The current settings.
@@ -392,6 +435,7 @@ paths:
         current value of. Saving triggers that user's dashboard to start
         refreshing from the new configuration.
       tags: [settings]
+      security: [{ bearerAuth: [] }]
       requestBody:
         required: true
         content:
@@ -421,44 +465,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /api/settings/bot-pr-updates:
-    get:
-      operationId: getBotPrUpdatesSetting
-      summary: Whether bot-managed pull request branches can be updated
-      description: |
-        A lightweight, side-effect-free read of one field —
-        allowBotPrUpdates — for the dashboard page to check on every
-        load. Deliberately not GET /api/settings itself: that handler
-        also provisions webhook credentials on first call
-        (EnsureWebhookCredentials), which the dashboard visiting on a
-        user's behalf shouldn't trigger for someone who's never opened
-        Settings at all.
-      tags: [settings]
-      responses:
-        "200":
-          description: The current value.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BotPrUpdatesResponse"
-        "401":
-          description: No valid session cookie was presented.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-
   /api/settings/theme:
     get:
       operationId: getTheme
       summary: The signed-in user's own saved theme preference
       description: |
         A lightweight, side-effect-free read of one field — theme — for
-        every page to check on load (#352). The same "deliberately not
-        GET /api/settings itself" restraint GET /api/settings/bot-pr-updates
-        already uses, for the same reason: this loads on every page visit
-        and shouldn't provision webhook credentials as a side effect.
+        every page to check on load (#352). Deliberately not
+        GET /api/settings itself: that handler also provisions webhook
+        credentials on first call (EnsureWebhookCredentials), which
+        every page loading shouldn't trigger for a user who's never
+        opened Settings at all.
       tags: [settings]
+      security: [{ bearerAuth: [] }]
       responses:
         "200":
           description: The current value.
@@ -485,6 +504,7 @@ paths:
         cites, rather than waiting on the rest of the settings form's
         own Save button.
       tags: [settings]
+      security: [{ bearerAuth: [] }]
       requestBody:
         required: true
         content:
@@ -516,13 +536,13 @@ paths:
       operationId: getFilterState
       summary: The signed-in user's own saved dashboard/Insights filter state
       description: |
-        A lightweight read of one opaque blob (#353), the same
-        "deliberately not GET /api/settings itself" restraint
-        GET /api/settings/bot-pr-updates already uses, for the same
-        reason: this loads on every dashboard/Insights visit and
+        A lightweight read of one opaque blob (#353), deliberately not
+        GET /api/settings itself for the same reason GET /api/settings/theme
+        isn't either: this loads on every dashboard/Insights visit and
         shouldn't provision webhook credentials as a side effect.
         `{}` for a user who's never saved any filters yet, not a 404.
       tags: [settings]
+      security: [{ bearerAuth: [] }]
       responses:
         "200":
           description: The saved state, or `{}` if none has ever been saved.
@@ -550,6 +570,7 @@ paths:
         to call this: immediately for a discrete control, debounced
         while the user is still typing in the free-text Title filter.
       tags: [settings]
+      security: [{ bearerAuth: [] }]
       requestBody:
         required: true
         content:
@@ -578,10 +599,6 @@ paths:
       summary: List the signed-in user's own personal API tokens
       description: Metadata only, per APIToken's own description — a raw value never reappears once created.
       tags: [tokens]
-      # Applied here, not retroactively on every pre-existing
-      # session-authenticated endpoint elsewhere in this spec (a bigger,
-      # separate change) — see the auth tag's own description for why an
-      # endpoint without this still accepts the same Bearer token.
       security: [{ bearerAuth: [] }]
       responses:
         "200":
@@ -672,6 +689,7 @@ paths:
         forge rather than just reading from it — see also the
         pull-requests tag.
       tags: [webhooks]
+      security: [{ bearerAuth: [] }]
       requestBody:
         required: true
         content:
@@ -724,26 +742,32 @@ paths:
   /api/repos/ignore:
     post:
       operationId: ignoreRepo
-      summary: Hide one tracked repo's pull requests and issues from the dashboard and Insights
+      summary: Hide one tracked repo's pull requests, issues, or both from the dashboard and Insights
       description: |
         Reversible, not destructive (#363): the repo itself keeps
         appearing in GET /api/dashboard's `repos` array with accurate
         webhook-coverage status, and keeps being fetched and counted —
-        only its pullRequests/issues entries stop appearing there and on
-        Insights. Idempotent: ignoring an already-ignored repo is a
-        no-op, not an error.
+        only the pullRequests and/or issues entries the request scopes
+        (#511) stop appearing there and on Insights. A repeat call
+        replaces the previously saved scope rather than merging with it
+        (ignoring PRs only, then issues only, ends with only issues
+        ignored) — idempotent for an identical repeat, not additive
+        across different scopes.
       tags: [dashboard]
+      security: [{ bearerAuth: [] }]
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/WebhookEnsureRequest"
+              $ref: "#/components/schemas/RepoIgnoreRequest"
       responses:
         "204":
-          description: The repo is now ignored (or already was).
+          description: The repo is now ignored in the requested scope (or already was).
         "400":
-          description: The request body wasn't valid JSON, or `fullName` wasn't "owner/repo".
+          description: |
+            The request body wasn't valid JSON, `fullName` wasn't
+            "owner/repo", or both `prs` and `issues` were false.
           content:
             application/json:
               schema:
@@ -763,6 +787,7 @@ paths:
         The reverse of POST /api/repos/ignore. Idempotent: un-ignoring a
         repo that was never ignored is a no-op, not an error.
       tags: [dashboard]
+      security: [{ bearerAuth: [] }]
       requestBody:
         required: true
         content:
@@ -797,6 +822,7 @@ paths:
         separately allowed. Idempotent: enabling an already-enabled repo
         is a no-op, not an error.
       tags: [dashboard]
+      security: [{ bearerAuth: [] }]
       requestBody:
         required: true
         content:
@@ -828,6 +854,7 @@ paths:
         Idempotent: disabling a repo that was never enabled is a no-op,
         not an error.
       tags: [dashboard]
+      security: [{ bearerAuth: [] }]
       requestBody:
         required: true
         content:
@@ -862,6 +889,7 @@ paths:
         passes that explicitly. Neither takes a method override here;
         picking one is out of scope for this endpoint.
       tags: [pull-requests]
+      security: [{ bearerAuth: [] }]
       requestBody:
         required: true
         content:
@@ -918,6 +946,132 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  /api/pull-requests/auto-merge:
+    post:
+      operationId: enablePullRequestAutoMerge
+      summary: Arm a pull request's own native auto-merge, on the signed-in user's behalf
+      description: |
+        GitHub only, today. Enables the named pull request's own
+        auto-merge via GitHub's `enablePullRequestAutoMerge` GraphQL
+        mutation — REST has no equivalent endpoint. Unlike Merge, that
+        mutation asks for an explicit merge method rather than picking
+        the repo's own default itself, so this looks the repo's allowed
+        methods up first and picks one with the same merge > squash >
+        rebase precedence Merge already uses; no override is exposed
+        here either. The pull request stays open and unmerged until the
+        forge's own required checks pass on their own.
+      tags: [pull-requests]
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PullRequestActionRequest"
+      responses:
+        "204":
+          description: Auto-merge armed.
+        "400":
+          description: |
+            The request body wasn't valid JSON, `fullName` wasn't
+            "owner/repo", no credentials are saved for that forge, or
+            that forge's client doesn't support enabling auto-merge on
+            pull requests at all.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: No valid session cookie was presented.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: The forge rejected the request as unauthorized — the saved token's scope doesn't cover this, or the repo doesn't allow auto-merge to be armed at all.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: The forge reported the repo or pull request doesn't exist (or isn't visible to this token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "429":
+          description: The forge rate-limited the request.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "502":
+          description: The forge was unreachable, or answered with something this app couldn't classify more specifically — including the repo rejecting auto-merge for a reason this app has no more specific status for.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/pull-requests/close:
+    post:
+      operationId: closePullRequest
+      summary: Close one pull request without merging it, on the signed-in user's behalf
+      description: |
+        Closes the named pull request — for one that turns out not to
+        need merging at all (a duplicate, or one whose content already
+        landed another way), not a substitute for Merge.
+      tags: [pull-requests]
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PullRequestActionRequest"
+      responses:
+        "204":
+          description: Closed.
+        "400":
+          description: |
+            The request body wasn't valid JSON, `fullName` wasn't
+            "owner/repo", no credentials are saved for that forge, or
+            that forge's client doesn't support closing pull requests at
+            all.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: No valid session cookie was presented.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: The forge rejected the request as unauthorized — the saved token's scope doesn't cover closing, or it isn't allowed to close on that repo.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: The forge reported the repo or pull request doesn't exist (or isn't visible to this token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "429":
+          description: The forge rate-limited the request.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "502":
+          description: The forge was unreachable, or answered with something this app couldn't classify more specifically.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
   /api/pull-requests/update-branch:
     post:
       operationId: updatePullRequestBranch
@@ -930,6 +1084,7 @@ paths:
         Forgejo's equivalent is always synchronous, so it only ever
         answers 204.
       tags: [pull-requests]
+      security: [{ bearerAuth: [] }]
       requestBody:
         required: true
         content:
@@ -1000,6 +1155,7 @@ paths:
         values below and nothing else is ever sent. GitHub only —
         Dependabot doesn't run on Forgejo.
       tags: [pull-requests]
+      security: [{ bearerAuth: [] }]
       requestBody:
         required: true
         content:
@@ -1069,6 +1225,7 @@ paths:
         and Forgejo, unlike the Dependabot actions, since Renovate runs
         on both.
       tags: [pull-requests]
+      security: [{ bearerAuth: [] }]
       requestBody:
         required: true
         content:
@@ -1136,6 +1293,7 @@ paths:
         expose them) — never an error for that case specifically, since
         it's a normal, expected shape for an older or CI-less repo.
       tags: [pull-requests]
+      security: [{ bearerAuth: [] }]
       parameters:
         - name: forge
           in: query
@@ -1206,6 +1364,7 @@ paths:
         Never includes a passkey or a forge credential — a username,
         display name, admin flag and registration timestamp per user.
       tags: [admin]
+      security: [{ bearerAuth: [] }]
       responses:
         "200":
           description: Every registered user.
@@ -1239,6 +1398,7 @@ paths:
         credentials are untouched; use the delete endpoint to remove the
         account itself.
       tags: [admin]
+      security: [{ bearerAuth: [] }]
       parameters:
         - $ref: "#/components/parameters/PathUsername"
       responses:
@@ -1278,6 +1438,7 @@ paths:
         every saved forge credential — irreversible. Their username
         becomes available for a fresh registration.
       tags: [admin]
+      security: [{ bearerAuth: [] }]
       parameters:
         - $ref: "#/components/parameters/PathUsername"
       responses:
@@ -1303,6 +1464,194 @@ paths:
                 $ref: "#/components/schemas/Error"
         "404":
           description: No user is registered under that username.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/admin/invites:
+    post:
+      operationId: createInvite
+      summary: Generate a new single-use registration invite
+      description: |
+        The admin picks the username and display name up front — the
+        invitee only completes the WebAuthn ceremony at the link this
+        returns (`/login?invite=<token>`, built client-side). Valid for
+        one hour, fixed.
+      tags: [admin]
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminInviteCreateRequest"
+      responses:
+        "201":
+          description: Created — the only response that ever carries the raw token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminInviteCreateResponse"
+        "400":
+          description: username or displayName was blank.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: No valid session cookie was presented.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: The signed-in user isn't the designated admin.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: That username is already registered.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    get:
+      operationId: listInvites
+      summary: List outstanding registration invites
+      description: |
+        Every invite that's neither consumed nor expired — never the raw
+        token, only its own stable id (see AdminInvite).
+      tags: [admin]
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Every outstanding invite.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AdminInvite"
+        "401":
+          description: No valid session cookie was presented.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: The signed-in user isn't the designated admin.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/admin/invites/{token}/revoke:
+    post:
+      operationId: revokeInvite
+      summary: Revoke an outstanding invite
+      description: |
+        Stops the invite's token from ever completing a registration.
+        `token` here is an invite's own `id` (from AdminInvite's own
+        listing), never the raw secret an invitee would use to register —
+        that's AdminInviteCreateResponse's own `token` field, and it's
+        never listed again after creation.
+      tags: [admin]
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Revoked.
+        "401":
+          description: No valid session cookie was presented.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: The signed-in user isn't the designated admin.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: No outstanding invite with that id.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/admin/requests:
+    get:
+      operationId: listRequests
+      summary: List every outbound GitHub/Forgejo request this instance has made
+      description: |
+        Every outbound request `internal/github` or `internal/forgejo` has
+        made, newest first, across every account — an admin's own
+        credential included, since correlating a shared-credential
+        problem (like the rate-limit incident that motivated this
+        endpoint) needs a cross-account view no single account's own
+        session could give.
+      tags: [admin]
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: "#/components/parameters/QueryRequestLogForge"
+        - $ref: "#/components/parameters/QueryRequestLogAccount"
+      responses:
+        "200":
+          description: Every request-log entry matching the filter, newest first.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RequestLogEntry"
+        "401":
+          description: No valid session cookie was presented.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: The signed-in user isn't the designated admin.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/admin/requests/export:
+    get:
+      operationId: exportRequests
+      summary: Export the (filtered) outbound-request log as CSV
+      description: |
+        The same rows GET /api/admin/requests would return for the same
+        filter, as a downloadable CSV file with one header row.
+      tags: [admin]
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: "#/components/parameters/QueryRequestLogForge"
+        - $ref: "#/components/parameters/QueryRequestLogAccount"
+      responses:
+        "200":
+          description: A CSV file, one row per matching entry plus a header row.
+          content:
+            text/csv:
+              schema:
+                type: string
+        "401":
+          description: No valid session cookie was presented.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: The signed-in user isn't the designated admin.
           content:
             application/json:
               schema:
@@ -1370,6 +1719,7 @@ paths:
           schema:
             type: string
           description: A username that has shared their dashboard with the caller. Defaults to the caller's own.
+      security: [{ bearerAuth: [] }]
       responses:
         "200":
           description: The current snapshot.
@@ -1415,6 +1765,7 @@ paths:
         benefits from this, rather than the dashboard going stale
         silently.
       tags: [dashboard]
+      security: [{ bearerAuth: [] }]
       responses:
         "200":
           description: |
@@ -1455,6 +1806,7 @@ paths:
         spend that owner's own forge rate-limit budget on their own
         schedule.
       tags: [dashboard]
+      security: [{ bearerAuth: [] }]
       responses:
         "200":
           description: The freshly refreshed snapshot.
@@ -1484,6 +1836,7 @@ paths:
         own dashboard with, and whose dashboards have been shared with
         them.
       tags: [sharing]
+      security: [{ bearerAuth: [] }]
       responses:
         "200":
           description: The current sharing relationships.
@@ -1508,6 +1861,7 @@ paths:
         the shared dashboard; they see the owner's aggregated data exactly
         as the owner sees it.
       tags: [sharing]
+      security: [{ bearerAuth: [] }]
       parameters:
         - $ref: "#/components/parameters/PathUsername"
       responses:
@@ -1536,6 +1890,7 @@ paths:
       summary: Stop sharing the signed-in user's dashboard with username
       description: Idempotent — removing a username that was never shared with changes nothing.
       tags: [sharing]
+      security: [{ bearerAuth: [] }]
       parameters:
         - $ref: "#/components/parameters/PathUsername"
       responses:
@@ -1561,6 +1916,12 @@ paths:
         webhook is first created) means the same thing here — something
         changed, refresh — so nothing about the payload itself is parsed.
       tags: [webhooks]
+      # Not session-or-bearer authenticated like everything else in this
+      # spec — the path's token identifies the user, and the request's
+      # own HMAC signature is what proves it actually came from their
+      # forge. Explicit rather than left to the top-level default so
+      # this reads as a deliberate exception, not an oversight.
+      security: []
       parameters:
         - $ref: "#/components/parameters/PathWebhookToken"
       requestBody:
@@ -1599,6 +1960,8 @@ paths:
         delivery means the same thing here — something changed, refresh —
         so nothing about the payload itself is parsed.
       tags: [webhooks]
+      # See receiveGitHubWebhook's own comment on this same field.
+      security: []
       parameters:
         - $ref: "#/components/parameters/PathWebhookToken"
       requestBody:
@@ -1626,12 +1989,13 @@ paths:
 
 components:
   securitySchemes:
-    # Documented, but never applied via a `security:` block on individual
-    # operations here — see the auth tag's own description for why: every
-    # authenticated endpoint already accepts this or the session cookie,
-    # and the existing per-endpoint 401 descriptions cover both rather
-    # than this spec modeling two parallel security requirements per
-    # operation.
+    # Applied via a `security:` block on every operation that accepts it
+    # server-side (internal/api/server.go's auth.RequireAuth wiring) — see
+    # the auth tag's own description for why an endpoint's 401 description
+    # says "no valid session cookie" without separately calling out this
+    # header: both credentials produce the same 401. The two webhook
+    # delivery endpoints are the deliberate exception; see their own
+    # `security: []` comments.
     bearerAuth:
       type: http
       scheme: bearer
@@ -1656,6 +2020,27 @@ components:
       name: id
       in: path
       required: true
+      schema:
+        type: string
+
+    QueryRequestLogForge:
+      name: forge
+      in: query
+      required: false
+      description: Narrow to entries against this forge only. Omitted matches every forge.
+      schema:
+        $ref: "#/components/schemas/Forge"
+
+    QueryRequestLogAccount:
+      name: account
+      in: query
+      required: false
+      description: |
+        Narrow to entries made under this account's own credential only —
+        the account's `username` (matching RequestLogEntry.account), not
+        its internal id. An unrecognized username matches nothing rather
+        than erroring, the same as any other filter with no matches.
+        Omitted matches every account.
       schema:
         type: string
 
@@ -1695,7 +2080,27 @@ components:
           examples: [ryan]
         displayName:
           type: string
+          description: |
+            Ignored once an invite is required (any account already
+            exists) — the invite's own displayName (set by the admin who
+            issued it) is what's actually used. Only the very first,
+            bootstrap registration on a fresh instance takes this value.
           examples: [Ryan]
+        inviteToken:
+          type: string
+          description: |
+            Required once any account already exists (see GET
+            /api/auth/registration-status) — a single-use token from POST
+            /api/admin/invites, issued for exactly this username. Omitted
+            or ignored for the very first, bootstrap registration.
+
+    RegistrationStatus:
+      type: object
+      required: [open]
+      properties:
+        open:
+          type: boolean
+          description: True only when the instance has zero registered users.
 
     LoginBeginRequest:
       type: object
@@ -1755,6 +2160,97 @@ components:
           type: string
           format: date-time
 
+    AdminInvite:
+      type: object
+      description: |
+        An outstanding (unconsumed, unexpired) invite's own metadata —
+        never the raw token, which only AdminInviteCreateResponse ever
+        carries, once, at creation time.
+      required: [id, username, displayName, expiresAt]
+      properties:
+        id:
+          type: string
+          description: |
+            The invite's own stable identifier — pass this back to POST
+            /api/admin/invites/{token}/revoke, not the raw token an
+            invitee registers with.
+        username:
+          type: string
+        displayName:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+
+    AdminInviteCreateRequest:
+      type: object
+      required: [username, displayName]
+      properties:
+        username:
+          type: string
+          examples: [alex]
+        displayName:
+          type: string
+          examples: [Alex]
+
+    AdminInviteCreateResponse:
+      type: object
+      description: |
+        The one and only response that ever carries the raw invite token
+        — shown to the admin once, at creation time, for them to copy
+        into a `/login?invite=<token>` link and hand to the invitee out
+        of band. Only its hash is stored, so it can't be recovered from
+        here again.
+      required: [token, username, displayName, expiresAt]
+      properties:
+        token:
+          type: string
+        username:
+          type: string
+        displayName:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+
+    RequestLogEntry:
+      type: object
+      description: |
+        One outbound request `internal/github` or `internal/forgejo`
+        made, as persisted by the request_log table.
+      required: [loggedAt, forge, method, endpoint, outcome]
+      properties:
+        loggedAt:
+          type: string
+          format: date-time
+        forge:
+          $ref: "#/components/schemas/Forge"
+        account:
+          type: string
+          description: |
+            The display username of the account whose credential made
+            this request, or omitted when the request was made with no
+            per-account credential, or when that account has since been
+            deleted.
+        method:
+          type: string
+          examples: [GET, POST]
+        endpoint:
+          type: string
+          description: The request's own path — GraphQL requests all report "/graphql".
+          examples: ["/repos/alrayyes/forge-dashboard/pulls", /graphql]
+        statusCode:
+          type: integer
+          description: Omitted when the request never got a response at all.
+        outcome:
+          type: string
+          description: '"success", or the `ForgeErrorKind` the failure was classified as.'
+          examples: [success, rate_limited]
+        rateLimit:
+          description: Omitted when the response carried no rate-limit fields.
+          allOf:
+            - $ref: "#/components/schemas/RateLimit"
+
     SharedUser:
       type: object
       required: [username, displayName]
@@ -1797,7 +2293,6 @@ components:
           forgejoTokenSet,
           webhookToken,
           webhookSecret,
-          allowBotPrUpdates,
           renovateRebaseLabel,
           theme,
         ]
@@ -1829,15 +2324,6 @@ components:
             verify the signature header on incoming webhook deliveries
             (`X-Hub-Signature-256` on GitHub, `X-Forgejo-Signature` on
             Forgejo). Never appears in the webhook URL itself.
-        allowBotPrUpdates:
-          type: boolean
-          description: |
-            Overrides the default restraint the Update branch/Dependabot/
-            Renovate action buttons apply to a pull request opened by
-            release-please, Dependabot, or Renovate — those tools already
-            keep their own PRs current on their own schedule. False (the
-            default) leaves bot-managed PRs alone; true treats them the
-            same as any other PR.
         renovateRebaseLabel:
           type: string
           description: |
@@ -1876,18 +2362,8 @@ components:
           type: string
         forgejoUsername:
           type: string
-        allowBotPrUpdates:
-          type: boolean
         renovateRebaseLabel:
           type: string
-
-    BotPrUpdatesResponse:
-      type: object
-      description: See GET /api/settings/bot-pr-updates's own description.
-      required: [allowBotPrUpdates]
-      properties:
-        allowBotPrUpdates:
-          type: boolean
 
     ThemeResponse:
       type: object
@@ -2004,6 +2480,27 @@ components:
         fullName:
           type: string
           description: '"owner/repo", matching a Repo.fullName from GET /api/dashboard.'
+
+    RepoIgnoreRequest:
+      type: object
+      required: [forge, fullName, prs, issues]
+      description: |
+        Which repo to ignore, and in which scope(s) (#511). At least one
+        of prs/issues must be true — a request with both false is
+        rejected with 400 rather than silently doing nothing; use POST
+        /api/repos/unignore to clear both at once instead.
+      properties:
+        forge:
+          $ref: "#/components/schemas/Forge"
+        fullName:
+          type: string
+          description: '"owner/repo", matching a Repo.fullName from GET /api/dashboard.'
+        prs:
+          type: boolean
+          description: Whether to ignore this repo's pull requests.
+        issues:
+          type: boolean
+          description: Whether to ignore this repo's issues.
 
     PullRequestActionRequest:
       type: object
@@ -2208,6 +2705,7 @@ components:
           ci,
           mergeStatus,
           behind,
+          empty,
         ]
       properties:
         forge:
@@ -2252,6 +2750,16 @@ components:
             get recomputed just because the base moved), so folding this
             into mergeStatus would force picking one and losing the
             other.
+        empty:
+          type: boolean
+          description: |
+            Whether merging this pull request would produce an empty
+            commit — its content already landed on the base branch some
+            other way. False whenever this service can't tell (the
+            unauthenticated GitHub REST fallback, or a Forgejo instance
+            old enough not to report additions/deletions/changed_files on
+            its list endpoint), never a false positive: a pull request
+            this never confirms empty just renders as it always has.
         autoMergeEnabled:
           type: boolean
           description: |
@@ -2326,6 +2834,8 @@ components:
           hasWebhook,
           canManageWebhooks,
           ignored,
+          ignoredPRs,
+          ignoredIssues,
           autoUpdateBranch,
         ]
       description: |
@@ -2346,10 +2856,22 @@ components:
         ignored:
           type: boolean
           description: |
-            Whether the signed-in user has ignored this repo (#363) — its
-            pullRequests/issues entries are excluded from this same
-            response and from Insights, but the repo itself still
-            appears here with accurate hasWebhook/canManageWebhooks.
+            Whether the signed-in user has ignored this repo in either
+            scope below (#363, #511) — true whenever ignoredPRs or
+            ignoredIssues is true. The repo itself still appears here
+            with accurate hasWebhook/canManageWebhooks regardless.
+        ignoredPRs:
+          type: boolean
+          description: |
+            Whether the signed-in user has ignored this repo's pull
+            requests specifically (#511) — its pullRequests entries are
+            excluded from this same response and from Insights.
+        ignoredIssues:
+          type: boolean
+          description: |
+            Whether the signed-in user has ignored this repo's issues
+            specifically (#511) — its issues entries are excluded from
+            this same response and from Insights.
         hasWebhook:
           type: boolean
           description: |
@@ -2377,8 +2899,10 @@ components:
             Whether the signed-in user has turned on automatic branch
             updates for this repo (#365) — any of its pull requests the
             background refresh finds behind its base branch gets updated
-            the same way a manual "Update branch" click would, without
-            one. Suppressed for a bot-managed pull request (release-please,
-            Dependabot, Renovate) unless bot-PR updates are separately
-            allowed (POST /api/settings/bot-pr-updates), the same
-            restraint the manual button already applies.
+            the same way a manual "Update branch" click would. A
+            Dependabot pull request gets its own rebase comment instead,
+            and a Renovate one its own rebase label, mirroring their
+            manual action buttons. A release-please pull request is
+            always skipped: it regenerates its own branch and changelog
+            on every push to the base branch, and has no dedicated
+            rebase/label action the way Dependabot and Renovate do.

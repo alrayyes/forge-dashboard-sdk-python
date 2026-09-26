@@ -41,12 +41,6 @@ class SettingsResponse:
                 verify the signature header on incoming webhook deliveries
                 (`X-Hub-Signature-256` on GitHub, `X-Forgejo-Signature` on
                 Forgejo). Never appears in the webhook URL itself.
-            allow_bot_pr_updates (bool): Overrides the default restraint the Update branch/Dependabot/
-                Renovate action buttons apply to a pull request opened by
-                release-please, Dependabot, or Renovate — those tools already
-                keep their own PRs current on their own schedule. False (the
-                default) leaves bot-managed PRs alone; true treats them the
-                same as any other PR.
             renovate_rebase_label (str): The label Renovate's own rebase/retry trigger listens for on
                 a repo (Renovate's own `rebaseLabel` config option — genuinely
                 per-repo configurable, so this is a user-set override rather
@@ -66,7 +60,6 @@ class SettingsResponse:
     forgejo_token_set: bool
     webhook_token: str
     webhook_secret: str
-    allow_bot_pr_updates: bool
     renovate_rebase_label: str
     theme: SettingsResponseTheme
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -90,8 +83,6 @@ class SettingsResponse:
 
         webhook_secret = self.webhook_secret
 
-        allow_bot_pr_updates = self.allow_bot_pr_updates
-
         renovate_rebase_label = self.renovate_rebase_label
 
         theme = self.theme.value
@@ -107,7 +98,6 @@ class SettingsResponse:
             "forgejoTokenSet": forgejo_token_set,
             "webhookToken": webhook_token,
             "webhookSecret": webhook_secret,
-            "allowBotPrUpdates": allow_bot_pr_updates,
             "renovateRebaseLabel": renovate_rebase_label,
             "theme": theme,
         })
@@ -133,8 +123,6 @@ class SettingsResponse:
 
         webhook_secret = d.pop("webhookSecret")
 
-        allow_bot_pr_updates = d.pop("allowBotPrUpdates")
-
         renovate_rebase_label = d.pop("renovateRebaseLabel")
 
         theme = SettingsResponseTheme(d.pop("theme"))
@@ -150,7 +138,6 @@ class SettingsResponse:
             forgejo_token_set=forgejo_token_set,
             webhook_token=webhook_token,
             webhook_secret=webhook_secret,
-            allow_bot_pr_updates=allow_bot_pr_updates,
             renovate_rebase_label=renovate_rebase_label,
             theme=theme,
         )

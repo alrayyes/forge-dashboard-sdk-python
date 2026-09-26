@@ -65,16 +65,17 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 
 ) -> Response[Error | ThemeResponse]:
     """ The signed-in user's own saved theme preference
 
      A lightweight, side-effect-free read of one field — theme — for
-    every page to check on load (#352). The same "deliberately not
-    GET /api/settings itself" restraint GET /api/settings/bot-pr-updates
-    already uses, for the same reason: this loads on every page visit
-    and shouldn't provision webhook credentials as a side effect.
+    every page to check on load (#352). Deliberately not
+    GET /api/settings itself: that handler also provisions webhook
+    credentials on first call (EnsureWebhookCredentials), which
+    every page loading shouldn't trigger for a user who's never
+    opened Settings at all.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -97,16 +98,17 @@ def sync_detailed(
 
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 
 ) -> Error | ThemeResponse | None:
     """ The signed-in user's own saved theme preference
 
      A lightweight, side-effect-free read of one field — theme — for
-    every page to check on load (#352). The same "deliberately not
-    GET /api/settings itself" restraint GET /api/settings/bot-pr-updates
-    already uses, for the same reason: this loads on every page visit
-    and shouldn't provision webhook credentials as a side effect.
+    every page to check on load (#352). Deliberately not
+    GET /api/settings itself: that handler also provisions webhook
+    credentials on first call (EnsureWebhookCredentials), which
+    every page loading shouldn't trigger for a user who's never
+    opened Settings at all.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -124,16 +126,17 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 
 ) -> Response[Error | ThemeResponse]:
     """ The signed-in user's own saved theme preference
 
      A lightweight, side-effect-free read of one field — theme — for
-    every page to check on load (#352). The same "deliberately not
-    GET /api/settings itself" restraint GET /api/settings/bot-pr-updates
-    already uses, for the same reason: this loads on every page visit
-    and shouldn't provision webhook credentials as a side effect.
+    every page to check on load (#352). Deliberately not
+    GET /api/settings itself: that handler also provisions webhook
+    credentials on first call (EnsureWebhookCredentials), which
+    every page loading shouldn't trigger for a user who's never
+    opened Settings at all.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -156,16 +159,17 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 
 ) -> Error | ThemeResponse | None:
     """ The signed-in user's own saved theme preference
 
      A lightweight, side-effect-free read of one field — theme — for
-    every page to check on load (#352). The same "deliberately not
-    GET /api/settings itself" restraint GET /api/settings/bot-pr-updates
-    already uses, for the same reason: this loads on every page visit
-    and shouldn't provision webhook credentials as a side effect.
+    every page to check on load (#352). Deliberately not
+    GET /api/settings itself: that handler also provisions webhook
+    credentials on first call (EnsureWebhookCredentials), which
+    every page loading shouldn't trigger for a user who's never
+    opened Settings at all.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

@@ -65,15 +65,14 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 
 ) -> Response[Error | FilterState]:
     """ The signed-in user's own saved dashboard/Insights filter state
 
-     A lightweight read of one opaque blob (#353), the same
-    "deliberately not GET /api/settings itself" restraint
-    GET /api/settings/bot-pr-updates already uses, for the same
-    reason: this loads on every dashboard/Insights visit and
+     A lightweight read of one opaque blob (#353), deliberately not
+    GET /api/settings itself for the same reason GET /api/settings/theme
+    isn't either: this loads on every dashboard/Insights visit and
     shouldn't provision webhook credentials as a side effect.
     `{}` for a user who's never saved any filters yet, not a 404.
 
@@ -98,15 +97,14 @@ def sync_detailed(
 
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 
 ) -> Error | FilterState | None:
     """ The signed-in user's own saved dashboard/Insights filter state
 
-     A lightweight read of one opaque blob (#353), the same
-    "deliberately not GET /api/settings itself" restraint
-    GET /api/settings/bot-pr-updates already uses, for the same
-    reason: this loads on every dashboard/Insights visit and
+     A lightweight read of one opaque blob (#353), deliberately not
+    GET /api/settings itself for the same reason GET /api/settings/theme
+    isn't either: this loads on every dashboard/Insights visit and
     shouldn't provision webhook credentials as a side effect.
     `{}` for a user who's never saved any filters yet, not a 404.
 
@@ -126,15 +124,14 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 
 ) -> Response[Error | FilterState]:
     """ The signed-in user's own saved dashboard/Insights filter state
 
-     A lightweight read of one opaque blob (#353), the same
-    "deliberately not GET /api/settings itself" restraint
-    GET /api/settings/bot-pr-updates already uses, for the same
-    reason: this loads on every dashboard/Insights visit and
+     A lightweight read of one opaque blob (#353), deliberately not
+    GET /api/settings itself for the same reason GET /api/settings/theme
+    isn't either: this loads on every dashboard/Insights visit and
     shouldn't provision webhook credentials as a side effect.
     `{}` for a user who's never saved any filters yet, not a 404.
 
@@ -159,15 +156,14 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 
 ) -> Error | FilterState | None:
     """ The signed-in user's own saved dashboard/Insights filter state
 
-     A lightweight read of one opaque blob (#353), the same
-    "deliberately not GET /api/settings itself" restraint
-    GET /api/settings/bot-pr-updates already uses, for the same
-    reason: this loads on every dashboard/Insights visit and
+     A lightweight read of one opaque blob (#353), deliberately not
+    GET /api/settings itself for the same reason GET /api/settings/theme
+    isn't either: this loads on every dashboard/Insights visit and
     shouldn't provision webhook credentials as a side effect.
     `{}` for a user who's never saved any filters yet, not a 404.
 

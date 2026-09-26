@@ -88,7 +88,7 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: WebAuthnCeremonyOptions,
     label: str,
 
@@ -127,7 +127,7 @@ label=label,
 
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: WebAuthnCeremonyOptions,
     label: str,
 
@@ -161,7 +161,7 @@ label=label,
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: WebAuthnCeremonyOptions,
     label: str,
 
@@ -200,7 +200,7 @@ label=label,
 
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: WebAuthnCeremonyOptions,
     label: str,
 
