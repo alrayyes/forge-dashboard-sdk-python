@@ -14,19 +14,18 @@ from ..types import UNSET, Unset
 
 
 
-T = TypeVar("T", bound="BotPrUpdatesResponse")
+T = TypeVar("T", bound="RegistrationStatus")
 
 
 
 @_attrs_define
-class BotPrUpdatesResponse:
-    """ See GET /api/settings/bot-pr-updates's own description.
-
+class RegistrationStatus:
+    """ 
         Attributes:
-            allow_bot_pr_updates (bool):
+            open_ (bool): True only when the instance has zero registered users.
      """
 
-    allow_bot_pr_updates: bool
+    open_: bool
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -34,13 +33,13 @@ class BotPrUpdatesResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
-        allow_bot_pr_updates = self.allow_bot_pr_updates
+        open_ = self.open_
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "allowBotPrUpdates": allow_bot_pr_updates,
+            "open": open_,
         })
 
         return field_dict
@@ -50,15 +49,15 @@ class BotPrUpdatesResponse:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        allow_bot_pr_updates = d.pop("allowBotPrUpdates")
+        open_ = d.pop("open")
 
-        bot_pr_updates_response = cls(
-            allow_bot_pr_updates=allow_bot_pr_updates,
+        registration_status = cls(
+            open_=open_,
         )
 
 
-        bot_pr_updates_response.additional_properties = d
-        return bot_pr_updates_response
+        registration_status.additional_properties = d
+        return registration_status
 
     @property
     def additional_keys(self) -> list[str]:

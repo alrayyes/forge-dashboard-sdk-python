@@ -80,7 +80,7 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: ThemeRequest,
 
 ) -> Response[Error | ThemeResponse]:
@@ -120,7 +120,7 @@ def sync_detailed(
 
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: ThemeRequest,
 
 ) -> Error | ThemeResponse | None:
@@ -155,7 +155,7 @@ body=body,
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: ThemeRequest,
 
 ) -> Response[Error | ThemeResponse]:
@@ -195,7 +195,7 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: ThemeRequest,
 
 ) -> Error | ThemeResponse | None:

@@ -29,10 +29,16 @@ class RepoStatus:
             forge (Forge):
             full_name (str):
             url (str): The repo's own page on its forge, for linking out.
-            ignored (bool): Whether the signed-in user has ignored this repo (#363) — its
-                pullRequests/issues entries are excluded from this same
-                response and from Insights, but the repo itself still
-                appears here with accurate hasWebhook/canManageWebhooks.
+            ignored (bool): Whether the signed-in user has ignored this repo in either
+                scope below (#363, #511) — true whenever ignoredPRs or
+                ignoredIssues is true. The repo itself still appears here
+                with accurate hasWebhook/canManageWebhooks regardless.
+            ignored_p_rs (bool): Whether the signed-in user has ignored this repo's pull
+                requests specifically (#511) — its pullRequests entries are
+                excluded from this same response and from Insights.
+            ignored_issues (bool): Whether the signed-in user has ignored this repo's issues
+                specifically (#511) — its issues entries are excluded from
+                this same response and from Insights.
             has_webhook (bool): Whether this app has ever recorded a signature-verified
                 webhook delivery for this repo. Passive: it reflects a real
                 delivery having arrived, not whether a webhook object exists
@@ -51,17 +57,21 @@ class RepoStatus:
             auto_update_branch (bool): Whether the signed-in user has turned on automatic branch
                 updates for this repo (#365) — any of its pull requests the
                 background refresh finds behind its base branch gets updated
-                the same way a manual "Update branch" click would, without
-                one. Suppressed for a bot-managed pull request (release-please,
-                Dependabot, Renovate) unless bot-PR updates are separately
-                allowed (POST /api/settings/bot-pr-updates), the same
-                restraint the manual button already applies.
+                the same way a manual "Update branch" click would. A
+                Dependabot pull request gets its own rebase comment instead,
+                and a Renovate one its own rebase label, mirroring their
+                manual action buttons. A release-please pull request is
+                always skipped: it regenerates its own branch and changelog
+                on every push to the base branch, and has no dedicated
+                rebase/label action the way Dependabot and Renovate do.
      """
 
     forge: Forge
     full_name: str
     url: str
     ignored: bool
+    ignored_p_rs: bool
+    ignored_issues: bool
     has_webhook: bool
     can_manage_webhooks: bool
     auto_update_branch: bool
@@ -80,6 +90,10 @@ class RepoStatus:
 
         ignored = self.ignored
 
+        ignored_p_rs = self.ignored_p_rs
+
+        ignored_issues = self.ignored_issues
+
         has_webhook = self.has_webhook
 
         can_manage_webhooks = self.can_manage_webhooks
@@ -94,6 +108,8 @@ class RepoStatus:
             "fullName": full_name,
             "url": url,
             "ignored": ignored,
+            "ignoredPRs": ignored_p_rs,
+            "ignoredIssues": ignored_issues,
             "hasWebhook": has_webhook,
             "canManageWebhooks": can_manage_webhooks,
             "autoUpdateBranch": auto_update_branch,
@@ -117,6 +133,10 @@ class RepoStatus:
 
         ignored = d.pop("ignored")
 
+        ignored_p_rs = d.pop("ignoredPRs")
+
+        ignored_issues = d.pop("ignoredIssues")
+
         has_webhook = d.pop("hasWebhook")
 
         can_manage_webhooks = d.pop("canManageWebhooks")
@@ -128,6 +148,8 @@ class RepoStatus:
             full_name=full_name,
             url=url,
             ignored=ignored,
+            ignored_p_rs=ignored_p_rs,
+            ignored_issues=ignored_issues,
             has_webhook=has_webhook,
             can_manage_webhooks=can_manage_webhooks,
             auto_update_branch=auto_update_branch,

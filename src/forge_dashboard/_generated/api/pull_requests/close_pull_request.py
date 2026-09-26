@@ -28,7 +28,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/pull-requests/merge",
+        "url": "/api/pull-requests/close",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -73,13 +73,6 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_404
 
-    if response.status_code == 409:
-        response_409 = Error.from_dict(response.json())
-
-
-
-        return response_409
-
     if response.status_code == 429:
         response_429 = Error.from_dict(response.json())
 
@@ -115,14 +108,11 @@ def sync_detailed(
     body: PullRequestActionRequest,
 
 ) -> Response[Any | Error]:
-    """ Merge one pull request, on the signed-in user's behalf
+    """ Close one pull request without merging it, on the signed-in user's behalf
 
-     Merges the named pull request using its repo's own configured
-    default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
-    looks up the repo's configured default merge style first and
-    passes that explicitly. Neither takes a method override here;
-    picking one is out of scope for this endpoint.
+     Closes the named pull request — for one that turns out not to
+    need merging at all (a duplicate, or one whose content already
+    landed another way), not a substitute for Merge.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
@@ -153,14 +143,11 @@ def sync(
     body: PullRequestActionRequest,
 
 ) -> Any | Error | None:
-    """ Merge one pull request, on the signed-in user's behalf
+    """ Close one pull request without merging it, on the signed-in user's behalf
 
-     Merges the named pull request using its repo's own configured
-    default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
-    looks up the repo's configured default merge style first and
-    passes that explicitly. Neither takes a method override here;
-    picking one is out of scope for this endpoint.
+     Closes the named pull request — for one that turns out not to
+    need merging at all (a duplicate, or one whose content already
+    landed another way), not a substitute for Merge.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
@@ -186,14 +173,11 @@ async def asyncio_detailed(
     body: PullRequestActionRequest,
 
 ) -> Response[Any | Error]:
-    """ Merge one pull request, on the signed-in user's behalf
+    """ Close one pull request without merging it, on the signed-in user's behalf
 
-     Merges the named pull request using its repo's own configured
-    default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
-    looks up the repo's configured default merge style first and
-    passes that explicitly. Neither takes a method override here;
-    picking one is out of scope for this endpoint.
+     Closes the named pull request — for one that turns out not to
+    need merging at all (a duplicate, or one whose content already
+    landed another way), not a substitute for Merge.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
@@ -224,14 +208,11 @@ async def asyncio(
     body: PullRequestActionRequest,
 
 ) -> Any | Error | None:
-    """ Merge one pull request, on the signed-in user's behalf
+    """ Close one pull request without merging it, on the signed-in user's behalf
 
-     Merges the named pull request using its repo's own configured
-    default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
-    looks up the repo's configured default merge style first and
-    passes that explicitly. Neither takes a method override here;
-    picking one is out of scope for this endpoint.
+     Closes the named pull request — for one that turns out not to
+    need merging at all (a duplicate, or one whose content already
+    landed another way), not a substitute for Merge.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.

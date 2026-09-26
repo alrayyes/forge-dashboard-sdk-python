@@ -8,35 +8,37 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
+from typing import cast
+import datetime
 
 
 
 
 
 
-T = TypeVar("T", bound="RegisterBeginRequest")
+T = TypeVar("T", bound="AdminInviteCreateResponse")
 
 
 
 @_attrs_define
-class RegisterBeginRequest:
-    """ 
+class AdminInviteCreateResponse:
+    """ The one and only response that ever carries the raw invite token
+    — shown to the admin once, at creation time, for them to copy
+    into a `/login?invite=<token>` link and hand to the invitee out
+    of band. Only its hash is stored, so it can't be recovered from
+    here again.
+
         Attributes:
+            token (str):
             username (str):
-            display_name (str): Ignored once an invite is required (any account already
-                exists) — the invite's own displayName (set by the admin who
-                issued it) is what's actually used. Only the very first,
-                bootstrap registration on a fresh instance takes this value.
-            invite_token (str | Unset): Required once any account already exists (see GET
-                /api/auth/registration-status) — a single-use token from POST
-                /api/admin/invites, issued for exactly this username. Omitted
-                or ignored for the very first, bootstrap registration.
+            display_name (str):
+            expires_at (datetime.datetime):
      """
 
+    token: str
     username: str
     display_name: str
-    invite_token: str | Unset = UNSET
+    expires_at: datetime.datetime
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -44,21 +46,23 @@ class RegisterBeginRequest:
 
 
     def to_dict(self) -> dict[str, Any]:
+        token = self.token
+
         username = self.username
 
         display_name = self.display_name
 
-        invite_token = self.invite_token
+        expires_at = self.expires_at.isoformat()
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
+            "token": token,
             "username": username,
             "displayName": display_name,
+            "expiresAt": expires_at,
         })
-        if invite_token is not UNSET:
-            field_dict["inviteToken"] = invite_token
 
         return field_dict
 
@@ -67,21 +71,27 @@ class RegisterBeginRequest:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
+        token = d.pop("token")
+
         username = d.pop("username")
 
         display_name = d.pop("displayName")
 
-        invite_token = d.pop("inviteToken", UNSET)
+        expires_at = datetime.datetime.fromisoformat(d.pop("expiresAt"))
 
-        register_begin_request = cls(
+
+
+
+        admin_invite_create_response = cls(
+            token=token,
             username=username,
             display_name=display_name,
-            invite_token=invite_token,
+            expires_at=expires_at,
         )
 
 
-        register_begin_request.additional_properties = d
-        return register_begin_request
+        admin_invite_create_response.additional_properties = d
+        return admin_invite_create_response
 
     @property
     def additional_keys(self) -> list[str]:

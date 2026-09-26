@@ -9,18 +9,15 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error import Error
-from ...models.pull_request_action_request import PullRequestActionRequest
 from typing import cast
 
 
 
 def _get_kwargs(
-    *,
-    body: PullRequestActionRequest,
+    token: str,
 
 ) -> dict[str, Any]:
-    headers: dict[str, Any] = {}
-
+    
 
     
 
@@ -28,14 +25,10 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/pull-requests/merge",
+        "url": "/api/admin/invites/{token}/revoke".format(token=quote(str(token), safe=""),),
     }
 
-    _kwargs["json"] = body.to_dict()
 
-    headers["Content-Type"] = "application/json"
-
-    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -44,13 +37,6 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
     if response.status_code == 204:
         response_204 = cast(Any, None)
         return response_204
-
-    if response.status_code == 400:
-        response_400 = Error.from_dict(response.json())
-
-
-
-        return response_400
 
     if response.status_code == 401:
         response_401 = Error.from_dict(response.json())
@@ -73,27 +59,6 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_404
 
-    if response.status_code == 409:
-        response_409 = Error.from_dict(response.json())
-
-
-
-        return response_409
-
-    if response.status_code == 429:
-        response_429 = Error.from_dict(response.json())
-
-
-
-        return response_429
-
-    if response.status_code == 502:
-        response_502 = Error.from_dict(response.json())
-
-
-
-        return response_502
-
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -110,22 +75,21 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 
 def sync_detailed(
+    token: str,
     *,
     client: AuthenticatedClient,
-    body: PullRequestActionRequest,
 
 ) -> Response[Any | Error]:
-    """ Merge one pull request, on the signed-in user's behalf
+    """ Revoke an outstanding invite
 
-     Merges the named pull request using its repo's own configured
-    default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
-    looks up the repo's configured default merge style first and
-    passes that explicitly. Neither takes a method override here;
-    picking one is out of scope for this endpoint.
+     Stops the invite's token from ever completing a registration.
+    `token` here is an invite's own `id` (from AdminInvite's own
+    listing), never the raw secret an invitee would use to register —
+    that's AdminInviteCreateResponse's own `token` field, and it's
+    never listed again after creation.
 
     Args:
-        body (PullRequestActionRequest): Which pull request to act on.
+        token (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -137,7 +101,7 @@ def sync_detailed(
 
 
     kwargs = _get_kwargs(
-        body=body,
+        token=token,
 
     )
 
@@ -148,22 +112,21 @@ def sync_detailed(
     return _build_response(client=client, response=response)
 
 def sync(
+    token: str,
     *,
     client: AuthenticatedClient,
-    body: PullRequestActionRequest,
 
 ) -> Any | Error | None:
-    """ Merge one pull request, on the signed-in user's behalf
+    """ Revoke an outstanding invite
 
-     Merges the named pull request using its repo's own configured
-    default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
-    looks up the repo's configured default merge style first and
-    passes that explicitly. Neither takes a method override here;
-    picking one is out of scope for this endpoint.
+     Stops the invite's token from ever completing a registration.
+    `token` here is an invite's own `id` (from AdminInvite's own
+    listing), never the raw secret an invitee would use to register —
+    that's AdminInviteCreateResponse's own `token` field, and it's
+    never listed again after creation.
 
     Args:
-        body (PullRequestActionRequest): Which pull request to act on.
+        token (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -175,28 +138,27 @@ def sync(
 
 
     return sync_detailed(
-        client=client,
-body=body,
+        token=token,
+client=client,
 
     ).parsed
 
 async def asyncio_detailed(
+    token: str,
     *,
     client: AuthenticatedClient,
-    body: PullRequestActionRequest,
 
 ) -> Response[Any | Error]:
-    """ Merge one pull request, on the signed-in user's behalf
+    """ Revoke an outstanding invite
 
-     Merges the named pull request using its repo's own configured
-    default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
-    looks up the repo's configured default merge style first and
-    passes that explicitly. Neither takes a method override here;
-    picking one is out of scope for this endpoint.
+     Stops the invite's token from ever completing a registration.
+    `token` here is an invite's own `id` (from AdminInvite's own
+    listing), never the raw secret an invitee would use to register —
+    that's AdminInviteCreateResponse's own `token` field, and it's
+    never listed again after creation.
 
     Args:
-        body (PullRequestActionRequest): Which pull request to act on.
+        token (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -208,7 +170,7 @@ async def asyncio_detailed(
 
 
     kwargs = _get_kwargs(
-        body=body,
+        token=token,
 
     )
 
@@ -219,22 +181,21 @@ async def asyncio_detailed(
     return _build_response(client=client, response=response)
 
 async def asyncio(
+    token: str,
     *,
     client: AuthenticatedClient,
-    body: PullRequestActionRequest,
 
 ) -> Any | Error | None:
-    """ Merge one pull request, on the signed-in user's behalf
+    """ Revoke an outstanding invite
 
-     Merges the named pull request using its repo's own configured
-    default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
-    looks up the repo's configured default merge style first and
-    passes that explicitly. Neither takes a method override here;
-    picking one is out of scope for this endpoint.
+     Stops the invite's token from ever completing a registration.
+    `token` here is an invite's own `id` (from AdminInvite's own
+    listing), never the raw secret an invitee would use to register —
+    that's AdminInviteCreateResponse's own `token` field, and it's
+    never listed again after creation.
 
     Args:
-        body (PullRequestActionRequest): Which pull request to act on.
+        token (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -246,7 +207,7 @@ async def asyncio(
 
 
     return (await asyncio_detailed(
-        client=client,
-body=body,
+        token=token,
+client=client,
 
     )).parsed

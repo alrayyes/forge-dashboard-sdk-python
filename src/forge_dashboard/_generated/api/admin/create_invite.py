@@ -8,15 +8,16 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.admin_invite_create_request import AdminInviteCreateRequest
+from ...models.admin_invite_create_response import AdminInviteCreateResponse
 from ...models.error import Error
-from ...models.pull_request_action_request import PullRequestActionRequest
 from typing import cast
 
 
 
 def _get_kwargs(
     *,
-    body: PullRequestActionRequest,
+    body: AdminInviteCreateRequest,
 
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
@@ -28,7 +29,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/pull-requests/merge",
+        "url": "/api/admin/invites",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -40,10 +41,13 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | None:
-    if response.status_code == 204:
-        response_204 = cast(Any, None)
-        return response_204
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> AdminInviteCreateResponse | Error | None:
+    if response.status_code == 201:
+        response_201 = AdminInviteCreateResponse.from_dict(response.json())
+
+
+
+        return response_201
 
     if response.status_code == 400:
         response_400 = Error.from_dict(response.json())
@@ -66,13 +70,6 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_403
 
-    if response.status_code == 404:
-        response_404 = Error.from_dict(response.json())
-
-
-
-        return response_404
-
     if response.status_code == 409:
         response_409 = Error.from_dict(response.json())
 
@@ -80,27 +77,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_409
 
-    if response.status_code == 429:
-        response_429 = Error.from_dict(response.json())
-
-
-
-        return response_429
-
-    if response.status_code == 502:
-        response_502 = Error.from_dict(response.json())
-
-
-
-        return response_502
-
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[AdminInviteCreateResponse | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -112,27 +95,25 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     *,
     client: AuthenticatedClient,
-    body: PullRequestActionRequest,
+    body: AdminInviteCreateRequest,
 
-) -> Response[Any | Error]:
-    """ Merge one pull request, on the signed-in user's behalf
+) -> Response[AdminInviteCreateResponse | Error]:
+    """ Generate a new single-use registration invite
 
-     Merges the named pull request using its repo's own configured
-    default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
-    looks up the repo's configured default merge style first and
-    passes that explicitly. Neither takes a method override here;
-    picking one is out of scope for this endpoint.
+     The admin picks the username and display name up front — the
+    invitee only completes the WebAuthn ceremony at the link this
+    returns (`/login?invite=<token>`, built client-side). Valid for
+    one hour, fixed.
 
     Args:
-        body (PullRequestActionRequest): Which pull request to act on.
+        body (AdminInviteCreateRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[AdminInviteCreateResponse | Error]
      """
 
 
@@ -150,27 +131,25 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient,
-    body: PullRequestActionRequest,
+    body: AdminInviteCreateRequest,
 
-) -> Any | Error | None:
-    """ Merge one pull request, on the signed-in user's behalf
+) -> AdminInviteCreateResponse | Error | None:
+    """ Generate a new single-use registration invite
 
-     Merges the named pull request using its repo's own configured
-    default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
-    looks up the repo's configured default merge style first and
-    passes that explicitly. Neither takes a method override here;
-    picking one is out of scope for this endpoint.
+     The admin picks the username and display name up front — the
+    invitee only completes the WebAuthn ceremony at the link this
+    returns (`/login?invite=<token>`, built client-side). Valid for
+    one hour, fixed.
 
     Args:
-        body (PullRequestActionRequest): Which pull request to act on.
+        body (AdminInviteCreateRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        AdminInviteCreateResponse | Error
      """
 
 
@@ -183,27 +162,25 @@ body=body,
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
-    body: PullRequestActionRequest,
+    body: AdminInviteCreateRequest,
 
-) -> Response[Any | Error]:
-    """ Merge one pull request, on the signed-in user's behalf
+) -> Response[AdminInviteCreateResponse | Error]:
+    """ Generate a new single-use registration invite
 
-     Merges the named pull request using its repo's own configured
-    default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
-    looks up the repo's configured default merge style first and
-    passes that explicitly. Neither takes a method override here;
-    picking one is out of scope for this endpoint.
+     The admin picks the username and display name up front — the
+    invitee only completes the WebAuthn ceremony at the link this
+    returns (`/login?invite=<token>`, built client-side). Valid for
+    one hour, fixed.
 
     Args:
-        body (PullRequestActionRequest): Which pull request to act on.
+        body (AdminInviteCreateRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[AdminInviteCreateResponse | Error]
      """
 
 
@@ -221,27 +198,25 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient,
-    body: PullRequestActionRequest,
+    body: AdminInviteCreateRequest,
 
-) -> Any | Error | None:
-    """ Merge one pull request, on the signed-in user's behalf
+) -> AdminInviteCreateResponse | Error | None:
+    """ Generate a new single-use registration invite
 
-     Merges the named pull request using its repo's own configured
-    default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
-    looks up the repo's configured default merge style first and
-    passes that explicitly. Neither takes a method override here;
-    picking one is out of scope for this endpoint.
+     The admin picks the username and display name up front — the
+    invitee only completes the WebAuthn ceremony at the link this
+    returns (`/login?invite=<token>`, built client-side). Valid for
+    one hour, fixed.
 
     Args:
-        body (PullRequestActionRequest): Which pull request to act on.
+        body (AdminInviteCreateRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        AdminInviteCreateResponse | Error
      """
 
 

@@ -77,7 +77,7 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     username: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 
 ) -> Response[Any | Error]:
     """ Share the signed-in user's dashboard with username
@@ -113,7 +113,7 @@ def sync_detailed(
 def sync(
     username: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 
 ) -> Any | Error | None:
     """ Share the signed-in user's dashboard with username
@@ -144,7 +144,7 @@ client=client,
 async def asyncio_detailed(
     username: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 
 ) -> Response[Any | Error]:
     """ Share the signed-in user's dashboard with username
@@ -180,7 +180,7 @@ async def asyncio_detailed(
 async def asyncio(
     username: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 
 ) -> Any | Error | None:
     """ Share the signed-in user's dashboard with username
