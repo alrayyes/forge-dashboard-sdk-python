@@ -107,7 +107,7 @@ jobs:
           git push origin "$branch"
           gh pr create --title "fix(deps): sync uv.lock with the release just cut" \
             --label bug \
-            --body "Opened automatically right after a release: uv.lock's self-version drifted from pyproject.toml's, same race #18 describes. Not auto-merged -- no standing exception covers this class of PR yet."
+            --body "Opened automatically right after a release: uv.lock's self-version drifted from pyproject.toml's, same race #18 describes."
 
   publish:
     needs: release-please
