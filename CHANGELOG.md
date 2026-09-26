@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.7](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v0.1.6...v0.1.7) (2026-09-26)
+
+
+### Documentation
+
+* add llms.txt for the published docs site ([854e1be](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/854e1be95c672d233353d50f6c594a763ab4cfe8))
+* add llms.txt for the published docs site ([a0062ca](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/a0062ca1dd94805e1fd8b19ff6c805a0f058560d)), closes [#27](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/27)
+
 ## [0.1.6](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v0.1.5...v0.1.6) (2026-09-25)
 
 
