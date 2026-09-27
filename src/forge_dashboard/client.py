@@ -98,7 +98,11 @@ class ForgeDashboardClient:
 
     def health(self) -> Health:
         """Liveness. Needs no session -- a good first call to prove the
-        client reaches the server at all."""
+        client reaches the server at all.
+
+        Returns:
+            The server's health status.
+        """
         response = _get_health.sync_detailed(client=self._raw)
         if error := decode_error(response):
             raise error
@@ -110,7 +114,11 @@ class ForgeDashboardClient:
         return response.parsed
 
     async def ahealth(self) -> Health:
-        """Async counterpart of :meth:`health`."""
+        """Async counterpart of :meth:`health`.
+
+        Returns:
+            The server's health status.
+        """
         response = await _get_health.asyncio_detailed(client=self._raw)
         if error := decode_error(response):
             raise error
@@ -119,7 +127,11 @@ class ForgeDashboardClient:
         return response.parsed
 
     def get_version(self) -> Version:
-        """The running server's build version. Needs no session."""
+        """The running server's build version. Needs no session.
+
+        Returns:
+            The running server's build version.
+        """
         response = _get_version.sync_detailed(client=self._raw)
         if error := decode_error(response):
             raise error
@@ -128,7 +140,11 @@ class ForgeDashboardClient:
         return response.parsed
 
     async def aget_version(self) -> Version:
-        """Async counterpart of :meth:`get_version`."""
+        """Async counterpart of :meth:`get_version`.
+
+        Returns:
+            The running server's build version.
+        """
         response = await _get_version.asyncio_detailed(client=self._raw)
         if error := decode_error(response):
             raise error
