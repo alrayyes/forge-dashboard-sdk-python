@@ -31,6 +31,19 @@ class SettingsResponse:
         Attributes:
             github_username (str): Used as a token-free public-repos fallback when no GitHub token is set.
             github_token_set (bool): Whether a GitHub token is currently saved.
+            github_app_installation_id (int): The installation ID of the alrayyes-automation GitHub App
+                this user has connected (#620), or 0 if none. Not a
+                secret — it's an opaque integer GitHub already shows the
+                user on its own installation settings page — so, unlike
+                githubTokenSet, this round-trips as a plain value. Takes
+                precedence over a saved githubToken whenever both are set
+                and the server has an App configured (see
+                githubAppConfigured).
+            github_app_configured (bool): Whether this server has a GitHub App configured at all
+                (server-wide GITHUB_APP_ID/GITHUB_APP_PRIVATE_KEY_BASE64 —
+                not a per-user setting). The Settings page uses this to
+                explain why githubAppInstallationId can't be saved when
+                it's false.
             forgejo_url (str):
             forgejo_username (str): Used as a token-free public-repos fallback when no Forgejo token is set.
             forgejo_token_set (bool): Whether a Forgejo token is currently saved.
@@ -55,6 +68,8 @@ class SettingsResponse:
 
     github_username: str
     github_token_set: bool
+    github_app_installation_id: int
+    github_app_configured: bool
     forgejo_url: str
     forgejo_username: str
     forgejo_token_set: bool
@@ -72,6 +87,10 @@ class SettingsResponse:
         github_username = self.github_username
 
         github_token_set = self.github_token_set
+
+        github_app_installation_id = self.github_app_installation_id
+
+        github_app_configured = self.github_app_configured
 
         forgejo_url = self.forgejo_url
 
@@ -93,6 +112,8 @@ class SettingsResponse:
         field_dict.update({
             "githubUsername": github_username,
             "githubTokenSet": github_token_set,
+            "githubAppInstallationId": github_app_installation_id,
+            "githubAppConfigured": github_app_configured,
             "forgejoUrl": forgejo_url,
             "forgejoUsername": forgejo_username,
             "forgejoTokenSet": forgejo_token_set,
@@ -112,6 +133,10 @@ class SettingsResponse:
         github_username = d.pop("githubUsername")
 
         github_token_set = d.pop("githubTokenSet")
+
+        github_app_installation_id = d.pop("githubAppInstallationId")
+
+        github_app_configured = d.pop("githubAppConfigured")
 
         forgejo_url = d.pop("forgejoUrl")
 
@@ -133,6 +158,8 @@ class SettingsResponse:
         settings_response = cls(
             github_username=github_username,
             github_token_set=github_token_set,
+            github_app_installation_id=github_app_installation_id,
+            github_app_configured=github_app_configured,
             forgejo_url=forgejo_url,
             forgejo_username=forgejo_username,
             forgejo_token_set=forgejo_token_set,
