@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.0.2](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v1.0.1...v1.0.2) (2026-09-27)
+
+
+### Bug Fixes
+
+* regenerate client from updated forge-dashboard spec ([#55](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/55)) ([c1eff37](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/c1eff378d46873c3b78f078be668e05de90185ab))
+
+
+### Documentation
+
+* show and link generated model return types ([59e0cdb](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/59e0cdbf034f33892d44b8b415d9807847d22716))
+* show and link generated model return types ([5c575ad](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/5c575ad5f5312bf6649d54a38326c796e8f449c8)), closes [#51](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/51)
+
 ## [1.0.1](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v1.0.0...v1.0.1) (2026-09-26)
 
 
