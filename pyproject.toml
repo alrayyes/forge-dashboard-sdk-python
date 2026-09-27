@@ -62,6 +62,10 @@ overrides = [ { module = "forge_dashboard._generated.*", ignore_errors = true } 
 
 [tool.pytest]
 ini_options.testpaths = [ "tests" ]
+ini_options.addopts = "-m 'not contract'"
+ini_options.markers = [
+  "contract: runs against a local Prism mock, needs FORGE_DASHBOARD_BASE_URL",
+]
 
 [tool.coverage]
 run.source = [ "src/forge_dashboard" ]
