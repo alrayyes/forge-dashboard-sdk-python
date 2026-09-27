@@ -97,8 +97,12 @@ def sync_detailed(
             A blank `githubToken` or `forgejoToken` keeps whatever token is
             already saved for that forge rather than clearing it — this is
             the only way to update the username fields without having to
-            resubmit a token you don't want to re-paste. Theme isn't
-            settable here at all — see PUT /api/settings/theme.
+            resubmit a token you don't want to re-paste. githubAppInstallationId
+            is different: a plain replace like githubUsername, not coalesced —
+            0 or omitted really does disconnect the App. Rejected (400) if
+            the server has no GitHub App configured (see
+            SettingsResponse.githubAppConfigured). Theme isn't settable
+            here at all — see PUT /api/settings/theme.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -139,8 +143,12 @@ def sync(
             A blank `githubToken` or `forgejoToken` keeps whatever token is
             already saved for that forge rather than clearing it — this is
             the only way to update the username fields without having to
-            resubmit a token you don't want to re-paste. Theme isn't
-            settable here at all — see PUT /api/settings/theme.
+            resubmit a token you don't want to re-paste. githubAppInstallationId
+            is different: a plain replace like githubUsername, not coalesced —
+            0 or omitted really does disconnect the App. Rejected (400) if
+            the server has no GitHub App configured (see
+            SettingsResponse.githubAppConfigured). Theme isn't settable
+            here at all — see PUT /api/settings/theme.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -176,8 +184,12 @@ async def asyncio_detailed(
             A blank `githubToken` or `forgejoToken` keeps whatever token is
             already saved for that forge rather than clearing it — this is
             the only way to update the username fields without having to
-            resubmit a token you don't want to re-paste. Theme isn't
-            settable here at all — see PUT /api/settings/theme.
+            resubmit a token you don't want to re-paste. githubAppInstallationId
+            is different: a plain replace like githubUsername, not coalesced —
+            0 or omitted really does disconnect the App. Rejected (400) if
+            the server has no GitHub App configured (see
+            SettingsResponse.githubAppConfigured). Theme isn't settable
+            here at all — see PUT /api/settings/theme.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -218,8 +230,12 @@ async def asyncio(
             A blank `githubToken` or `forgejoToken` keeps whatever token is
             already saved for that forge rather than clearing it — this is
             the only way to update the username fields without having to
-            resubmit a token you don't want to re-paste. Theme isn't
-            settable here at all — see PUT /api/settings/theme.
+            resubmit a token you don't want to re-paste. githubAppInstallationId
+            is different: a plain replace like githubUsername, not coalesced —
+            0 or omitted really does disconnect the App. Rejected (400) if
+            the server has no GitHub App configured (see
+            SettingsResponse.githubAppConfigured). Theme isn't settable
+            here at all — see PUT /api/settings/theme.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

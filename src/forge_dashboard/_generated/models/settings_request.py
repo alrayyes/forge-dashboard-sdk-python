@@ -25,12 +25,17 @@ class SettingsRequest:
     A blank `githubToken` or `forgejoToken` keeps whatever token is
     already saved for that forge rather than clearing it — this is
     the only way to update the username fields without having to
-    resubmit a token you don't want to re-paste. Theme isn't
-    settable here at all — see PUT /api/settings/theme.
+    resubmit a token you don't want to re-paste. githubAppInstallationId
+    is different: a plain replace like githubUsername, not coalesced —
+    0 or omitted really does disconnect the App. Rejected (400) if
+    the server has no GitHub App configured (see
+    SettingsResponse.githubAppConfigured). Theme isn't settable
+    here at all — see PUT /api/settings/theme.
 
         Attributes:
             github_token (str | Unset):
             github_username (str | Unset):
+            github_app_installation_id (int | Unset):
             forgejo_url (str | Unset):
             forgejo_token (str | Unset):
             forgejo_username (str | Unset):
@@ -39,6 +44,7 @@ class SettingsRequest:
 
     github_token: str | Unset = UNSET
     github_username: str | Unset = UNSET
+    github_app_installation_id: int | Unset = UNSET
     forgejo_url: str | Unset = UNSET
     forgejo_token: str | Unset = UNSET
     forgejo_username: str | Unset = UNSET
@@ -53,6 +59,8 @@ class SettingsRequest:
         github_token = self.github_token
 
         github_username = self.github_username
+
+        github_app_installation_id = self.github_app_installation_id
 
         forgejo_url = self.forgejo_url
 
@@ -71,6 +79,8 @@ class SettingsRequest:
             field_dict["githubToken"] = github_token
         if github_username is not UNSET:
             field_dict["githubUsername"] = github_username
+        if github_app_installation_id is not UNSET:
+            field_dict["githubAppInstallationId"] = github_app_installation_id
         if forgejo_url is not UNSET:
             field_dict["forgejoUrl"] = forgejo_url
         if forgejo_token is not UNSET:
@@ -91,6 +101,8 @@ class SettingsRequest:
 
         github_username = d.pop("githubUsername", UNSET)
 
+        github_app_installation_id = d.pop("githubAppInstallationId", UNSET)
+
         forgejo_url = d.pop("forgejoUrl", UNSET)
 
         forgejo_token = d.pop("forgejoToken", UNSET)
@@ -102,6 +114,7 @@ class SettingsRequest:
         settings_request = cls(
             github_token=github_token,
             github_username=github_username,
+            github_app_installation_id=github_app_installation_id,
             forgejo_url=forgejo_url,
             forgejo_token=forgejo_token,
             forgejo_username=forgejo_username,
