@@ -46,6 +46,11 @@ class ForgeHealth:
             rate_limit_rest (RateLimit | Unset): One of a forge API's own request budgets for the credential the last
                 refresh used — see ForgeHealth.rateLimitGraphQL/rateLimitREST for which budget this is and when each is (or
                 isn't) reported.
+            dependabot_commands_blocked (str | Unset): Why a "@dependabot" comment sent through this forge's credential
+                would be refused. Dependabot only honours commands from a user with push access and ignores GitHub App accounts
+                whatever permissions the App holds. Set only for GitHub when the connected credential is an App with no personal
+                access token saved to send commands as. The Dependabot buttons lock with this text, auto-update-branch skips
+                Dependabot pull requests, and the dependabot-action endpoint answers 409 with it. Omitted when commands work.
      """
 
     forge: Forge
@@ -55,6 +60,7 @@ class ForgeHealth:
     error_kind: ForgeErrorKind | Unset = UNSET
     rate_limit_graph_ql: RateLimit | Unset = UNSET
     rate_limit_rest: RateLimit | Unset = UNSET
+    dependabot_commands_blocked: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -84,6 +90,8 @@ class ForgeHealth:
         if not isinstance(self.rate_limit_rest, Unset):
             rate_limit_rest = self.rate_limit_rest.to_dict()
 
+        dependabot_commands_blocked = self.dependabot_commands_blocked
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -100,6 +108,8 @@ class ForgeHealth:
             field_dict["rateLimitGraphQL"] = rate_limit_graph_ql
         if rate_limit_rest is not UNSET:
             field_dict["rateLimitREST"] = rate_limit_rest
+        if dependabot_commands_blocked is not UNSET:
+            field_dict["dependabotCommandsBlocked"] = dependabot_commands_blocked
 
         return field_dict
 
@@ -150,6 +160,8 @@ class ForgeHealth:
 
 
 
+        dependabot_commands_blocked = d.pop("dependabotCommandsBlocked", UNSET)
+
         forge_health = cls(
             forge=forge,
             reachable=reachable,
@@ -158,6 +170,7 @@ class ForgeHealth:
             error_kind=error_kind,
             rate_limit_graph_ql=rate_limit_graph_ql,
             rate_limit_rest=rate_limit_rest,
+            dependabot_commands_blocked=dependabot_commands_blocked,
         )
 
 
