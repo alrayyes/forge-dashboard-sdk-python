@@ -94,7 +94,7 @@ def sync_detailed(
 
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape —
-            whatever `filters.js`'s `loadState`/`saveState` already produce
+            whatever the frontend's `$lib/filters` `loadState`/`saveState` already produce
             client-side (shared forge/repo/label/author/title/created/
             updated/groupBy, plus the two board-owned extras with no
             equivalent on the other entity type). This server stores and
@@ -143,7 +143,7 @@ def sync(
 
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape —
-            whatever `filters.js`'s `loadState`/`saveState` already produce
+            whatever the frontend's `$lib/filters` `loadState`/`saveState` already produce
             client-side (shared forge/repo/label/author/title/created/
             updated/groupBy, plus the two board-owned extras with no
             equivalent on the other entity type). This server stores and
@@ -187,7 +187,7 @@ async def asyncio_detailed(
 
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape —
-            whatever `filters.js`'s `loadState`/`saveState` already produce
+            whatever the frontend's `$lib/filters` `loadState`/`saveState` already produce
             client-side (shared forge/repo/label/author/title/created/
             updated/groupBy, plus the two board-owned extras with no
             equivalent on the other entity type). This server stores and
@@ -236,7 +236,7 @@ async def asyncio(
 
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape —
-            whatever `filters.js`'s `loadState`/`saveState` already produce
+            whatever the frontend's `$lib/filters` `loadState`/`saveState` already produce
             client-side (shared forge/repo/label/author/title/created/
             updated/groupBy, plus the two board-owned extras with no
             equivalent on the other entity type). This server stores and
