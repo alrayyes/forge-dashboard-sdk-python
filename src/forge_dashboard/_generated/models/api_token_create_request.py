@@ -25,8 +25,8 @@ class APITokenCreateRequest:
     """ 
         Attributes:
             label (str):
-            expires_at (datetime.datetime): Must be in the future and no more than 366 days out (#356,
-                matching GitHub's own fine-grained-token maximum) — the
+            expires_at (datetime.datetime): Must be in the future and no more than 366 days out (matching
+                GitHub's own fine-grained-token maximum) — the
                 Settings UI offers 7/30/60/90-day presets (30 pre-selected)
                 or a custom date within that same cap, never an option for
                 no expiration at all.

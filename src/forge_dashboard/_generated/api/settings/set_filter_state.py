@@ -85,7 +85,7 @@ def sync_detailed(
      A dedicated, lightweight save separate from the main
     PUT /api/settings — filters change on nearly every click, a
     mismatch for that endpoint's "always a full form submit"
-    convention (#353). The body replaces the saved state entirely,
+    convention. The body replaces the saved state entirely,
     the same "always a full submit, just of a much smaller and
     much more frequent thing" shape as the main settings PUT, not a
     partial patch. Filters.js's own client-side code decides when
@@ -93,7 +93,7 @@ def sync_detailed(
     while the user is still typing in the free-text Title filter.
 
     Args:
-        body (FilterState): The dashboard/Insights filter bar's own saved shape (#353) —
+        body (FilterState): The dashboard/Insights filter bar's own saved shape —
             whatever `filters.js`'s `loadState`/`saveState` already produce
             client-side (shared forge/repo/label/author/title/created/
             updated/groupBy, plus the two board-owned extras with no
@@ -134,7 +134,7 @@ def sync(
      A dedicated, lightweight save separate from the main
     PUT /api/settings — filters change on nearly every click, a
     mismatch for that endpoint's "always a full form submit"
-    convention (#353). The body replaces the saved state entirely,
+    convention. The body replaces the saved state entirely,
     the same "always a full submit, just of a much smaller and
     much more frequent thing" shape as the main settings PUT, not a
     partial patch. Filters.js's own client-side code decides when
@@ -142,7 +142,7 @@ def sync(
     while the user is still typing in the free-text Title filter.
 
     Args:
-        body (FilterState): The dashboard/Insights filter bar's own saved shape (#353) —
+        body (FilterState): The dashboard/Insights filter bar's own saved shape —
             whatever `filters.js`'s `loadState`/`saveState` already produce
             client-side (shared forge/repo/label/author/title/created/
             updated/groupBy, plus the two board-owned extras with no
@@ -178,7 +178,7 @@ async def asyncio_detailed(
      A dedicated, lightweight save separate from the main
     PUT /api/settings — filters change on nearly every click, a
     mismatch for that endpoint's "always a full form submit"
-    convention (#353). The body replaces the saved state entirely,
+    convention. The body replaces the saved state entirely,
     the same "always a full submit, just of a much smaller and
     much more frequent thing" shape as the main settings PUT, not a
     partial patch. Filters.js's own client-side code decides when
@@ -186,7 +186,7 @@ async def asyncio_detailed(
     while the user is still typing in the free-text Title filter.
 
     Args:
-        body (FilterState): The dashboard/Insights filter bar's own saved shape (#353) —
+        body (FilterState): The dashboard/Insights filter bar's own saved shape —
             whatever `filters.js`'s `loadState`/`saveState` already produce
             client-side (shared forge/repo/label/author/title/created/
             updated/groupBy, plus the two board-owned extras with no
@@ -227,7 +227,7 @@ async def asyncio(
      A dedicated, lightweight save separate from the main
     PUT /api/settings — filters change on nearly every click, a
     mismatch for that endpoint's "always a full form submit"
-    convention (#353). The body replaces the saved state entirely,
+    convention. The body replaces the saved state entirely,
     the same "always a full submit, just of a much smaller and
     much more frequent thing" shape as the main settings PUT, not a
     partial patch. Filters.js's own client-side code decides when
@@ -235,7 +235,7 @@ async def asyncio(
     while the user is still typing in the free-text Title filter.
 
     Args:
-        body (FilterState): The dashboard/Insights filter bar's own saved shape (#353) —
+        body (FilterState): The dashboard/Insights filter bar's own saved shape —
             whatever `filters.js`'s `loadState`/`saveState` already produce
             client-side (shared forge/repo/label/author/title/created/
             updated/groupBy, plus the two board-owned extras with no

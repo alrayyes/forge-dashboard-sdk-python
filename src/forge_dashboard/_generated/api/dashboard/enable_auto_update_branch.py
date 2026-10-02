@@ -83,8 +83,8 @@ def sync_detailed(
     """ Turn on automatic branch updates for one tracked repo
 
      Any of this repo's pull requests the background refresh finds
-    behind its base branch gets updated automatically from then on
-    (#365), the same as clicking "Update branch" would — suppressed
+    behind its base branch gets updated automatically from then on, the same as clicking
+    "Update branch" would — suppressed
     for a bot-managed pull request unless bot-PR updates are
     separately allowed. Idempotent: enabling an already-enabled repo
     is a no-op, not an error.
@@ -121,8 +121,8 @@ def sync(
     """ Turn on automatic branch updates for one tracked repo
 
      Any of this repo's pull requests the background refresh finds
-    behind its base branch gets updated automatically from then on
-    (#365), the same as clicking "Update branch" would — suppressed
+    behind its base branch gets updated automatically from then on, the same as clicking
+    "Update branch" would — suppressed
     for a bot-managed pull request unless bot-PR updates are
     separately allowed. Idempotent: enabling an already-enabled repo
     is a no-op, not an error.
@@ -154,8 +154,8 @@ async def asyncio_detailed(
     """ Turn on automatic branch updates for one tracked repo
 
      Any of this repo's pull requests the background refresh finds
-    behind its base branch gets updated automatically from then on
-    (#365), the same as clicking "Update branch" would — suppressed
+    behind its base branch gets updated automatically from then on, the same as clicking
+    "Update branch" would — suppressed
     for a bot-managed pull request unless bot-PR updates are
     separately allowed. Idempotent: enabling an already-enabled repo
     is a no-op, not an error.
@@ -192,8 +192,8 @@ async def asyncio(
     """ Turn on automatic branch updates for one tracked repo
 
      Any of this repo's pull requests the background refresh finds
-    behind its base branch gets updated automatically from then on
-    (#365), the same as clicking "Update branch" would — suppressed
+    behind its base branch gets updated automatically from then on, the same as clicking
+    "Update branch" would — suppressed
     for a bot-managed pull request unless bot-PR updates are
     separately allowed. Idempotent: enabling an already-enabled repo
     is a no-op, not an error.

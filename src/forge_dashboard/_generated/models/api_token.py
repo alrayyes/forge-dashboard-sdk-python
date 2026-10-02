@@ -31,7 +31,7 @@ class APIToken:
             id (str):
             label (str): The name given at creation time, so a list of several is tellable apart.
             created_at (datetime.datetime):
-            expires_at (datetime.datetime): When this token stops authenticating requests (#356) —
+            expires_at (datetime.datetime): When this token stops authenticating requests —
                 always set, mandatory at creation, no "never expires"
                 option. A token whose expiration has passed is rejected the
                 same way an invalid one is.

@@ -73,7 +73,7 @@ def sync_detailed(
      The authenticated counterpart to POST /api/auth/register/begin —
     that one only ever works for a brand-new, credential-less
     account; this is how an already-registered user adds a second
-    (or third...) passkey, e.g. a laptop and a security key (#355).
+    (or third...) passkey, e.g. a laptop and a security key.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -104,7 +104,7 @@ def sync(
      The authenticated counterpart to POST /api/auth/register/begin —
     that one only ever works for a brand-new, credential-less
     account; this is how an already-registered user adds a second
-    (or third...) passkey, e.g. a laptop and a security key (#355).
+    (or third...) passkey, e.g. a laptop and a security key.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -130,7 +130,7 @@ async def asyncio_detailed(
      The authenticated counterpart to POST /api/auth/register/begin —
     that one only ever works for a brand-new, credential-less
     account; this is how an already-registered user adds a second
-    (or third...) passkey, e.g. a laptop and a security key (#355).
+    (or third...) passkey, e.g. a laptop and a security key.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -161,7 +161,7 @@ async def asyncio(
      The authenticated counterpart to POST /api/auth/register/begin —
     that one only ever works for a brand-new, credential-less
     account; this is how an already-registered user adds a second
-    (or third...) passkey, e.g. a laptop and a security key (#355).
+    (or third...) passkey, e.g. a laptop and a security key.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

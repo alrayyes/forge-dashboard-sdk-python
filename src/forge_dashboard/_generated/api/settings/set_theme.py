@@ -86,7 +86,7 @@ def sync_detailed(
 ) -> Response[Error | ThemeResponse]:
     """ Save the signed-in user's own theme preference
 
-     A dedicated, instant save (#352) — deliberately not routed
+     A dedicated, instant save — deliberately not routed
     through the main PUT /api/settings, whose every other field is
     a plain replace rather than a per-field merge: a request
     carrying only theme through that handler would blank every
@@ -126,7 +126,7 @@ def sync(
 ) -> Error | ThemeResponse | None:
     """ Save the signed-in user's own theme preference
 
-     A dedicated, instant save (#352) — deliberately not routed
+     A dedicated, instant save — deliberately not routed
     through the main PUT /api/settings, whose every other field is
     a plain replace rather than a per-field merge: a request
     carrying only theme through that handler would blank every
@@ -161,7 +161,7 @@ async def asyncio_detailed(
 ) -> Response[Error | ThemeResponse]:
     """ Save the signed-in user's own theme preference
 
-     A dedicated, instant save (#352) — deliberately not routed
+     A dedicated, instant save — deliberately not routed
     through the main PUT /api/settings, whose every other field is
     a plain replace rather than a per-field merge: a request
     carrying only theme through that handler would blank every
@@ -201,7 +201,7 @@ async def asyncio(
 ) -> Error | ThemeResponse | None:
     """ Save the signed-in user's own theme preference
 
-     A dedicated, instant save (#352) — deliberately not routed
+     A dedicated, instant save — deliberately not routed
     through the main PUT /api/settings, whose every other field is
     a plain replace rather than a per-field merge: a request
     carrying only theme through that handler would blank every

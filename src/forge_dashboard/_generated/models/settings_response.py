@@ -32,7 +32,7 @@ class SettingsResponse:
             github_username (str): Used as a token-free public-repos fallback when no GitHub token is set.
             github_token_set (bool): Whether a GitHub token is currently saved.
             github_app_installation_id (int): The installation ID of the alrayyes-automation GitHub App
-                this user has connected (#620), or 0 if none. Not a
+                this user has connected, or 0 if none. Not a
                 secret — it's an opaque integer GitHub already shows the
                 user on its own installation settings page — so, unlike
                 githubTokenSet, this round-trips as a plain value. Takes
@@ -59,7 +59,7 @@ class SettingsResponse:
                 per-repo configurable, so this is a user-set override rather
                 than a hardcoded constant). Empty means Renovate's own
                 documented default, `rebase`.
-            theme (SettingsResponseTheme): The signed-in user's own theme preference (#352). Empty
+            theme (SettingsResponseTheme): The signed-in user's own theme preference. Empty
                 means "system" — follow the browser's prefers-color-scheme
                 rather than a saved choice. Set only from Settings; every
                 other page reads it via the lightweight
