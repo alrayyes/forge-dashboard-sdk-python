@@ -69,6 +69,16 @@ class PullRequest:
                 Omitted when the owning forge has no way to report this at all
                 (Forgejo, today) — never false in that case, since this service
                 genuinely doesn't know.
+            auto_merge_allowed (bool | Unset): Whether GitHub will accept an "Enable auto-merge" request for
+                this pull request from the signed-in viewer, read from the
+                GraphQL `PullRequest.viewerCanEnableAutoMerge` field. GitHub
+                decides this per viewer and per pull request: auto-merge needs
+                something on the base branch to wait for (required checks or
+                reviews from a branch protection rule or ruleset), so a stacked
+                pull request on an unprotected base reports false even when the
+                repository allows auto-merge. Omitted when unknown (the
+                unauthenticated REST fallback, and Forgejo), never false in
+                that case, so clients keep today's behaviour.
             review (ReviewState | Unset): Where a pull request stands on code review. The whole object is
                 omitted when the owning forge couldn't report it (a Forgejo
                 reviews call that failed, a draft Forgejo pull request this
@@ -98,6 +108,7 @@ class PullRequest:
     behind: bool
     empty: bool
     auto_merge_enabled: bool | Unset = UNSET
+    auto_merge_allowed: bool | Unset = UNSET
     review: ReviewState | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -143,6 +154,8 @@ class PullRequest:
 
         auto_merge_enabled = self.auto_merge_enabled
 
+        auto_merge_allowed = self.auto_merge_allowed
+
         review: dict[str, Any] | Unset = UNSET
         if not isinstance(self.review, Unset):
             review = self.review.to_dict()
@@ -168,6 +181,8 @@ class PullRequest:
         })
         if auto_merge_enabled is not UNSET:
             field_dict["autoMergeEnabled"] = auto_merge_enabled
+        if auto_merge_allowed is not UNSET:
+            field_dict["autoMergeAllowed"] = auto_merge_allowed
         if review is not UNSET:
             field_dict["review"] = review
 
@@ -233,6 +248,8 @@ class PullRequest:
 
         auto_merge_enabled = d.pop("autoMergeEnabled", UNSET)
 
+        auto_merge_allowed = d.pop("autoMergeAllowed", UNSET)
+
         _review = d.pop("review", UNSET)
         review: ReviewState | Unset
         if isinstance(_review,  Unset):
@@ -259,6 +276,7 @@ class PullRequest:
             behind=behind,
             empty=empty,
             auto_merge_enabled=auto_merge_enabled,
+            auto_merge_allowed=auto_merge_allowed,
             review=review,
         )
 
