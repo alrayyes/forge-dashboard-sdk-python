@@ -9,6 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..models.check_state import CheckState
+from ..types import UNSET, Unset
 
 
 
@@ -29,11 +30,17 @@ class Check:
                 deliberately doesn't carry, since CIStatus is the combined result
                 across every one of them.
             url (str): That job's own page on the forge that ran it — never the pull request's own page.
+            required (bool | Unset): Whether the base branch's protection makes this check block the
+                merge (GitHub required status checks and rulesets, Forgejo
+                `status_check_contexts`). Absent when the forge can't tell — a
+                token that can't read protection, or a check that can't be
+                mapped to a protection entry. Absent is not the same as false.
      """
 
     name: str
     state: CheckState
     url: str
+    required: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -47,6 +54,8 @@ class Check:
 
         url = self.url
 
+        required = self.required
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -55,6 +64,8 @@ class Check:
             "state": state,
             "url": url,
         })
+        if required is not UNSET:
+            field_dict["required"] = required
 
         return field_dict
 
@@ -72,10 +83,13 @@ class Check:
 
         url = d.pop("url")
 
+        required = d.pop("required", UNSET)
+
         check = cls(
             name=name,
             state=state,
             url=url,
+            required=required,
         )
 
 
