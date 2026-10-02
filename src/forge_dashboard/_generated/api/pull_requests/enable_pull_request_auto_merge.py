@@ -8,6 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.action_error import ActionError
 from ...models.error import Error
 from ...models.pull_request_action_request import PullRequestActionRequest
 from typing import cast
@@ -40,7 +41,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> ActionError | Any | Error | None:
     if response.status_code == 204:
         response_204 = cast(Any, None)
         return response_204
@@ -60,28 +61,28 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return response_401
 
     if response.status_code == 403:
-        response_403 = Error.from_dict(response.json())
+        response_403 = ActionError.from_dict(response.json())
 
 
 
         return response_403
 
     if response.status_code == 404:
-        response_404 = Error.from_dict(response.json())
+        response_404 = ActionError.from_dict(response.json())
 
 
 
         return response_404
 
     if response.status_code == 429:
-        response_429 = Error.from_dict(response.json())
+        response_429 = ActionError.from_dict(response.json())
 
 
 
         return response_429
 
     if response.status_code == 502:
-        response_502 = Error.from_dict(response.json())
+        response_502 = ActionError.from_dict(response.json())
 
 
 
@@ -93,7 +94,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[ActionError | Any | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -107,7 +108,7 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: PullRequestActionRequest,
 
-) -> Response[Any | Error]:
+) -> Response[ActionError | Any | Error]:
     """ Arm a pull request's own native auto-merge, on the signed-in user's behalf
 
      GitHub only, today. Enables the named pull request's own
@@ -120,6 +121,16 @@ def sync_detailed(
     here either. The pull request stays open and unmerged until the
     forge's own required checks pass on their own.
 
+    When the forge refuses, the server re-reads the pull request and
+    answers an `ActionError` (see Merge): `already_merged` or
+    `already_closed` when the row was stale, otherwise a `code` and a
+    plain-words `message` safe to show a person.
+    `auto_merge_not_allowed` means the repo doesn't allow auto-merge
+    (or not for this pull request); `ready_to_merge` means it is
+    already clean, so there is nothing to wait for and Merge is the
+    action; `checks_pending` means a non-required check is still
+    running, so trying again later can work.
+
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
 
@@ -128,7 +139,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[ActionError | Any | Error]
      """
 
 
@@ -148,7 +159,7 @@ def sync(
     client: AuthenticatedClient,
     body: PullRequestActionRequest,
 
-) -> Any | Error | None:
+) -> ActionError | Any | Error | None:
     """ Arm a pull request's own native auto-merge, on the signed-in user's behalf
 
      GitHub only, today. Enables the named pull request's own
@@ -161,6 +172,16 @@ def sync(
     here either. The pull request stays open and unmerged until the
     forge's own required checks pass on their own.
 
+    When the forge refuses, the server re-reads the pull request and
+    answers an `ActionError` (see Merge): `already_merged` or
+    `already_closed` when the row was stale, otherwise a `code` and a
+    plain-words `message` safe to show a person.
+    `auto_merge_not_allowed` means the repo doesn't allow auto-merge
+    (or not for this pull request); `ready_to_merge` means it is
+    already clean, so there is nothing to wait for and Merge is the
+    action; `checks_pending` means a non-required check is still
+    running, so trying again later can work.
+
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
 
@@ -169,7 +190,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        ActionError | Any | Error
      """
 
 
@@ -184,7 +205,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: PullRequestActionRequest,
 
-) -> Response[Any | Error]:
+) -> Response[ActionError | Any | Error]:
     """ Arm a pull request's own native auto-merge, on the signed-in user's behalf
 
      GitHub only, today. Enables the named pull request's own
@@ -197,6 +218,16 @@ async def asyncio_detailed(
     here either. The pull request stays open and unmerged until the
     forge's own required checks pass on their own.
 
+    When the forge refuses, the server re-reads the pull request and
+    answers an `ActionError` (see Merge): `already_merged` or
+    `already_closed` when the row was stale, otherwise a `code` and a
+    plain-words `message` safe to show a person.
+    `auto_merge_not_allowed` means the repo doesn't allow auto-merge
+    (or not for this pull request); `ready_to_merge` means it is
+    already clean, so there is nothing to wait for and Merge is the
+    action; `checks_pending` means a non-required check is still
+    running, so trying again later can work.
+
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
 
@@ -205,7 +236,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[ActionError | Any | Error]
      """
 
 
@@ -225,7 +256,7 @@ async def asyncio(
     client: AuthenticatedClient,
     body: PullRequestActionRequest,
 
-) -> Any | Error | None:
+) -> ActionError | Any | Error | None:
     """ Arm a pull request's own native auto-merge, on the signed-in user's behalf
 
      GitHub only, today. Enables the named pull request's own
@@ -238,6 +269,16 @@ async def asyncio(
     here either. The pull request stays open and unmerged until the
     forge's own required checks pass on their own.
 
+    When the forge refuses, the server re-reads the pull request and
+    answers an `ActionError` (see Merge): `already_merged` or
+    `already_closed` when the row was stale, otherwise a `code` and a
+    plain-words `message` safe to show a person.
+    `auto_merge_not_allowed` means the repo doesn't allow auto-merge
+    (or not for this pull request); `ready_to_merge` means it is
+    already clean, so there is nothing to wait for and Merge is the
+    action; `checks_pending` means a non-required check is still
+    running, so trying again later can work.
+
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
 
@@ -246,7 +287,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        ActionError | Any | Error
      """
 
 
