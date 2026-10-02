@@ -61,9 +61,10 @@ class RepoStatus:
                 Dependabot pull request gets its own rebase comment instead,
                 and a Renovate one its own rebase label, mirroring their
                 manual action buttons. A release-please pull request is
-                always skipped: it regenerates its own branch and changelog
-                on every push to the base branch, and has no dedicated
-                rebase/label action the way Dependabot and Renovate do.
+                always skipped by this background pass, so no unattended write
+                lands on a release branch. The dashboard's manual "Update
+                branch" button is still offered on it, since release-please
+                has no rebase action of its own.
      """
 
     forge: Forge

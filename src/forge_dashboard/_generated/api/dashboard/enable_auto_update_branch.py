@@ -84,9 +84,9 @@ def sync_detailed(
 
      Any of this repo's pull requests the background refresh finds
     behind its base branch gets updated automatically from then on, the same as clicking
-    "Update branch" would — suppressed
-    for a bot-managed pull request unless bot-PR updates are
-    separately allowed. Idempotent: enabling an already-enabled repo
+    "Update branch" would, except that a Dependabot pull request gets
+    its rebase comment and a Renovate one its rebase label instead, and
+    a release-please pull request is skipped. Idempotent: enabling an already-enabled repo
     is a no-op, not an error.
 
     Args:
@@ -122,9 +122,9 @@ def sync(
 
      Any of this repo's pull requests the background refresh finds
     behind its base branch gets updated automatically from then on, the same as clicking
-    "Update branch" would — suppressed
-    for a bot-managed pull request unless bot-PR updates are
-    separately allowed. Idempotent: enabling an already-enabled repo
+    "Update branch" would, except that a Dependabot pull request gets
+    its rebase comment and a Renovate one its rebase label instead, and
+    a release-please pull request is skipped. Idempotent: enabling an already-enabled repo
     is a no-op, not an error.
 
     Args:
@@ -155,9 +155,9 @@ async def asyncio_detailed(
 
      Any of this repo's pull requests the background refresh finds
     behind its base branch gets updated automatically from then on, the same as clicking
-    "Update branch" would — suppressed
-    for a bot-managed pull request unless bot-PR updates are
-    separately allowed. Idempotent: enabling an already-enabled repo
+    "Update branch" would, except that a Dependabot pull request gets
+    its rebase comment and a Renovate one its rebase label instead, and
+    a release-please pull request is skipped. Idempotent: enabling an already-enabled repo
     is a no-op, not an error.
 
     Args:
@@ -193,9 +193,9 @@ async def asyncio(
 
      Any of this repo's pull requests the background refresh finds
     behind its base branch gets updated automatically from then on, the same as clicking
-    "Update branch" would — suppressed
-    for a bot-managed pull request unless bot-PR updates are
-    separately allowed. Idempotent: enabling an already-enabled repo
+    "Update branch" would, except that a Dependabot pull request gets
+    its rebase comment and a Renovate one its rebase label instead, and
+    a release-please pull request is skipped. Idempotent: enabling an already-enabled repo
     is a no-op, not an error.
 
     Args:
