@@ -17,6 +17,7 @@ import datetime
 
 if TYPE_CHECKING:
   from ..models.label import Label
+  from ..models.review_state import ReviewState
 
 
 
@@ -68,6 +69,18 @@ class PullRequest:
                 Omitted when the owning forge has no way to report this at all
                 (Forgejo, today) — never false in that case, since this service
                 genuinely doesn't know.
+            review (ReviewState | Unset): Where a pull request stands on code review. The whole object is
+                omitted when the owning forge couldn't report it (a Forgejo
+                reviews call that failed, a draft Forgejo pull request this
+                service doesn't spend a call on), so a missing "review" means
+                "unknown" and never "nobody reviewed it."
+
+                GitHub: read from fields on the existing GraphQL query
+                (reviewDecision, reviewRequests, latestReviews), so it adds no
+                per-pull-request requests. Forgejo: requestedReviewers comes free
+                on the pull request list, but approvals and the decision need one
+                reviews call per open, non-draft pull request, cached until that
+                pull request's updatedAt changes.
      """
 
     forge: Forge
@@ -85,6 +98,7 @@ class PullRequest:
     behind: bool
     empty: bool
     auto_merge_enabled: bool | Unset = UNSET
+    review: ReviewState | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -93,6 +107,7 @@ class PullRequest:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.label import Label # noqa: PLC0415
+        from ..models.review_state import ReviewState # noqa: PLC0415
         forge = self.forge.value
 
         repo = self.repo
@@ -128,6 +143,10 @@ class PullRequest:
 
         auto_merge_enabled = self.auto_merge_enabled
 
+        review: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.review, Unset):
+            review = self.review.to_dict()
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -149,6 +168,8 @@ class PullRequest:
         })
         if auto_merge_enabled is not UNSET:
             field_dict["autoMergeEnabled"] = auto_merge_enabled
+        if review is not UNSET:
+            field_dict["review"] = review
 
         return field_dict
 
@@ -157,6 +178,7 @@ class PullRequest:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.label import Label # noqa: PLC0415
+        from ..models.review_state import ReviewState # noqa: PLC0415
         d = dict(src_dict)
         forge = Forge(d.pop("forge"))
 
@@ -211,6 +233,16 @@ class PullRequest:
 
         auto_merge_enabled = d.pop("autoMergeEnabled", UNSET)
 
+        _review = d.pop("review", UNSET)
+        review: ReviewState | Unset
+        if isinstance(_review,  Unset):
+            review = UNSET
+        else:
+            review = ReviewState.from_dict(_review)
+
+
+
+
         pull_request = cls(
             forge=forge,
             repo=repo,
@@ -227,6 +259,7 @@ class PullRequest:
             behind=behind,
             empty=empty,
             auto_merge_enabled=auto_merge_enabled,
+            review=review,
         )
 
 

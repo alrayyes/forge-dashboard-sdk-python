@@ -35,6 +35,8 @@ from .registration_status import RegistrationStatus
 from .repo_ignore_request import RepoIgnoreRequest
 from .repo_status import RepoStatus
 from .request_log_entry import RequestLogEntry
+from .review_state import ReviewState
+from .review_state_decision import ReviewStateDecision
 from .session_user import SessionUser
 from .settings_request import SettingsRequest
 from .settings_response import SettingsResponse
@@ -85,6 +87,8 @@ __all__ = (
     "RepoIgnoreRequest",
     "RepoStatus",
     "RequestLogEntry",
+    "ReviewState",
+    "ReviewStateDecision",
     "SessionUser",
     "SettingsRequest",
     "SettingsResponse",
