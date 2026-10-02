@@ -8,6 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.action_error import ActionError
 from ...models.error import Error
 from ...models.pull_request_action_request import PullRequestActionRequest
 from typing import cast
@@ -40,7 +41,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> ActionError | Any | Error | None:
     if response.status_code == 204:
         response_204 = cast(Any, None)
         return response_204
@@ -60,35 +61,35 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return response_401
 
     if response.status_code == 403:
-        response_403 = Error.from_dict(response.json())
+        response_403 = ActionError.from_dict(response.json())
 
 
 
         return response_403
 
     if response.status_code == 404:
-        response_404 = Error.from_dict(response.json())
+        response_404 = ActionError.from_dict(response.json())
 
 
 
         return response_404
 
     if response.status_code == 409:
-        response_409 = Error.from_dict(response.json())
+        response_409 = ActionError.from_dict(response.json())
 
 
 
         return response_409
 
     if response.status_code == 429:
-        response_429 = Error.from_dict(response.json())
+        response_429 = ActionError.from_dict(response.json())
 
 
 
         return response_429
 
     if response.status_code == 502:
-        response_502 = Error.from_dict(response.json())
+        response_502 = ActionError.from_dict(response.json())
 
 
 
@@ -100,7 +101,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[ActionError | Any | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -114,7 +115,7 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: PullRequestActionRequest,
 
-) -> Response[Any | Error]:
+) -> Response[ActionError | Any | Error]:
     """ Merge one pull request, on the signed-in user's behalf
 
      Merges the named pull request using its repo's own configured
@@ -124,6 +125,14 @@ def sync_detailed(
     passes that explicitly. Neither takes a method override here;
     picking one is out of scope for this endpoint.
 
+    When the forge refuses the merge, the server re-reads the pull
+    request's real current state and answers an `ActionError`: a `code`
+    from a fixed set plus a short `message` safe to show a person, so
+    every client gets the same reason without parsing forge text. A
+    pull request that is already merged or closed answers
+    `already_merged` / `already_closed`. If the re-read itself fails,
+    the original forge error is returned with `code: unknown`.
+
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
 
@@ -132,7 +141,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[ActionError | Any | Error]
      """
 
 
@@ -152,7 +161,7 @@ def sync(
     client: AuthenticatedClient,
     body: PullRequestActionRequest,
 
-) -> Any | Error | None:
+) -> ActionError | Any | Error | None:
     """ Merge one pull request, on the signed-in user's behalf
 
      Merges the named pull request using its repo's own configured
@@ -162,6 +171,14 @@ def sync(
     passes that explicitly. Neither takes a method override here;
     picking one is out of scope for this endpoint.
 
+    When the forge refuses the merge, the server re-reads the pull
+    request's real current state and answers an `ActionError`: a `code`
+    from a fixed set plus a short `message` safe to show a person, so
+    every client gets the same reason without parsing forge text. A
+    pull request that is already merged or closed answers
+    `already_merged` / `already_closed`. If the re-read itself fails,
+    the original forge error is returned with `code: unknown`.
+
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
 
@@ -170,7 +187,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        ActionError | Any | Error
      """
 
 
@@ -185,7 +202,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: PullRequestActionRequest,
 
-) -> Response[Any | Error]:
+) -> Response[ActionError | Any | Error]:
     """ Merge one pull request, on the signed-in user's behalf
 
      Merges the named pull request using its repo's own configured
@@ -195,6 +212,14 @@ async def asyncio_detailed(
     passes that explicitly. Neither takes a method override here;
     picking one is out of scope for this endpoint.
 
+    When the forge refuses the merge, the server re-reads the pull
+    request's real current state and answers an `ActionError`: a `code`
+    from a fixed set plus a short `message` safe to show a person, so
+    every client gets the same reason without parsing forge text. A
+    pull request that is already merged or closed answers
+    `already_merged` / `already_closed`. If the re-read itself fails,
+    the original forge error is returned with `code: unknown`.
+
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
 
@@ -203,7 +228,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[ActionError | Any | Error]
      """
 
 
@@ -223,7 +248,7 @@ async def asyncio(
     client: AuthenticatedClient,
     body: PullRequestActionRequest,
 
-) -> Any | Error | None:
+) -> ActionError | Any | Error | None:
     """ Merge one pull request, on the signed-in user's behalf
 
      Merges the named pull request using its repo's own configured
@@ -233,6 +258,14 @@ async def asyncio(
     passes that explicitly. Neither takes a method override here;
     picking one is out of scope for this endpoint.
 
+    When the forge refuses the merge, the server re-reads the pull
+    request's real current state and answers an `ActionError`: a `code`
+    from a fixed set plus a short `message` safe to show a person, so
+    every client gets the same reason without parsing forge text. A
+    pull request that is already merged or closed answers
+    `already_merged` / `already_closed`. If the re-read itself fails,
+    the original forge error is returned with `code: unknown`.
+
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
 
@@ -241,7 +274,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        ActionError | Any | Error
      """
 
 

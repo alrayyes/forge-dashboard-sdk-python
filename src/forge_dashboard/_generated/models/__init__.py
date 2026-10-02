@@ -1,5 +1,7 @@
 """ Contains all the data models used in inputs/outputs """
 
+from .action_error import ActionError
+from .action_error_code import ActionErrorCode
 from .admin_invite import AdminInvite
 from .admin_invite_create_request import AdminInviteCreateRequest
 from .admin_invite_create_response import AdminInviteCreateResponse
@@ -52,6 +54,8 @@ from .web_authn_ceremony_options import WebAuthnCeremonyOptions
 from .webhook_ensure_request import WebhookEnsureRequest
 
 __all__ = (
+    "ActionError",
+    "ActionErrorCode",
     "AdminInvite",
     "AdminInviteCreateRequest",
     "AdminInviteCreateResponse",
