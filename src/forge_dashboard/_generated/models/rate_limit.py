@@ -30,9 +30,9 @@ class RateLimit:
             limit (int): Requests allowed per window.
             remaining (int): Requests left in the current window.
             resets_at (datetime.datetime): When the window resets and remaining goes back to limit.
-            cost (int | Unset): The point price the most recent call was actually charged (#440) — GraphQL-specific, since a
-                REST request has no separate cost concept beyond the flat one-request-one-point REST's own budget already
-                counts. Omitted for a REST-sourced RateLimit.
+            cost (int | Unset): The point price the most recent call was actually charged — GraphQL-specific, since a REST
+                request has no separate cost concept beyond the flat one-request-one-point REST's own budget already counts.
+                Omitted for a REST-sourced RateLimit.
      """
 
     limit: int

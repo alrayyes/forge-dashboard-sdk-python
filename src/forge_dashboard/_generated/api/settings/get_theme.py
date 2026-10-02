@@ -71,7 +71,7 @@ def sync_detailed(
     """ The signed-in user's own saved theme preference
 
      A lightweight, side-effect-free read of one field — theme — for
-    every page to check on load (#352). Deliberately not
+    every page to check on load. Deliberately not
     GET /api/settings itself: that handler also provisions webhook
     credentials on first call (EnsureWebhookCredentials), which
     every page loading shouldn't trigger for a user who's never
@@ -104,7 +104,7 @@ def sync(
     """ The signed-in user's own saved theme preference
 
      A lightweight, side-effect-free read of one field — theme — for
-    every page to check on load (#352). Deliberately not
+    every page to check on load. Deliberately not
     GET /api/settings itself: that handler also provisions webhook
     credentials on first call (EnsureWebhookCredentials), which
     every page loading shouldn't trigger for a user who's never
@@ -132,7 +132,7 @@ async def asyncio_detailed(
     """ The signed-in user's own saved theme preference
 
      A lightweight, side-effect-free read of one field — theme — for
-    every page to check on load (#352). Deliberately not
+    every page to check on load. Deliberately not
     GET /api/settings itself: that handler also provisions webhook
     credentials on first call (EnsureWebhookCredentials), which
     every page loading shouldn't trigger for a user who's never
@@ -165,7 +165,7 @@ async def asyncio(
     """ The signed-in user's own saved theme preference
 
      A lightweight, side-effect-free read of one field — theme — for
-    every page to check on load (#352). Deliberately not
+    every page to check on load. Deliberately not
     GET /api/settings itself: that handler also provisions webhook
     credentials on first call (EnsureWebhookCredentials), which
     every page loading shouldn't trigger for a user who's never

@@ -22,7 +22,7 @@ T = TypeVar("T", bound="Credential")
 
 @_attrs_define
 class Credential:
-    """ A registered passkey's own metadata (#355) — never the
+    """ A registered passkey's own metadata — never the
     credential itself, which never leaves the authenticator that
     created it; WebAuthn's whole design is that the server only ever
     sees a public key and signed assertions, not a secret to lose.

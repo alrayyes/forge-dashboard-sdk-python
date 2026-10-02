@@ -82,18 +82,18 @@ def sync_detailed(
 ) -> Response[Any | Error]:
     """ Hide one tracked repo's pull requests, issues, or both from the dashboard and Insights
 
-     Reversible, not destructive (#363): the repo itself keeps
+     Reversible, not destructive: the repo itself keeps
     appearing in GET /api/dashboard's `repos` array with accurate
     webhook-coverage status, and keeps being fetched and counted —
     only the pullRequests and/or issues entries the request scopes
-    (#511) stop appearing there and on Insights. A repeat call
+    stop appearing there and on Insights. A repeat call
     replaces the previously saved scope rather than merging with it
     (ignoring PRs only, then issues only, ends with only issues
     ignored) — idempotent for an identical repeat, not additive
     across different scopes.
 
     Args:
-        body (RepoIgnoreRequest): Which repo to ignore, and in which scope(s) (#511). At least one
+        body (RepoIgnoreRequest): Which repo to ignore, and in which scope(s). At least one
             of prs/issues must be true — a request with both false is
             rejected with 400 rather than silently doing nothing; use POST
             /api/repos/unignore to clear both at once instead.
@@ -126,18 +126,18 @@ def sync(
 ) -> Any | Error | None:
     """ Hide one tracked repo's pull requests, issues, or both from the dashboard and Insights
 
-     Reversible, not destructive (#363): the repo itself keeps
+     Reversible, not destructive: the repo itself keeps
     appearing in GET /api/dashboard's `repos` array with accurate
     webhook-coverage status, and keeps being fetched and counted —
     only the pullRequests and/or issues entries the request scopes
-    (#511) stop appearing there and on Insights. A repeat call
+    stop appearing there and on Insights. A repeat call
     replaces the previously saved scope rather than merging with it
     (ignoring PRs only, then issues only, ends with only issues
     ignored) — idempotent for an identical repeat, not additive
     across different scopes.
 
     Args:
-        body (RepoIgnoreRequest): Which repo to ignore, and in which scope(s) (#511). At least one
+        body (RepoIgnoreRequest): Which repo to ignore, and in which scope(s). At least one
             of prs/issues must be true — a request with both false is
             rejected with 400 rather than silently doing nothing; use POST
             /api/repos/unignore to clear both at once instead.
@@ -165,18 +165,18 @@ async def asyncio_detailed(
 ) -> Response[Any | Error]:
     """ Hide one tracked repo's pull requests, issues, or both from the dashboard and Insights
 
-     Reversible, not destructive (#363): the repo itself keeps
+     Reversible, not destructive: the repo itself keeps
     appearing in GET /api/dashboard's `repos` array with accurate
     webhook-coverage status, and keeps being fetched and counted —
     only the pullRequests and/or issues entries the request scopes
-    (#511) stop appearing there and on Insights. A repeat call
+    stop appearing there and on Insights. A repeat call
     replaces the previously saved scope rather than merging with it
     (ignoring PRs only, then issues only, ends with only issues
     ignored) — idempotent for an identical repeat, not additive
     across different scopes.
 
     Args:
-        body (RepoIgnoreRequest): Which repo to ignore, and in which scope(s) (#511). At least one
+        body (RepoIgnoreRequest): Which repo to ignore, and in which scope(s). At least one
             of prs/issues must be true — a request with both false is
             rejected with 400 rather than silently doing nothing; use POST
             /api/repos/unignore to clear both at once instead.
@@ -209,18 +209,18 @@ async def asyncio(
 ) -> Any | Error | None:
     """ Hide one tracked repo's pull requests, issues, or both from the dashboard and Insights
 
-     Reversible, not destructive (#363): the repo itself keeps
+     Reversible, not destructive: the repo itself keeps
     appearing in GET /api/dashboard's `repos` array with accurate
     webhook-coverage status, and keeps being fetched and counted —
     only the pullRequests and/or issues entries the request scopes
-    (#511) stop appearing there and on Insights. A repeat call
+    stop appearing there and on Insights. A repeat call
     replaces the previously saved scope rather than merging with it
     (ignoring PRs only, then issues only, ends with only issues
     ignored) — idempotent for an identical repeat, not additive
     across different scopes.
 
     Args:
-        body (RepoIgnoreRequest): Which repo to ignore, and in which scope(s) (#511). At least one
+        body (RepoIgnoreRequest): Which repo to ignore, and in which scope(s). At least one
             of prs/issues must be true — a request with both false is
             rejected with 400 rather than silently doing nothing; use POST
             /api/repos/unignore to clear both at once instead.

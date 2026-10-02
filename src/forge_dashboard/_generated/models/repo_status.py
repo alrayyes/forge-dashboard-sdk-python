@@ -30,14 +30,14 @@ class RepoStatus:
             full_name (str):
             url (str): The repo's own page on its forge, for linking out.
             ignored (bool): Whether the signed-in user has ignored this repo in either
-                scope below (#363, #511) — true whenever ignoredPRs or
+                scope below — true whenever ignoredPRs or
                 ignoredIssues is true. The repo itself still appears here
                 with accurate hasWebhook/canManageWebhooks regardless.
             ignored_p_rs (bool): Whether the signed-in user has ignored this repo's pull
-                requests specifically (#511) — its pullRequests entries are
+                requests specifically — its pullRequests entries are
                 excluded from this same response and from Insights.
             ignored_issues (bool): Whether the signed-in user has ignored this repo's issues
-                specifically (#511) — its issues entries are excluded from
+                specifically — its issues entries are excluded from
                 this same response and from Insights.
             has_webhook (bool): Whether this app has ever recorded a signature-verified
                 webhook delivery for this repo. Passive: it reflects a real
@@ -55,7 +55,7 @@ class RepoStatus:
                 refresh can still make a following ensure-webhook call fail
                 despite this having said true.
             auto_update_branch (bool): Whether the signed-in user has turned on automatic branch
-                updates for this repo (#365) — any of its pull requests the
+                updates for this repo — any of its pull requests the
                 background refresh finds behind its base branch gets updated
                 the same way a manual "Update branch" click would. A
                 Dependabot pull request gets its own rebase comment instead,

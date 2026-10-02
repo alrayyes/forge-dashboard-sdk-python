@@ -75,7 +75,7 @@ def sync_detailed(
 ) -> Response[Error | list[Credential]]:
     """ List the signed-in user's own passkeys
 
-     Every passkey on the account (#355), oldest first — not just the
+     Every passkey on the account, oldest first — not just the
     one used to establish the current session.
 
     Raises:
@@ -104,7 +104,7 @@ def sync(
 ) -> Error | list[Credential] | None:
     """ List the signed-in user's own passkeys
 
-     Every passkey on the account (#355), oldest first — not just the
+     Every passkey on the account, oldest first — not just the
     one used to establish the current session.
 
     Raises:
@@ -128,7 +128,7 @@ async def asyncio_detailed(
 ) -> Response[Error | list[Credential]]:
     """ List the signed-in user's own passkeys
 
-     Every passkey on the account (#355), oldest first — not just the
+     Every passkey on the account, oldest first — not just the
     one used to establish the current session.
 
     Raises:
@@ -157,7 +157,7 @@ async def asyncio(
 ) -> Error | list[Credential] | None:
     """ List the signed-in user's own passkeys
 
-     Every passkey on the account (#355), oldest first — not just the
+     Every passkey on the account, oldest first — not just the
     one used to establish the current session.
 
     Raises:

@@ -70,7 +70,7 @@ def sync_detailed(
 ) -> Response[Error | FilterState]:
     """ The signed-in user's own saved dashboard/Insights filter state
 
-     A lightweight read of one opaque blob (#353), deliberately not
+     A lightweight read of one opaque blob, deliberately not
     GET /api/settings itself for the same reason GET /api/settings/theme
     isn't either: this loads on every dashboard/Insights visit and
     shouldn't provision webhook credentials as a side effect.
@@ -102,7 +102,7 @@ def sync(
 ) -> Error | FilterState | None:
     """ The signed-in user's own saved dashboard/Insights filter state
 
-     A lightweight read of one opaque blob (#353), deliberately not
+     A lightweight read of one opaque blob, deliberately not
     GET /api/settings itself for the same reason GET /api/settings/theme
     isn't either: this loads on every dashboard/Insights visit and
     shouldn't provision webhook credentials as a side effect.
@@ -129,7 +129,7 @@ async def asyncio_detailed(
 ) -> Response[Error | FilterState]:
     """ The signed-in user's own saved dashboard/Insights filter state
 
-     A lightweight read of one opaque blob (#353), deliberately not
+     A lightweight read of one opaque blob, deliberately not
     GET /api/settings itself for the same reason GET /api/settings/theme
     isn't either: this loads on every dashboard/Insights visit and
     shouldn't provision webhook credentials as a side effect.
@@ -161,7 +161,7 @@ async def asyncio(
 ) -> Error | FilterState | None:
     """ The signed-in user's own saved dashboard/Insights filter state
 
-     A lightweight read of one opaque blob (#353), deliberately not
+     A lightweight read of one opaque blob, deliberately not
     GET /api/settings itself for the same reason GET /api/settings/theme
     isn't either: this loads on every dashboard/Insights visit and
     shouldn't provision webhook credentials as a side effect.

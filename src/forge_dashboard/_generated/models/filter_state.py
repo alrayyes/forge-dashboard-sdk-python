@@ -20,7 +20,7 @@ T = TypeVar("T", bound="FilterState")
 
 @_attrs_define
 class FilterState:
-    """ The dashboard/Insights filter bar's own saved shape (#353) —
+    """ The dashboard/Insights filter bar's own saved shape —
     whatever `filters.js`'s `loadState`/`saveState` already produce
     client-side (shared forge/repo/label/author/title/created/
     updated/groupBy, plus the two board-owned extras with no

@@ -75,7 +75,7 @@ def sync_detailed(
 ) -> Response[Any | Error]:
     """ Remove one of the signed-in user's own passkeys
 
-     Refused on the account's last remaining passkey (#355) — this
+     Refused on the account's last remaining passkey — this
     app is WebAuthn-only with no password fallback, so deleting it
     would lock the account out entirely.
 
@@ -110,7 +110,7 @@ def sync(
 ) -> Any | Error | None:
     """ Remove one of the signed-in user's own passkeys
 
-     Refused on the account's last remaining passkey (#355) — this
+     Refused on the account's last remaining passkey — this
     app is WebAuthn-only with no password fallback, so deleting it
     would lock the account out entirely.
 
@@ -140,7 +140,7 @@ async def asyncio_detailed(
 ) -> Response[Any | Error]:
     """ Remove one of the signed-in user's own passkeys
 
-     Refused on the account's last remaining passkey (#355) — this
+     Refused on the account's last remaining passkey — this
     app is WebAuthn-only with no password fallback, so deleting it
     would lock the account out entirely.
 
@@ -175,7 +175,7 @@ async def asyncio(
 ) -> Any | Error | None:
     """ Remove one of the signed-in user's own passkeys
 
-     Refused on the account's last remaining passkey (#355) — this
+     Refused on the account's last remaining passkey — this
     app is WebAuthn-only with no password fallback, so deleting it
     would lock the account out entirely.
 
