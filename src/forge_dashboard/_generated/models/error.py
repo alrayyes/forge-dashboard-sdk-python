@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
 
 
 
@@ -23,9 +24,13 @@ class Error:
     """ 
         Attributes:
             error (str):
+            field (str | Unset): Present when the rejection is about one field of the request
+                body (a settings save, for instance), named as it appears there,
+                so a client can mark that input without parsing `error`.
      """
 
     error: str
+    field: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -35,12 +40,16 @@ class Error:
     def to_dict(self) -> dict[str, Any]:
         error = self.error
 
+        field = self.field
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
             "error": error,
         })
+        if field is not UNSET:
+            field_dict["field"] = field
 
         return field_dict
 
@@ -51,8 +60,11 @@ class Error:
         d = dict(src_dict)
         error = d.pop("error")
 
+        field = d.pop("field", UNSET)
+
         error = cls(
             error=error,
+            field=field,
         )
 
 
