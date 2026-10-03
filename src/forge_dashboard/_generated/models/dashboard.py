@@ -30,6 +30,11 @@ class Dashboard:
     """ 
         Attributes:
             generated_at (datetime.datetime): When this snapshot was refreshed, not when it was requested.
+            hidden_drafts (int): How many draft pull requests `pullRequests` leaves out. Always
+                present, and `0` when the request set `includeDrafts=true`, so
+                a client can render "N hidden" without a special case. Drafts
+                in a repo the account ignores aren't counted, since none of
+                that repo's pull requests show.
             forges (list[ForgeHealth]):
             pull_requests (list[PullRequest]):
             issues (list[Issue]):
@@ -37,6 +42,7 @@ class Dashboard:
      """
 
     generated_at: datetime.datetime
+    hidden_drafts: int
     forges: list[ForgeHealth]
     pull_requests: list[PullRequest]
     issues: list[Issue]
@@ -53,6 +59,8 @@ class Dashboard:
         from ..models.pull_request import PullRequest # noqa: PLC0415
         from ..models.repo_status import RepoStatus # noqa: PLC0415
         generated_at = self.generated_at.isoformat()
+
+        hidden_drafts = self.hidden_drafts
 
         forges = []
         for forges_item_data in self.forges:
@@ -87,6 +95,7 @@ class Dashboard:
         field_dict.update(self.additional_properties)
         field_dict.update({
             "generatedAt": generated_at,
+            "hiddenDrafts": hidden_drafts,
             "forges": forges,
             "pullRequests": pull_requests,
             "issues": issues,
@@ -108,6 +117,8 @@ class Dashboard:
 
 
 
+
+        hidden_drafts = d.pop("hiddenDrafts")
 
         forges = []
         _forges = d.pop("forges")
@@ -151,6 +162,7 @@ class Dashboard:
 
         dashboard = cls(
             generated_at=generated_at,
+            hidden_drafts=hidden_drafts,
             forges=forges,
             pull_requests=pull_requests,
             issues=issues,

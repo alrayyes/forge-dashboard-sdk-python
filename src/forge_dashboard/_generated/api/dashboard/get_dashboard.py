@@ -18,6 +18,7 @@ from typing import cast
 def _get_kwargs(
     *,
     owner: str | Unset = UNSET,
+    include_drafts: bool | Unset = False,
 
 ) -> dict[str, Any]:
     
@@ -27,6 +28,8 @@ def _get_kwargs(
     params: dict[str, Any] = {}
 
     params["owner"] = owner
+
+    params["includeDrafts"] = include_drafts
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -91,6 +94,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     owner: str | Unset = UNSET,
+    include_drafts: bool | Unset = False,
 
 ) -> Response[Dashboard | Error]:
     """ The aggregated view
@@ -105,8 +109,14 @@ def sync_detailed(
     shared it with the caller (or the caller is viewing their own
     username), and refused with a 403 otherwise.
 
+    Draft pull requests are left out unless `includeDrafts=true`. With
+    `owner`, the same rule applies to that user's dashboard, and
+    `hiddenDrafts` counts only the drafts in repos that user hasn't
+    ignored, the same repos whose other pull requests show.
+
     Args:
         owner (str | Unset):
+        include_drafts (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -119,6 +129,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         owner=owner,
+include_drafts=include_drafts,
 
     )
 
@@ -132,6 +143,7 @@ def sync(
     *,
     client: AuthenticatedClient,
     owner: str | Unset = UNSET,
+    include_drafts: bool | Unset = False,
 
 ) -> Dashboard | Error | None:
     """ The aggregated view
@@ -146,8 +158,14 @@ def sync(
     shared it with the caller (or the caller is viewing their own
     username), and refused with a 403 otherwise.
 
+    Draft pull requests are left out unless `includeDrafts=true`. With
+    `owner`, the same rule applies to that user's dashboard, and
+    `hiddenDrafts` counts only the drafts in repos that user hasn't
+    ignored, the same repos whose other pull requests show.
+
     Args:
         owner (str | Unset):
+        include_drafts (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -161,6 +179,7 @@ def sync(
     return sync_detailed(
         client=client,
 owner=owner,
+include_drafts=include_drafts,
 
     ).parsed
 
@@ -168,6 +187,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     owner: str | Unset = UNSET,
+    include_drafts: bool | Unset = False,
 
 ) -> Response[Dashboard | Error]:
     """ The aggregated view
@@ -182,8 +202,14 @@ async def asyncio_detailed(
     shared it with the caller (or the caller is viewing their own
     username), and refused with a 403 otherwise.
 
+    Draft pull requests are left out unless `includeDrafts=true`. With
+    `owner`, the same rule applies to that user's dashboard, and
+    `hiddenDrafts` counts only the drafts in repos that user hasn't
+    ignored, the same repos whose other pull requests show.
+
     Args:
         owner (str | Unset):
+        include_drafts (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -196,6 +222,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         owner=owner,
+include_drafts=include_drafts,
 
     )
 
@@ -209,6 +236,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     owner: str | Unset = UNSET,
+    include_drafts: bool | Unset = False,
 
 ) -> Dashboard | Error | None:
     """ The aggregated view
@@ -223,8 +251,14 @@ async def asyncio(
     shared it with the caller (or the caller is viewing their own
     username), and refused with a 403 otherwise.
 
+    Draft pull requests are left out unless `includeDrafts=true`. With
+    `owner`, the same rule applies to that user's dashboard, and
+    `hiddenDrafts` counts only the drafts in repos that user hasn't
+    ignored, the same repos whose other pull requests show.
+
     Args:
         owner (str | Unset):
+        include_drafts (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -238,5 +272,6 @@ async def asyncio(
     return (await asyncio_detailed(
         client=client,
 owner=owner,
+include_drafts=include_drafts,
 
     )).parsed
