@@ -10,22 +10,32 @@ from ... import errors
 
 from ...models.dashboard import Dashboard
 from ...models.error import Error
+from ...types import UNSET, Unset
 from typing import cast
 
 
 
 def _get_kwargs(
-    
+    *,
+    include_drafts: bool | Unset = False,
+
 ) -> dict[str, Any]:
     
 
     
 
-    
+    params: dict[str, Any] = {}
+
+    params["includeDrafts"] = include_drafts
+
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
 
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/api/dashboard/stream",
+        "params": params,
     }
 
 
@@ -73,6 +83,7 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     *,
     client: AuthenticatedClient,
+    include_drafts: bool | Unset = False,
 
 ) -> Response[Dashboard | Error]:
     """ Server-Sent Events stream of the signed-in user's own dashboard
@@ -91,6 +102,13 @@ def sync_detailed(
     benefits from this, rather than the dashboard going stale
     silently.
 
+    `includeDrafts` is read once, when the connection opens, and
+    applies to every event on it. A client that changes its mind
+    reconnects with the new value.
+
+    Args:
+        include_drafts (bool | Unset):  Default: False.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -101,7 +119,8 @@ def sync_detailed(
 
 
     kwargs = _get_kwargs(
-        
+        include_drafts=include_drafts,
+
     )
 
     response = client.get_httpx_client().request(
@@ -113,6 +132,7 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient,
+    include_drafts: bool | Unset = False,
 
 ) -> Dashboard | Error | None:
     """ Server-Sent Events stream of the signed-in user's own dashboard
@@ -130,6 +150,13 @@ def sync(
     proxy that can't hold an SSE connection open just never
     benefits from this, rather than the dashboard going stale
     silently.
+
+    `includeDrafts` is read once, when the connection opens, and
+    applies to every event on it. A client that changes its mind
+    reconnects with the new value.
+
+    Args:
+        include_drafts (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -142,12 +169,14 @@ def sync(
 
     return sync_detailed(
         client=client,
+include_drafts=include_drafts,
 
     ).parsed
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
+    include_drafts: bool | Unset = False,
 
 ) -> Response[Dashboard | Error]:
     """ Server-Sent Events stream of the signed-in user's own dashboard
@@ -166,6 +195,13 @@ async def asyncio_detailed(
     benefits from this, rather than the dashboard going stale
     silently.
 
+    `includeDrafts` is read once, when the connection opens, and
+    applies to every event on it. A client that changes its mind
+    reconnects with the new value.
+
+    Args:
+        include_drafts (bool | Unset):  Default: False.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -176,7 +212,8 @@ async def asyncio_detailed(
 
 
     kwargs = _get_kwargs(
-        
+        include_drafts=include_drafts,
+
     )
 
     response = await client.get_async_httpx_client().request(
@@ -188,6 +225,7 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient,
+    include_drafts: bool | Unset = False,
 
 ) -> Dashboard | Error | None:
     """ Server-Sent Events stream of the signed-in user's own dashboard
@@ -206,6 +244,13 @@ async def asyncio(
     benefits from this, rather than the dashboard going stale
     silently.
 
+    `includeDrafts` is read once, when the connection opens, and
+    applies to every event on it. A client that changes its mind
+    reconnects with the new value.
+
+    Args:
+        include_drafts (bool | Unset):  Default: False.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -217,5 +262,6 @@ async def asyncio(
 
     return (await asyncio_detailed(
         client=client,
+include_drafts=include_drafts,
 
     )).parsed
