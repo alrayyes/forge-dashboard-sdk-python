@@ -74,6 +74,14 @@ class PullRequest:
                 always in it. Live state is the client's: a rate-limited or
                 unreachable forge, a missing token and an action already in
                 flight can still stop an offered action.
+            ready_to_merge (bool): True when the pull request is mergeable, its CI is green and it
+                isn't a draft: what the Ready quick filter lists. Always
+                present. A pull request with no checks isn't ready.
+            needs_review (bool): True when a review is outstanding: the forge requires one, or a
+                reviewer was asked and hasn't answered, and the pull request
+                isn't a draft. Unreviewed with nobody asked, approved, changes
+                requested and an unknown review state are all false. Always
+                present.
             auto_merge_enabled (bool | Unset): Whether auto-merge is currently scheduled on this pull request.
                 Omitted when the owning forge has no way to report this at all
                 (Forgejo, today) — never false in that case, since this service
@@ -117,6 +125,8 @@ class PullRequest:
     behind: bool
     empty: bool
     allowed_actions: list[AllowedAction]
+    ready_to_merge: bool
+    needs_review: bool
     auto_merge_enabled: bool | Unset = UNSET
     auto_merge_allowed: bool | Unset = UNSET
     review: ReviewState | Unset = UNSET
@@ -170,6 +180,10 @@ class PullRequest:
 
 
 
+        ready_to_merge = self.ready_to_merge
+
+        needs_review = self.needs_review
+
         auto_merge_enabled = self.auto_merge_enabled
 
         auto_merge_allowed = self.auto_merge_allowed
@@ -197,6 +211,8 @@ class PullRequest:
             "behind": behind,
             "empty": empty,
             "allowedActions": allowed_actions,
+            "readyToMerge": ready_to_merge,
+            "needsReview": needs_review,
         })
         if auto_merge_enabled is not UNSET:
             field_dict["autoMergeEnabled"] = auto_merge_enabled
@@ -276,6 +292,10 @@ class PullRequest:
             allowed_actions.append(allowed_actions_item)
 
 
+        ready_to_merge = d.pop("readyToMerge")
+
+        needs_review = d.pop("needsReview")
+
         auto_merge_enabled = d.pop("autoMergeEnabled", UNSET)
 
         auto_merge_allowed = d.pop("autoMergeAllowed", UNSET)
@@ -306,6 +326,8 @@ class PullRequest:
             behind=behind,
             empty=empty,
             allowed_actions=allowed_actions,
+            ready_to_merge=ready_to_merge,
+            needs_review=needs_review,
             auto_merge_enabled=auto_merge_enabled,
             auto_merge_allowed=auto_merge_allowed,
             review=review,
