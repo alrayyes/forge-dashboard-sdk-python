@@ -35,8 +35,13 @@ class SettingsRequest:
         Attributes:
             github_token (str | Unset):
             github_username (str | Unset):
-            github_app_installation_id (int | Unset):
-            forgejo_url (str | Unset):
+            github_app_installation_id (int | Unset): 0 means none. A negative or non-integer value is a 400 naming
+                this field, as is any value on a server with no GitHub App
+                configured.
+            forgejo_url (str | Unset): Required, once the save is merged with what is already stored,
+                whenever a Forgejo token or username is set. That depends on
+                stored state, so a schema alone can't express it: a save that
+                breaks it is a 400 naming `forgejoUrl`.
             forgejo_token (str | Unset):
             forgejo_username (str | Unset):
             renovate_rebase_label (str | Unset):
