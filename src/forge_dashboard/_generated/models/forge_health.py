@@ -12,6 +12,7 @@ from ..models.forge import Forge
 from ..models.forge_error_kind import ForgeErrorKind
 from ..types import UNSET, Unset
 from typing import cast
+import datetime
 
 if TYPE_CHECKING:
   from ..models.rate_limit import RateLimit
@@ -31,6 +32,12 @@ class ForgeHealth:
             forge (Forge):
             reachable (bool): Whether the last refresh attempt against this forge succeeded.
             repo_count (int): Repositories with write access this forge reported.
+            stale_since (datetime.datetime | Unset): Present when the last refresh against this forge failed and the
+                pull requests, issues and repos in the response are the last good
+                ones, fetched at this time, instead of none. Absent when the data
+                is current, and for a forge that has never fetched successfully,
+                which has nothing to show. A client can say "unreachable, showing
+                data from 3 minutes ago".
             error (str | Unset): A human-readable explanation of the last failure, if reachable is false. Mapped from
                 errorKind, not the raw underlying error text. Omitted when reachable.
             error_kind (ForgeErrorKind | Unset): Why a forge is unreachable, or why a write to it was rejected, as
@@ -56,6 +63,7 @@ class ForgeHealth:
     forge: Forge
     reachable: bool
     repo_count: int
+    stale_since: datetime.datetime | Unset = UNSET
     error: str | Unset = UNSET
     error_kind: ForgeErrorKind | Unset = UNSET
     rate_limit_graph_ql: RateLimit | Unset = UNSET
@@ -74,6 +82,10 @@ class ForgeHealth:
         reachable = self.reachable
 
         repo_count = self.repo_count
+
+        stale_since: str | Unset = UNSET
+        if not isinstance(self.stale_since, Unset):
+            stale_since = self.stale_since.isoformat()
 
         error = self.error
 
@@ -100,6 +112,8 @@ class ForgeHealth:
             "reachable": reachable,
             "repoCount": repo_count,
         })
+        if stale_since is not UNSET:
+            field_dict["staleSince"] = stale_since
         if error is not UNSET:
             field_dict["error"] = error
         if error_kind is not UNSET:
@@ -127,6 +141,16 @@ class ForgeHealth:
         reachable = d.pop("reachable")
 
         repo_count = d.pop("repoCount")
+
+        _stale_since = d.pop("staleSince", UNSET)
+        stale_since: datetime.datetime | Unset
+        if isinstance(_stale_since,  Unset):
+            stale_since = UNSET
+        else:
+            stale_since = datetime.datetime.fromisoformat(_stale_since)
+
+
+
 
         error = d.pop("error", UNSET)
 
@@ -166,6 +190,7 @@ class ForgeHealth:
             forge=forge,
             reachable=reachable,
             repo_count=repo_count,
+            stale_since=stale_since,
             error=error,
             error_kind=error_kind,
             rate_limit_graph_ql=rate_limit_graph_ql,
