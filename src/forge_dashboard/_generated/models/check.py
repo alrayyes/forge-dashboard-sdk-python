@@ -35,12 +35,28 @@ class Check:
                 `status_check_contexts`). Absent when the forge can't tell — a
                 token that can't read protection, or a check that can't be
                 mapped to a protection entry. Absent is not the same as false.
+            duration_seconds (int | Unset): How long a completed check ran. Absent while it runs, or when
+                the forge doesn't say. GitHub only: Forgejo's API doesn't give
+                a job's timing.
+            failed_step (str | Unset): The name of the step of a failed job that broke. Absent when
+                the check isn't a job the token can read (a third-party check,
+                a forge with no step data, a token without access).
+            excerpt (str | Unset): The tail of the failed job's log as plain text: the last lines,
+                with per-line timestamps and colour codes removed, at most 2,000
+                characters. Never markup, and a client must render it as text.
+                Whatever the forge already masks stays masked. Absent when the
+                log can't be read or has expired. GitHub only: Forgejo's API
+                doesn't serve job logs, so there the link to the run is all a
+                failed check offers.
      """
 
     name: str
     state: CheckState
     url: str
     required: bool | Unset = UNSET
+    duration_seconds: int | Unset = UNSET
+    failed_step: str | Unset = UNSET
+    excerpt: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -56,6 +72,12 @@ class Check:
 
         required = self.required
 
+        duration_seconds = self.duration_seconds
+
+        failed_step = self.failed_step
+
+        excerpt = self.excerpt
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -66,6 +88,12 @@ class Check:
         })
         if required is not UNSET:
             field_dict["required"] = required
+        if duration_seconds is not UNSET:
+            field_dict["durationSeconds"] = duration_seconds
+        if failed_step is not UNSET:
+            field_dict["failedStep"] = failed_step
+        if excerpt is not UNSET:
+            field_dict["excerpt"] = excerpt
 
         return field_dict
 
@@ -85,11 +113,20 @@ class Check:
 
         required = d.pop("required", UNSET)
 
+        duration_seconds = d.pop("durationSeconds", UNSET)
+
+        failed_step = d.pop("failedStep", UNSET)
+
+        excerpt = d.pop("excerpt", UNSET)
+
         check = cls(
             name=name,
             state=state,
             url=url,
             required=required,
+            duration_seconds=duration_seconds,
+            failed_step=failed_step,
+            excerpt=excerpt,
         )
 
 
