@@ -59,6 +59,15 @@ class PullRequest:
                 get recomputed just because the base moved), so folding this
                 into mergeStatus would force picking one and losing the
                 other.
+            requested_reviewer_logins (list[str]): The logins of the users asked to review this pull request, on
+                both forges. A team request has no login and is left out.
+                Always present, and empty when nobody was asked. Costs no
+                extra request: GitHub returns it with the reviewRequests count
+                already queried, Forgejo with the pull request itself.
+            review_requested_from_me (bool): True when this open, non-draft pull request asks the signed-in
+                user to review it, matched without regard to case against the
+                username saved in Settings for its forge. False when no
+                username is saved for that forge. Always present.
             empty (bool): Whether merging this pull request would produce an empty
                 commit — its content already landed on the base branch some
                 other way. False whenever this service can't tell (the
@@ -123,6 +132,8 @@ class PullRequest:
     ci: CIStatus
     merge_status: MergeStatus
     behind: bool
+    requested_reviewer_logins: list[str]
+    review_requested_from_me: bool
     empty: bool
     allowed_actions: list[AllowedAction]
     ready_to_merge: bool
@@ -171,6 +182,12 @@ class PullRequest:
 
         behind = self.behind
 
+        requested_reviewer_logins = self.requested_reviewer_logins
+
+
+
+        review_requested_from_me = self.review_requested_from_me
+
         empty = self.empty
 
         allowed_actions = []
@@ -209,6 +226,8 @@ class PullRequest:
             "ci": ci,
             "mergeStatus": merge_status,
             "behind": behind,
+            "requestedReviewerLogins": requested_reviewer_logins,
+            "reviewRequestedFromMe": review_requested_from_me,
             "empty": empty,
             "allowedActions": allowed_actions,
             "readyToMerge": ready_to_merge,
@@ -280,6 +299,11 @@ class PullRequest:
 
         behind = d.pop("behind")
 
+        requested_reviewer_logins = cast(list[str], d.pop("requestedReviewerLogins"))
+
+
+        review_requested_from_me = d.pop("reviewRequestedFromMe")
+
         empty = d.pop("empty")
 
         allowed_actions = []
@@ -324,6 +348,8 @@ class PullRequest:
             ci=ci,
             merge_status=merge_status,
             behind=behind,
+            requested_reviewer_logins=requested_reviewer_logins,
+            review_requested_from_me=review_requested_from_me,
             empty=empty,
             allowed_actions=allowed_actions,
             ready_to_merge=ready_to_merge,
