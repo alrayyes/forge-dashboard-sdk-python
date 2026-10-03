@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.rate_limit_severity import RateLimitSeverity
 from ..types import UNSET, Unset
 from typing import cast
 import datetime
@@ -30,6 +31,12 @@ class RateLimit:
             limit (int): Requests allowed per window.
             remaining (int): Requests left in the current window.
             resets_at (datetime.datetime): When the window resets and remaining goes back to limit.
+            severity (RateLimitSeverity): How worried a client should be about this budget, graded by
+                the server as of the response, so no client needs its own
+                threshold or clock check. `exceeded`: nothing left and the
+                reset hasn't been seen to pass. `low`: under 5% left (also a
+                spent budget whose reset time has passed, until the next
+                snapshot says otherwise). `ok`: everything else.
             cost (int | Unset): The point price the most recent call was actually charged — GraphQL-specific, since a REST
                 request has no separate cost concept beyond the flat one-request-one-point REST's own budget already counts.
                 Omitted for a REST-sourced RateLimit.
@@ -38,6 +45,7 @@ class RateLimit:
     limit: int
     remaining: int
     resets_at: datetime.datetime
+    severity: RateLimitSeverity
     cost: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -52,6 +60,8 @@ class RateLimit:
 
         resets_at = self.resets_at.isoformat()
 
+        severity = self.severity.value
+
         cost = self.cost
 
 
@@ -61,6 +71,7 @@ class RateLimit:
             "limit": limit,
             "remaining": remaining,
             "resetsAt": resets_at,
+            "severity": severity,
         })
         if cost is not UNSET:
             field_dict["cost"] = cost
@@ -81,12 +92,18 @@ class RateLimit:
 
 
 
+        severity = RateLimitSeverity(d.pop("severity"))
+
+
+
+
         cost = d.pop("cost", UNSET)
 
         rate_limit = cls(
             limit=limit,
             remaining=remaining,
             resets_at=resets_at,
+            severity=severity,
             cost=cost,
         )
 
