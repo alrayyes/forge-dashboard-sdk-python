@@ -81,6 +81,15 @@ def sync_detailed(
     response for that. Before any account has signed in there is no
     refresh to wait for, so only the database is checked.
 
+    The database ping gets 2 seconds, less than the HEALTHCHECK's own 5,
+    so a database that doesn't answer turns into a 503 instead of a hung
+    probe. The ping's result, pass or fail, is reused for about 3
+    seconds, so probes arriving every second don't each reach the
+    database. On SIGTERM this answers 503 ("shutting down") at once, and
+    the server waits a drain period (`SHUTDOWN_DRAIN`, default 5 seconds)
+    before it stops accepting connections, so a router that polls this
+    path stops sending traffic first.
+
     The container's HEALTHCHECK probes this path (`/healthz` stays the
     cheap liveness answer), so Docker's single health state and Compose's
     `depends_on: condition: service_healthy` mean "ready", not just
@@ -123,6 +132,15 @@ def sync(
     response for that. Before any account has signed in there is no
     refresh to wait for, so only the database is checked.
 
+    The database ping gets 2 seconds, less than the HEALTHCHECK's own 5,
+    so a database that doesn't answer turns into a 503 instead of a hung
+    probe. The ping's result, pass or fail, is reused for about 3
+    seconds, so probes arriving every second don't each reach the
+    database. On SIGTERM this answers 503 ("shutting down") at once, and
+    the server waits a drain period (`SHUTDOWN_DRAIN`, default 5 seconds)
+    before it stops accepting connections, so a router that polls this
+    path stops sending traffic first.
+
     The container's HEALTHCHECK probes this path (`/healthz` stays the
     cheap liveness answer), so Docker's single health state and Compose's
     `depends_on: condition: service_healthy` mean "ready", not just
@@ -159,6 +177,15 @@ async def asyncio_detailed(
     turns this into a 503. See forges[].reachable on the dashboard
     response for that. Before any account has signed in there is no
     refresh to wait for, so only the database is checked.
+
+    The database ping gets 2 seconds, less than the HEALTHCHECK's own 5,
+    so a database that doesn't answer turns into a 503 instead of a hung
+    probe. The ping's result, pass or fail, is reused for about 3
+    seconds, so probes arriving every second don't each reach the
+    database. On SIGTERM this answers 503 ("shutting down") at once, and
+    the server waits a drain period (`SHUTDOWN_DRAIN`, default 5 seconds)
+    before it stops accepting connections, so a router that polls this
+    path stops sending traffic first.
 
     The container's HEALTHCHECK probes this path (`/healthz` stays the
     cheap liveness answer), so Docker's single health state and Compose's
@@ -201,6 +228,15 @@ async def asyncio(
     turns this into a 503. See forges[].reachable on the dashboard
     response for that. Before any account has signed in there is no
     refresh to wait for, so only the database is checked.
+
+    The database ping gets 2 seconds, less than the HEALTHCHECK's own 5,
+    so a database that doesn't answer turns into a 503 instead of a hung
+    probe. The ping's result, pass or fail, is reused for about 3
+    seconds, so probes arriving every second don't each reach the
+    database. On SIGTERM this answers 503 ("shutting down") at once, and
+    the server waits a drain period (`SHUTDOWN_DRAIN`, default 5 seconds)
+    before it stops accepting connections, so a router that polls this
+    path stops sending traffic first.
 
     The container's HEALTHCHECK probes this path (`/healthz` stays the
     cheap liveness answer), so Docker's single health state and Compose's
