@@ -8,6 +8,7 @@ class AllowedActionBlockedCode(StrEnum):
     CHECKS_PENDING = "checks_pending"
     CONFLICT = "conflict"
     NOT_MERGEABLE = "not_mergeable"
+    STACKED = "stacked"
 
     def __str__(self) -> str:
         return str(self.value)

@@ -19,6 +19,8 @@ if TYPE_CHECKING:
   from ..models.allowed_action import AllowedAction
   from ..models.label import Label
   from ..models.review_state import ReviewState
+  from ..models.stack_position import StackPosition
+  from ..models.stack_ref import StackRef
 
 
 
@@ -59,6 +61,25 @@ class PullRequest:
                 get recomputed just because the base moved), so folding this
                 into mergeStatus would force picking one and losing the
                 other.
+            base_branch (str): The branch the pull request targets. Empty when the forge didn't
+                say.
+            head_branch (str): The branch the pull request comes from. Empty when the forge
+                didn't say.
+            cross_repository (bool): True when the head branch lives in another repository (a fork).
+                A fork pull request is never part of a stack.
+            stack (None | StackPosition): Where this pull request sits in a stack of pull requests, or
+                null when it is in none. A stack is worked out on the server:
+                pull request B is stacked on A when B's base branch is A's head
+                branch, in the same repository on the same forge, and neither is
+                a fork. A branch with several open pull requests takes the one
+                with the lowest number as parent, and a loop of branches is
+                treated as no stack. The snapshot holds open pull requests
+                only, so a base branch that no open pull request owns (a parent
+                that already merged and was not retargeted) is not flagged.
+            stacked_on (None | StackRef): The open pull request this one is stacked on, or null when its
+                base is not another open pull request's head.
+            stack_children (list[int]): The numbers of the open pull requests stacked directly on this
+                one. Always a list, empty when none.
             requested_reviewer_logins (list[str]): The logins of the users asked to review this pull request, on
                 both forges. A team request has no login and is left out.
                 Always present, and empty when nobody was asked. Costs no
@@ -132,6 +153,12 @@ class PullRequest:
     ci: CIStatus
     merge_status: MergeStatus
     behind: bool
+    base_branch: str
+    head_branch: str
+    cross_repository: bool
+    stack: None | StackPosition
+    stacked_on: None | StackRef
+    stack_children: list[int]
     requested_reviewer_logins: list[str]
     review_requested_from_me: bool
     empty: bool
@@ -151,6 +178,8 @@ class PullRequest:
         from ..models.allowed_action import AllowedAction # noqa: PLC0415
         from ..models.label import Label # noqa: PLC0415
         from ..models.review_state import ReviewState # noqa: PLC0415
+        from ..models.stack_position import StackPosition # noqa: PLC0415
+        from ..models.stack_ref import StackRef # noqa: PLC0415
         forge = self.forge.value
 
         repo = self.repo
@@ -181,6 +210,28 @@ class PullRequest:
         merge_status = self.merge_status.value
 
         behind = self.behind
+
+        base_branch = self.base_branch
+
+        head_branch = self.head_branch
+
+        cross_repository = self.cross_repository
+
+        stack: dict[str, Any] | None
+        if isinstance(self.stack, StackPosition):
+            stack = self.stack.to_dict()
+        else:
+            stack = self.stack
+
+        stacked_on: dict[str, Any] | None
+        if isinstance(self.stacked_on, StackRef):
+            stacked_on = self.stacked_on.to_dict()
+        else:
+            stacked_on = self.stacked_on
+
+        stack_children = self.stack_children
+
+
 
         requested_reviewer_logins = self.requested_reviewer_logins
 
@@ -226,6 +277,12 @@ class PullRequest:
             "ci": ci,
             "mergeStatus": merge_status,
             "behind": behind,
+            "baseBranch": base_branch,
+            "headBranch": head_branch,
+            "crossRepository": cross_repository,
+            "stack": stack,
+            "stackedOn": stacked_on,
+            "stackChildren": stack_children,
             "requestedReviewerLogins": requested_reviewer_logins,
             "reviewRequestedFromMe": review_requested_from_me,
             "empty": empty,
@@ -249,6 +306,8 @@ class PullRequest:
         from ..models.allowed_action import AllowedAction # noqa: PLC0415
         from ..models.label import Label # noqa: PLC0415
         from ..models.review_state import ReviewState # noqa: PLC0415
+        from ..models.stack_position import StackPosition # noqa: PLC0415
+        from ..models.stack_ref import StackRef # noqa: PLC0415
         d = dict(src_dict)
         forge = Forge(d.pop("forge"))
 
@@ -299,6 +358,51 @@ class PullRequest:
 
         behind = d.pop("behind")
 
+        base_branch = d.pop("baseBranch")
+
+        head_branch = d.pop("headBranch")
+
+        cross_repository = d.pop("crossRepository")
+
+        def _parse_stack(data: object) -> None | StackPosition:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                stack_type_1 = StackPosition.from_dict(data)
+
+
+
+                return stack_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | StackPosition, data)
+
+        stack = _parse_stack(d.pop("stack"))
+
+
+        def _parse_stacked_on(data: object) -> None | StackRef:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                stacked_on_type_1 = StackRef.from_dict(data)
+
+
+
+                return stacked_on_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | StackRef, data)
+
+        stacked_on = _parse_stacked_on(d.pop("stackedOn"))
+
+
+        stack_children = cast(list[int], d.pop("stackChildren"))
+
+
         requested_reviewer_logins = cast(list[str], d.pop("requestedReviewerLogins"))
 
 
@@ -348,6 +452,12 @@ class PullRequest:
             ci=ci,
             merge_status=merge_status,
             behind=behind,
+            base_branch=base_branch,
+            head_branch=head_branch,
+            cross_repository=cross_repository,
+            stack=stack,
+            stacked_on=stacked_on,
+            stack_children=stack_children,
             requested_reviewer_logins=requested_reviewer_logins,
             review_requested_from_me=review_requested_from_me,
             empty=empty,
