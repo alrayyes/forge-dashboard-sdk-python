@@ -61,6 +61,10 @@ class PullRequest:
                 get recomputed just because the base moved), so folding this
                 into mergeStatus would force picking one and losing the
                 other.
+            head_sha (str): The commit the pull request's head branch points at. A bot's
+                rebase moves it, which shows the bot acted even when the pull
+                request is still reported behind, or wasn't behind to begin
+                with. Empty when the forge didn't say. Always present.
             base_branch (str): The branch the pull request targets. Empty when the forge didn't
                 say.
             head_branch (str): The branch the pull request comes from. Empty when the forge
@@ -153,6 +157,7 @@ class PullRequest:
     ci: CIStatus
     merge_status: MergeStatus
     behind: bool
+    head_sha: str
     base_branch: str
     head_branch: str
     cross_repository: bool
@@ -210,6 +215,8 @@ class PullRequest:
         merge_status = self.merge_status.value
 
         behind = self.behind
+
+        head_sha = self.head_sha
 
         base_branch = self.base_branch
 
@@ -277,6 +284,7 @@ class PullRequest:
             "ci": ci,
             "mergeStatus": merge_status,
             "behind": behind,
+            "headSha": head_sha,
             "baseBranch": base_branch,
             "headBranch": head_branch,
             "crossRepository": cross_repository,
@@ -357,6 +365,8 @@ class PullRequest:
 
 
         behind = d.pop("behind")
+
+        head_sha = d.pop("headSha")
 
         base_branch = d.pop("baseBranch")
 
@@ -452,6 +462,7 @@ class PullRequest:
             ci=ci,
             merge_status=merge_status,
             behind=behind,
+            head_sha=head_sha,
             base_branch=base_branch,
             head_branch=head_branch,
             cross_repository=cross_repository,
