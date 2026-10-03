@@ -50,6 +50,8 @@ from .settings_response import SettingsResponse
 from .settings_response_theme import SettingsResponseTheme
 from .shared_user import SharedUser
 from .sharing_response import SharingResponse
+from .stack_position import StackPosition
+from .stack_ref import StackRef
 from .theme_request import ThemeRequest
 from .theme_request_theme import ThemeRequestTheme
 from .theme_response import ThemeResponse
@@ -109,6 +111,8 @@ __all__ = (
     "SettingsResponseTheme",
     "SharedUser",
     "SharingResponse",
+    "StackPosition",
+    "StackRef",
     "ThemeRequest",
     "ThemeRequestTheme",
     "ThemeResponse",
