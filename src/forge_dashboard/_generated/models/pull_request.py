@@ -16,6 +16,7 @@ from typing import cast
 import datetime
 
 if TYPE_CHECKING:
+  from ..models.allowed_action import AllowedAction
   from ..models.label import Label
   from ..models.review_state import ReviewState
 
@@ -65,6 +66,14 @@ class PullRequest:
                 old enough not to report additions/deletions/changed_files on
                 its list endpoint), never a false positive: a pull request
                 this never confirms empty just renders as it always has.
+            allowed_actions (list[AllowedAction]): The actions this pull request offers, worked out on the server
+                from its own fields, so a client needs no copy of the rules. An
+                action that doesn't apply (Update branch on a pull request that
+                isn't behind, a Dependabot command on a Renovate pull request)
+                is absent, not listed as blocked. Always present; `close` is
+                always in it. Live state is the client's: a rate-limited or
+                unreachable forge, a missing token and an action already in
+                flight can still stop an offered action.
             auto_merge_enabled (bool | Unset): Whether auto-merge is currently scheduled on this pull request.
                 Omitted when the owning forge has no way to report this at all
                 (Forgejo, today) — never false in that case, since this service
@@ -107,6 +116,7 @@ class PullRequest:
     merge_status: MergeStatus
     behind: bool
     empty: bool
+    allowed_actions: list[AllowedAction]
     auto_merge_enabled: bool | Unset = UNSET
     auto_merge_allowed: bool | Unset = UNSET
     review: ReviewState | Unset = UNSET
@@ -117,6 +127,7 @@ class PullRequest:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.allowed_action import AllowedAction # noqa: PLC0415
         from ..models.label import Label # noqa: PLC0415
         from ..models.review_state import ReviewState # noqa: PLC0415
         forge = self.forge.value
@@ -152,6 +163,13 @@ class PullRequest:
 
         empty = self.empty
 
+        allowed_actions = []
+        for allowed_actions_item_data in self.allowed_actions:
+            allowed_actions_item = allowed_actions_item_data.to_dict()
+            allowed_actions.append(allowed_actions_item)
+
+
+
         auto_merge_enabled = self.auto_merge_enabled
 
         auto_merge_allowed = self.auto_merge_allowed
@@ -178,6 +196,7 @@ class PullRequest:
             "mergeStatus": merge_status,
             "behind": behind,
             "empty": empty,
+            "allowedActions": allowed_actions,
         })
         if auto_merge_enabled is not UNSET:
             field_dict["autoMergeEnabled"] = auto_merge_enabled
@@ -192,6 +211,7 @@ class PullRequest:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.allowed_action import AllowedAction # noqa: PLC0415
         from ..models.label import Label # noqa: PLC0415
         from ..models.review_state import ReviewState # noqa: PLC0415
         d = dict(src_dict)
@@ -246,6 +266,16 @@ class PullRequest:
 
         empty = d.pop("empty")
 
+        allowed_actions = []
+        _allowed_actions = d.pop("allowedActions")
+        for allowed_actions_item_data in (_allowed_actions):
+            allowed_actions_item = AllowedAction.from_dict(allowed_actions_item_data)
+
+
+
+            allowed_actions.append(allowed_actions_item)
+
+
         auto_merge_enabled = d.pop("autoMergeEnabled", UNSET)
 
         auto_merge_allowed = d.pop("autoMergeAllowed", UNSET)
@@ -275,6 +305,7 @@ class PullRequest:
             merge_status=merge_status,
             behind=behind,
             empty=empty,
+            allowed_actions=allowed_actions,
             auto_merge_enabled=auto_merge_enabled,
             auto_merge_allowed=auto_merge_allowed,
             review=review,
