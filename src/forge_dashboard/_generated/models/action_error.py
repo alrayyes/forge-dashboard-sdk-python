@@ -25,11 +25,13 @@ T = TypeVar("T", bound="ActionError")
 @_attrs_define
 class ActionError:
     """ The structured result of a refused pull request action (Merge, Close, Update branch, Enable auto-merge, Dependabot
-    and Renovate rebase). `error` is the same string every Error carries (the forge's own text, for logs); `code` and
-    `message` are what a client should act on and show.
+    and Renovate rebase). `code` and `message` are what a client should act on and show.
 
         Attributes:
-            error (str): The underlying error text, unchanged.
+            error (str): The same string every Error carries. With `code: unknown` it
+                is the same plain words as `message`, since the raw text
+                (internal prefixes, API paths, URLs) goes to the server log.
+                With any other code it is the forge's own text, for logs.
             code (ActionErrorCode): Why the action was refused, from a re-read of the pull
                 request's real state. `already_merged` and `already_closed`
                 mean the dashboard's row was stale: the pull request has
@@ -40,7 +42,13 @@ class ActionError:
                 (Enable auto-merge: the repo or pull request doesn't allow it)
                 and `ready_to_merge` (Enable auto-merge: already clean, use
                 Merge).
-            message (str): A short reason in plain words, safe to show a person.
+            message (str): A short reason in plain words, safe to show a person, always.
+                With `code: unknown` it is the forge's own sentence when that
+                reads as one, "The forge didn't answer. Try again in a moment."
+                when the forge was unreachable (including a 502, 503 or 504),
+                and "The forge refused this action and gave no reason."
+                otherwise. It never holds an internal prefix, an API path, a
+                URL or JSON.
             resets_at (datetime.datetime | Unset): Only with `rate_limited`, when the forge said so. When the budget comes
                 back.
      """
