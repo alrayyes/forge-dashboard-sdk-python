@@ -34,6 +34,7 @@ from .pull_request_checks_response import PullRequestChecksResponse
 from .pull_request_dependabot_action_request import PullRequestDependabotActionRequest
 from .pull_request_dependabot_action_request_action import PullRequestDependabotActionRequestAction
 from .rate_limit import RateLimit
+from .rate_limit_severity import RateLimitSeverity
 from .receive_forgejo_webhook_body import ReceiveForgejoWebhookBody
 from .receive_git_hub_webhook_body import ReceiveGitHubWebhookBody
 from .register_begin_request import RegisterBeginRequest
@@ -92,6 +93,7 @@ __all__ = (
     "PullRequestDependabotActionRequest",
     "PullRequestDependabotActionRequestAction",
     "RateLimit",
+    "RateLimitSeverity",
     "ReceiveForgejoWebhookBody",
     "ReceiveGitHubWebhookBody",
     "RegisterBeginRequest",
