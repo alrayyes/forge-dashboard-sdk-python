@@ -17,6 +17,7 @@ import datetime
 
 if TYPE_CHECKING:
   from ..models.allowed_action import AllowedAction
+  from ..models.bot_request import BotRequest
   from ..models.label import Label
   from ..models.review_state import ReviewState
   from ..models.stack_position import StackPosition
@@ -116,6 +117,11 @@ class PullRequest:
                 isn't a draft. Unreviewed with nobody asked, approved, changes
                 requested and an unknown review state are all false. Always
                 present.
+            bot_request (BotRequest | None | Unset): A Dependabot or Renovate rebase asked for through this app and not
+                settled yet, or null. The server keeps it, so a reload during the
+                wait still shows it, and moves it along on every snapshot that
+                came from a fetch started after the request. Held in memory per
+                account: a server restart forgets it.
             auto_merge_enabled (bool | Unset): Whether auto-merge is currently scheduled on this pull request.
                 Omitted when the owning forge has no way to report this at all
                 (Forgejo, today) — never false in that case, since this service
@@ -170,6 +176,7 @@ class PullRequest:
     allowed_actions: list[AllowedAction]
     ready_to_merge: bool
     needs_review: bool
+    bot_request: BotRequest | None | Unset = UNSET
     auto_merge_enabled: bool | Unset = UNSET
     auto_merge_allowed: bool | Unset = UNSET
     review: ReviewState | Unset = UNSET
@@ -181,6 +188,7 @@ class PullRequest:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.allowed_action import AllowedAction # noqa: PLC0415
+        from ..models.bot_request import BotRequest # noqa: PLC0415
         from ..models.label import Label # noqa: PLC0415
         from ..models.review_state import ReviewState # noqa: PLC0415
         from ..models.stack_position import StackPosition # noqa: PLC0415
@@ -259,6 +267,14 @@ class PullRequest:
 
         needs_review = self.needs_review
 
+        bot_request: dict[str, Any] | None | Unset
+        if isinstance(self.bot_request, Unset):
+            bot_request = UNSET
+        elif isinstance(self.bot_request, BotRequest):
+            bot_request = self.bot_request.to_dict()
+        else:
+            bot_request = self.bot_request
+
         auto_merge_enabled = self.auto_merge_enabled
 
         auto_merge_allowed = self.auto_merge_allowed
@@ -298,6 +314,8 @@ class PullRequest:
             "readyToMerge": ready_to_merge,
             "needsReview": needs_review,
         })
+        if bot_request is not UNSET:
+            field_dict["botRequest"] = bot_request
         if auto_merge_enabled is not UNSET:
             field_dict["autoMergeEnabled"] = auto_merge_enabled
         if auto_merge_allowed is not UNSET:
@@ -312,6 +330,7 @@ class PullRequest:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.allowed_action import AllowedAction # noqa: PLC0415
+        from ..models.bot_request import BotRequest # noqa: PLC0415
         from ..models.label import Label # noqa: PLC0415
         from ..models.review_state import ReviewState # noqa: PLC0415
         from ..models.stack_position import StackPosition # noqa: PLC0415
@@ -434,6 +453,26 @@ class PullRequest:
 
         needs_review = d.pop("needsReview")
 
+        def _parse_bot_request(data: object) -> BotRequest | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                bot_request_type_1 = BotRequest.from_dict(data)
+
+
+
+                return bot_request_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(BotRequest | None | Unset, data)
+
+        bot_request = _parse_bot_request(d.pop("botRequest", UNSET))
+
+
         auto_merge_enabled = d.pop("autoMergeEnabled", UNSET)
 
         auto_merge_allowed = d.pop("autoMergeAllowed", UNSET)
@@ -475,6 +514,7 @@ class PullRequest:
             allowed_actions=allowed_actions,
             ready_to_merge=ready_to_merge,
             needs_review=needs_review,
+            bot_request=bot_request,
             auto_merge_enabled=auto_merge_enabled,
             auto_merge_allowed=auto_merge_allowed,
             review=review,
