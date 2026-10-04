@@ -13,6 +13,10 @@ from .allowed_action_blocked_code import AllowedActionBlockedCode
 from .api_token import APIToken
 from .api_token_create_request import APITokenCreateRequest
 from .api_token_create_response import APITokenCreateResponse
+from .bot_request import BotRequest
+from .bot_request_action import BotRequestAction
+from .bot_request_bot import BotRequestBot
+from .bot_request_phase import BotRequestPhase
 from .check import Check
 from .check_state import CheckState
 from .ci_status import CIStatus
@@ -74,6 +78,10 @@ __all__ = (
     "APIToken",
     "APITokenCreateRequest",
     "APITokenCreateResponse",
+    "BotRequest",
+    "BotRequestAction",
+    "BotRequestBot",
+    "BotRequestPhase",
     "Check",
     "CheckState",
     "CIStatus",
