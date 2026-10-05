@@ -117,7 +117,8 @@ def sync_detailed(
     mutation asks for an explicit merge method rather than picking
     the repo's own default itself, so this looks the repo's allowed
     methods up first and picks one with the same merge > squash >
-    rebase precedence Merge already uses; no override is exposed
+    rebase precedence Merge already uses, skipping merge when the
+    default branch requires linear history; no override is exposed
     here either. The pull request stays open and unmerged until the
     forge's own required checks pass on their own.
 
@@ -168,7 +169,8 @@ def sync(
     mutation asks for an explicit merge method rather than picking
     the repo's own default itself, so this looks the repo's allowed
     methods up first and picks one with the same merge > squash >
-    rebase precedence Merge already uses; no override is exposed
+    rebase precedence Merge already uses, skipping merge when the
+    default branch requires linear history; no override is exposed
     here either. The pull request stays open and unmerged until the
     forge's own required checks pass on their own.
 
@@ -214,7 +216,8 @@ async def asyncio_detailed(
     mutation asks for an explicit merge method rather than picking
     the repo's own default itself, so this looks the repo's allowed
     methods up first and picks one with the same merge > squash >
-    rebase precedence Merge already uses; no override is exposed
+    rebase precedence Merge already uses, skipping merge when the
+    default branch requires linear history; no override is exposed
     here either. The pull request stays open and unmerged until the
     forge's own required checks pass on their own.
 
@@ -265,7 +268,8 @@ async def asyncio(
     mutation asks for an explicit merge method rather than picking
     the repo's own default itself, so this looks the repo's allowed
     methods up first and picks one with the same merge > squash >
-    rebase precedence Merge already uses; no override is exposed
+    rebase precedence Merge already uses, skipping merge when the
+    default branch requires linear history; no override is exposed
     here either. The pull request stays open and unmerged until the
     forge's own required checks pass on their own.
 
