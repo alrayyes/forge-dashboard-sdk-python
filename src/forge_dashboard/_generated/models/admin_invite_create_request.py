@@ -22,7 +22,9 @@ T = TypeVar("T", bound="AdminInviteCreateRequest")
 class AdminInviteCreateRequest:
     """ 
         Attributes:
-            username (str):
+            username (str): Surrounding whitespace is trimmed by the server, and what is
+                left must not be empty. Clients may check the same pattern for
+                quick feedback; the server decides.
             display_name (str):
      """
 
