@@ -59,6 +59,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -91,6 +98,9 @@ def sync_detailed(
     partial patch. Filters.js's own client-side code decides when
     to call this: immediately for a discrete control, debounced
     while the user is still typing in the free-text Title filter.
+    A signed-in browser session only: a personal API token is refused
+    with 403, so a script or agent can't change the filters the user
+    sees (#1000). Each save is logged with the user agent.
 
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape —
@@ -140,6 +150,9 @@ def sync(
     partial patch. Filters.js's own client-side code decides when
     to call this: immediately for a discrete control, debounced
     while the user is still typing in the free-text Title filter.
+    A signed-in browser session only: a personal API token is refused
+    with 403, so a script or agent can't change the filters the user
+    sees (#1000). Each save is logged with the user agent.
 
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape —
@@ -184,6 +197,9 @@ async def asyncio_detailed(
     partial patch. Filters.js's own client-side code decides when
     to call this: immediately for a discrete control, debounced
     while the user is still typing in the free-text Title filter.
+    A signed-in browser session only: a personal API token is refused
+    with 403, so a script or agent can't change the filters the user
+    sees (#1000). Each save is logged with the user agent.
 
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape —
@@ -233,6 +249,9 @@ async def asyncio(
     partial patch. Filters.js's own client-side code decides when
     to call this: immediately for a discrete control, debounced
     while the user is still typing in the free-text Title filter.
+    A signed-in browser session only: a personal API token is refused
+    with 403, so a script or agent can't change the filters the user
+    sees (#1000). Each save is logged with the user agent.
 
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape —
