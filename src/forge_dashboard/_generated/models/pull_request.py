@@ -22,6 +22,7 @@ if TYPE_CHECKING:
   from ..models.review_state import ReviewState
   from ..models.stack_position import StackPosition
   from ..models.stack_ref import StackRef
+  from ..models.update_request import UpdateRequest
 
 
 
@@ -125,6 +126,13 @@ class PullRequest:
                 wait still shows it, and moves it along on every snapshot that
                 came from a fetch started after the request. Held in memory per
                 account: a server restart forgets it.
+            update_request (None | Unset | UpdateRequest): An Update branch the forge accepted and that no snapshot has
+                shown
+                landing yet, or null. The server keeps it, so a reload during the
+                wait still shows it. It is dropped once a snapshot from a fetch
+                started after the request shows the pull request no longer
+                behind, or when the pull request is gone. Held in memory per
+                account: a server restart forgets it.
             auto_merge_enabled (bool | Unset): Whether auto-merge is currently scheduled on this pull request.
                 Omitted when the owning forge has no way to report this at all
                 (Forgejo, today) — never false in that case, since this service
@@ -180,6 +188,7 @@ class PullRequest:
     ready_to_merge: bool
     needs_review: bool
     bot_request: BotRequest | None | Unset = UNSET
+    update_request: None | Unset | UpdateRequest = UNSET
     auto_merge_enabled: bool | Unset = UNSET
     auto_merge_allowed: bool | Unset = UNSET
     review: ReviewState | Unset = UNSET
@@ -196,6 +205,7 @@ class PullRequest:
         from ..models.review_state import ReviewState # noqa: PLC0415
         from ..models.stack_position import StackPosition # noqa: PLC0415
         from ..models.stack_ref import StackRef # noqa: PLC0415
+        from ..models.update_request import UpdateRequest # noqa: PLC0415
         forge = self.forge.value
 
         repo = self.repo
@@ -278,6 +288,14 @@ class PullRequest:
         else:
             bot_request = self.bot_request
 
+        update_request: dict[str, Any] | None | Unset
+        if isinstance(self.update_request, Unset):
+            update_request = UNSET
+        elif isinstance(self.update_request, UpdateRequest):
+            update_request = self.update_request.to_dict()
+        else:
+            update_request = self.update_request
+
         auto_merge_enabled = self.auto_merge_enabled
 
         auto_merge_allowed = self.auto_merge_allowed
@@ -319,6 +337,8 @@ class PullRequest:
         })
         if bot_request is not UNSET:
             field_dict["botRequest"] = bot_request
+        if update_request is not UNSET:
+            field_dict["updateRequest"] = update_request
         if auto_merge_enabled is not UNSET:
             field_dict["autoMergeEnabled"] = auto_merge_enabled
         if auto_merge_allowed is not UNSET:
@@ -338,6 +358,7 @@ class PullRequest:
         from ..models.review_state import ReviewState # noqa: PLC0415
         from ..models.stack_position import StackPosition # noqa: PLC0415
         from ..models.stack_ref import StackRef # noqa: PLC0415
+        from ..models.update_request import UpdateRequest # noqa: PLC0415
         d = dict(src_dict)
         forge = Forge(d.pop("forge"))
 
@@ -476,6 +497,26 @@ class PullRequest:
         bot_request = _parse_bot_request(d.pop("botRequest", UNSET))
 
 
+        def _parse_update_request(data: object) -> None | Unset | UpdateRequest:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                update_request_type_1 = UpdateRequest.from_dict(data)
+
+
+
+                return update_request_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | Unset | UpdateRequest, data)
+
+        update_request = _parse_update_request(d.pop("updateRequest", UNSET))
+
+
         auto_merge_enabled = d.pop("autoMergeEnabled", UNSET)
 
         auto_merge_allowed = d.pop("autoMergeAllowed", UNSET)
@@ -518,6 +559,7 @@ class PullRequest:
             ready_to_merge=ready_to_merge,
             needs_review=needs_review,
             bot_request=bot_request,
+            update_request=update_request,
             auto_merge_enabled=auto_merge_enabled,
             auto_merge_allowed=auto_merge_allowed,
             review=review,

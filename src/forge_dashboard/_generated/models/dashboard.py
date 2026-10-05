@@ -29,6 +29,8 @@ T = TypeVar("T", bound="Dashboard")
 class Dashboard:
     """ 
         Attributes:
+            open_issue_count (int): How many of `issues` are real work: all of them except the
+                `housekeeping` ones. What the Issues badge shows.
             generated_at (datetime.datetime): When this snapshot was refreshed, not when it was requested.
             hidden_drafts (int): How many draft pull requests `pullRequests` leaves out. Always
                 present, and `0` when the request set `includeDrafts=true`, so
@@ -41,6 +43,7 @@ class Dashboard:
             repos (list[RepoStatus]):
      """
 
+    open_issue_count: int
     generated_at: datetime.datetime
     hidden_drafts: int
     forges: list[ForgeHealth]
@@ -58,6 +61,8 @@ class Dashboard:
         from ..models.issue import Issue # noqa: PLC0415
         from ..models.pull_request import PullRequest # noqa: PLC0415
         from ..models.repo_status import RepoStatus # noqa: PLC0415
+        open_issue_count = self.open_issue_count
+
         generated_at = self.generated_at.isoformat()
 
         hidden_drafts = self.hidden_drafts
@@ -94,6 +99,7 @@ class Dashboard:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
+            "openIssueCount": open_issue_count,
             "generatedAt": generated_at,
             "hiddenDrafts": hidden_drafts,
             "forges": forges,
@@ -113,6 +119,8 @@ class Dashboard:
         from ..models.pull_request import PullRequest # noqa: PLC0415
         from ..models.repo_status import RepoStatus # noqa: PLC0415
         d = dict(src_dict)
+        open_issue_count = d.pop("openIssueCount")
+
         generated_at = datetime.datetime.fromisoformat(d.pop("generatedAt"))
 
 
@@ -161,6 +169,7 @@ class Dashboard:
 
 
         dashboard = cls(
+            open_issue_count=open_issue_count,
             generated_at=generated_at,
             hidden_drafts=hidden_drafts,
             forges=forges,
