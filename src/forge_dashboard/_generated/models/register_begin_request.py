@@ -23,7 +23,9 @@ T = TypeVar("T", bound="RegisterBeginRequest")
 class RegisterBeginRequest:
     """ 
         Attributes:
-            username (str):
+            username (str): Surrounding whitespace is trimmed by the server, and what is
+                left must not be empty. Clients may check the same pattern for
+                quick feedback; the server decides.
             display_name (str): Ignored once an invite is required (any account already
                 exists) — the invite's own displayName (set by the admin who
                 issued it) is what's actually used. Only the very first,
