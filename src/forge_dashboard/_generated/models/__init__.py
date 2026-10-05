@@ -37,6 +37,7 @@ from .pull_request_action_request import PullRequestActionRequest
 from .pull_request_checks_response import PullRequestChecksResponse
 from .pull_request_dependabot_action_request import PullRequestDependabotActionRequest
 from .pull_request_dependabot_action_request_action import PullRequestDependabotActionRequestAction
+from .pull_request_kind import PullRequestKind
 from .rate_limit import RateLimit
 from .rate_limit_severity import RateLimitSeverity
 from .receive_forgejo_webhook_body import ReceiveForgejoWebhookBody
@@ -106,6 +107,7 @@ __all__ = (
     "PullRequestChecksResponse",
     "PullRequestDependabotActionRequest",
     "PullRequestDependabotActionRequestAction",
+    "PullRequestKind",
     "RateLimit",
     "RateLimitSeverity",
     "ReceiveForgejoWebhookBody",

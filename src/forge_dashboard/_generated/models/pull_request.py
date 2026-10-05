@@ -11,6 +11,7 @@ from ..types import UNSET, Unset
 from ..models.ci_status import CIStatus
 from ..models.forge import Forge
 from ..models.merge_status import MergeStatus
+from ..models.pull_request_kind import PullRequestKind
 from ..types import UNSET, Unset
 from typing import cast
 import datetime
@@ -70,6 +71,13 @@ class PullRequest:
                 rebase moves it, which shows the bot acted even when the pull
                 request is still reported behind, or wasn't behind to begin
                 with. Empty when the forge didn't say. Always present.
+            kind (PullRequestKind): What sort of pull request this is, decided by the server so no
+                client keeps its own copy of the rule. `release`: release-please's,
+                by its `autorelease:` label (a person opens these, so the label is
+                the only signal, and it wins over any bot author). `dependency`:
+                opened by Dependabot or Renovate, in either spelling of the login
+                (the bare slug GraphQL gives, or REST's `[bot]` form), on either
+                forge. `regular`: everything else. Always present.
             base_branch (str): The branch the pull request targets. Empty when the forge didn't
                 say.
             head_branch (str): The branch the pull request comes from. Empty when the forge
@@ -175,6 +183,7 @@ class PullRequest:
     merge_status: MergeStatus
     behind: bool
     head_sha: str
+    kind: PullRequestKind
     base_branch: str
     head_branch: str
     cross_repository: bool
@@ -238,6 +247,8 @@ class PullRequest:
         behind = self.behind
 
         head_sha = self.head_sha
+
+        kind = self.kind.value
 
         base_branch = self.base_branch
 
@@ -322,6 +333,7 @@ class PullRequest:
             "mergeStatus": merge_status,
             "behind": behind,
             "headSha": head_sha,
+            "kind": kind,
             "baseBranch": base_branch,
             "headBranch": head_branch,
             "crossRepository": cross_repository,
@@ -410,6 +422,11 @@ class PullRequest:
         behind = d.pop("behind")
 
         head_sha = d.pop("headSha")
+
+        kind = PullRequestKind(d.pop("kind"))
+
+
+
 
         base_branch = d.pop("baseBranch")
 
@@ -546,6 +563,7 @@ class PullRequest:
             merge_status=merge_status,
             behind=behind,
             head_sha=head_sha,
+            kind=kind,
             base_branch=base_branch,
             head_branch=head_branch,
             cross_repository=cross_repository,
