@@ -9,6 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..models.settings_response_theme import SettingsResponseTheme
+from ..types import UNSET, Unset
 
 
 
@@ -64,6 +65,10 @@ class SettingsResponse:
                 rather than a saved choice. Set only from Settings; every
                 other page reads it via the lightweight
                 GET /api/settings/theme instead of this endpoint.
+            timezone (str | Unset): The signed-in user's own time zone as an IANA name such as
+                `Europe/Amsterdam`. Empty means the browser's own zone. Set only
+                from Settings (PUT /api/settings/timezone); every other page reads
+                it via GET /api/settings/timezone.
      """
 
     github_username: str
@@ -77,6 +82,7 @@ class SettingsResponse:
     webhook_secret: str
     renovate_rebase_label: str
     theme: SettingsResponseTheme
+    timezone: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -106,6 +112,8 @@ class SettingsResponse:
 
         theme = self.theme.value
 
+        timezone = self.timezone
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -122,6 +130,8 @@ class SettingsResponse:
             "renovateRebaseLabel": renovate_rebase_label,
             "theme": theme,
         })
+        if timezone is not UNSET:
+            field_dict["timezone"] = timezone
 
         return field_dict
 
@@ -155,6 +165,8 @@ class SettingsResponse:
 
 
 
+        timezone = d.pop("timezone", UNSET)
+
         settings_response = cls(
             github_username=github_username,
             github_token_set=github_token_set,
@@ -167,6 +179,7 @@ class SettingsResponse:
             webhook_secret=webhook_secret,
             renovate_rebase_label=renovate_rebase_label,
             theme=theme,
+            timezone=timezone,
         )
 
 
