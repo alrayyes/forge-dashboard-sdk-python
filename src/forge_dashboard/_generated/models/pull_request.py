@@ -53,6 +53,9 @@ class PullRequest:
                 stopping a merge that isn't confirmed to be a real conflict —
                 including Forgejo's own mergeable flag reporting false, since its
                 server computes that asynchronously and can report it stale.
+                "unstable" is GitHub's UNSTABLE: the pull request can be merged, but
+                a check that branch protection doesn't require is failing or still
+                running. Merge stays available.
                 "unknown" covers both a forge that hasn't determined this yet and
                 this service being unable to determine it.
             behind (bool): Whether this pull request's base branch has moved since its
