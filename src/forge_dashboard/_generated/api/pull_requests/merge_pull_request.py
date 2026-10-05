@@ -120,7 +120,8 @@ def sync_detailed(
 
      Merges the named pull request using its repo's own configured
     default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
+    default, except that a base branch requiring linear history gets
+    squash or rebase, never a merge commit; Forgejo's API has no such default built in, so this
     looks up the repo's configured default merge style first and
     passes that explicitly. Neither takes a method override here;
     picking one is out of scope for this endpoint.
@@ -166,7 +167,8 @@ def sync(
 
      Merges the named pull request using its repo's own configured
     default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
+    default, except that a base branch requiring linear history gets
+    squash or rebase, never a merge commit; Forgejo's API has no such default built in, so this
     looks up the repo's configured default merge style first and
     passes that explicitly. Neither takes a method override here;
     picking one is out of scope for this endpoint.
@@ -207,7 +209,8 @@ async def asyncio_detailed(
 
      Merges the named pull request using its repo's own configured
     default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
+    default, except that a base branch requiring linear history gets
+    squash or rebase, never a merge commit; Forgejo's API has no such default built in, so this
     looks up the repo's configured default merge style first and
     passes that explicitly. Neither takes a method override here;
     picking one is out of scope for this endpoint.
@@ -253,7 +256,8 @@ async def asyncio(
 
      Merges the named pull request using its repo's own configured
     default merge method — GitHub is asked to pick its own repo
-    default; Forgejo's API has no such default built in, so this
+    default, except that a base branch requiring linear history gets
+    squash or rebase, never a merge commit; Forgejo's API has no such default built in, so this
     looks up the repo's configured default merge style first and
     passes that explicitly. Neither takes a method override here;
     picking one is out of scope for this endpoint.
