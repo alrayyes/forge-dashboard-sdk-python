@@ -32,6 +32,10 @@ class Issue:
             number (int):
             title (str):
             url (str): The real issue URL on its own forge.
+            housekeeping (bool): True for an issue a bot keeps open and rewrites, Renovate's
+                "Dependency Dashboard", which is not work for a person. The
+                server decides, so every client lists and counts the same
+                issues. It stays in `issues`; `openIssueCount` leaves it out.
             author (str):
             labels (list[Label]):
             created_at (datetime.datetime):
@@ -43,6 +47,7 @@ class Issue:
     number: int
     title: str
     url: str
+    housekeeping: bool
     author: str
     labels: list[Label]
     created_at: datetime.datetime
@@ -64,6 +69,8 @@ class Issue:
         title = self.title
 
         url = self.url
+
+        housekeeping = self.housekeeping
 
         author = self.author
 
@@ -87,6 +94,7 @@ class Issue:
             "number": number,
             "title": title,
             "url": url,
+            "housekeeping": housekeeping,
             "author": author,
             "labels": labels,
             "createdAt": created_at,
@@ -113,6 +121,8 @@ class Issue:
         title = d.pop("title")
 
         url = d.pop("url")
+
+        housekeeping = d.pop("housekeeping")
 
         author = d.pop("author")
 
@@ -142,6 +152,7 @@ class Issue:
             number=number,
             title=title,
             url=url,
+            housekeeping=housekeeping,
             author=author,
             labels=labels,
             created_at=created_at,

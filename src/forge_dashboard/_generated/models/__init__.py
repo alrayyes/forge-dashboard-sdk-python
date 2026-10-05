@@ -60,6 +60,8 @@ from .theme_request import ThemeRequest
 from .theme_request_theme import ThemeRequestTheme
 from .theme_response import ThemeResponse
 from .theme_response_theme import ThemeResponseTheme
+from .update_request import UpdateRequest
+from .update_request_phase import UpdateRequestPhase
 from .version import Version
 from .web_authn_ceremony_options import WebAuthnCeremonyOptions
 from .webhook_ensure_request import WebhookEnsureRequest
@@ -125,6 +127,8 @@ __all__ = (
     "ThemeRequestTheme",
     "ThemeResponse",
     "ThemeResponseTheme",
+    "UpdateRequest",
+    "UpdateRequestPhase",
     "Version",
     "WebAuthnCeremonyOptions",
     "WebhookEnsureRequest",
