@@ -7,6 +7,7 @@ class AllowedActionAction(StrEnum):
     DEPENDABOT_RECREATE = "dependabot_recreate"
     MERGE = "merge"
     RENOVATE_REBASE = "renovate_rebase"
+    RERUN_CHECKS = "rerun_checks"
     UPDATE_BRANCH = "update_branch"
 
     def __str__(self) -> str:
