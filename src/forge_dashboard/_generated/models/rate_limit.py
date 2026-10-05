@@ -36,7 +36,9 @@ class RateLimit:
                 threshold or clock check. `exceeded`: nothing left and the
                 reset hasn't been seen to pass. `low`: under 5% left (also a
                 spent budget whose reset time has passed, until the next
-                snapshot says otherwise). `ok`: everything else.
+                snapshot says otherwise). `warning`: under 20% left but not
+                yet low, for a gauge's amber stage; a banner or a lock has no
+                reason to act on it. `ok`: everything else.
             cost (int | Unset): The point price the most recent call was actually charged — GraphQL-specific, since a REST
                 request has no separate cost concept beyond the flat one-request-one-point REST's own budget already counts.
                 Omitted for a REST-sourced RateLimit.

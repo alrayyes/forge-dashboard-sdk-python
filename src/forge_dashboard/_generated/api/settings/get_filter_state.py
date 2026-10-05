@@ -48,6 +48,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -75,6 +82,8 @@ def sync_detailed(
     isn't either: this loads on every dashboard/Insights visit and
     shouldn't provision webhook credentials as a side effect.
     `{}` for a user who's never saved any filters yet, not a 404.
+    These are the web UI's own state: a signed-in browser session only,
+    and a personal API token is refused with 403 (#1000).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -107,6 +116,8 @@ def sync(
     isn't either: this loads on every dashboard/Insights visit and
     shouldn't provision webhook credentials as a side effect.
     `{}` for a user who's never saved any filters yet, not a 404.
+    These are the web UI's own state: a signed-in browser session only,
+    and a personal API token is refused with 403 (#1000).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -134,6 +145,8 @@ async def asyncio_detailed(
     isn't either: this loads on every dashboard/Insights visit and
     shouldn't provision webhook credentials as a side effect.
     `{}` for a user who's never saved any filters yet, not a 404.
+    These are the web UI's own state: a signed-in browser session only,
+    and a personal API token is refused with 403 (#1000).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -166,6 +179,8 @@ async def asyncio(
     isn't either: this loads on every dashboard/Insights visit and
     shouldn't provision webhook credentials as a side effect.
     `{}` for a user who's never saved any filters yet, not a 404.
+    These are the web UI's own state: a signed-in browser session only,
+    and a personal API token is refused with 403 (#1000).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

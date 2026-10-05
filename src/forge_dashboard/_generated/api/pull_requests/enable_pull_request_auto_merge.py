@@ -126,6 +126,13 @@ def sync_detailed(
     answers an `ActionError` (see Merge): `already_merged` or
     `already_closed` when the row was stale, otherwise a `code` and a
     plain-words `message` safe to show a person.
+
+    When the pull request is on the signed-in user's board and its
+    `allowedActions` has no `auto_merge` entry, this server answers 409
+    itself and never asks the forge: `auto_merge_not_allowed`,
+    `already_up_to_date`, `conflict`, `stacked` or `ready_to_merge` for
+    the reasons the board already knows, and `not_mergeable` for
+    auto-merge already on or a forge that has none.
     `auto_merge_not_allowed` means the repo doesn't allow auto-merge
     (or not for this pull request); `ready_to_merge` means it is
     already clean, so there is nothing to wait for and Merge is the
@@ -178,6 +185,13 @@ def sync(
     answers an `ActionError` (see Merge): `already_merged` or
     `already_closed` when the row was stale, otherwise a `code` and a
     plain-words `message` safe to show a person.
+
+    When the pull request is on the signed-in user's board and its
+    `allowedActions` has no `auto_merge` entry, this server answers 409
+    itself and never asks the forge: `auto_merge_not_allowed`,
+    `already_up_to_date`, `conflict`, `stacked` or `ready_to_merge` for
+    the reasons the board already knows, and `not_mergeable` for
+    auto-merge already on or a forge that has none.
     `auto_merge_not_allowed` means the repo doesn't allow auto-merge
     (or not for this pull request); `ready_to_merge` means it is
     already clean, so there is nothing to wait for and Merge is the
@@ -225,6 +239,13 @@ async def asyncio_detailed(
     answers an `ActionError` (see Merge): `already_merged` or
     `already_closed` when the row was stale, otherwise a `code` and a
     plain-words `message` safe to show a person.
+
+    When the pull request is on the signed-in user's board and its
+    `allowedActions` has no `auto_merge` entry, this server answers 409
+    itself and never asks the forge: `auto_merge_not_allowed`,
+    `already_up_to_date`, `conflict`, `stacked` or `ready_to_merge` for
+    the reasons the board already knows, and `not_mergeable` for
+    auto-merge already on or a forge that has none.
     `auto_merge_not_allowed` means the repo doesn't allow auto-merge
     (or not for this pull request); `ready_to_merge` means it is
     already clean, so there is nothing to wait for and Merge is the
@@ -277,6 +298,13 @@ async def asyncio(
     answers an `ActionError` (see Merge): `already_merged` or
     `already_closed` when the row was stale, otherwise a `code` and a
     plain-words `message` safe to show a person.
+
+    When the pull request is on the signed-in user's board and its
+    `allowedActions` has no `auto_merge` entry, this server answers 409
+    itself and never asks the forge: `auto_merge_not_allowed`,
+    `already_up_to_date`, `conflict`, `stacked` or `ready_to_merge` for
+    the reasons the board already knows, and `not_mergeable` for
+    auto-merge already on or a forge that has none.
     `auto_merge_not_allowed` means the repo doesn't allow auto-merge
     (or not for this pull request); `ready_to_merge` means it is
     already clean, so there is nothing to wait for and Merge is the
