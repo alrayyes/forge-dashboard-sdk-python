@@ -1,6 +1,8 @@
-# Builds the API reference from docstrings and publishes it to GitHub
-# Pages. Separate from ci.yml's own jobs since this deploys something
-# (a live site), not just checks a diff.
+# Builds the API reference from docstrings plus the test and coverage reports
+# (reports/), and publishes both to GitHub Pages. Separate from ci.yml's own
+# jobs since this deploys something (a live site), not just checks a diff. A
+# repo has one Pages deployment, so both ship from this workflow. The tests
+# run first: a red run fails the build job and nothing is deployed.
 name: docs
 
 on:
@@ -25,8 +27,15 @@ jobs:
       - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
         with:
           version: "0.12.15"
-      - run: uv sync --all-extras --group docs
-      - run: uv run --group docs mkdocs build --strict
+      - run: uv sync --locked --all-groups
+      - name: pytest
+        run: >-
+          uv run pytest --cov=forge_dashboard --cov-report=xml
+          --cov-report=html --junitxml=junit.xml -o junit_family=legacy
+      - run: uv run mkdocs build --strict
+      # After mkdocs, whose build cleans site/ and would wipe reports/.
+      - name: Build test and coverage reports
+        run: uv run python hack/reports.py site/reports
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: site

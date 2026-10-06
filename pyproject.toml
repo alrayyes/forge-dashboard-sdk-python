@@ -86,6 +86,8 @@ also_copy = [
   "src/forge_dashboard/__init__.py",
   "src/forge_dashboard/py.typed",
   "src/forge_dashboard/_generated/",
+  # tests/test_reports.py loads hack/reports.py from here.
+  "hack/",
   "pyproject.toml",
   "uv.lock",
 ]
