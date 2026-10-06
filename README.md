@@ -108,6 +108,15 @@ jitter (honoring a server-sent `Retry-After`), and never retries any other
 swap the underlying `httpx.Client`/`httpx.AsyncClient` entirely with
 `httpx_client=`/`httpx_async_client=`.
 
+## Reports
+
+Every push to `main` that passes its tests publishes the reports to
+[apis.ryankes.eu](https://apis.ryankes.eu/forge-dashboard-sdk-python/reports/):
+
+- [Tests](https://apis.ryankes.eu/forge-dashboard-sdk-python/reports/tests/): JUnit XML
+- [Coverage](https://apis.ryankes.eu/forge-dashboard-sdk-python/reports/coverage/):
+  an HTML view and [Cobertura XML](https://apis.ryankes.eu/forge-dashboard-sdk-python/reports/coverage/coverage.xml)
+
 ## Regenerating the client
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) — the generated code is pinned to a
