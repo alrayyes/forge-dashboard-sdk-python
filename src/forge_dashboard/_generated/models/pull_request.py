@@ -142,9 +142,10 @@ class PullRequest:
                 behind, or when the pull request is gone. Held in memory per
                 account: a server restart forgets it.
             auto_merge_enabled (bool | Unset): Whether auto-merge is currently scheduled on this pull request.
-                Omitted when the owning forge has no way to report this at all
-                (Forgejo, today) — never false in that case, since this service
-                genuinely doesn't know.
+                On Forgejo it is true when the signed-in user armed it in this
+                app, which holds the intent itself. Otherwise omitted when the
+                owning forge has no way to report this — never false in that
+                case, since this service genuinely doesn't know.
             auto_merge_allowed (bool | Unset): Whether GitHub will accept an "Enable auto-merge" request for
                 this pull request from the signed-in viewer, read from the
                 GraphQL `PullRequest.viewerCanEnableAutoMerge` field. GitHub
