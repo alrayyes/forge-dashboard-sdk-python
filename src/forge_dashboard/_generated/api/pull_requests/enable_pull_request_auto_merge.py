@@ -109,9 +109,18 @@ def sync_detailed(
     body: PullRequestActionRequest,
 
 ) -> Response[ActionError | Any | Error]:
-    """ Arm a pull request's own native auto-merge, on the signed-in user's behalf
+    """ Arm auto-merge on a pull request, on the signed-in user's behalf
 
-     GitHub only, today. Enables the named pull request's own
+     Forgejo: this app keeps the intent itself and merges the pull
+    request from its background pass once its checks pass (Forgejo's
+    own scheduled merge has no way to read its state back). Nothing is
+    sent to the forge now. The intent is stored per signed-in user and
+    pull request, and the pull request then reports
+    `autoMergeEnabled: true` and offers `cancel_auto_merge`. A repeat
+    call is a 204. Only a pull request the user armed here is ever
+    merged this way.
+
+    GitHub: enables the named pull request's own
     auto-merge via GitHub's `enablePullRequestAutoMerge` GraphQL
     mutation — REST has no equivalent endpoint. Unlike Merge, that
     mutation asks for an explicit merge method rather than picking
@@ -168,9 +177,18 @@ def sync(
     body: PullRequestActionRequest,
 
 ) -> ActionError | Any | Error | None:
-    """ Arm a pull request's own native auto-merge, on the signed-in user's behalf
+    """ Arm auto-merge on a pull request, on the signed-in user's behalf
 
-     GitHub only, today. Enables the named pull request's own
+     Forgejo: this app keeps the intent itself and merges the pull
+    request from its background pass once its checks pass (Forgejo's
+    own scheduled merge has no way to read its state back). Nothing is
+    sent to the forge now. The intent is stored per signed-in user and
+    pull request, and the pull request then reports
+    `autoMergeEnabled: true` and offers `cancel_auto_merge`. A repeat
+    call is a 204. Only a pull request the user armed here is ever
+    merged this way.
+
+    GitHub: enables the named pull request's own
     auto-merge via GitHub's `enablePullRequestAutoMerge` GraphQL
     mutation — REST has no equivalent endpoint. Unlike Merge, that
     mutation asks for an explicit merge method rather than picking
@@ -222,9 +240,18 @@ async def asyncio_detailed(
     body: PullRequestActionRequest,
 
 ) -> Response[ActionError | Any | Error]:
-    """ Arm a pull request's own native auto-merge, on the signed-in user's behalf
+    """ Arm auto-merge on a pull request, on the signed-in user's behalf
 
-     GitHub only, today. Enables the named pull request's own
+     Forgejo: this app keeps the intent itself and merges the pull
+    request from its background pass once its checks pass (Forgejo's
+    own scheduled merge has no way to read its state back). Nothing is
+    sent to the forge now. The intent is stored per signed-in user and
+    pull request, and the pull request then reports
+    `autoMergeEnabled: true` and offers `cancel_auto_merge`. A repeat
+    call is a 204. Only a pull request the user armed here is ever
+    merged this way.
+
+    GitHub: enables the named pull request's own
     auto-merge via GitHub's `enablePullRequestAutoMerge` GraphQL
     mutation — REST has no equivalent endpoint. Unlike Merge, that
     mutation asks for an explicit merge method rather than picking
@@ -281,9 +308,18 @@ async def asyncio(
     body: PullRequestActionRequest,
 
 ) -> ActionError | Any | Error | None:
-    """ Arm a pull request's own native auto-merge, on the signed-in user's behalf
+    """ Arm auto-merge on a pull request, on the signed-in user's behalf
 
-     GitHub only, today. Enables the named pull request's own
+     Forgejo: this app keeps the intent itself and merges the pull
+    request from its background pass once its checks pass (Forgejo's
+    own scheduled merge has no way to read its state back). Nothing is
+    sent to the forge now. The intent is stored per signed-in user and
+    pull request, and the pull request then reports
+    `autoMergeEnabled: true` and offers `cancel_auto_merge`. A repeat
+    call is a 204. Only a pull request the user armed here is ever
+    merged this way.
+
+    GitHub: enables the named pull request's own
     auto-merge via GitHub's `enablePullRequestAutoMerge` GraphQL
     mutation — REST has no equivalent endpoint. Unlike Merge, that
     mutation asks for an explicit merge method rather than picking

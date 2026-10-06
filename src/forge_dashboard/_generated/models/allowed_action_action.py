@@ -2,6 +2,7 @@ from enum import StrEnum
 
 class AllowedActionAction(StrEnum):
     AUTO_MERGE = "auto_merge"
+    CANCEL_AUTO_MERGE = "cancel_auto_merge"
     CLOSE = "close"
     DEPENDABOT_REBASE = "dependabot_rebase"
     DEPENDABOT_RECREATE = "dependabot_recreate"
