@@ -50,7 +50,7 @@ class ActionError:
                 otherwise. It never holds an internal prefix, an API path, a
                 URL or JSON.
             resets_at (datetime.datetime | Unset): Only with `rate_limited`, when the forge said so. When the budget comes
-                back.
+                back. On Forgejo it comes from the `Retry-After` header, in seconds or as a date.
      """
 
     error: str
