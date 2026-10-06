@@ -18,6 +18,7 @@ import datetime
 
 if TYPE_CHECKING:
   from ..models.allowed_action import AllowedAction
+  from ..models.auto_merge_status import AutoMergeStatus
   from ..models.bot_request import BotRequest
   from ..models.label import Label
   from ..models.review_state import ReviewState
@@ -168,6 +169,10 @@ class PullRequest:
                 on the pull request list, but approvals and the decision need one
                 reviews call per open, non-draft pull request, cached until that
                 pull request's updatedAt changes.
+            auto_merge (AutoMergeStatus | Unset): Where an armed Forgejo pull request stands, so the row can say why
+                auto-merge is waiting or stopped in words and not by colour. Present
+                only while the signed-in user has auto-merge armed on it. This app
+                holds that intent itself, so GitHub's own auto-merge never has it.
      """
 
     forge: Forge
@@ -202,6 +207,7 @@ class PullRequest:
     auto_merge_enabled: bool | Unset = UNSET
     auto_merge_allowed: bool | Unset = UNSET
     review: ReviewState | Unset = UNSET
+    auto_merge: AutoMergeStatus | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -210,6 +216,7 @@ class PullRequest:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.allowed_action import AllowedAction # noqa: PLC0415
+        from ..models.auto_merge_status import AutoMergeStatus # noqa: PLC0415
         from ..models.bot_request import BotRequest # noqa: PLC0415
         from ..models.label import Label # noqa: PLC0415
         from ..models.review_state import ReviewState # noqa: PLC0415
@@ -316,6 +323,10 @@ class PullRequest:
         if not isinstance(self.review, Unset):
             review = self.review.to_dict()
 
+        auto_merge: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.auto_merge, Unset):
+            auto_merge = self.auto_merge.to_dict()
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -358,6 +369,8 @@ class PullRequest:
             field_dict["autoMergeAllowed"] = auto_merge_allowed
         if review is not UNSET:
             field_dict["review"] = review
+        if auto_merge is not UNSET:
+            field_dict["autoMerge"] = auto_merge
 
         return field_dict
 
@@ -366,6 +379,7 @@ class PullRequest:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.allowed_action import AllowedAction # noqa: PLC0415
+        from ..models.auto_merge_status import AutoMergeStatus # noqa: PLC0415
         from ..models.bot_request import BotRequest # noqa: PLC0415
         from ..models.label import Label # noqa: PLC0415
         from ..models.review_state import ReviewState # noqa: PLC0415
@@ -549,6 +563,16 @@ class PullRequest:
 
 
 
+        _auto_merge = d.pop("autoMerge", UNSET)
+        auto_merge: AutoMergeStatus | Unset
+        if isinstance(_auto_merge,  Unset):
+            auto_merge = UNSET
+        else:
+            auto_merge = AutoMergeStatus.from_dict(_auto_merge)
+
+
+
+
         pull_request = cls(
             forge=forge,
             repo=repo,
@@ -582,6 +606,7 @@ class PullRequest:
             auto_merge_enabled=auto_merge_enabled,
             auto_merge_allowed=auto_merge_allowed,
             review=review,
+            auto_merge=auto_merge,
         )
 
 
