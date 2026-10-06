@@ -13,6 +13,9 @@ from .allowed_action_blocked_code import AllowedActionBlockedCode
 from .api_token import APIToken
 from .api_token_create_request import APITokenCreateRequest
 from .api_token_create_response import APITokenCreateResponse
+from .auto_merge_status import AutoMergeStatus
+from .auto_merge_status_state import AutoMergeStatusState
+from .auto_merged_pull_request import AutoMergedPullRequest
 from .bot_request import BotRequest
 from .bot_request_action import BotRequestAction
 from .bot_request_bot import BotRequestBot
@@ -84,6 +87,9 @@ __all__ = (
     "APIToken",
     "APITokenCreateRequest",
     "APITokenCreateResponse",
+    "AutoMergedPullRequest",
+    "AutoMergeStatus",
+    "AutoMergeStatusState",
     "BotRequest",
     "BotRequestAction",
     "BotRequestBot",
