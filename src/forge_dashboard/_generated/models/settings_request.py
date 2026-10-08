@@ -9,6 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..types import UNSET, Unset
+from typing import cast
 
 
 
@@ -45,6 +46,8 @@ class SettingsRequest:
             forgejo_token (str | Unset):
             forgejo_username (str | Unset):
             renovate_rebase_label (str | Unset):
+            renovate_authors (list[str] | Unset): Replaces the saved list. Entries are trimmed; blanks and
+                repeats (ignoring case) are dropped. Omitted or empty clears it.
      """
 
     github_token: str | Unset = UNSET
@@ -54,6 +57,7 @@ class SettingsRequest:
     forgejo_token: str | Unset = UNSET
     forgejo_username: str | Unset = UNSET
     renovate_rebase_label: str | Unset = UNSET
+    renovate_authors: list[str] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -75,6 +79,12 @@ class SettingsRequest:
 
         renovate_rebase_label = self.renovate_rebase_label
 
+        renovate_authors: list[str] | Unset = UNSET
+        if not isinstance(self.renovate_authors, Unset):
+            renovate_authors = self.renovate_authors
+
+
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -94,6 +104,8 @@ class SettingsRequest:
             field_dict["forgejoUsername"] = forgejo_username
         if renovate_rebase_label is not UNSET:
             field_dict["renovateRebaseLabel"] = renovate_rebase_label
+        if renovate_authors is not UNSET:
+            field_dict["renovateAuthors"] = renovate_authors
 
         return field_dict
 
@@ -116,6 +128,9 @@ class SettingsRequest:
 
         renovate_rebase_label = d.pop("renovateRebaseLabel", UNSET)
 
+        renovate_authors = cast(list[str], d.pop("renovateAuthors", UNSET))
+
+
         settings_request = cls(
             github_token=github_token,
             github_username=github_username,
@@ -124,6 +139,7 @@ class SettingsRequest:
             forgejo_token=forgejo_token,
             forgejo_username=forgejo_username,
             renovate_rebase_label=renovate_rebase_label,
+            renovate_authors=renovate_authors,
         )
 
 
