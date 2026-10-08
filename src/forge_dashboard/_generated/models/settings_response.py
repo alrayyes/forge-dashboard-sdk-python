@@ -10,6 +10,7 @@ from ..types import UNSET, Unset
 
 from ..models.settings_response_theme import SettingsResponseTheme
 from ..types import UNSET, Unset
+from typing import cast
 
 
 
@@ -60,6 +61,13 @@ class SettingsResponse:
                 per-repo configurable, so this is a user-set override rather
                 than a hardcoded constant). Empty means Renovate's own
                 documented default, `rebase`.
+            renovate_authors (list[str]): The logins that are Renovate on the user's forges. On GitHub the
+                App's own `renovate` and `renovate[bot]` are always recognised.
+                A Forgejo or GitLab instance has no App: Renovate runs there as
+                an ordinary account with whatever name the instance gave it, so
+                the user lists it here. A pull request by one of these gets
+                Renovate's own rebase, not Update branch, and is a `dependency`.
+                Matched case-insensitively. Empty means only the GitHub slugs.
             theme (SettingsResponseTheme): The signed-in user's own theme preference. Empty
                 means "system" — follow the browser's prefers-color-scheme
                 rather than a saved choice. Set only from Settings; every
@@ -81,6 +89,7 @@ class SettingsResponse:
     webhook_token: str
     webhook_secret: str
     renovate_rebase_label: str
+    renovate_authors: list[str]
     theme: SettingsResponseTheme
     timezone: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -110,6 +119,10 @@ class SettingsResponse:
 
         renovate_rebase_label = self.renovate_rebase_label
 
+        renovate_authors = self.renovate_authors
+
+
+
         theme = self.theme.value
 
         timezone = self.timezone
@@ -128,6 +141,7 @@ class SettingsResponse:
             "webhookToken": webhook_token,
             "webhookSecret": webhook_secret,
             "renovateRebaseLabel": renovate_rebase_label,
+            "renovateAuthors": renovate_authors,
             "theme": theme,
         })
         if timezone is not UNSET:
@@ -160,6 +174,9 @@ class SettingsResponse:
 
         renovate_rebase_label = d.pop("renovateRebaseLabel")
 
+        renovate_authors = cast(list[str], d.pop("renovateAuthors"))
+
+
         theme = SettingsResponseTheme(d.pop("theme"))
 
 
@@ -178,6 +195,7 @@ class SettingsResponse:
             webhook_token=webhook_token,
             webhook_secret=webhook_secret,
             renovate_rebase_label=renovate_rebase_label,
+            renovate_authors=renovate_authors,
             theme=theme,
             timezone=timezone,
         )
