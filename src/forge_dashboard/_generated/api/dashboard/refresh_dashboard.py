@@ -100,6 +100,15 @@ def sync_detailed(
     spend that owner's own forge rate-limit budget on their own
     schedule.
 
+    The server holds a five-second cooldown per user, so this can't
+    be used to hammer a forge's API budget. A call inside that
+    window does not fetch: it answers 200 with the current snapshot
+    and a `Retry-After` header carrying the seconds left. Never a
+    429, because the page calls this straight after a merge, close
+    or branch update to show the result, and a refusal there would
+    leave the row stale. Only a call that actually fetched answers
+    without the header.
+
     Args:
         include_drafts (bool | Unset):  Default: False.
 
@@ -143,6 +152,15 @@ def sync(
     spend that owner's own forge rate-limit budget on their own
     schedule.
 
+    The server holds a five-second cooldown per user, so this can't
+    be used to hammer a forge's API budget. A call inside that
+    window does not fetch: it answers 200 with the current snapshot
+    and a `Retry-After` header carrying the seconds left. Never a
+    429, because the page calls this straight after a merge, close
+    or branch update to show the result, and a refusal there would
+    leave the row stale. Only a call that actually fetched answers
+    without the header.
+
     Args:
         include_drafts (bool | Unset):  Default: False.
 
@@ -180,6 +198,15 @@ async def asyncio_detailed(
     a user with shared access to someone else's dashboard can never
     spend that owner's own forge rate-limit budget on their own
     schedule.
+
+    The server holds a five-second cooldown per user, so this can't
+    be used to hammer a forge's API budget. A call inside that
+    window does not fetch: it answers 200 with the current snapshot
+    and a `Retry-After` header carrying the seconds left. Never a
+    429, because the page calls this straight after a merge, close
+    or branch update to show the result, and a refusal there would
+    leave the row stale. Only a call that actually fetched answers
+    without the header.
 
     Args:
         include_drafts (bool | Unset):  Default: False.
@@ -223,6 +250,15 @@ async def asyncio(
     a user with shared access to someone else's dashboard can never
     spend that owner's own forge rate-limit budget on their own
     schedule.
+
+    The server holds a five-second cooldown per user, so this can't
+    be used to hammer a forge's API budget. A call inside that
+    window does not fetch: it answers 200 with the current snapshot
+    and a `Retry-After` header carrying the seconds left. Never a
+    429, because the page calls this straight after a merge, close
+    or branch update to show the result, and a refusal there would
+    leave the row stale. Only a call that actually fetched answers
+    without the header.
 
     Args:
         include_drafts (bool | Unset):  Default: False.
