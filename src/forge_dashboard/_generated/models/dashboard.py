@@ -38,6 +38,10 @@ class Dashboard:
             open_issue_count (int): How many of `issues` are real work: all of them except the
                 `housekeeping` ones. What the Issues badge shows.
             generated_at (datetime.datetime): When this snapshot was refreshed, not when it was requested.
+            read_interval_seconds (int): How often, in seconds, a client should re-read GET
+                /api/dashboard. The server's advice, so a client needs no
+                interval of its own. The read is cheap and never calls a
+                forge; this is not the backend's refresh schedule.
             hidden_drafts (int): How many draft pull requests `pullRequests` leaves out. Always
                 present, and `0` when the request set `includeDrafts=true`, so
                 a client can render "N hidden" without a special case. Drafts
@@ -52,6 +56,7 @@ class Dashboard:
     auto_merged: list[AutoMergedPullRequest]
     open_issue_count: int
     generated_at: datetime.datetime
+    read_interval_seconds: int
     hidden_drafts: int
     forges: list[ForgeHealth]
     pull_requests: list[PullRequest]
@@ -79,6 +84,8 @@ class Dashboard:
         open_issue_count = self.open_issue_count
 
         generated_at = self.generated_at.isoformat()
+
+        read_interval_seconds = self.read_interval_seconds
 
         hidden_drafts = self.hidden_drafts
 
@@ -117,6 +124,7 @@ class Dashboard:
             "autoMerged": auto_merged,
             "openIssueCount": open_issue_count,
             "generatedAt": generated_at,
+            "readIntervalSeconds": read_interval_seconds,
             "hiddenDrafts": hidden_drafts,
             "forges": forges,
             "pullRequests": pull_requests,
@@ -152,6 +160,8 @@ class Dashboard:
 
 
 
+
+        read_interval_seconds = d.pop("readIntervalSeconds")
 
         hidden_drafts = d.pop("hiddenDrafts")
 
@@ -199,6 +209,7 @@ class Dashboard:
             auto_merged=auto_merged,
             open_issue_count=open_issue_count,
             generated_at=generated_at,
+            read_interval_seconds=read_interval_seconds,
             hidden_drafts=hidden_drafts,
             forges=forges,
             pull_requests=pull_requests,
