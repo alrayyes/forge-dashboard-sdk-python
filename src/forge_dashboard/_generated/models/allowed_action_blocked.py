@@ -8,7 +8,6 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..models.allowed_action_blocked_code import AllowedActionBlockedCode
 from ..types import UNSET, Unset
 
 
@@ -26,12 +25,14 @@ class AllowedActionBlocked:
     is never hidden for an open pull request, only blocked.
 
         Attributes:
-            code (AllowedActionBlockedCode): The same codes as `ActionError.code`.
+            code (str): The same codes as `ActionError.code`. The server may learn
+                more, so a client should show `message` for a code it doesn't
+                know. Declared with `x-extensible-enum`.
             message (str): Plain words, safe to show a person.
             next_ (str | Unset): What unlocks it, when something does.
      """
 
-    code: AllowedActionBlockedCode
+    code: str
     message: str
     next_: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -41,7 +42,7 @@ class AllowedActionBlocked:
 
 
     def to_dict(self) -> dict[str, Any]:
-        code = self.code.value
+        code = self.code
 
         message = self.message
 
@@ -64,10 +65,7 @@ class AllowedActionBlocked:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        code = AllowedActionBlockedCode(d.pop("code"))
-
-
-
+        code = d.pop("code")
 
         message = d.pop("message")
 

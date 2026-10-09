@@ -8,7 +8,6 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..models.allowed_action_action import AllowedActionAction
 from ..types import UNSET, Unset
 from typing import cast
 
@@ -27,12 +26,15 @@ T = TypeVar("T", bound="AllowedAction")
 class AllowedAction:
     """ 
         Attributes:
-            action (AllowedActionAction):
+            action (str): One of the values below today, and the server may learn more.
+                A client should treat a value it doesn't know as an action it
+                can't offer, not as an error. Declared with `x-extensible-enum`
+                so adding a value is a minor SDK release.
             blocked (AllowedActionBlocked | Unset): Present when the action is offered but can't be taken yet. Merge
                 is never hidden for an open pull request, only blocked.
      """
 
-    action: AllowedActionAction
+    action: str
     blocked: AllowedActionBlocked | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -42,7 +44,7 @@ class AllowedAction:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.allowed_action_blocked import AllowedActionBlocked # noqa: PLC0415
-        action = self.action.value
+        action = self.action
 
         blocked: dict[str, Any] | Unset = UNSET
         if not isinstance(self.blocked, Unset):
@@ -65,10 +67,7 @@ class AllowedAction:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.allowed_action_blocked import AllowedActionBlocked # noqa: PLC0415
         d = dict(src_dict)
-        action = AllowedActionAction(d.pop("action"))
-
-
-
+        action = d.pop("action")
 
         _blocked = d.pop("blocked", UNSET)
         blocked: AllowedActionBlocked | Unset
