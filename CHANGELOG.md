@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.0.20](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v2.0.19...v2.0.20) (2026-10-10)
+
+
+### Bug Fixes
+
+* bump mypy from 2.3.1 to 2.4.0 ([#156](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/156)) ([a977571](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/a977571135c60af2438b1514e8741dcde311a9ed))
+* bump ruff from 0.16.9 to 0.16.10 ([#159](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/159)) ([49f1107](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/49f1107e784c876d80c1ab121c2015927979cbe8))
+* regenerate client from updated forge-dashboard spec ([#160](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/160)) ([e0692a2](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/e0692a20dce051a826c04e9576f4bdd7d36185d8))
+
 ## [2.0.19](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v2.0.18...v2.0.19) (2026-10-09)
 
 
