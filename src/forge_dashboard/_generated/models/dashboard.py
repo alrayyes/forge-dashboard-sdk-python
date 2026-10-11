@@ -8,7 +8,6 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
 from typing import cast
 import datetime
 
@@ -32,6 +31,11 @@ T = TypeVar("T", bound="Dashboard")
 class Dashboard:
     """ 
         Attributes:
+            queued_actions (list[QueuedAction]): The signed-in user's queued actions, waiting and finished in the
+                last 24 hours (GET /api/queued-actions), so a client lists them in
+                its Activity panel and learns an outcome from the stream it
+                already reads. Always present, empty when there are none, and
+                always empty on another user's shared dashboard.
             auto_merged (list[AutoMergedPullRequest]): Pull requests this app auto-merged in the last ten minutes, newest
                 first. They have already left `pullRequests`, so this is how a
                 client shows "Auto-merged owner/repo#N after checks passed". Always
@@ -53,15 +57,9 @@ class Dashboard:
             pull_requests (list[PullRequest]):
             issues (list[Issue]):
             repos (list[RepoStatus]):
-            queued_actions (list[QueuedAction] | Unset): The signed-in user's queued actions, waiting and finished in the
-                last 24 hours (GET /api/queued-actions), so a client lists them in
-                its Activity panel and learns an outcome from the stream it
-                already reads. Empty when there are none, and always empty on
-                another user's shared dashboard. Not yet in `required`: the
-                handler that fills it ships in the next pull request of the
-                stack, which makes it required.
      """
 
+    queued_actions: list[QueuedAction]
     auto_merged: list[AutoMergedPullRequest]
     open_issue_count: int
     generated_at: datetime.datetime
@@ -71,7 +69,6 @@ class Dashboard:
     pull_requests: list[PullRequest]
     issues: list[Issue]
     repos: list[RepoStatus]
-    queued_actions: list[QueuedAction] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -85,6 +82,13 @@ class Dashboard:
         from ..models.pull_request import PullRequest # noqa: PLC0415
         from ..models.queued_action import QueuedAction # noqa: PLC0415
         from ..models.repo_status import RepoStatus # noqa: PLC0415
+        queued_actions = []
+        for queued_actions_item_data in self.queued_actions:
+            queued_actions_item = queued_actions_item_data.to_dict()
+            queued_actions.append(queued_actions_item)
+
+
+
         auto_merged = []
         for auto_merged_item_data in self.auto_merged:
             auto_merged_item = auto_merged_item_data.to_dict()
@@ -128,19 +132,11 @@ class Dashboard:
 
 
 
-        queued_actions: list[dict[str, Any]] | Unset = UNSET
-        if not isinstance(self.queued_actions, Unset):
-            queued_actions = []
-            for queued_actions_item_data in self.queued_actions:
-                queued_actions_item = queued_actions_item_data.to_dict()
-                queued_actions.append(queued_actions_item)
-
-
-
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
+            "queuedActions": queued_actions,
             "autoMerged": auto_merged,
             "openIssueCount": open_issue_count,
             "generatedAt": generated_at,
@@ -151,8 +147,6 @@ class Dashboard:
             "issues": issues,
             "repos": repos,
         })
-        if queued_actions is not UNSET:
-            field_dict["queuedActions"] = queued_actions
 
         return field_dict
 
@@ -167,6 +161,16 @@ class Dashboard:
         from ..models.queued_action import QueuedAction # noqa: PLC0415
         from ..models.repo_status import RepoStatus # noqa: PLC0415
         d = dict(src_dict)
+        queued_actions = []
+        _queued_actions = d.pop("queuedActions")
+        for queued_actions_item_data in (_queued_actions):
+            queued_actions_item = QueuedAction.from_dict(queued_actions_item_data)
+
+
+
+            queued_actions.append(queued_actions_item)
+
+
         auto_merged = []
         _auto_merged = d.pop("autoMerged")
         for auto_merged_item_data in (_auto_merged):
@@ -228,19 +232,8 @@ class Dashboard:
             repos.append(repos_item)
 
 
-        _queued_actions = d.pop("queuedActions", UNSET)
-        queued_actions: list[QueuedAction] | Unset = UNSET
-        if _queued_actions is not UNSET:
-            queued_actions = []
-            for queued_actions_item_data in _queued_actions:
-                queued_actions_item = QueuedAction.from_dict(queued_actions_item_data)
-
-
-
-                queued_actions.append(queued_actions_item)
-
-
         dashboard = cls(
+            queued_actions=queued_actions,
             auto_merged=auto_merged,
             open_issue_count=open_issue_count,
             generated_at=generated_at,
@@ -250,7 +243,6 @@ class Dashboard:
             pull_requests=pull_requests,
             issues=issues,
             repos=repos,
-            queued_actions=queued_actions,
         )
 
 
