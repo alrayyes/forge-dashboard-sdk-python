@@ -32,6 +32,11 @@ from .health import Health
 from .issue import Issue
 from .label import Label
 from .login_begin_request import LoginBeginRequest
+from .main_branch import MainBranch
+from .main_branch_commit import MainBranchCommit
+from .main_branch_counts import MainBranchCounts
+from .main_branch_status import MainBranchStatus
+from .main_branches import MainBranches
 from .merge_status import MergeStatus
 from .pull_request import PullRequest
 from .pull_request_action_request import PullRequestActionRequest
@@ -109,6 +114,11 @@ __all__ = (
     "Issue",
     "Label",
     "LoginBeginRequest",
+    "MainBranch",
+    "MainBranchCommit",
+    "MainBranchCounts",
+    "MainBranches",
+    "MainBranchStatus",
     "MergeStatus",
     "PullRequest",
     "PullRequestActionRequest",
