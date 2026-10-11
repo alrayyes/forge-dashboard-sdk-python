@@ -21,6 +21,7 @@ if TYPE_CHECKING:
   from ..models.auto_merge_status import AutoMergeStatus
   from ..models.bot_request import BotRequest
   from ..models.label import Label
+  from ..models.queued_action import QueuedAction
   from ..models.review_state import ReviewState
   from ..models.stack_position import StackPosition
   from ..models.stack_ref import StackRef
@@ -142,6 +143,11 @@ class PullRequest:
                 started after the request shows the pull request no longer
                 behind, or when the pull request is gone. Held in memory per
                 account: a server restart forgets it.
+            queued (None | QueuedAction | Unset): A safe action this user queued on this pull request that is still
+                waiting for its forge's rate limit to reset, or null. The row can
+                say "Update branch queued for 14:32" from `runAt` and offer
+                Cancel with `id`. A final outcome is not here: it is in the
+                dashboard's `queuedActions`.
             auto_merge_enabled (bool | Unset): Whether auto-merge is currently scheduled on this pull request.
                 On Forgejo it is true when the signed-in user armed it in this
                 app, which holds the intent itself. Otherwise omitted when the
@@ -204,6 +210,7 @@ class PullRequest:
     needs_review: bool
     bot_request: BotRequest | None | Unset = UNSET
     update_request: None | Unset | UpdateRequest = UNSET
+    queued: None | QueuedAction | Unset = UNSET
     auto_merge_enabled: bool | Unset = UNSET
     auto_merge_allowed: bool | Unset = UNSET
     review: ReviewState | Unset = UNSET
@@ -219,6 +226,7 @@ class PullRequest:
         from ..models.auto_merge_status import AutoMergeStatus # noqa: PLC0415
         from ..models.bot_request import BotRequest # noqa: PLC0415
         from ..models.label import Label # noqa: PLC0415
+        from ..models.queued_action import QueuedAction # noqa: PLC0415
         from ..models.review_state import ReviewState # noqa: PLC0415
         from ..models.stack_position import StackPosition # noqa: PLC0415
         from ..models.stack_ref import StackRef # noqa: PLC0415
@@ -315,6 +323,14 @@ class PullRequest:
         else:
             update_request = self.update_request
 
+        queued: dict[str, Any] | None | Unset
+        if isinstance(self.queued, Unset):
+            queued = UNSET
+        elif isinstance(self.queued, QueuedAction):
+            queued = self.queued.to_dict()
+        else:
+            queued = self.queued
+
         auto_merge_enabled = self.auto_merge_enabled
 
         auto_merge_allowed = self.auto_merge_allowed
@@ -363,6 +379,8 @@ class PullRequest:
             field_dict["botRequest"] = bot_request
         if update_request is not UNSET:
             field_dict["updateRequest"] = update_request
+        if queued is not UNSET:
+            field_dict["queued"] = queued
         if auto_merge_enabled is not UNSET:
             field_dict["autoMergeEnabled"] = auto_merge_enabled
         if auto_merge_allowed is not UNSET:
@@ -382,6 +400,7 @@ class PullRequest:
         from ..models.auto_merge_status import AutoMergeStatus # noqa: PLC0415
         from ..models.bot_request import BotRequest # noqa: PLC0415
         from ..models.label import Label # noqa: PLC0415
+        from ..models.queued_action import QueuedAction # noqa: PLC0415
         from ..models.review_state import ReviewState # noqa: PLC0415
         from ..models.stack_position import StackPosition # noqa: PLC0415
         from ..models.stack_ref import StackRef # noqa: PLC0415
@@ -549,6 +568,26 @@ class PullRequest:
         update_request = _parse_update_request(d.pop("updateRequest", UNSET))
 
 
+        def _parse_queued(data: object) -> None | QueuedAction | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                queued_type_1 = QueuedAction.from_dict(data)
+
+
+
+                return queued_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | QueuedAction | Unset, data)
+
+        queued = _parse_queued(d.pop("queued", UNSET))
+
+
         auto_merge_enabled = d.pop("autoMergeEnabled", UNSET)
 
         auto_merge_allowed = d.pop("autoMergeAllowed", UNSET)
@@ -603,6 +642,7 @@ class PullRequest:
             needs_review=needs_review,
             bot_request=bot_request,
             update_request=update_request,
+            queued=queued,
             auto_merge_enabled=auto_merge_enabled,
             auto_merge_allowed=auto_merge_allowed,
             review=review,

@@ -37,6 +37,11 @@ class ActionError:
                 mean the dashboard's row was stale: the pull request has
                 nothing left to merge.
 
+                `not_rate_limited` belongs to queueing an action: the forge
+                isn't rate limited, so act directly. `not_open` is only an
+                outcome of a queued action: the pull request was gone from the
+                board when the reset came, merged or closed.
+
                 Three codes belong to one action each: `already_up_to_date`
                 (Update branch: nothing to bring in), `auto_merge_not_allowed`
                 (Enable auto-merge: the repo or pull request doesn't allow it)

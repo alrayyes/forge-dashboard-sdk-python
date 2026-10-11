@@ -11,6 +11,8 @@ class ActionErrorCode(StrEnum):
     CHECKS_PENDING = "checks_pending"
     CONFLICT = "conflict"
     NOT_MERGEABLE = "not_mergeable"
+    NOT_OPEN = "not_open"
+    NOT_RATE_LIMITED = "not_rate_limited"
     PERMISSION = "permission"
     RATE_LIMITED = "rate_limited"
     READY_TO_MERGE = "ready_to_merge"

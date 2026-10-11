@@ -39,6 +39,11 @@ from .pull_request_checks_response import PullRequestChecksResponse
 from .pull_request_dependabot_action_request import PullRequestDependabotActionRequest
 from .pull_request_dependabot_action_request_action import PullRequestDependabotActionRequestAction
 from .pull_request_kind import PullRequestKind
+from .queued_action import QueuedAction
+from .queued_action_action import QueuedActionAction
+from .queued_action_request import QueuedActionRequest
+from .queued_action_request_action import QueuedActionRequestAction
+from .queued_action_status import QueuedActionStatus
 from .rate_limit import RateLimit
 from .rate_limit_severity import RateLimitSeverity
 from .ready import Ready
@@ -111,6 +116,11 @@ __all__ = (
     "PullRequestDependabotActionRequest",
     "PullRequestDependabotActionRequestAction",
     "PullRequestKind",
+    "QueuedAction",
+    "QueuedActionAction",
+    "QueuedActionRequest",
+    "QueuedActionRequestAction",
+    "QueuedActionStatus",
     "RateLimit",
     "RateLimitSeverity",
     "Ready",
