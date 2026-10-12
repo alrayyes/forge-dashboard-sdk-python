@@ -22,10 +22,10 @@ T = TypeVar("T", bound="AutoMergeStatus")
 
 @_attrs_define
 class AutoMergeStatus:
-    """ Where an armed Forgejo pull request stands, so the row can say why
+    """ Where an armed pull request stands, so the row can say why
     auto-merge is waiting or stopped in words and not by colour. Present
-    only while the signed-in user has auto-merge armed on it. This app
-    holds that intent itself, so GitHub's own auto-merge never has it.
+    while auto-merge is armed on it: on Forgejo the signed-in user's
+    intent held by this app, on GitHub the forge's own auto-merge (#1293).
 
         Attributes:
             state (AutoMergeStatusState): `waiting` clears by itself: checks still running, a draft, a

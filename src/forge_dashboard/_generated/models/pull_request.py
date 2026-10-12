@@ -175,10 +175,10 @@ class PullRequest:
                 on the pull request list, but approvals and the decision need one
                 reviews call per open, non-draft pull request, cached until that
                 pull request's updatedAt changes.
-            auto_merge (AutoMergeStatus | Unset): Where an armed Forgejo pull request stands, so the row can say why
+            auto_merge (AutoMergeStatus | Unset): Where an armed pull request stands, so the row can say why
                 auto-merge is waiting or stopped in words and not by colour. Present
-                only while the signed-in user has auto-merge armed on it. This app
-                holds that intent itself, so GitHub's own auto-merge never has it.
+                while auto-merge is armed on it: on Forgejo the signed-in user's
+                intent held by this app, on GitHub the forge's own auto-merge (#1293).
      """
 
     forge: Forge
