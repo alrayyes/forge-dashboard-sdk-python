@@ -16,6 +16,7 @@ if TYPE_CHECKING:
   from ..models.auto_merged_pull_request import AutoMergedPullRequest
   from ..models.forge_health import ForgeHealth
   from ..models.issue import Issue
+  from ..models.nav_counts import NavCounts
   from ..models.pull_request import PullRequest
   from ..models.queued_action import QueuedAction
   from ..models.repo_status import RepoStatus
@@ -44,6 +45,17 @@ class Dashboard:
                 matched on `forge`, `fullName`, `number` and `mergedAt`.
             open_issue_count (int): How many of `issues` are real work: all of them except the
                 `housekeeping` ones. What the Issues badge shows.
+            nav_counts (NavCounts): The numbers behind the navigation badges (#1315), counted from what the
+                board shows by default, so they match each page when it opens. Pull
+                requests leave out ignored repos, draft pull requests and hidden pull
+                requests whatever `includeDrafts` and `includeHidden` ask for, so the
+                badge doesn't jump when a toggle flips; branches counts every tracked
+                default branch, as GET /api/main-branches lists them. Pull requests are
+                split by `kind`
+                (release pull requests under `releases`, Dependabot and Renovate
+                under `bots`, the rest under `pullRequests`). Always present, with
+                zeros when there is nothing. A client hides a page's whole nav item at
+                zero total, and its red failed number at zero failed.
             generated_at (datetime.datetime): When this snapshot was refreshed, not when it was requested.
             read_interval_seconds (int): How often, in seconds, a client should re-read GET
                 /api/dashboard. The server's advice, so a client needs no
@@ -67,6 +79,7 @@ class Dashboard:
     queued_actions: list[QueuedAction]
     auto_merged: list[AutoMergedPullRequest]
     open_issue_count: int
+    nav_counts: NavCounts
     generated_at: datetime.datetime
     read_interval_seconds: int
     hidden_drafts: int
@@ -85,6 +98,7 @@ class Dashboard:
         from ..models.auto_merged_pull_request import AutoMergedPullRequest # noqa: PLC0415
         from ..models.forge_health import ForgeHealth # noqa: PLC0415
         from ..models.issue import Issue # noqa: PLC0415
+        from ..models.nav_counts import NavCounts # noqa: PLC0415
         from ..models.pull_request import PullRequest # noqa: PLC0415
         from ..models.queued_action import QueuedAction # noqa: PLC0415
         from ..models.repo_status import RepoStatus # noqa: PLC0415
@@ -103,6 +117,8 @@ class Dashboard:
 
 
         open_issue_count = self.open_issue_count
+
+        nav_counts = self.nav_counts.to_dict()
 
         generated_at = self.generated_at.isoformat()
 
@@ -147,6 +163,7 @@ class Dashboard:
             "queuedActions": queued_actions,
             "autoMerged": auto_merged,
             "openIssueCount": open_issue_count,
+            "navCounts": nav_counts,
             "generatedAt": generated_at,
             "readIntervalSeconds": read_interval_seconds,
             "hiddenDrafts": hidden_drafts,
@@ -167,6 +184,7 @@ class Dashboard:
         from ..models.auto_merged_pull_request import AutoMergedPullRequest # noqa: PLC0415
         from ..models.forge_health import ForgeHealth # noqa: PLC0415
         from ..models.issue import Issue # noqa: PLC0415
+        from ..models.nav_counts import NavCounts # noqa: PLC0415
         from ..models.pull_request import PullRequest # noqa: PLC0415
         from ..models.queued_action import QueuedAction # noqa: PLC0415
         from ..models.repo_status import RepoStatus # noqa: PLC0415
@@ -192,6 +210,11 @@ class Dashboard:
 
 
         open_issue_count = d.pop("openIssueCount")
+
+        nav_counts = NavCounts.from_dict(d.pop("navCounts"))
+
+
+
 
         generated_at = datetime.datetime.fromisoformat(d.pop("generatedAt"))
 
@@ -248,6 +271,7 @@ class Dashboard:
             queued_actions=queued_actions,
             auto_merged=auto_merged,
             open_issue_count=open_issue_count,
+            nav_counts=nav_counts,
             generated_at=generated_at,
             read_interval_seconds=read_interval_seconds,
             hidden_drafts=hidden_drafts,

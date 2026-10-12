@@ -38,6 +38,9 @@ from .main_branch_counts import MainBranchCounts
 from .main_branch_status import MainBranchStatus
 from .main_branches import MainBranches
 from .merge_status import MergeStatus
+from .nav_count import NavCount
+from .nav_counts import NavCounts
+from .nav_issue_count import NavIssueCount
 from .pull_request import PullRequest
 from .pull_request_action_request import PullRequestActionRequest
 from .pull_request_checks_response import PullRequestChecksResponse
@@ -121,6 +124,9 @@ __all__ = (
     "MainBranches",
     "MainBranchStatus",
     "MergeStatus",
+    "NavCount",
+    "NavCounts",
+    "NavIssueCount",
     "PullRequest",
     "PullRequestActionRequest",
     "PullRequestChecksResponse",
