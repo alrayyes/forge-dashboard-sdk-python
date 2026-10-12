@@ -8,6 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.action_error import ActionError
 from ...models.error import Error
 from ...models.pull_request_action_request import PullRequestActionRequest
 from typing import cast
@@ -40,7 +41,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> ActionError | Any | Error | None:
     if response.status_code == 204:
         response_204 = cast(Any, None)
         return response_204
@@ -59,13 +60,27 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 409:
+        response_409 = ActionError.from_dict(response.json())
+
+
+
+        return response_409
+
+    if response.status_code == 502:
+        response_502 = ActionError.from_dict(response.json())
+
+
+
+        return response_502
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[ActionError | Any | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -79,14 +94,18 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: PullRequestActionRequest,
 
-) -> Response[Any | Error]:
-    """ Cancel the auto-merge this app holds for a pull request
+) -> Response[ActionError | Any | Error]:
+    """ Cancel auto-merge on a pull request, on the signed-in user's behalf
 
-     Forgejo only: removes the intent stored by
-    `POST /api/pull-requests/auto-merge`, so the background pass never
-    merges the pull request. Nothing is sent to the forge. Idempotent: a
-    pull request with no intent is a 204 too. GitHub's own auto-merge
-    isn't cancelled from here, so a GitHub pull request is a 400.
+     Forgejo: removes the intent stored by `POST /api/pull-requests/auto-merge`,
+    so the background pass never merges the pull request. Nothing is sent
+    to the forge. Idempotent: a pull request with no intent is a 204 too.
+
+    GitHub: turns the pull request's own auto-merge off with GitHub's
+    `disablePullRequestAutoMerge` GraphQL mutation. Only a pull request
+    whose `allowedActions` has a `cancel_auto_merge` entry; otherwise this
+    server answers 409 itself and never asks GitHub. A refusal from
+    GitHub is an `ActionError`, as for arming.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
@@ -96,7 +115,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[ActionError | Any | Error]
      """
 
 
@@ -116,14 +135,18 @@ def sync(
     client: AuthenticatedClient,
     body: PullRequestActionRequest,
 
-) -> Any | Error | None:
-    """ Cancel the auto-merge this app holds for a pull request
+) -> ActionError | Any | Error | None:
+    """ Cancel auto-merge on a pull request, on the signed-in user's behalf
 
-     Forgejo only: removes the intent stored by
-    `POST /api/pull-requests/auto-merge`, so the background pass never
-    merges the pull request. Nothing is sent to the forge. Idempotent: a
-    pull request with no intent is a 204 too. GitHub's own auto-merge
-    isn't cancelled from here, so a GitHub pull request is a 400.
+     Forgejo: removes the intent stored by `POST /api/pull-requests/auto-merge`,
+    so the background pass never merges the pull request. Nothing is sent
+    to the forge. Idempotent: a pull request with no intent is a 204 too.
+
+    GitHub: turns the pull request's own auto-merge off with GitHub's
+    `disablePullRequestAutoMerge` GraphQL mutation. Only a pull request
+    whose `allowedActions` has a `cancel_auto_merge` entry; otherwise this
+    server answers 409 itself and never asks GitHub. A refusal from
+    GitHub is an `ActionError`, as for arming.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
@@ -133,7 +156,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        ActionError | Any | Error
      """
 
 
@@ -148,14 +171,18 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: PullRequestActionRequest,
 
-) -> Response[Any | Error]:
-    """ Cancel the auto-merge this app holds for a pull request
+) -> Response[ActionError | Any | Error]:
+    """ Cancel auto-merge on a pull request, on the signed-in user's behalf
 
-     Forgejo only: removes the intent stored by
-    `POST /api/pull-requests/auto-merge`, so the background pass never
-    merges the pull request. Nothing is sent to the forge. Idempotent: a
-    pull request with no intent is a 204 too. GitHub's own auto-merge
-    isn't cancelled from here, so a GitHub pull request is a 400.
+     Forgejo: removes the intent stored by `POST /api/pull-requests/auto-merge`,
+    so the background pass never merges the pull request. Nothing is sent
+    to the forge. Idempotent: a pull request with no intent is a 204 too.
+
+    GitHub: turns the pull request's own auto-merge off with GitHub's
+    `disablePullRequestAutoMerge` GraphQL mutation. Only a pull request
+    whose `allowedActions` has a `cancel_auto_merge` entry; otherwise this
+    server answers 409 itself and never asks GitHub. A refusal from
+    GitHub is an `ActionError`, as for arming.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
@@ -165,7 +192,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[ActionError | Any | Error]
      """
 
 
@@ -185,14 +212,18 @@ async def asyncio(
     client: AuthenticatedClient,
     body: PullRequestActionRequest,
 
-) -> Any | Error | None:
-    """ Cancel the auto-merge this app holds for a pull request
+) -> ActionError | Any | Error | None:
+    """ Cancel auto-merge on a pull request, on the signed-in user's behalf
 
-     Forgejo only: removes the intent stored by
-    `POST /api/pull-requests/auto-merge`, so the background pass never
-    merges the pull request. Nothing is sent to the forge. Idempotent: a
-    pull request with no intent is a 204 too. GitHub's own auto-merge
-    isn't cancelled from here, so a GitHub pull request is a 400.
+     Forgejo: removes the intent stored by `POST /api/pull-requests/auto-merge`,
+    so the background pass never merges the pull request. Nothing is sent
+    to the forge. Idempotent: a pull request with no intent is a 204 too.
+
+    GitHub: turns the pull request's own auto-merge off with GitHub's
+    `disablePullRequestAutoMerge` GraphQL mutation. Only a pull request
+    whose `allowedActions` has a `cancel_auto_merge` entry; otherwise this
+    server answers 409 itself and never asks GitHub. A refusal from
+    GitHub is an `ActionError`, as for arming.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
@@ -202,7 +233,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        ActionError | Any | Error
      """
 
 
