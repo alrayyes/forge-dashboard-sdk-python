@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
 from typing import cast
 import datetime
 
@@ -57,6 +58,10 @@ class Dashboard:
             pull_requests (list[PullRequest]):
             issues (list[Issue]):
             repos (list[RepoStatus]):
+            hidden_pull_requests (int | Unset): How many pull requests the user hid that are still open and not
+                expired. Always present, so a client can render "Hidden (N)"
+                without a special case. With `includeHidden=true` they are in
+                `pullRequests`, marked `hidden`, and this still counts them.
      """
 
     queued_actions: list[QueuedAction]
@@ -69,6 +74,7 @@ class Dashboard:
     pull_requests: list[PullRequest]
     issues: list[Issue]
     repos: list[RepoStatus]
+    hidden_pull_requests: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -132,6 +138,8 @@ class Dashboard:
 
 
 
+        hidden_pull_requests = self.hidden_pull_requests
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -147,6 +155,8 @@ class Dashboard:
             "issues": issues,
             "repos": repos,
         })
+        if hidden_pull_requests is not UNSET:
+            field_dict["hiddenPullRequests"] = hidden_pull_requests
 
         return field_dict
 
@@ -232,6 +242,8 @@ class Dashboard:
             repos.append(repos_item)
 
 
+        hidden_pull_requests = d.pop("hiddenPullRequests", UNSET)
+
         dashboard = cls(
             queued_actions=queued_actions,
             auto_merged=auto_merged,
@@ -243,6 +255,7 @@ class Dashboard:
             pull_requests=pull_requests,
             issues=issues,
             repos=repos,
+            hidden_pull_requests=hidden_pull_requests,
         )
 
 

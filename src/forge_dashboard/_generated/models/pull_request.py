@@ -179,6 +179,11 @@ class PullRequest:
                 auto-merge is waiting or stopped in words and not by colour. Present
                 while auto-merge is armed on it: on Forgejo the signed-in user's
                 intent held by this app, on GitHub the forge's own auto-merge (#1293).
+            hidden (bool | Unset): True on a pull request the user hid. Only present when the request
+                set `includeHidden=true`: without it a hidden pull request isn't
+                in the list at all.
+            hidden_until (datetime.datetime | Unset): When a hide for a number of days ends. Absent for a pull request
+                hidden until it is restored, and for one that isn't hidden.
      """
 
     forge: Forge
@@ -215,6 +220,8 @@ class PullRequest:
     auto_merge_allowed: bool | Unset = UNSET
     review: ReviewState | Unset = UNSET
     auto_merge: AutoMergeStatus | Unset = UNSET
+    hidden: bool | Unset = UNSET
+    hidden_until: datetime.datetime | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -343,6 +350,12 @@ class PullRequest:
         if not isinstance(self.auto_merge, Unset):
             auto_merge = self.auto_merge.to_dict()
 
+        hidden = self.hidden
+
+        hidden_until: str | Unset = UNSET
+        if not isinstance(self.hidden_until, Unset):
+            hidden_until = self.hidden_until.isoformat()
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -389,6 +402,10 @@ class PullRequest:
             field_dict["review"] = review
         if auto_merge is not UNSET:
             field_dict["autoMerge"] = auto_merge
+        if hidden is not UNSET:
+            field_dict["hidden"] = hidden
+        if hidden_until is not UNSET:
+            field_dict["hiddenUntil"] = hidden_until
 
         return field_dict
 
@@ -612,6 +629,18 @@ class PullRequest:
 
 
 
+        hidden = d.pop("hidden", UNSET)
+
+        _hidden_until = d.pop("hiddenUntil", UNSET)
+        hidden_until: datetime.datetime | Unset
+        if isinstance(_hidden_until,  Unset):
+            hidden_until = UNSET
+        else:
+            hidden_until = datetime.datetime.fromisoformat(_hidden_until)
+
+
+
+
         pull_request = cls(
             forge=forge,
             repo=repo,
@@ -647,6 +676,8 @@ class PullRequest:
             auto_merge_allowed=auto_merge_allowed,
             review=review,
             auto_merge=auto_merge,
+            hidden=hidden,
+            hidden_until=hidden_until,
         )
 
 

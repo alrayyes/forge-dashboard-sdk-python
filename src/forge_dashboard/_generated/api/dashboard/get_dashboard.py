@@ -19,6 +19,7 @@ def _get_kwargs(
     *,
     owner: str | Unset = UNSET,
     include_drafts: bool | Unset = False,
+    include_hidden: bool | Unset = False,
 
 ) -> dict[str, Any]:
     
@@ -30,6 +31,8 @@ def _get_kwargs(
     params["owner"] = owner
 
     params["includeDrafts"] = include_drafts
+
+    params["includeHidden"] = include_hidden
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -95,6 +98,7 @@ def sync_detailed(
     client: AuthenticatedClient,
     owner: str | Unset = UNSET,
     include_drafts: bool | Unset = False,
+    include_hidden: bool | Unset = False,
 
 ) -> Response[Dashboard | Error]:
     """ The aggregated view
@@ -117,6 +121,7 @@ def sync_detailed(
     Args:
         owner (str | Unset):
         include_drafts (bool | Unset):  Default: False.
+        include_hidden (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -130,6 +135,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         owner=owner,
 include_drafts=include_drafts,
+include_hidden=include_hidden,
 
     )
 
@@ -144,6 +150,7 @@ def sync(
     client: AuthenticatedClient,
     owner: str | Unset = UNSET,
     include_drafts: bool | Unset = False,
+    include_hidden: bool | Unset = False,
 
 ) -> Dashboard | Error | None:
     """ The aggregated view
@@ -166,6 +173,7 @@ def sync(
     Args:
         owner (str | Unset):
         include_drafts (bool | Unset):  Default: False.
+        include_hidden (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -180,6 +188,7 @@ def sync(
         client=client,
 owner=owner,
 include_drafts=include_drafts,
+include_hidden=include_hidden,
 
     ).parsed
 
@@ -188,6 +197,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     owner: str | Unset = UNSET,
     include_drafts: bool | Unset = False,
+    include_hidden: bool | Unset = False,
 
 ) -> Response[Dashboard | Error]:
     """ The aggregated view
@@ -210,6 +220,7 @@ async def asyncio_detailed(
     Args:
         owner (str | Unset):
         include_drafts (bool | Unset):  Default: False.
+        include_hidden (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -223,6 +234,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         owner=owner,
 include_drafts=include_drafts,
+include_hidden=include_hidden,
 
     )
 
@@ -237,6 +249,7 @@ async def asyncio(
     client: AuthenticatedClient,
     owner: str | Unset = UNSET,
     include_drafts: bool | Unset = False,
+    include_hidden: bool | Unset = False,
 
 ) -> Dashboard | Error | None:
     """ The aggregated view
@@ -259,6 +272,7 @@ async def asyncio(
     Args:
         owner (str | Unset):
         include_drafts (bool | Unset):  Default: False.
+        include_hidden (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -273,5 +287,6 @@ async def asyncio(
         client=client,
 owner=owner,
 include_drafts=include_drafts,
+include_hidden=include_hidden,
 
     )).parsed

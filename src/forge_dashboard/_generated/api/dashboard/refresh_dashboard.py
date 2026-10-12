@@ -18,6 +18,7 @@ from typing import cast
 def _get_kwargs(
     *,
     include_drafts: bool | Unset = False,
+    include_hidden: bool | Unset = False,
 
 ) -> dict[str, Any]:
     
@@ -27,6 +28,8 @@ def _get_kwargs(
     params: dict[str, Any] = {}
 
     params["includeDrafts"] = include_drafts
+
+    params["includeHidden"] = include_hidden
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -84,6 +87,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     include_drafts: bool | Unset = False,
+    include_hidden: bool | Unset = False,
 
 ) -> Response[Dashboard | Error]:
     """ Trigger an immediate refresh of the signed-in user's own dashboard
@@ -111,6 +115,7 @@ def sync_detailed(
 
     Args:
         include_drafts (bool | Unset):  Default: False.
+        include_hidden (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -123,6 +128,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         include_drafts=include_drafts,
+include_hidden=include_hidden,
 
     )
 
@@ -136,6 +142,7 @@ def sync(
     *,
     client: AuthenticatedClient,
     include_drafts: bool | Unset = False,
+    include_hidden: bool | Unset = False,
 
 ) -> Dashboard | Error | None:
     """ Trigger an immediate refresh of the signed-in user's own dashboard
@@ -163,6 +170,7 @@ def sync(
 
     Args:
         include_drafts (bool | Unset):  Default: False.
+        include_hidden (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -176,6 +184,7 @@ def sync(
     return sync_detailed(
         client=client,
 include_drafts=include_drafts,
+include_hidden=include_hidden,
 
     ).parsed
 
@@ -183,6 +192,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     include_drafts: bool | Unset = False,
+    include_hidden: bool | Unset = False,
 
 ) -> Response[Dashboard | Error]:
     """ Trigger an immediate refresh of the signed-in user's own dashboard
@@ -210,6 +220,7 @@ async def asyncio_detailed(
 
     Args:
         include_drafts (bool | Unset):  Default: False.
+        include_hidden (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -222,6 +233,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         include_drafts=include_drafts,
+include_hidden=include_hidden,
 
     )
 
@@ -235,6 +247,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     include_drafts: bool | Unset = False,
+    include_hidden: bool | Unset = False,
 
 ) -> Dashboard | Error | None:
     """ Trigger an immediate refresh of the signed-in user's own dashboard
@@ -262,6 +275,7 @@ async def asyncio(
 
     Args:
         include_drafts (bool | Unset):  Default: False.
+        include_hidden (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -275,5 +289,6 @@ async def asyncio(
     return (await asyncio_detailed(
         client=client,
 include_drafts=include_drafts,
+include_hidden=include_hidden,
 
     )).parsed
