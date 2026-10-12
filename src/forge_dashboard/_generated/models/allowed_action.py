@@ -32,6 +32,11 @@ class AllowedAction:
                 so adding a value is a minor SDK release.
             blocked (AllowedActionBlocked | Unset): Present when the action is offered but can't be taken yet. Merge
                 is never hidden for an open pull request, only blocked.
+                `renovate_rebase` is blocked with `already_requested` while
+                Renovate's rebase checkbox in the pull request description is
+                ticked, whether it was ticked from this app or on the forge: one
+                rebase is already waiting for Renovate, and it is offered again
+                once Renovate has rebased and cleared the box.
      """
 
     action: str
