@@ -71,8 +71,10 @@ def sync_detailed(
     """ The CI status of every tracked repository's default branch
 
      One row per tracked repository, showing the latest pipeline on its
-    default branch: failed, passed, running or none (#1224). Every row is
-    returned, whatever its status, with a count per status, so a client
+    default branch: failed, passed, running or none (#1224). A repository
+    ignored for pull requests is left out, as on the pull requests page
+    (#1337). Every other row is returned, whatever its status, with a
+    count per status, so a client
     filters and sorts locally and its pill counts always match what each
     pill lists. Rows come failed first, then running, passed and none,
     each group by `fullName`.
@@ -120,8 +122,10 @@ def sync(
     """ The CI status of every tracked repository's default branch
 
      One row per tracked repository, showing the latest pipeline on its
-    default branch: failed, passed, running or none (#1224). Every row is
-    returned, whatever its status, with a count per status, so a client
+    default branch: failed, passed, running or none (#1224). A repository
+    ignored for pull requests is left out, as on the pull requests page
+    (#1337). Every other row is returned, whatever its status, with a
+    count per status, so a client
     filters and sorts locally and its pill counts always match what each
     pill lists. Rows come failed first, then running, passed and none,
     each group by `fullName`.
@@ -164,8 +168,10 @@ async def asyncio_detailed(
     """ The CI status of every tracked repository's default branch
 
      One row per tracked repository, showing the latest pipeline on its
-    default branch: failed, passed, running or none (#1224). Every row is
-    returned, whatever its status, with a count per status, so a client
+    default branch: failed, passed, running or none (#1224). A repository
+    ignored for pull requests is left out, as on the pull requests page
+    (#1337). Every other row is returned, whatever its status, with a
+    count per status, so a client
     filters and sorts locally and its pill counts always match what each
     pill lists. Rows come failed first, then running, passed and none,
     each group by `fullName`.
@@ -213,8 +219,10 @@ async def asyncio(
     """ The CI status of every tracked repository's default branch
 
      One row per tracked repository, showing the latest pipeline on its
-    default branch: failed, passed, running or none (#1224). Every row is
-    returned, whatever its status, with a count per status, so a client
+    default branch: failed, passed, running or none (#1224). A repository
+    ignored for pull requests is left out, as on the pull requests page
+    (#1337). Every other row is returned, whatever its status, with a
+    count per status, so a client
     filters and sorts locally and its pill counts always match what each
     pill lists. Rows come failed first, then running, passed and none,
     each group by `fullName`.
