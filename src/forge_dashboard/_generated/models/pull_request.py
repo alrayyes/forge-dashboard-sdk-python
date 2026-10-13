@@ -104,6 +104,18 @@ class PullRequest:
                 Always present, and empty when nobody was asked. Costs no
                 extra request: GitHub returns it with the reviewRequests count
                 already queried, Forgejo with the pull request itself.
+            review_comments (int): How many review comments the pull request has (#1335). Ordinary
+                conversation comments are not counted. Always present, and 0 when
+                there are none or the forge can't say (a Forgejo draft or failed
+                reviews call, GitHub's unauthenticated fallback). On GitHub it is read from
+                the review threads in the pull request query, first 30 threads; on Forgejo it is the sum
+                of each review's comment count, from the reviews call that already
+                feeds `review`, so a draft (which makes no such call) reports 0.
+            unresolved_threads (int | None): How many review threads are still open, or null when the forge
+                can't say. GitHub reports it from its review threads, except in the
+                unauthenticated fallback, which has none. Forgejo reports no
+                resolved state on a review without a call per review, so it is null
+                there and a client shows the comment count without an open state.
             review_requested_from_me (bool): True when this open, non-draft pull request asks the signed-in
                 user to review it, matched without regard to case against the
                 username saved in Settings for its forge. False when no
@@ -208,6 +220,8 @@ class PullRequest:
     stacked_on: None | StackRef
     stack_children: list[int]
     requested_reviewer_logins: list[str]
+    review_comments: int
+    unresolved_threads: int | None
     review_requested_from_me: bool
     empty: bool
     allowed_actions: list[AllowedAction]
@@ -299,6 +313,11 @@ class PullRequest:
 
 
 
+        review_comments = self.review_comments
+
+        unresolved_threads: int | None
+        unresolved_threads = self.unresolved_threads
+
         review_requested_from_me = self.review_requested_from_me
 
         empty = self.empty
@@ -382,6 +401,8 @@ class PullRequest:
             "stackedOn": stacked_on,
             "stackChildren": stack_children,
             "requestedReviewerLogins": requested_reviewer_logins,
+            "reviewComments": review_comments,
+            "unresolvedThreads": unresolved_threads,
             "reviewRequestedFromMe": review_requested_from_me,
             "empty": empty,
             "allowedActions": allowed_actions,
@@ -527,6 +548,16 @@ class PullRequest:
         requested_reviewer_logins = cast(list[str], d.pop("requestedReviewerLogins"))
 
 
+        review_comments = d.pop("reviewComments")
+
+        def _parse_unresolved_threads(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
+
+        unresolved_threads = _parse_unresolved_threads(d.pop("unresolvedThreads"))
+
+
         review_requested_from_me = d.pop("reviewRequestedFromMe")
 
         empty = d.pop("empty")
@@ -664,6 +695,8 @@ class PullRequest:
             stacked_on=stacked_on,
             stack_children=stack_children,
             requested_reviewer_logins=requested_reviewer_logins,
+            review_comments=review_comments,
+            unresolved_threads=unresolved_threads,
             review_requested_from_me=review_requested_from_me,
             empty=empty,
             allowed_actions=allowed_actions,
