@@ -209,6 +209,12 @@ class PullRequest:
                 auto-merge is waiting or stopped in words and not by colour. Present
                 while auto-merge is armed on it: on Forgejo the signed-in user's
                 intent held by this app, on GitHub the forge's own auto-merge (#1293).
+                Also present for ten minutes after this app cancelled an armed
+                auto-merge because the pull request went empty (its branch landed on
+                the base some other way): `stopped`, code `already_up_to_date` and the
+                message "Auto-merge was cancelled: there is nothing left to merge."
+                Auto-merge is off by then, so this is the only place the reason lives
+                (#1375).
             hidden (bool | Unset): True on a pull request the user hid. Only present when the request
                 set `includeHidden=true`: without it a hidden pull request isn't
                 in the list at all.
