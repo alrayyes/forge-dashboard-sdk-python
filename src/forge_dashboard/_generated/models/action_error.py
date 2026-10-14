@@ -42,11 +42,12 @@ class ActionError:
                 outcome of a queued action: the pull request was gone from the
                 board when the reset came, merged or closed.
 
-                Three codes belong to one action each: `already_up_to_date`
-                (Update branch: nothing to bring in), `auto_merge_not_allowed`
-                (Enable auto-merge: the repo or pull request doesn't allow it)
-                and `ready_to_merge` (Enable auto-merge: already clean, use
-                Merge).
+                Three codes belong to a few actions each: `already_up_to_date`
+                (Update branch: nothing to bring in; Merge or Enable auto-merge
+                on an empty pull request: nothing to merge),
+                `auto_merge_not_allowed` (Enable auto-merge: the repo or pull
+                request doesn't allow it) and `ready_to_merge` (Enable
+                auto-merge: already clean, use Merge).
             message (str): A short reason in plain words, safe to show a person, always.
                 With `code: unknown` it is the forge's own sentence when that
                 reads as one, "The forge didn't answer. Try again in a moment."

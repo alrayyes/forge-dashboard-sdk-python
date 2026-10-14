@@ -48,6 +48,7 @@ from .pull_request_dependabot_action_request import PullRequestDependabotActionR
 from .pull_request_dependabot_action_request_action import PullRequestDependabotActionRequestAction
 from .pull_request_hide_request import PullRequestHideRequest
 from .pull_request_kind import PullRequestKind
+from .pull_request_status import PullRequestStatus
 from .queued_action import QueuedAction
 from .queued_action_action import QueuedActionAction
 from .queued_action_request import QueuedActionRequest
@@ -134,6 +135,7 @@ __all__ = (
     "PullRequestDependabotActionRequestAction",
     "PullRequestHideRequest",
     "PullRequestKind",
+    "PullRequestStatus",
     "QueuedAction",
     "QueuedActionAction",
     "QueuedActionRequest",
