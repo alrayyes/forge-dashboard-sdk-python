@@ -41,6 +41,7 @@ from .merge_status import MergeStatus
 from .nav_count import NavCount
 from .nav_counts import NavCounts
 from .nav_issue_count import NavIssueCount
+from .nav_pull_request_count import NavPullRequestCount
 from .pull_request import PullRequest
 from .pull_request_action_request import PullRequestActionRequest
 from .pull_request_checks_response import PullRequestChecksResponse
@@ -128,6 +129,7 @@ __all__ = (
     "NavCount",
     "NavCounts",
     "NavIssueCount",
+    "NavPullRequestCount",
     "PullRequest",
     "PullRequestActionRequest",
     "PullRequestChecksResponse",
