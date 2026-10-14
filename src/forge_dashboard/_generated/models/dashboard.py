@@ -56,7 +56,8 @@ class Dashboard:
                 (release pull requests under `releases`, Dependabot and Renovate
                 under `bots`, the rest under `pullRequests`). Always present, with
                 zeros when there is nothing. A client hides a page's whole nav item at
-                zero total, and its red failed number at zero failed.
+                zero total, and a state's number at zero. Pull request pages also carry
+                `running` and `passed` (#1439).
             generated_at (datetime.datetime): When this snapshot was refreshed, not when it was requested.
             read_interval_seconds (int): How often, in seconds, a client should re-read GET
                 /api/dashboard. The server's advice, so a client needs no

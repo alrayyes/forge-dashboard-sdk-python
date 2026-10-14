@@ -13,6 +13,7 @@ from typing import cast
 if TYPE_CHECKING:
   from ..models.nav_count import NavCount
   from ..models.nav_issue_count import NavIssueCount
+  from ..models.nav_pull_request_count import NavPullRequestCount
 
 
 
@@ -35,21 +36,31 @@ class NavCounts:
     (release pull requests under `releases`, Dependabot and Renovate
     under `bots`, the rest under `pullRequests`). Always present, with
     zeros when there is nothing. A client hides a page's whole nav item at
-    zero total, and its red failed number at zero failed.
+    zero total, and a state's number at zero. Pull request pages also carry
+    `running` and `passed` (#1439).
 
         Attributes:
             branches (NavCount):
-            pull_requests (NavCount):
+            pull_requests (NavPullRequestCount): A pull request page's numbers (#1439). `running`, `failed` and
+                `passed` count the pull requests whose CI is pending, failing and
+                succeeded. A pull request with no checks counts in `total` only, so
+                the four numbers need not add up. All four are always present.
             issues (NavIssueCount):
-            releases (NavCount):
-            bots (NavCount):
+            releases (NavPullRequestCount): A pull request page's numbers (#1439). `running`, `failed` and
+                `passed` count the pull requests whose CI is pending, failing and
+                succeeded. A pull request with no checks counts in `total` only, so
+                the four numbers need not add up. All four are always present.
+            bots (NavPullRequestCount): A pull request page's numbers (#1439). `running`, `failed` and
+                `passed` count the pull requests whose CI is pending, failing and
+                succeeded. A pull request with no checks counts in `total` only, so
+                the four numbers need not add up. All four are always present.
      """
 
     branches: NavCount
-    pull_requests: NavCount
+    pull_requests: NavPullRequestCount
     issues: NavIssueCount
-    releases: NavCount
-    bots: NavCount
+    releases: NavPullRequestCount
+    bots: NavPullRequestCount
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -59,6 +70,7 @@ class NavCounts:
     def to_dict(self) -> dict[str, Any]:
         from ..models.nav_count import NavCount # noqa: PLC0415
         from ..models.nav_issue_count import NavIssueCount # noqa: PLC0415
+        from ..models.nav_pull_request_count import NavPullRequestCount # noqa: PLC0415
         branches = self.branches.to_dict()
 
         pull_requests = self.pull_requests.to_dict()
@@ -88,13 +100,14 @@ class NavCounts:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.nav_count import NavCount # noqa: PLC0415
         from ..models.nav_issue_count import NavIssueCount # noqa: PLC0415
+        from ..models.nav_pull_request_count import NavPullRequestCount # noqa: PLC0415
         d = dict(src_dict)
         branches = NavCount.from_dict(d.pop("branches"))
 
 
 
 
-        pull_requests = NavCount.from_dict(d.pop("pullRequests"))
+        pull_requests = NavPullRequestCount.from_dict(d.pop("pullRequests"))
 
 
 
@@ -104,12 +117,12 @@ class NavCounts:
 
 
 
-        releases = NavCount.from_dict(d.pop("releases"))
+        releases = NavPullRequestCount.from_dict(d.pop("releases"))
 
 
 
 
-        bots = NavCount.from_dict(d.pop("bots"))
+        bots = NavPullRequestCount.from_dict(d.pop("bots"))
 
 
 
