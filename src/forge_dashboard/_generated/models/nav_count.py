@@ -20,16 +20,23 @@ T = TypeVar("T", bound="NavCount")
 
 @_attrs_define
 class NavCount:
-    """ 
+    """ The Branches page's numbers (#1458): how many default branches it
+    lists and how many of those have a pipeline running, failed and
+    passed, the same four as `NavPullRequestCount`. A branch with no
+    pipeline counts in `total` only, so the four numbers need not add up.
+    All four are always present.
+
         Attributes:
-            total (int): How many items the page lists.
-            failed (int): How many of them fail: a pull request whose CI is failing, or a
-                default branch whose pipeline is. An item with no pipeline counts
-                in `total` only.
+            total (int): How many default branches the page lists.
+            running (int): How many of them have a pipeline that is still running.
+            failed (int): How many of them have a failing pipeline.
+            passed (int): How many of them have a pipeline that passed.
      """
 
     total: int
+    running: int
     failed: int
+    passed: int
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -39,14 +46,20 @@ class NavCount:
     def to_dict(self) -> dict[str, Any]:
         total = self.total
 
+        running = self.running
+
         failed = self.failed
+
+        passed = self.passed
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
             "total": total,
+            "running": running,
             "failed": failed,
+            "passed": passed,
         })
 
         return field_dict
@@ -58,11 +71,17 @@ class NavCount:
         d = dict(src_dict)
         total = d.pop("total")
 
+        running = d.pop("running")
+
         failed = d.pop("failed")
+
+        passed = d.pop("passed")
 
         nav_count = cls(
             total=total,
+            running=running,
             failed=failed,
+            passed=passed,
         )
 
 
