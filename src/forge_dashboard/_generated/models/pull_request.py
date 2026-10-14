@@ -21,6 +21,7 @@ if TYPE_CHECKING:
   from ..models.auto_merge_status import AutoMergeStatus
   from ..models.bot_request import BotRequest
   from ..models.label import Label
+  from ..models.pull_request_status import PullRequestStatus
   from ..models.queued_action import QueuedAction
   from ..models.review_state import ReviewState
   from ..models.stack_position import StackPosition
@@ -143,6 +144,15 @@ class PullRequest:
                 always in it. Live state is the client's: a rate-limited or
                 unreachable forge, a missing token and an action already in
                 flight can still stop an offered action.
+            status (None | PullRequestStatus): The one reason this pull request is waiting on something or can't
+                be merged, for a fixed place on its row (#1375): a check still
+                running, a conflict, a draft, a parent it is stacked on, or, for
+                an empty pull request, that there is nothing to merge. `code`,
+                `message` and `next` are the same as on `allowedActions[].blocked`,
+                and for a pull request that waiting or fixing can unlock they
+                repeat Merge's blocked reason. An empty pull request offers no
+                `merge` (only `close`), so this is where its reason lives. Null
+                when nothing holds the pull request back. Always present.
             ready_to_merge (bool): True when the pull request is mergeable, its CI is green and it
                 isn't a draft: what the Ready quick filter lists. Always
                 present. A pull request with no checks isn't ready.
@@ -234,6 +244,7 @@ class PullRequest:
     review_requested_from_me: bool
     empty: bool
     allowed_actions: list[AllowedAction]
+    status: None | PullRequestStatus
     ready_to_merge: bool
     needs_review: bool
     bot_request: BotRequest | None | Unset = UNSET
@@ -256,6 +267,7 @@ class PullRequest:
         from ..models.auto_merge_status import AutoMergeStatus # noqa: PLC0415
         from ..models.bot_request import BotRequest # noqa: PLC0415
         from ..models.label import Label # noqa: PLC0415
+        from ..models.pull_request_status import PullRequestStatus # noqa: PLC0415
         from ..models.queued_action import QueuedAction # noqa: PLC0415
         from ..models.review_state import ReviewState # noqa: PLC0415
         from ..models.stack_position import StackPosition # noqa: PLC0415
@@ -340,6 +352,12 @@ class PullRequest:
 
 
 
+        status: dict[str, Any] | None
+        if isinstance(self.status, PullRequestStatus):
+            status = self.status.to_dict()
+        else:
+            status = self.status
+
         ready_to_merge = self.ready_to_merge
 
         needs_review = self.needs_review
@@ -418,6 +436,7 @@ class PullRequest:
             "reviewRequestedFromMe": review_requested_from_me,
             "empty": empty,
             "allowedActions": allowed_actions,
+            "status": status,
             "readyToMerge": ready_to_merge,
             "needsReview": needs_review,
         })
@@ -450,6 +469,7 @@ class PullRequest:
         from ..models.auto_merge_status import AutoMergeStatus # noqa: PLC0415
         from ..models.bot_request import BotRequest # noqa: PLC0415
         from ..models.label import Label # noqa: PLC0415
+        from ..models.pull_request_status import PullRequestStatus # noqa: PLC0415
         from ..models.queued_action import QueuedAction # noqa: PLC0415
         from ..models.review_state import ReviewState # noqa: PLC0415
         from ..models.stack_position import StackPosition # noqa: PLC0415
@@ -586,6 +606,24 @@ class PullRequest:
             allowed_actions.append(allowed_actions_item)
 
 
+        def _parse_status(data: object) -> None | PullRequestStatus:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                status_type_1 = PullRequestStatus.from_dict(data)
+
+
+
+                return status_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | PullRequestStatus, data)
+
+        status = _parse_status(d.pop("status"))
+
+
         ready_to_merge = d.pop("readyToMerge")
 
         needs_review = d.pop("needsReview")
@@ -715,6 +753,7 @@ class PullRequest:
             review_requested_from_me=review_requested_from_me,
             empty=empty,
             allowed_actions=allowed_actions,
+            status=status,
             ready_to_merge=ready_to_merge,
             needs_review=needs_review,
             bot_request=bot_request,

@@ -22,7 +22,9 @@ T = TypeVar("T", bound="AllowedActionBlocked")
 @_attrs_define
 class AllowedActionBlocked:
     """ Present when the action is offered but can't be taken yet. Merge
-    is never hidden for an open pull request, only blocked.
+    is blocked rather than hidden while waiting or fixing something can
+    unlock it. An empty pull request, which nothing can unlock, has no
+    `merge` entry at all (#1375): see `status`.
     `renovate_rebase` is blocked with `already_requested` while
     Renovate's rebase checkbox in the pull request description is
     ticked, whether it was ticked from this app or on the forge: one

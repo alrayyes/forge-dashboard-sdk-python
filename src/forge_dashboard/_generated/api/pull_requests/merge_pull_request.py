@@ -134,6 +134,11 @@ def sync_detailed(
     `already_merged` / `already_closed`. If the re-read itself fails,
     the original forge error is returned with `code: unknown`.
 
+    An empty pull request, whose branch is already on the target, has no
+    `merge` in `allowedActions` (#1375). A Merge posted for one anyway
+    gets 409 `already_up_to_date` from this server, which never asks the
+    forge.
+
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
 
@@ -181,6 +186,11 @@ def sync(
     `already_merged` / `already_closed`. If the re-read itself fails,
     the original forge error is returned with `code: unknown`.
 
+    An empty pull request, whose branch is already on the target, has no
+    `merge` in `allowedActions` (#1375). A Merge posted for one anyway
+    gets 409 `already_up_to_date` from this server, which never asks the
+    forge.
+
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
 
@@ -222,6 +232,11 @@ async def asyncio_detailed(
     pull request that is already merged or closed answers
     `already_merged` / `already_closed`. If the re-read itself fails,
     the original forge error is returned with `code: unknown`.
+
+    An empty pull request, whose branch is already on the target, has no
+    `merge` in `allowedActions` (#1375). A Merge posted for one anyway
+    gets 409 `already_up_to_date` from this server, which never asks the
+    forge.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
@@ -269,6 +284,11 @@ async def asyncio(
     pull request that is already merged or closed answers
     `already_merged` / `already_closed`. If the re-read itself fails,
     the original forge error is returned with `code: unknown`.
+
+    An empty pull request, whose branch is already on the target, has no
+    `merge` in `allowedActions` (#1375). A Merge posted for one anyway
+    gets 409 `already_up_to_date` from this server, which never asks the
+    forge.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
