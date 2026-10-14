@@ -36,11 +36,15 @@ class NavCounts:
     (release pull requests under `releases`, Dependabot and Renovate
     under `bots`, the rest under `pullRequests`). Always present, with
     zeros when there is nothing. A client hides a page's whole nav item at
-    zero total, and a state's number at zero. Pull request pages also carry
-    `running` and `passed` (#1439).
+    zero total, and a state's number at zero. Every page except Issues also
+    carries `running` and `passed` (#1439, #1458).
 
         Attributes:
-            branches (NavCount):
+            branches (NavCount): The Branches page's numbers (#1458): how many default branches it
+                lists and how many of those have a pipeline running, failed and
+                passed, the same four as `NavPullRequestCount`. A branch with no
+                pipeline counts in `total` only, so the four numbers need not add up.
+                All four are always present.
             pull_requests (NavPullRequestCount): A pull request page's numbers (#1439). `running`, `failed` and
                 `passed` count the pull requests whose CI is pending, failing and
                 succeeded. A pull request with no checks counts in `total` only, so
