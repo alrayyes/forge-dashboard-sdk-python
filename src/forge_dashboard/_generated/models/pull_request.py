@@ -104,6 +104,14 @@ class PullRequest:
                 Always present, and empty when nobody was asked. Costs no
                 extra request: GitHub returns it with the reviewRequests count
                 already queried, Forgejo with the pull request itself.
+            awaiting_workflow_approval (bool): True when GitHub is holding a workflow run on the head commit
+                until someone approves it (#1280): its rollup counts a check run
+                as ACTION_REQUIRED. Those runs also keep `ci` at failure when
+                nothing else is running, so a client reads this to say "waiting
+                for approval" rather than "check failed". It can be true while
+                `ci` is pending (other runs are going) or failing for another
+                reason too. Always present; false on Forgejo, which has no
+                such state.
             review_comments (int): How many review comments the pull request has (#1335). Ordinary
                 conversation comments are not counted. Always present, and 0 when
                 there are none or the forge can't say (a Forgejo draft or failed
@@ -220,6 +228,7 @@ class PullRequest:
     stacked_on: None | StackRef
     stack_children: list[int]
     requested_reviewer_logins: list[str]
+    awaiting_workflow_approval: bool
     review_comments: int
     unresolved_threads: int | None
     review_requested_from_me: bool
@@ -313,6 +322,8 @@ class PullRequest:
 
 
 
+        awaiting_workflow_approval = self.awaiting_workflow_approval
+
         review_comments = self.review_comments
 
         unresolved_threads: int | None
@@ -401,6 +412,7 @@ class PullRequest:
             "stackedOn": stacked_on,
             "stackChildren": stack_children,
             "requestedReviewerLogins": requested_reviewer_logins,
+            "awaitingWorkflowApproval": awaiting_workflow_approval,
             "reviewComments": review_comments,
             "unresolvedThreads": unresolved_threads,
             "reviewRequestedFromMe": review_requested_from_me,
@@ -547,6 +559,8 @@ class PullRequest:
 
         requested_reviewer_logins = cast(list[str], d.pop("requestedReviewerLogins"))
 
+
+        awaiting_workflow_approval = d.pop("awaitingWorkflowApproval")
 
         review_comments = d.pop("reviewComments")
 
@@ -695,6 +709,7 @@ class PullRequest:
             stacked_on=stacked_on,
             stack_children=stack_children,
             requested_reviewer_logins=requested_reviewer_logins,
+            awaiting_workflow_approval=awaiting_workflow_approval,
             review_comments=review_comments,
             unresolved_threads=unresolved_threads,
             review_requested_from_me=review_requested_from_me,
