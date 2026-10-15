@@ -20,23 +20,26 @@ T = TypeVar("T", bound="NavCount")
 
 @_attrs_define
 class NavCount:
-    """ The Branches page's numbers (#1458): how many default branches it
-    lists and how many of those have a pipeline running, failed and
-    passed, the same four as `NavPullRequestCount`. A branch with no
-    pipeline counts in `total` only, so the four numbers need not add up.
-    All four are always present.
+    """ The Branches page's numbers (#1458, #1531): how many default branches
+    it lists and how many of those have a pipeline running, failed and
+    passed, the same four as `NavPullRequestCount`, plus `none`, the ones
+    with no pipeline. Every branch is in exactly one of the four states,
+    so `running`, `failed`, `passed` and `none` add up to `total`. All
+    five are always present.
 
         Attributes:
             total (int): How many default branches the page lists.
             running (int): How many of them have a pipeline that is still running.
             failed (int): How many of them have a failing pipeline.
             passed (int): How many of them have a pipeline that passed.
+            none (int): How many of them have no pipeline.
      """
 
     total: int
     running: int
     failed: int
     passed: int
+    none: int
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -52,6 +55,8 @@ class NavCount:
 
         passed = self.passed
 
+        none = self.none
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -60,6 +65,7 @@ class NavCount:
             "running": running,
             "failed": failed,
             "passed": passed,
+            "none": none,
         })
 
         return field_dict
@@ -77,11 +83,14 @@ class NavCount:
 
         passed = d.pop("passed")
 
+        none = d.pop("none")
+
         nav_count = cls(
             total=total,
             running=running,
             failed=failed,
             passed=passed,
+            none=none,
         )
 
 
