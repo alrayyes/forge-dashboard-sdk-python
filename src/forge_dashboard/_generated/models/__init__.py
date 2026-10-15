@@ -23,6 +23,10 @@ from .check_state import CheckState
 from .ci_status import CIStatus
 from .credential import Credential
 from .dashboard import Dashboard
+from .details_body import DetailsBody
+from .details_body_format import DetailsBodyFormat
+from .details_comment import DetailsComment
+from .details_comment_format import DetailsCommentFormat
 from .error import Error
 from .filter_state import FilterState
 from .forge import Forge
@@ -42,11 +46,13 @@ from .nav_count import NavCount
 from .nav_counts import NavCounts
 from .nav_issue_count import NavIssueCount
 from .nav_pull_request_count import NavPullRequestCount
+from .person import Person
 from .pull_request import PullRequest
 from .pull_request_action_request import PullRequestActionRequest
 from .pull_request_checks_response import PullRequestChecksResponse
 from .pull_request_dependabot_action_request import PullRequestDependabotActionRequest
 from .pull_request_dependabot_action_request_action import PullRequestDependabotActionRequestAction
+from .pull_request_details import PullRequestDetails
 from .pull_request_hide_request import PullRequestHideRequest
 from .pull_request_kind import PullRequestKind
 from .pull_request_status import PullRequestStatus
@@ -57,6 +63,8 @@ from .queued_action_request_action import QueuedActionRequestAction
 from .queued_action_status import QueuedActionStatus
 from .rate_limit import RateLimit
 from .rate_limit_severity import RateLimitSeverity
+from .reaction import Reaction
+from .reactions import Reactions
 from .ready import Ready
 from .receive_forgejo_webhook_body import ReceiveForgejoWebhookBody
 from .receive_git_hub_webhook_body import ReceiveGitHubWebhookBody
@@ -111,6 +119,10 @@ __all__ = (
     "CIStatus",
     "Credential",
     "Dashboard",
+    "DetailsBody",
+    "DetailsBodyFormat",
+    "DetailsComment",
+    "DetailsCommentFormat",
     "Error",
     "FilterState",
     "Forge",
@@ -130,11 +142,13 @@ __all__ = (
     "NavCounts",
     "NavIssueCount",
     "NavPullRequestCount",
+    "Person",
     "PullRequest",
     "PullRequestActionRequest",
     "PullRequestChecksResponse",
     "PullRequestDependabotActionRequest",
     "PullRequestDependabotActionRequestAction",
+    "PullRequestDetails",
     "PullRequestHideRequest",
     "PullRequestKind",
     "PullRequestStatus",
@@ -145,6 +159,8 @@ __all__ = (
     "QueuedActionStatus",
     "RateLimit",
     "RateLimitSeverity",
+    "Reaction",
+    "Reactions",
     "Ready",
     "ReceiveForgejoWebhookBody",
     "ReceiveGitHubWebhookBody",
