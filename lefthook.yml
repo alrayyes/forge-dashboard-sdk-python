@@ -32,5 +32,3 @@ pre-push:
       run: uv run pytest
     bandit:
       run: uv run bandit -r src/forge_dashboard -x src/forge_dashboard/_generated
-    pip-audit:
-      run: uv run pip-audit

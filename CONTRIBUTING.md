@@ -72,3 +72,7 @@ daily, on every push that changes a manifest or lockfile, and on demand, and
 keeps one open issue titled "Dependency advisories" listing what it finds. It
 closes that issue when the audit is clean. There's no ignore list: an advisory
 with no fix stays in that issue until one ships.
+
+No pre-push hook runs the audit: it would fail every push the day an
+advisory lands on `main`, whatever the push changed. CI owns the gate. To
+check by hand, run `uv run pip-audit` (and `bun audit`).
