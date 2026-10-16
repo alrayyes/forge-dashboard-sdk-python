@@ -76,8 +76,9 @@ def sync_detailed(
     (#1337). Every other row is returned, whatever its status, with a
     count per status, so a client
     filters and sorts locally and its pill counts always match what each
-    pill lists. Rows come failed first, then running, passed and none,
-    each group by `fullName`.
+    pill lists. Rows come newest commit first (`commit.committedAt`),
+    whatever their status (#1552). A row with no commit time comes after
+    every dated one; ties and undated rows go by `fullName`, then `forge`.
 
     Served from the snapshot the background refresh already holds, so it
     never calls a forge. On GitHub the branch's check status rides the
@@ -127,8 +128,9 @@ def sync(
     (#1337). Every other row is returned, whatever its status, with a
     count per status, so a client
     filters and sorts locally and its pill counts always match what each
-    pill lists. Rows come failed first, then running, passed and none,
-    each group by `fullName`.
+    pill lists. Rows come newest commit first (`commit.committedAt`),
+    whatever their status (#1552). A row with no commit time comes after
+    every dated one; ties and undated rows go by `fullName`, then `forge`.
 
     Served from the snapshot the background refresh already holds, so it
     never calls a forge. On GitHub the branch's check status rides the
@@ -173,8 +175,9 @@ async def asyncio_detailed(
     (#1337). Every other row is returned, whatever its status, with a
     count per status, so a client
     filters and sorts locally and its pill counts always match what each
-    pill lists. Rows come failed first, then running, passed and none,
-    each group by `fullName`.
+    pill lists. Rows come newest commit first (`commit.committedAt`),
+    whatever their status (#1552). A row with no commit time comes after
+    every dated one; ties and undated rows go by `fullName`, then `forge`.
 
     Served from the snapshot the background refresh already holds, so it
     never calls a forge. On GitHub the branch's check status rides the
@@ -224,8 +227,9 @@ async def asyncio(
     (#1337). Every other row is returned, whatever its status, with a
     count per status, so a client
     filters and sorts locally and its pill counts always match what each
-    pill lists. Rows come failed first, then running, passed and none,
-    each group by `fullName`.
+    pill lists. Rows come newest commit first (`commit.committedAt`),
+    whatever their status (#1552). A row with no commit time comes after
+    every dated one; ties and undated rows go by `fullName`, then `forge`.
 
     Served from the snapshot the background refresh already holds, so it
     never calls a forge. On GitHub the branch's check status rides the
