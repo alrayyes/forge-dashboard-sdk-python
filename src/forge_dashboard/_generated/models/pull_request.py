@@ -186,6 +186,15 @@ class PullRequest:
                 requests, a bounded number per refresh). It is false once the
                 timeline shows no schedule. Omitted when it hasn't been read yet
                 or the read failed, since this service then doesn't know.
+            auto_merge_held_by (str | Unset): Who holds the auto-merge, so a client can word it right. Present
+                only when `autoMergeEnabled` is true. `dashboard` means this app
+                holds a stored intent and performs the merge itself (Forgejo).
+                `forge` means the merge is scheduled on the forge: Forgejo's own
+                scheduled merge, or GitHub's auto-merge. When both exist on
+                Forgejo it is `dashboard`, since this app's loop merges and
+                Cancel clears both. Omitted means unknown: a client must not
+                guess it from other fields, and should treat a value it doesn't
+                know like an omitted one.
             auto_merge_allowed (bool | Unset): Whether GitHub will accept an "Enable auto-merge" request for
                 this pull request from the signed-in viewer, read from the
                 GraphQL `PullRequest.viewerCanEnableAutoMerge` field. GitHub
@@ -260,6 +269,7 @@ class PullRequest:
     update_request: None | Unset | UpdateRequest = UNSET
     queued: None | QueuedAction | Unset = UNSET
     auto_merge_enabled: bool | Unset = UNSET
+    auto_merge_held_by: str | Unset = UNSET
     auto_merge_allowed: bool | Unset = UNSET
     review: ReviewState | Unset = UNSET
     auto_merge: AutoMergeStatus | Unset = UNSET
@@ -397,6 +407,8 @@ class PullRequest:
 
         auto_merge_enabled = self.auto_merge_enabled
 
+        auto_merge_held_by = self.auto_merge_held_by
+
         auto_merge_allowed = self.auto_merge_allowed
 
         review: dict[str, Any] | Unset = UNSET
@@ -457,6 +469,8 @@ class PullRequest:
             field_dict["queued"] = queued
         if auto_merge_enabled is not UNSET:
             field_dict["autoMergeEnabled"] = auto_merge_enabled
+        if auto_merge_held_by is not UNSET:
+            field_dict["autoMergeHeldBy"] = auto_merge_held_by
         if auto_merge_allowed is not UNSET:
             field_dict["autoMergeAllowed"] = auto_merge_allowed
         if review is not UNSET:
@@ -699,6 +713,8 @@ class PullRequest:
 
         auto_merge_enabled = d.pop("autoMergeEnabled", UNSET)
 
+        auto_merge_held_by = d.pop("autoMergeHeldBy", UNSET)
+
         auto_merge_allowed = d.pop("autoMergeAllowed", UNSET)
 
         _review = d.pop("review", UNSET)
@@ -769,6 +785,7 @@ class PullRequest:
             update_request=update_request,
             queued=queued,
             auto_merge_enabled=auto_merge_enabled,
+            auto_merge_held_by=auto_merge_held_by,
             auto_merge_allowed=auto_merge_allowed,
             review=review,
             auto_merge=auto_merge,
