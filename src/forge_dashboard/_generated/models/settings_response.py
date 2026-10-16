@@ -77,6 +77,18 @@ class SettingsResponse:
                 `Europe/Amsterdam`. Empty means the browser's own zone. Set only
                 from Settings (PUT /api/settings/timezone); every other page reads
                 it via GET /api/settings/timezone.
+            hide_dependency_dashboard (bool | Unset): Whether the user hides the bot-kept "Dependency Dashboard" issue
+                everywhere: the server leaves a `housekeeping` issue out of the
+                `issues` of GET /api/dashboard and its stream, and out of every
+                count and total built from them (`navCounts`, Insights). Always
+                present once the server applies it (#1630).
+            ignored_titles (list[str] | Unset): Patterns for issue titles to leave out, in the server's own
+                regular expression syntax (Go RE2: no lookahead and no
+                backreferences). A pattern matches anywhere in the title and
+                ignores case; an issue matching any one is left out of `issues`
+                and of every count and total built from them, the same as
+                `hideDependencyDashboard`. Always present once the server
+                applies it (#1630). Empty means none.
      """
 
     github_username: str
@@ -92,6 +104,8 @@ class SettingsResponse:
     renovate_authors: list[str]
     theme: SettingsResponseTheme
     timezone: str | Unset = UNSET
+    hide_dependency_dashboard: bool | Unset = UNSET
+    ignored_titles: list[str] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -127,6 +141,14 @@ class SettingsResponse:
 
         timezone = self.timezone
 
+        hide_dependency_dashboard = self.hide_dependency_dashboard
+
+        ignored_titles: list[str] | Unset = UNSET
+        if not isinstance(self.ignored_titles, Unset):
+            ignored_titles = self.ignored_titles
+
+
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -146,6 +168,10 @@ class SettingsResponse:
         })
         if timezone is not UNSET:
             field_dict["timezone"] = timezone
+        if hide_dependency_dashboard is not UNSET:
+            field_dict["hideDependencyDashboard"] = hide_dependency_dashboard
+        if ignored_titles is not UNSET:
+            field_dict["ignoredTitles"] = ignored_titles
 
         return field_dict
 
@@ -184,6 +210,11 @@ class SettingsResponse:
 
         timezone = d.pop("timezone", UNSET)
 
+        hide_dependency_dashboard = d.pop("hideDependencyDashboard", UNSET)
+
+        ignored_titles = cast(list[str], d.pop("ignoredTitles", UNSET))
+
+
         settings_response = cls(
             github_username=github_username,
             github_token_set=github_token_set,
@@ -198,6 +229,8 @@ class SettingsResponse:
             renovate_authors=renovate_authors,
             theme=theme,
             timezone=timezone,
+            hide_dependency_dashboard=hide_dependency_dashboard,
+            ignored_titles=ignored_titles,
         )
 
 

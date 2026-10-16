@@ -72,6 +72,12 @@ class Dashboard:
             pull_requests (list[PullRequest]):
             issues (list[Issue]):
             repos (list[RepoStatus]):
+            settings_hidden_issue_count (int | Unset): How many open issues the user's own settings
+                (`hideDependencyDashboard`
+                and `ignoredTitles`) left out of `issues`, so a client can say
+                "N hidden by your settings" and link to Settings; it cannot work
+                that out, the issues are not sent. Always present once the
+                server applies the settings (#1630); 0 when none are hidden.
             hidden_pull_requests (int | Unset): How many pull requests the user hid that are still open and not
                 expired. Always present, so a client can render "Hidden (N)"
                 without a special case. With `includeHidden=true` they are in
@@ -89,6 +95,7 @@ class Dashboard:
     pull_requests: list[PullRequest]
     issues: list[Issue]
     repos: list[RepoStatus]
+    settings_hidden_issue_count: int | Unset = UNSET
     hidden_pull_requests: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -156,6 +163,8 @@ class Dashboard:
 
 
 
+        settings_hidden_issue_count = self.settings_hidden_issue_count
+
         hidden_pull_requests = self.hidden_pull_requests
 
 
@@ -174,6 +183,8 @@ class Dashboard:
             "issues": issues,
             "repos": repos,
         })
+        if settings_hidden_issue_count is not UNSET:
+            field_dict["settingsHiddenIssueCount"] = settings_hidden_issue_count
         if hidden_pull_requests is not UNSET:
             field_dict["hiddenPullRequests"] = hidden_pull_requests
 
@@ -267,6 +278,8 @@ class Dashboard:
             repos.append(repos_item)
 
 
+        settings_hidden_issue_count = d.pop("settingsHiddenIssueCount", UNSET)
+
         hidden_pull_requests = d.pop("hiddenPullRequests", UNSET)
 
         dashboard = cls(
@@ -281,6 +294,7 @@ class Dashboard:
             pull_requests=pull_requests,
             issues=issues,
             repos=repos,
+            settings_hidden_issue_count=settings_hidden_issue_count,
             hidden_pull_requests=hidden_pull_requests,
         )
 
