@@ -48,6 +48,16 @@ class SettingsRequest:
             renovate_rebase_label (str | Unset):
             renovate_authors (list[str] | Unset): Replaces the saved list. Entries are trimmed; blanks and
                 repeats (ignoring case) are dropped. Omitted or empty clears it.
+            hide_dependency_dashboard (bool | Unset): Replaces the saved choice; omitted means false, like
+                `renovateAuthors`, so a form sends it on every save. See
+                SettingsResponse.hideDependencyDashboard.
+            ignored_titles (list[str] | Unset): Replaces the saved list; omitted or empty clears it. Entries are
+                trimmed; blanks and repeats (ignoring case) are dropped. Each
+                must compile as a Go RE2 regular expression: one that does not
+                is a 400 naming `ignoredTitles` and the entry, with the reason in
+                plain words ("ignoredTitles entry 2, "(": missing closing )"),
+                and nothing is saved. More than 20 entries, or an entry over 200
+                characters, is a 400 too. See SettingsResponse.ignoredTitles.
      """
 
     github_token: str | Unset = UNSET
@@ -58,6 +68,8 @@ class SettingsRequest:
     forgejo_username: str | Unset = UNSET
     renovate_rebase_label: str | Unset = UNSET
     renovate_authors: list[str] | Unset = UNSET
+    hide_dependency_dashboard: bool | Unset = UNSET
+    ignored_titles: list[str] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -85,6 +97,14 @@ class SettingsRequest:
 
 
 
+        hide_dependency_dashboard = self.hide_dependency_dashboard
+
+        ignored_titles: list[str] | Unset = UNSET
+        if not isinstance(self.ignored_titles, Unset):
+            ignored_titles = self.ignored_titles
+
+
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -106,6 +126,10 @@ class SettingsRequest:
             field_dict["renovateRebaseLabel"] = renovate_rebase_label
         if renovate_authors is not UNSET:
             field_dict["renovateAuthors"] = renovate_authors
+        if hide_dependency_dashboard is not UNSET:
+            field_dict["hideDependencyDashboard"] = hide_dependency_dashboard
+        if ignored_titles is not UNSET:
+            field_dict["ignoredTitles"] = ignored_titles
 
         return field_dict
 
@@ -131,6 +155,11 @@ class SettingsRequest:
         renovate_authors = cast(list[str], d.pop("renovateAuthors", UNSET))
 
 
+        hide_dependency_dashboard = d.pop("hideDependencyDashboard", UNSET)
+
+        ignored_titles = cast(list[str], d.pop("ignoredTitles", UNSET))
+
+
         settings_request = cls(
             github_token=github_token,
             github_username=github_username,
@@ -140,6 +169,8 @@ class SettingsRequest:
             forgejo_username=forgejo_username,
             renovate_rebase_label=renovate_rebase_label,
             renovate_authors=renovate_authors,
+            hide_dependency_dashboard=hide_dependency_dashboard,
+            ignored_titles=ignored_titles,
         )
 
 
