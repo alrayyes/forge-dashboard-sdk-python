@@ -73,6 +73,16 @@ class SettingsResponse:
                 rather than a saved choice. Set only from Settings; every
                 other page reads it via the lightweight
                 GET /api/settings/theme instead of this endpoint.
+            ignored_title_counts (list[int | None]): Per pattern in `ignoredTitles`, same order and same length: how
+                many of the viewer's currently open issues that pattern matches
+                on its own. An issue two patterns match counts for both, so the
+                entries can sum to more than `settingsHiddenIssueCount`. Every
+                entry is null while the count is unknown (the viewer's first
+                refresh has not finished, see `firstRefreshDone` on the
+                dashboard snapshot, or there is no snapshot), never a made-up 0.
+                Only this viewer's issues are counted. On GET and on the PUT
+                response alike: a PUT returns the counts for the list it just
+                saved, worked out from the issues the viewer had before the save.
             timezone (str | Unset): The signed-in user's own time zone as an IANA name such as
                 `Europe/Amsterdam`. Empty means the browser's own zone. Set only
                 from Settings (PUT /api/settings/timezone); every other page reads
@@ -89,17 +99,6 @@ class SettingsResponse:
                 and of every count and total built from them, the same as
                 `hideDependencyDashboard`. Always present once the server
                 applies it. Empty means none.
-            ignored_title_counts (list[int | None] | Unset): Per pattern in `ignoredTitles`, same order and same length: how
-                many of the viewer's currently open issues that pattern matches
-                on its own. An issue two patterns match counts for both, so the
-                entries can sum to more than `settingsHiddenIssueCount`. Every
-                entry is null while the count is unknown (the viewer's first
-                refresh has not finished, see `firstRefreshDone` on the
-                dashboard snapshot, or there is no snapshot), never a made-up 0.
-                Only this viewer's issues are counted. On GET and on the PUT
-                response alike: a PUT returns the counts for the list it just
-                saved. Optional until the server emits it; the server
-                change makes it required.
      """
 
     github_username: str
@@ -114,10 +113,10 @@ class SettingsResponse:
     renovate_rebase_label: str
     renovate_authors: list[str]
     theme: SettingsResponseTheme
+    ignored_title_counts: list[int | None]
     timezone: str | Unset = UNSET
     hide_dependency_dashboard: bool | Unset = UNSET
     ignored_titles: list[str] | Unset = UNSET
-    ignored_title_counts: list[int | None] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -151,6 +150,14 @@ class SettingsResponse:
 
         theme = self.theme.value
 
+        ignored_title_counts = []
+        for ignored_title_counts_item_data in self.ignored_title_counts:
+            ignored_title_counts_item: int | None
+            ignored_title_counts_item = ignored_title_counts_item_data
+            ignored_title_counts.append(ignored_title_counts_item)
+
+
+
         timezone = self.timezone
 
         hide_dependency_dashboard = self.hide_dependency_dashboard
@@ -158,16 +165,6 @@ class SettingsResponse:
         ignored_titles: list[str] | Unset = UNSET
         if not isinstance(self.ignored_titles, Unset):
             ignored_titles = self.ignored_titles
-
-
-
-        ignored_title_counts: list[int | None] | Unset = UNSET
-        if not isinstance(self.ignored_title_counts, Unset):
-            ignored_title_counts = []
-            for ignored_title_counts_item_data in self.ignored_title_counts:
-                ignored_title_counts_item: int | None
-                ignored_title_counts_item = ignored_title_counts_item_data
-                ignored_title_counts.append(ignored_title_counts_item)
 
 
 
@@ -187,6 +184,7 @@ class SettingsResponse:
             "renovateRebaseLabel": renovate_rebase_label,
             "renovateAuthors": renovate_authors,
             "theme": theme,
+            "ignoredTitleCounts": ignored_title_counts,
         })
         if timezone is not UNSET:
             field_dict["timezone"] = timezone
@@ -194,8 +192,6 @@ class SettingsResponse:
             field_dict["hideDependencyDashboard"] = hide_dependency_dashboard
         if ignored_titles is not UNSET:
             field_dict["ignoredTitles"] = ignored_titles
-        if ignored_title_counts is not UNSET:
-            field_dict["ignoredTitleCounts"] = ignored_title_counts
 
         return field_dict
 
@@ -232,26 +228,24 @@ class SettingsResponse:
 
 
 
+        ignored_title_counts = []
+        _ignored_title_counts = d.pop("ignoredTitleCounts")
+        for ignored_title_counts_item_data in (_ignored_title_counts):
+            def _parse_ignored_title_counts_item(data: object) -> int | None:
+                if data is None:
+                    return data
+                return cast(int | None, data)
+
+            ignored_title_counts_item = _parse_ignored_title_counts_item(ignored_title_counts_item_data)
+
+            ignored_title_counts.append(ignored_title_counts_item)
+
+
         timezone = d.pop("timezone", UNSET)
 
         hide_dependency_dashboard = d.pop("hideDependencyDashboard", UNSET)
 
         ignored_titles = cast(list[str], d.pop("ignoredTitles", UNSET))
-
-
-        _ignored_title_counts = d.pop("ignoredTitleCounts", UNSET)
-        ignored_title_counts: list[int | None] | Unset = UNSET
-        if _ignored_title_counts is not UNSET:
-            ignored_title_counts = []
-            for ignored_title_counts_item_data in _ignored_title_counts:
-                def _parse_ignored_title_counts_item(data: object) -> int | None:
-                    if data is None:
-                        return data
-                    return cast(int | None, data)
-
-                ignored_title_counts_item = _parse_ignored_title_counts_item(ignored_title_counts_item_data)
-
-                ignored_title_counts.append(ignored_title_counts_item)
 
 
         settings_response = cls(
@@ -267,10 +261,10 @@ class SettingsResponse:
             renovate_rebase_label=renovate_rebase_label,
             renovate_authors=renovate_authors,
             theme=theme,
+            ignored_title_counts=ignored_title_counts,
             timezone=timezone,
             hide_dependency_dashboard=hide_dependency_dashboard,
             ignored_titles=ignored_titles,
-            ignored_title_counts=ignored_title_counts,
         )
 
 
