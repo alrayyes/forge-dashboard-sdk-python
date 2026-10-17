@@ -71,13 +71,13 @@ def sync_detailed(
     """ The CI status of every tracked repository's default branch
 
      One row per tracked repository, showing the latest pipeline on its
-    default branch: failed, passed, running or none (#1224). A repository
-    ignored for pull requests is left out, as on the pull requests page
-    (#1337). Every other row is returned, whatever its status, with a
+    default branch: failed, passed, running or none. A repository
+    ignored for pull requests is left out, as on the pull requests page. Every other row is returned,
+    whatever its status, with a
     count per status, so a client
     filters and sorts locally and its pill counts always match what each
     pill lists. Rows come newest commit first (`commit.committedAt`),
-    whatever their status (#1552). A row with no commit time comes after
+    whatever their status. A row with no commit time comes after
     every dated one; ties and undated rows go by `fullName`, then `forge`.
 
     Served from the snapshot the background refresh already holds, so it
@@ -123,13 +123,13 @@ def sync(
     """ The CI status of every tracked repository's default branch
 
      One row per tracked repository, showing the latest pipeline on its
-    default branch: failed, passed, running or none (#1224). A repository
-    ignored for pull requests is left out, as on the pull requests page
-    (#1337). Every other row is returned, whatever its status, with a
+    default branch: failed, passed, running or none. A repository
+    ignored for pull requests is left out, as on the pull requests page. Every other row is returned,
+    whatever its status, with a
     count per status, so a client
     filters and sorts locally and its pill counts always match what each
     pill lists. Rows come newest commit first (`commit.committedAt`),
-    whatever their status (#1552). A row with no commit time comes after
+    whatever their status. A row with no commit time comes after
     every dated one; ties and undated rows go by `fullName`, then `forge`.
 
     Served from the snapshot the background refresh already holds, so it
@@ -170,13 +170,13 @@ async def asyncio_detailed(
     """ The CI status of every tracked repository's default branch
 
      One row per tracked repository, showing the latest pipeline on its
-    default branch: failed, passed, running or none (#1224). A repository
-    ignored for pull requests is left out, as on the pull requests page
-    (#1337). Every other row is returned, whatever its status, with a
+    default branch: failed, passed, running or none. A repository
+    ignored for pull requests is left out, as on the pull requests page. Every other row is returned,
+    whatever its status, with a
     count per status, so a client
     filters and sorts locally and its pill counts always match what each
     pill lists. Rows come newest commit first (`commit.committedAt`),
-    whatever their status (#1552). A row with no commit time comes after
+    whatever their status. A row with no commit time comes after
     every dated one; ties and undated rows go by `fullName`, then `forge`.
 
     Served from the snapshot the background refresh already holds, so it
@@ -222,13 +222,13 @@ async def asyncio(
     """ The CI status of every tracked repository's default branch
 
      One row per tracked repository, showing the latest pipeline on its
-    default branch: failed, passed, running or none (#1224). A repository
-    ignored for pull requests is left out, as on the pull requests page
-    (#1337). Every other row is returned, whatever its status, with a
+    default branch: failed, passed, running or none. A repository
+    ignored for pull requests is left out, as on the pull requests page. Every other row is returned,
+    whatever its status, with a
     count per status, so a client
     filters and sorts locally and its pill counts always match what each
     pill lists. Rows come newest commit first (`commit.committedAt`),
-    whatever their status (#1552). A row with no commit time comes after
+    whatever their status. A row with no commit time comes after
     every dated one; ties and undated rows go by `fullName`, then `forge`.
 
     Served from the snapshot the background refresh already holds, so it

@@ -25,7 +25,7 @@ T = TypeVar("T", bound="NavCounts")
 
 @_attrs_define
 class NavCounts:
-    """ The numbers behind the navigation badges (#1315), counted from what the
+    """ The numbers behind the navigation badges, counted from what the
     board shows by default, so they match each page when it opens. Pull
     requests leave out ignored repos, draft pull requests and hidden pull
     requests whatever `includeDrafts` and `includeHidden` ask for, so the
@@ -37,25 +37,25 @@ class NavCounts:
     under `bots`, the rest under `pullRequests`). Always present, with
     zeros when there is nothing. A client hides a page's whole nav item at
     zero total, and a state's number at zero. Every page except Issues also
-    carries `running` and `passed` (#1439, #1458).
+    carries `running` and `passed`.
 
         Attributes:
-            branches (NavCount): The Branches page's numbers (#1458, #1531): how many default branches
+            branches (NavCount): The Branches page's numbers: how many default branches
                 it lists and how many of those have a pipeline running, failed and
                 passed, the same four as `NavPullRequestCount`, plus `none`, the ones
                 with no pipeline. Every branch is in exactly one of the four states,
                 so `running`, `failed`, `passed` and `none` add up to `total`. All
                 five are always present.
-            pull_requests (NavPullRequestCount): A pull request page's numbers (#1439). `running`, `failed` and
+            pull_requests (NavPullRequestCount): A pull request page's numbers. `running`, `failed` and
                 `passed` count the pull requests whose CI is pending, failing and
                 succeeded. A pull request with no checks counts in `total` only, so
                 the four numbers need not add up. All four are always present.
             issues (NavIssueCount):
-            releases (NavPullRequestCount): A pull request page's numbers (#1439). `running`, `failed` and
+            releases (NavPullRequestCount): A pull request page's numbers. `running`, `failed` and
                 `passed` count the pull requests whose CI is pending, failing and
                 succeeded. A pull request with no checks counts in `total` only, so
                 the four numbers need not add up. All four are always present.
-            bots (NavPullRequestCount): A pull request page's numbers (#1439). `running`, `failed` and
+            bots (NavPullRequestCount): A pull request page's numbers. `running`, `failed` and
                 `passed` count the pull requests whose CI is pending, failing and
                 succeeded. A pull request with no checks counts in `total` only, so
                 the four numbers need not add up. All four are always present.

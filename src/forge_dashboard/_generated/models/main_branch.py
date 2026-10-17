@@ -52,7 +52,7 @@ class MainBranch:
                 the repository's `url`.
             stale (bool): True when this row is the last known one because its forge
                 couldn't be read or its rate limit is spent. A client offers no
-                write on a stale row (#1199).
+                write on a stale row.
             stale_since (datetime.datetime | None): When this row was last fetched. Null unless `stale`.
      """
 

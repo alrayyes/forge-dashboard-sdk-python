@@ -100,7 +100,7 @@ def sync_detailed(
     while the user is still typing in the free-text Title filter.
     A signed-in browser session only: a personal API token is refused
     with 403, so a script or agent can't change the filters the user
-    sees (#1000). Each save is logged with the user agent.
+    sees. Each save is logged with the user agent.
 
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape —
@@ -152,7 +152,7 @@ def sync(
     while the user is still typing in the free-text Title filter.
     A signed-in browser session only: a personal API token is refused
     with 403, so a script or agent can't change the filters the user
-    sees (#1000). Each save is logged with the user agent.
+    sees. Each save is logged with the user agent.
 
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape —
@@ -199,7 +199,7 @@ async def asyncio_detailed(
     while the user is still typing in the free-text Title filter.
     A signed-in browser session only: a personal API token is refused
     with 403, so a script or agent can't change the filters the user
-    sees (#1000). Each save is logged with the user agent.
+    sees. Each save is logged with the user agent.
 
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape —
@@ -251,7 +251,7 @@ async def asyncio(
     while the user is still typing in the free-text Title filter.
     A signed-in browser session only: a personal API token is refused
     with 403, so a script or agent can't change the filters the user
-    sees (#1000). Each save is logged with the user agent.
+    sees. Each save is logged with the user agent.
 
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape —

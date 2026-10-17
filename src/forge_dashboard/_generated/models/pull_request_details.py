@@ -24,7 +24,7 @@ T = TypeVar("T", bound="PullRequestDetails")
 
 @_attrs_define
 class PullRequestDetails:
-    """ What the pull request dialog shows (#1506).
+    """ What the pull request dialog shows.
 
         Attributes:
             description (DetailsBody): A pull request's description, or the release notes of a release pull request.

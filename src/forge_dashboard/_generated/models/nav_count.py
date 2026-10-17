@@ -20,7 +20,7 @@ T = TypeVar("T", bound="NavCount")
 
 @_attrs_define
 class NavCount:
-    """ The Branches page's numbers (#1458, #1531): how many default branches
+    """ The Branches page's numbers: how many default branches
     it lists and how many of those have a pipeline running, failed and
     passed, the same four as `NavPullRequestCount`, plus `none`, the ones
     with no pipeline. Every branch is in exactly one of the four states,

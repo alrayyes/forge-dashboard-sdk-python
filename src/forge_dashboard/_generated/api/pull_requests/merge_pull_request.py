@@ -135,7 +135,7 @@ def sync_detailed(
     the original forge error is returned with `code: unknown`.
 
     An empty pull request, whose branch is already on the target, has no
-    `merge` in `allowedActions` (#1375). A Merge posted for one anyway
+    `merge` in `allowedActions`. A Merge posted for one anyway
     gets 409 `already_up_to_date` from this server, which never asks the
     forge.
 
@@ -187,7 +187,7 @@ def sync(
     the original forge error is returned with `code: unknown`.
 
     An empty pull request, whose branch is already on the target, has no
-    `merge` in `allowedActions` (#1375). A Merge posted for one anyway
+    `merge` in `allowedActions`. A Merge posted for one anyway
     gets 409 `already_up_to_date` from this server, which never asks the
     forge.
 
@@ -234,7 +234,7 @@ async def asyncio_detailed(
     the original forge error is returned with `code: unknown`.
 
     An empty pull request, whose branch is already on the target, has no
-    `merge` in `allowedActions` (#1375). A Merge posted for one anyway
+    `merge` in `allowedActions`. A Merge posted for one anyway
     gets 409 `already_up_to_date` from this server, which never asks the
     forge.
 
@@ -286,7 +286,7 @@ async def asyncio(
     the original forge error is returned with `code: unknown`.
 
     An empty pull request, whose branch is already on the target, has no
-    `merge` in `allowedActions` (#1375). A Merge posted for one anyway
+    `merge` in `allowedActions`. A Merge posted for one anyway
     gets 409 `already_up_to_date` from this server, which never asks the
     forge.
 
