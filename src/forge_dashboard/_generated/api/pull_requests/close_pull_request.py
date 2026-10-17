@@ -119,7 +119,10 @@ def sync_detailed(
     answers an `ActionError` (see Merge): `already_merged` or
     `already_closed` when the row was stale, otherwise a `code` and a
     plain-words `message` safe to show a person.
-    Closing a merged pull request is `already_merged`.
+    Closing a merged pull request is `already_merged`. Closing one
+    that is already closed on Forgejo is not refused, because Forgejo
+    treats it as done, so that call succeeds and there is no
+    `already_closed` answer for it.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
@@ -160,7 +163,10 @@ def sync(
     answers an `ActionError` (see Merge): `already_merged` or
     `already_closed` when the row was stale, otherwise a `code` and a
     plain-words `message` safe to show a person.
-    Closing a merged pull request is `already_merged`.
+    Closing a merged pull request is `already_merged`. Closing one
+    that is already closed on Forgejo is not refused, because Forgejo
+    treats it as done, so that call succeeds and there is no
+    `already_closed` answer for it.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
@@ -196,7 +202,10 @@ async def asyncio_detailed(
     answers an `ActionError` (see Merge): `already_merged` or
     `already_closed` when the row was stale, otherwise a `code` and a
     plain-words `message` safe to show a person.
-    Closing a merged pull request is `already_merged`.
+    Closing a merged pull request is `already_merged`. Closing one
+    that is already closed on Forgejo is not refused, because Forgejo
+    treats it as done, so that call succeeds and there is no
+    `already_closed` answer for it.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
@@ -237,7 +246,10 @@ async def asyncio(
     answers an `ActionError` (see Merge): `already_merged` or
     `already_closed` when the row was stale, otherwise a `code` and a
     plain-words `message` safe to show a person.
-    Closing a merged pull request is `already_merged`.
+    Closing a merged pull request is `already_merged`. Closing one
+    that is already closed on Forgejo is not refused, because Forgejo
+    treats it as done, so that call succeeds and there is no
+    `already_closed` answer for it.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
