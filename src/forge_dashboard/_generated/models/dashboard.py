@@ -45,6 +45,15 @@ class Dashboard:
                 matched on `forge`, `fullName`, `number` and `mergedAt`.
             open_issue_count (int): How many of `issues` are real work: all of them except the
                 `housekeeping` ones. What the Issues badge shows.
+            first_refresh_done (bool): False from process start until this viewer's first refresh has
+                finished, whether it succeeded or failed; true from then on,
+                including after later refreshes. Per viewer: another user's
+                refresh does not flip it. A client shows a loading state instead
+                of empty lists while it is false; a failed first refresh is
+                reported through forge health, not by keeping this false. The same
+                on `GET /api/dashboard`, the stream and the MCP `get_dashboard`
+                output. Always present. A client of an older server that
+                lacks it should treat a missing flag as true (loaded).
             nav_counts (NavCounts): The numbers behind the navigation badges, counted from what the
                 board shows by default, so they match each page when it opens. Pull
                 requests leave out ignored repos, draft pull requests and hidden pull
@@ -78,16 +87,6 @@ class Dashboard:
                 "N hidden by your settings" and link to Settings; it cannot work
                 that out, the issues are not sent. Always present once the
                 server applies the settings; 0 when none are hidden.
-            first_refresh_done (bool | Unset): False from process start until this viewer's first refresh has
-                finished, whether it succeeded or failed; true from then on,
-                including after later refreshes. Per viewer: another user's
-                refresh does not flip it. A client shows a loading state instead
-                of empty lists while it is false; a failed first refresh is
-                reported through forge health, not by keeping this false. The same
-                on `GET /api/dashboard`, the stream and the MCP `get_dashboard`
-                output. Optional until the server emits it; the server
-                change makes it required, and a client treats a missing flag as
-                true (loaded).
             hidden_pull_requests (int | Unset): How many pull requests the user hid that are still open and not
                 expired. Always present, so a client can render "Hidden (N)"
                 without a special case. With `includeHidden=true` they are in
@@ -97,6 +96,7 @@ class Dashboard:
     queued_actions: list[QueuedAction]
     auto_merged: list[AutoMergedPullRequest]
     open_issue_count: int
+    first_refresh_done: bool
     nav_counts: NavCounts
     generated_at: datetime.datetime
     read_interval_seconds: int
@@ -106,7 +106,6 @@ class Dashboard:
     issues: list[Issue]
     repos: list[RepoStatus]
     settings_hidden_issue_count: int | Unset = UNSET
-    first_refresh_done: bool | Unset = UNSET
     hidden_pull_requests: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -137,6 +136,8 @@ class Dashboard:
 
 
         open_issue_count = self.open_issue_count
+
+        first_refresh_done = self.first_refresh_done
 
         nav_counts = self.nav_counts.to_dict()
 
@@ -176,8 +177,6 @@ class Dashboard:
 
         settings_hidden_issue_count = self.settings_hidden_issue_count
 
-        first_refresh_done = self.first_refresh_done
-
         hidden_pull_requests = self.hidden_pull_requests
 
 
@@ -187,6 +186,7 @@ class Dashboard:
             "queuedActions": queued_actions,
             "autoMerged": auto_merged,
             "openIssueCount": open_issue_count,
+            "firstRefreshDone": first_refresh_done,
             "navCounts": nav_counts,
             "generatedAt": generated_at,
             "readIntervalSeconds": read_interval_seconds,
@@ -198,8 +198,6 @@ class Dashboard:
         })
         if settings_hidden_issue_count is not UNSET:
             field_dict["settingsHiddenIssueCount"] = settings_hidden_issue_count
-        if first_refresh_done is not UNSET:
-            field_dict["firstRefreshDone"] = first_refresh_done
         if hidden_pull_requests is not UNSET:
             field_dict["hiddenPullRequests"] = hidden_pull_requests
 
@@ -238,6 +236,8 @@ class Dashboard:
 
 
         open_issue_count = d.pop("openIssueCount")
+
+        first_refresh_done = d.pop("firstRefreshDone")
 
         nav_counts = NavCounts.from_dict(d.pop("navCounts"))
 
@@ -295,14 +295,13 @@ class Dashboard:
 
         settings_hidden_issue_count = d.pop("settingsHiddenIssueCount", UNSET)
 
-        first_refresh_done = d.pop("firstRefreshDone", UNSET)
-
         hidden_pull_requests = d.pop("hiddenPullRequests", UNSET)
 
         dashboard = cls(
             queued_actions=queued_actions,
             auto_merged=auto_merged,
             open_issue_count=open_issue_count,
+            first_refresh_done=first_refresh_done,
             nav_counts=nav_counts,
             generated_at=generated_at,
             read_interval_seconds=read_interval_seconds,
@@ -312,7 +311,6 @@ class Dashboard:
             issues=issues,
             repos=repos,
             settings_hidden_issue_count=settings_hidden_issue_count,
-            first_refresh_done=first_refresh_done,
             hidden_pull_requests=hidden_pull_requests,
         )
 
