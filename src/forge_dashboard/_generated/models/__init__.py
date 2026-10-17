@@ -79,6 +79,8 @@ from .session_user import SessionUser
 from .settings_request import SettingsRequest
 from .settings_response import SettingsResponse
 from .settings_response_theme import SettingsResponseTheme
+from .settings_summary import SettingsSummary
+from .settings_summary_theme import SettingsSummaryTheme
 from .shared_user import SharedUser
 from .sharing_response import SharingResponse
 from .stack_position import StackPosition
@@ -175,6 +177,8 @@ __all__ = (
     "SettingsRequest",
     "SettingsResponse",
     "SettingsResponseTheme",
+    "SettingsSummary",
+    "SettingsSummaryTheme",
     "SharedUser",
     "SharingResponse",
     "StackPosition",

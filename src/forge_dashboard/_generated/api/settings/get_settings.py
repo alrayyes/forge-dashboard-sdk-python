@@ -72,8 +72,9 @@ def sync_detailed(
 
      Forge tokens are never returned, only whether one is set. The
     webhook token and secret are returned, since the user pastes them
-    into the forge's webhook setup. The `get_settings` MCP tool omits
-    both and reports `webhookConfigured` instead.
+    into the forge's webhook setup, and a first read creates them. For
+    a read that creates nothing and omits both, see
+    `GET /api/settings/summary`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -103,8 +104,9 @@ def sync(
 
      Forge tokens are never returned, only whether one is set. The
     webhook token and secret are returned, since the user pastes them
-    into the forge's webhook setup. The `get_settings` MCP tool omits
-    both and reports `webhookConfigured` instead.
+    into the forge's webhook setup, and a first read creates them. For
+    a read that creates nothing and omits both, see
+    `GET /api/settings/summary`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -129,8 +131,9 @@ async def asyncio_detailed(
 
      Forge tokens are never returned, only whether one is set. The
     webhook token and secret are returned, since the user pastes them
-    into the forge's webhook setup. The `get_settings` MCP tool omits
-    both and reports `webhookConfigured` instead.
+    into the forge's webhook setup, and a first read creates them. For
+    a read that creates nothing and omits both, see
+    `GET /api/settings/summary`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -160,8 +163,9 @@ async def asyncio(
 
      Forge tokens are never returned, only whether one is set. The
     webhook token and secret are returned, since the user pastes them
-    into the forge's webhook setup. The `get_settings` MCP tool omits
-    both and reports `webhookConfigured` instead.
+    into the forge's webhook setup, and a first read creates them. For
+    a read that creates nothing and omits both, see
+    `GET /api/settings/summary`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

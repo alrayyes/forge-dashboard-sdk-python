@@ -46,7 +46,8 @@ class SettingsResponse:
                 not a per-user setting). The Settings page uses this to
                 explain why githubAppInstallationId can't be saved when
                 it's false.
-            forgejo_url (str):
+            forgejo_url (str): Always without a username, password, query string or fragment,
+                even if the stored value predates those being refused.
             forgejo_username (str): Used as a token-free public-repos fallback when no Forgejo token is set.
             forgejo_token_set (bool): Whether a Forgejo token is currently saved.
             webhook_token (str): Identifies this user in a webhook URL
