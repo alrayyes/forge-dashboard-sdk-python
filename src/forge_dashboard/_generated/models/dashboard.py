@@ -78,6 +78,16 @@ class Dashboard:
                 "N hidden by your settings" and link to Settings; it cannot work
                 that out, the issues are not sent. Always present once the
                 server applies the settings (#1630); 0 when none are hidden.
+            first_refresh_done (bool | Unset): False from process start until this viewer's first refresh has
+                finished, whether it succeeded or failed; true from then on,
+                including after later refreshes. Per viewer: another user's
+                refresh does not flip it. A client shows a loading state instead
+                of empty lists while it is false; a failed first refresh is
+                reported through forge health, not by keeping this false. The same
+                on `GET /api/dashboard`, the stream and the MCP `get_dashboard`
+                output. Optional until the server emits it (#1673); the server
+                change makes it required, and a client treats a missing flag as
+                true (loaded).
             hidden_pull_requests (int | Unset): How many pull requests the user hid that are still open and not
                 expired. Always present, so a client can render "Hidden (N)"
                 without a special case. With `includeHidden=true` they are in
@@ -96,6 +106,7 @@ class Dashboard:
     issues: list[Issue]
     repos: list[RepoStatus]
     settings_hidden_issue_count: int | Unset = UNSET
+    first_refresh_done: bool | Unset = UNSET
     hidden_pull_requests: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -165,6 +176,8 @@ class Dashboard:
 
         settings_hidden_issue_count = self.settings_hidden_issue_count
 
+        first_refresh_done = self.first_refresh_done
+
         hidden_pull_requests = self.hidden_pull_requests
 
 
@@ -185,6 +198,8 @@ class Dashboard:
         })
         if settings_hidden_issue_count is not UNSET:
             field_dict["settingsHiddenIssueCount"] = settings_hidden_issue_count
+        if first_refresh_done is not UNSET:
+            field_dict["firstRefreshDone"] = first_refresh_done
         if hidden_pull_requests is not UNSET:
             field_dict["hiddenPullRequests"] = hidden_pull_requests
 
@@ -280,6 +295,8 @@ class Dashboard:
 
         settings_hidden_issue_count = d.pop("settingsHiddenIssueCount", UNSET)
 
+        first_refresh_done = d.pop("firstRefreshDone", UNSET)
+
         hidden_pull_requests = d.pop("hiddenPullRequests", UNSET)
 
         dashboard = cls(
@@ -295,6 +312,7 @@ class Dashboard:
             issues=issues,
             repos=repos,
             settings_hidden_issue_count=settings_hidden_issue_count,
+            first_refresh_done=first_refresh_done,
             hidden_pull_requests=hidden_pull_requests,
         )
 
