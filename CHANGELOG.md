@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.41](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v2.0.40...v2.0.41) (2026-10-17)
+
+
+### Bug Fixes
+
+* bump mkdocstrings[python] from 1.0.6 to 1.0.7 ([#212](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/212)) ([2fe25c3](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/2fe25c34dff824ef7141ad4394711ff5829c1abf))
+* regenerate client from updated forge-dashboard spec ([#210](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/210)) ([bf79770](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/bf797709abaa2dd21d519190e9e38ff3d5acea3e))
+
 ## [2.0.40](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v2.0.39...v2.0.40) (2026-10-16)
 
 
