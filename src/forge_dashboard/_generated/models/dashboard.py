@@ -71,7 +71,10 @@ class Dashboard:
             read_interval_seconds (int): How often, in seconds, a client should re-read GET
                 /api/dashboard. The server's advice, so a client needs no
                 interval of its own. The read is cheap and never calls a
-                forge; this is not the backend's refresh schedule.
+                forge; this is not the backend's refresh schedule. It is
+                shorter (2) until the viewer's first refresh has finished, so a
+                page that is still loading picks the data up soon after it is
+                ready, and the normal 30 from then on.
             hidden_drafts (int): How many draft pull requests `pullRequests` leaves out. Always
                 present, and `0` when the request set `includeDrafts=true`, so
                 a client can render "N hidden" without a special case. Drafts
