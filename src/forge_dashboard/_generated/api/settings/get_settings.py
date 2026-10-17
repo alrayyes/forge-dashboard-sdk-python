@@ -70,9 +70,10 @@ def sync_detailed(
 ) -> Response[Error | SettingsResponse]:
     """ The signed-in user's own forge configuration
 
-     Tokens are never returned, before or after being saved — only
-    whether one is currently on file. There is no way to read a saved
-    token back out through this API.
+     Forge tokens are never returned, only whether one is set. The
+    webhook token and secret are returned, since the user pastes them
+    into the forge's webhook setup. The `get_settings` MCP tool omits
+    both and reports `webhookConfigured` instead.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -100,9 +101,10 @@ def sync(
 ) -> Error | SettingsResponse | None:
     """ The signed-in user's own forge configuration
 
-     Tokens are never returned, before or after being saved — only
-    whether one is currently on file. There is no way to read a saved
-    token back out through this API.
+     Forge tokens are never returned, only whether one is set. The
+    webhook token and secret are returned, since the user pastes them
+    into the forge's webhook setup. The `get_settings` MCP tool omits
+    both and reports `webhookConfigured` instead.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -125,9 +127,10 @@ async def asyncio_detailed(
 ) -> Response[Error | SettingsResponse]:
     """ The signed-in user's own forge configuration
 
-     Tokens are never returned, before or after being saved — only
-    whether one is currently on file. There is no way to read a saved
-    token back out through this API.
+     Forge tokens are never returned, only whether one is set. The
+    webhook token and secret are returned, since the user pastes them
+    into the forge's webhook setup. The `get_settings` MCP tool omits
+    both and reports `webhookConfigured` instead.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -155,9 +158,10 @@ async def asyncio(
 ) -> Error | SettingsResponse | None:
     """ The signed-in user's own forge configuration
 
-     Tokens are never returned, before or after being saved — only
-    whether one is currently on file. There is no way to read a saved
-    token back out through this API.
+     Forge tokens are never returned, only whether one is set. The
+    webhook token and secret are returned, since the user pastes them
+    into the forge's webhook setup. The `get_settings` MCP tool omits
+    both and reports `webhookConfigured` instead.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
