@@ -76,7 +76,7 @@ def sync_detailed(
     """ List the signed-in user's queued actions, waiting and recently finished
 
      Every action the user queued to run when a rate-limited forge
-    resets (#756), oldest first: the ones still `queued`, and the
+    resets, oldest first: the ones still `queued`, and the
     final ones (`done`, `skipped`, `failed`) kept for 24 hours so a
     client can show the outcome in its Activity list. The same list
     rides along on GET /api/dashboard as `queuedActions`.
@@ -108,7 +108,7 @@ def sync(
     """ List the signed-in user's queued actions, waiting and recently finished
 
      Every action the user queued to run when a rate-limited forge
-    resets (#756), oldest first: the ones still `queued`, and the
+    resets, oldest first: the ones still `queued`, and the
     final ones (`done`, `skipped`, `failed`) kept for 24 hours so a
     client can show the outcome in its Activity list. The same list
     rides along on GET /api/dashboard as `queuedActions`.
@@ -135,7 +135,7 @@ async def asyncio_detailed(
     """ List the signed-in user's queued actions, waiting and recently finished
 
      Every action the user queued to run when a rate-limited forge
-    resets (#756), oldest first: the ones still `queued`, and the
+    resets, oldest first: the ones still `queued`, and the
     final ones (`done`, `skipped`, `failed`) kept for 24 hours so a
     client can show the outcome in its Activity list. The same list
     rides along on GET /api/dashboard as `queuedActions`.
@@ -167,7 +167,7 @@ async def asyncio(
     """ List the signed-in user's queued actions, waiting and recently finished
 
      Every action the user queued to run when a rate-limited forge
-    resets (#756), oldest first: the ones still `queued`, and the
+    resets, oldest first: the ones still `queued`, and the
     final ones (`done`, `skipped`, `failed`) kept for 24 hours so a
     client can show the outcome in its Activity list. The same list
     rides along on GET /api/dashboard as `queuedActions`.

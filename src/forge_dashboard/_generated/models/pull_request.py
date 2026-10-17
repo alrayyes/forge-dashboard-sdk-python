@@ -106,14 +106,14 @@ class PullRequest:
                 extra request: GitHub returns it with the reviewRequests count
                 already queried, Forgejo with the pull request itself.
             awaiting_workflow_approval (bool): True when GitHub is holding a workflow run on the head commit
-                until someone approves it (#1280): its rollup counts a check run
+                until someone approves it: its rollup counts a check run
                 as ACTION_REQUIRED. Those runs also keep `ci` at failure when
                 nothing else is running, so a client reads this to say "waiting
                 for approval" rather than "check failed". It can be true while
                 `ci` is pending (other runs are going) or failing for another
                 reason too. Always present; false on Forgejo, which has no
                 such state.
-            review_comments (int): How many review comments the pull request has (#1335). Ordinary
+            review_comments (int): How many review comments the pull request has. Ordinary
                 conversation comments are not counted. Always present, and 0 when
                 there are none or the forge can't say (a Forgejo draft or failed
                 reviews call, GitHub's unauthenticated fallback). On GitHub it is read from
@@ -145,7 +145,7 @@ class PullRequest:
                 unreachable forge, a missing token and an action already in
                 flight can still stop an offered action.
             status (None | PullRequestStatus): The one reason this pull request is waiting on something or can't
-                be merged, for a fixed place on its row (#1375): a check still
+                be merged, for a fixed place on its row: a check still
                 running, a conflict, a draft, a parent it is stacked on, or, for
                 an empty pull request, that there is nothing to merge. `code`,
                 `message` and `next` are the same as on `allowedActions[].blocked`,
@@ -220,13 +220,12 @@ class PullRequest:
             auto_merge (AutoMergeStatus | Unset): Where an armed pull request stands, so the row can say why
                 auto-merge is waiting or stopped in words and not by colour. Present
                 while auto-merge is armed on it: on Forgejo the signed-in user's
-                intent held by this app, on GitHub the forge's own auto-merge (#1293).
+                intent held by this app, on GitHub the forge's own auto-merge.
                 Also present for ten minutes after this app cancelled an armed
                 auto-merge because the pull request went empty (its branch landed on
                 the base some other way): `stopped`, code `already_up_to_date` and the
                 message "Auto-merge was cancelled: there is nothing left to merge."
-                Auto-merge is off by then, so this is the only place the reason lives
-                (#1375).
+                Auto-merge is off by then, so this is the only place the reason lives.
             hidden (bool | Unset): True on a pull request the user hid. Only present when the request
                 set `includeHidden=true`: without it a hidden pull request isn't
                 in the list at all.

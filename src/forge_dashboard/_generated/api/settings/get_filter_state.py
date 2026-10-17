@@ -83,7 +83,7 @@ def sync_detailed(
     shouldn't provision webhook credentials as a side effect.
     `{}` for a user who's never saved any filters yet, not a 404.
     These are the web UI's own state: a signed-in browser session only,
-    and a personal API token is refused with 403 (#1000).
+    and a personal API token is refused with 403.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -117,7 +117,7 @@ def sync(
     shouldn't provision webhook credentials as a side effect.
     `{}` for a user who's never saved any filters yet, not a 404.
     These are the web UI's own state: a signed-in browser session only,
-    and a personal API token is refused with 403 (#1000).
+    and a personal API token is refused with 403.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -146,7 +146,7 @@ async def asyncio_detailed(
     shouldn't provision webhook credentials as a side effect.
     `{}` for a user who's never saved any filters yet, not a 404.
     These are the web UI's own state: a signed-in browser session only,
-    and a personal API token is refused with 403 (#1000).
+    and a personal API token is refused with 403.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -180,7 +180,7 @@ async def asyncio(
     shouldn't provision webhook credentials as a side effect.
     `{}` for a user who's never saved any filters yet, not a 404.
     These are the web UI's own state: a signed-in browser session only,
-    and a personal API token is refused with 403 (#1000).
+    and a personal API token is refused with 403.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

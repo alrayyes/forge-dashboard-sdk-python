@@ -45,7 +45,7 @@ class Dashboard:
                 matched on `forge`, `fullName`, `number` and `mergedAt`.
             open_issue_count (int): How many of `issues` are real work: all of them except the
                 `housekeeping` ones. What the Issues badge shows.
-            nav_counts (NavCounts): The numbers behind the navigation badges (#1315), counted from what the
+            nav_counts (NavCounts): The numbers behind the navigation badges, counted from what the
                 board shows by default, so they match each page when it opens. Pull
                 requests leave out ignored repos, draft pull requests and hidden pull
                 requests whatever `includeDrafts` and `includeHidden` ask for, so the
@@ -57,7 +57,7 @@ class Dashboard:
                 under `bots`, the rest under `pullRequests`). Always present, with
                 zeros when there is nothing. A client hides a page's whole nav item at
                 zero total, and a state's number at zero. Every page except Issues also
-                carries `running` and `passed` (#1439, #1458).
+                carries `running` and `passed`.
             generated_at (datetime.datetime): When this snapshot was refreshed, not when it was requested.
             read_interval_seconds (int): How often, in seconds, a client should re-read GET
                 /api/dashboard. The server's advice, so a client needs no
@@ -77,7 +77,7 @@ class Dashboard:
                 and `ignoredTitles`) left out of `issues`, so a client can say
                 "N hidden by your settings" and link to Settings; it cannot work
                 that out, the issues are not sent. Always present once the
-                server applies the settings (#1630); 0 when none are hidden.
+                server applies the settings; 0 when none are hidden.
             first_refresh_done (bool | Unset): False from process start until this viewer's first refresh has
                 finished, whether it succeeded or failed; true from then on,
                 including after later refreshes. Per viewer: another user's
@@ -85,7 +85,7 @@ class Dashboard:
                 of empty lists while it is false; a failed first refresh is
                 reported through forge health, not by keeping this false. The same
                 on `GET /api/dashboard`, the stream and the MCP `get_dashboard`
-                output. Optional until the server emits it (#1673); the server
+                output. Optional until the server emits it; the server
                 change makes it required, and a client treats a missing flag as
                 true (loaded).
             hidden_pull_requests (int | Unset): How many pull requests the user hid that are still open and not

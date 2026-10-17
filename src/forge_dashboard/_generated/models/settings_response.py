@@ -81,14 +81,14 @@ class SettingsResponse:
                 everywhere: the server leaves a `housekeeping` issue out of the
                 `issues` of GET /api/dashboard and its stream, and out of every
                 count and total built from them (`navCounts`, Insights). Always
-                present once the server applies it (#1630).
+                present once the server applies it.
             ignored_titles (list[str] | Unset): Patterns for issue titles to leave out, in the server's own
                 regular expression syntax (Go RE2: no lookahead and no
                 backreferences). A pattern matches anywhere in the title and
                 ignores case; an issue matching any one is left out of `issues`
                 and of every count and total built from them, the same as
                 `hideDependencyDashboard`. Always present once the server
-                applies it (#1630). Empty means none.
+                applies it. Empty means none.
      """
 
     github_username: str

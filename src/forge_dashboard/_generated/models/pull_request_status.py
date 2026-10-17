@@ -22,7 +22,7 @@ T = TypeVar("T", bound="PullRequestStatus")
 @_attrs_define
 class PullRequestStatus:
     """ Why a pull request is waiting on something or can't be merged, in one
-    place for a client to show (#1375). Same shape as
+    place for a client to show. Same shape as
     `AllowedAction.blocked`.
 
         Attributes:

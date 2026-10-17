@@ -20,7 +20,7 @@ T = TypeVar("T", bound="NavPullRequestCount")
 
 @_attrs_define
 class NavPullRequestCount:
-    """ A pull request page's numbers (#1439). `running`, `failed` and
+    """ A pull request page's numbers. `running`, `failed` and
     `passed` count the pull requests whose CI is pending, failing and
     succeeded. A pull request with no checks counts in `total` only, so
     the four numbers need not add up. All four are always present.

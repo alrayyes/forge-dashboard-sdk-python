@@ -125,7 +125,7 @@ def sync_detailed(
 ) -> Response[Error | PullRequestDetails]:
     """ Read a pull request's description, comments and reactions, on demand
 
-     What the pull request dialog shows (#1506): the description, the
+     What the pull request dialog shows: the description, the
     conversation in order, the thumbs up and thumbs down reactions on each
     with who gave them, and, for a release pull request, the release
     notes. Fetched live on every call, never as part of GET
@@ -190,7 +190,7 @@ def sync(
 ) -> Error | PullRequestDetails | None:
     """ Read a pull request's description, comments and reactions, on demand
 
-     What the pull request dialog shows (#1506): the description, the
+     What the pull request dialog shows: the description, the
     conversation in order, the thumbs up and thumbs down reactions on each
     with who gave them, and, for a release pull request, the release
     notes. Fetched live on every call, never as part of GET
@@ -250,7 +250,7 @@ async def asyncio_detailed(
 ) -> Response[Error | PullRequestDetails]:
     """ Read a pull request's description, comments and reactions, on demand
 
-     What the pull request dialog shows (#1506): the description, the
+     What the pull request dialog shows: the description, the
     conversation in order, the thumbs up and thumbs down reactions on each
     with who gave them, and, for a release pull request, the release
     notes. Fetched live on every call, never as part of GET
@@ -315,7 +315,7 @@ async def asyncio(
 ) -> Error | PullRequestDetails | None:
     """ Read a pull request's description, comments and reactions, on demand
 
-     What the pull request dialog shows (#1506): the description, the
+     What the pull request dialog shows: the description, the
     conversation in order, the thumbs up and thumbs down reactions on each
     with who gave them, and, for a release pull request, the release
     notes. Fetched live on every call, never as part of GET
