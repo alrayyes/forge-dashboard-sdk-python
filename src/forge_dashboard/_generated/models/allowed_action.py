@@ -30,6 +30,20 @@ class AllowedAction:
                 A client should treat a value it doesn't know as an action it
                 can't offer, not as an error. Declared with `x-extensible-enum`
                 so adding a value is a minor SDK release.
+            primary (bool | Unset): True on the one action a client draws as the pull request's main
+                button, and absent on every other entry. At most one entry in the
+                list has it, never a blocked one, and a pull request can have none.
+                The server decides it, so a client renders it and holds no rule of
+                its own; a client that doesn't know the field still gets the
+                whole list. Which action it is:
+                `close` for an empty pull request; `merge` when Merge is offered
+                and not blocked, unless the CI is failing (Merge is then only open
+                because the failing checks aren't required, and `status` explains
+                it); `update_branch`, or `renovate_rebase` or `dependabot_rebase`
+                for a bot pull request, when being behind the base branch is what
+                holds Merge back. Every other state has none: checks running or
+                failing, a conflict, a draft, a stack parent, or the forge's own
+                block. `status` gives the reason there.
             blocked (AllowedActionBlocked | Unset): Present when the action is offered but can't be taken yet. Merge
                 is blocked rather than hidden while waiting or fixing something can
                 unlock it. An empty pull request, which nothing can unlock, has no
@@ -42,6 +56,7 @@ class AllowedAction:
      """
 
     action: str
+    primary: bool | Unset = UNSET
     blocked: AllowedActionBlocked | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -53,6 +68,8 @@ class AllowedAction:
         from ..models.allowed_action_blocked import AllowedActionBlocked # noqa: PLC0415
         action = self.action
 
+        primary = self.primary
+
         blocked: dict[str, Any] | Unset = UNSET
         if not isinstance(self.blocked, Unset):
             blocked = self.blocked.to_dict()
@@ -63,6 +80,8 @@ class AllowedAction:
         field_dict.update({
             "action": action,
         })
+        if primary is not UNSET:
+            field_dict["primary"] = primary
         if blocked is not UNSET:
             field_dict["blocked"] = blocked
 
@@ -76,6 +95,8 @@ class AllowedAction:
         d = dict(src_dict)
         action = d.pop("action")
 
+        primary = d.pop("primary", UNSET)
+
         _blocked = d.pop("blocked", UNSET)
         blocked: AllowedActionBlocked | Unset
         if isinstance(_blocked,  Unset):
@@ -88,6 +109,7 @@ class AllowedAction:
 
         allowed_action = cls(
             action=action,
+            primary=primary,
             blocked=blocked,
         )
 
