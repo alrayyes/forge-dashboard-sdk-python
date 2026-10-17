@@ -89,6 +89,17 @@ class SettingsResponse:
                 and of every count and total built from them, the same as
                 `hideDependencyDashboard`. Always present once the server
                 applies it. Empty means none.
+            ignored_title_counts (list[int | None] | Unset): Per pattern in `ignoredTitles`, same order and same length: how
+                many of the viewer's currently open issues that pattern matches
+                on its own. An issue two patterns match counts for both, so the
+                entries can sum to more than `settingsHiddenIssueCount`. Every
+                entry is null while the count is unknown (the viewer's first
+                refresh has not finished, see `firstRefreshDone` on the
+                dashboard snapshot, or there is no snapshot), never a made-up 0.
+                Only this viewer's issues are counted. On GET and on the PUT
+                response alike: a PUT returns the counts for the list it just
+                saved. Optional until the server emits it; the server
+                change makes it required.
      """
 
     github_username: str
@@ -106,6 +117,7 @@ class SettingsResponse:
     timezone: str | Unset = UNSET
     hide_dependency_dashboard: bool | Unset = UNSET
     ignored_titles: list[str] | Unset = UNSET
+    ignored_title_counts: list[int | None] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -149,6 +161,16 @@ class SettingsResponse:
 
 
 
+        ignored_title_counts: list[int | None] | Unset = UNSET
+        if not isinstance(self.ignored_title_counts, Unset):
+            ignored_title_counts = []
+            for ignored_title_counts_item_data in self.ignored_title_counts:
+                ignored_title_counts_item: int | None
+                ignored_title_counts_item = ignored_title_counts_item_data
+                ignored_title_counts.append(ignored_title_counts_item)
+
+
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -172,6 +194,8 @@ class SettingsResponse:
             field_dict["hideDependencyDashboard"] = hide_dependency_dashboard
         if ignored_titles is not UNSET:
             field_dict["ignoredTitles"] = ignored_titles
+        if ignored_title_counts is not UNSET:
+            field_dict["ignoredTitleCounts"] = ignored_title_counts
 
         return field_dict
 
@@ -215,6 +239,21 @@ class SettingsResponse:
         ignored_titles = cast(list[str], d.pop("ignoredTitles", UNSET))
 
 
+        _ignored_title_counts = d.pop("ignoredTitleCounts", UNSET)
+        ignored_title_counts: list[int | None] | Unset = UNSET
+        if _ignored_title_counts is not UNSET:
+            ignored_title_counts = []
+            for ignored_title_counts_item_data in _ignored_title_counts:
+                def _parse_ignored_title_counts_item(data: object) -> int | None:
+                    if data is None:
+                        return data
+                    return cast(int | None, data)
+
+                ignored_title_counts_item = _parse_ignored_title_counts_item(ignored_title_counts_item_data)
+
+                ignored_title_counts.append(ignored_title_counts_item)
+
+
         settings_response = cls(
             github_username=github_username,
             github_token_set=github_token_set,
@@ -231,6 +270,7 @@ class SettingsResponse:
             timezone=timezone,
             hide_dependency_dashboard=hide_dependency_dashboard,
             ignored_titles=ignored_titles,
+            ignored_title_counts=ignored_title_counts,
         )
 
 
