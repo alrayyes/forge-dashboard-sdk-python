@@ -9,6 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..models.forge import Forge
+from ..types import UNSET, Unset
 
 
 
@@ -53,7 +54,9 @@ class RepoStatus:
                 reached through an unauthenticated, username-only listing.
                 A point-in-time snapshot: a permission change since the last
                 refresh can still make a following ensure-webhook call fail
-                despite this having said true.
+                despite this having said true. For a GitHub App connection
+                there is no user role to read, so this is true when listing
+                the repo's webhooks worked on the last refresh.
             auto_update_branch (bool): Whether the signed-in user has turned on automatic branch
                 updates for this repo — any of its pull requests the
                 background refresh finds behind its base branch gets updated
@@ -65,6 +68,13 @@ class RepoStatus:
                 lands on a release branch. The dashboard's manual "Update
                 branch" button is still offered on it, since release-please
                 has no rebase action of its own.
+            webhook_locked_by_connection (bool | Unset): Present and true when canManageWebhooks is false because the
+                connection itself can't manage webhooks on this repo (GitHub
+                refused the hooks listing: a GitHub App without the Webhooks
+                permission, or a repo outside its installation; Forgejo sent no
+                permissions object for the repo), rather than the signed-in
+                user's role. A failed or rate-limited listing doesn't
+                set it. Absent otherwise.
      """
 
     forge: Forge
@@ -76,6 +86,7 @@ class RepoStatus:
     has_webhook: bool
     can_manage_webhooks: bool
     auto_update_branch: bool
+    webhook_locked_by_connection: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -101,6 +112,8 @@ class RepoStatus:
 
         auto_update_branch = self.auto_update_branch
 
+        webhook_locked_by_connection = self.webhook_locked_by_connection
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -115,6 +128,8 @@ class RepoStatus:
             "canManageWebhooks": can_manage_webhooks,
             "autoUpdateBranch": auto_update_branch,
         })
+        if webhook_locked_by_connection is not UNSET:
+            field_dict["webhookLockedByConnection"] = webhook_locked_by_connection
 
         return field_dict
 
@@ -144,6 +159,8 @@ class RepoStatus:
 
         auto_update_branch = d.pop("autoUpdateBranch")
 
+        webhook_locked_by_connection = d.pop("webhookLockedByConnection", UNSET)
+
         repo_status = cls(
             forge=forge,
             full_name=full_name,
@@ -154,6 +171,7 @@ class RepoStatus:
             has_webhook=has_webhook,
             can_manage_webhooks=can_manage_webhooks,
             auto_update_branch=auto_update_branch,
+            webhook_locked_by_connection=webhook_locked_by_connection,
         )
 
 
