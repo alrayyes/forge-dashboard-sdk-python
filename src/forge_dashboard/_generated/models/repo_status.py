@@ -75,6 +75,13 @@ class RepoStatus:
                 permissions object for the repo), rather than the signed-in
                 user's role. A failed or rate-limited listing doesn't
                 set it. Absent otherwise.
+            webhook_needs_token (bool | Unset): Present and true when canManageWebhooks is false because no
+                token is saved for the forge. The repos then came from a
+                username-only listing, which the forge answers as an anonymous
+                caller, so the permissions it reports say nothing about the
+                signed-in user's role. Saving a token with the webhook scope in
+                Settings is the fix. Absent when a token is saved, whatever
+                role it holds. Set today for Forgejo only.
      """
 
     forge: Forge
@@ -87,6 +94,7 @@ class RepoStatus:
     can_manage_webhooks: bool
     auto_update_branch: bool
     webhook_locked_by_connection: bool | Unset = UNSET
+    webhook_needs_token: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -114,6 +122,8 @@ class RepoStatus:
 
         webhook_locked_by_connection = self.webhook_locked_by_connection
 
+        webhook_needs_token = self.webhook_needs_token
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -130,6 +140,8 @@ class RepoStatus:
         })
         if webhook_locked_by_connection is not UNSET:
             field_dict["webhookLockedByConnection"] = webhook_locked_by_connection
+        if webhook_needs_token is not UNSET:
+            field_dict["webhookNeedsToken"] = webhook_needs_token
 
         return field_dict
 
@@ -161,6 +173,8 @@ class RepoStatus:
 
         webhook_locked_by_connection = d.pop("webhookLockedByConnection", UNSET)
 
+        webhook_needs_token = d.pop("webhookNeedsToken", UNSET)
+
         repo_status = cls(
             forge=forge,
             full_name=full_name,
@@ -172,6 +186,7 @@ class RepoStatus:
             can_manage_webhooks=can_manage_webhooks,
             auto_update_branch=auto_update_branch,
             webhook_locked_by_connection=webhook_locked_by_connection,
+            webhook_needs_token=webhook_needs_token,
         )
 
 
