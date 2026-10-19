@@ -28,7 +28,11 @@ class NavPullRequestCount:
         Attributes:
             total (int): How many pull requests the page lists.
             running (int): How many of them have CI that is still pending.
-            failed (int): How many of them have failing CI.
+            failed (int): How many of them have failing CI. A pull request whose only
+                failure is workflow runs held until someone approves them
+                (`awaitingWorkflowApproval`) is counted in `total` and not here,
+                as nothing failed; one with a job that really failed beside a
+                held run still counts.
             passed (int): How many of them have CI that succeeded.
      """
 
