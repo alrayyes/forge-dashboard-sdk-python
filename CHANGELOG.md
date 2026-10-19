@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.3](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v3.0.2...v3.0.3) (2026-10-19)
+
+
+### Bug Fixes
+
+* **ci:** arm auto-merge on a regeneration pull request whose label arrives after it opens ([#244](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/244)) ([4d1b8f2](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/4d1b8f2cc861aea8814cc45170f9316a0075a32e)), closes [#243](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/243)
+
 ## [3.0.2](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v3.0.1...v3.0.2) (2026-10-19)
 
 
