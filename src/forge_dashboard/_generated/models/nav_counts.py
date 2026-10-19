@@ -43,9 +43,9 @@ class NavCounts:
             branches (NavCount): The Branches page's numbers: how many default branches
                 it lists and how many of those have a pipeline running, failed and
                 passed, the same four as `NavPullRequestCount`, plus `none`, the ones
-                with no pipeline. Every branch is in exactly one of the four states,
-                so `running`, `failed`, `passed` and `none` add up to `total`. All
-                five are always present.
+                with no pipeline. A branch whose only trouble is a cancelled run
+                counts in `total` only, as a pull request with no checks does, so the
+                parts need not add up. All five are always present.
             pull_requests (NavPullRequestCount): A pull request page's numbers. `running`, `failed` and
                 `passed` count the pull requests whose CI is pending, failing and
                 succeeded. A pull request with no checks counts in `total` only, so
