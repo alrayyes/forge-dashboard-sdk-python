@@ -29,6 +29,10 @@ class Check:
             state (CheckState): One job/check's own status — the per-job detail CIStatus
                 deliberately doesn't carry, since CIStatus is the combined result
                 across every one of them.
+
+                "awaiting_approval" is a GitHub workflow run held until a
+                maintainer approves it. It has no jobs yet, so it is not queued and
+                not failed; its `url` is the run's page, where the approve button is.
             url (str): That job's own page on the forge that ran it — never the pull request's own page.
             required (bool | Unset): Whether the base branch's protection makes this check block the
                 merge (GitHub required status checks and rulesets, Forgejo

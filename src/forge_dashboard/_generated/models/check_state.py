@@ -1,6 +1,7 @@
 from enum import StrEnum
 
 class CheckState(StrEnum):
+    AWAITING_APPROVAL = "awaiting_approval"
     CANCELLED = "cancelled"
     FAILURE = "failure"
     QUEUED = "queued"

@@ -162,6 +162,10 @@ class PullRequest:
             ready_to_merge (bool): True when the pull request is mergeable, its CI is green and it
                 isn't a draft: what the Ready quick filter lists. Always
                 present. A pull request with no checks isn't ready.
+            failing_ci (bool): True when CI is failing and not only because a workflow run is
+                held for approval: what the Failing CI quick filter and the status
+                filter's Failing choice list, and what the menu pill's Failed
+                number counts. Always present.
             needs_review (bool): True when a review is outstanding: the forge requires one, or a
                 reviewer was asked and hasn't answered, and the pull request
                 isn't a draft. Unreviewed with nobody asked, approved, changes
@@ -270,6 +274,7 @@ class PullRequest:
     allowed_actions: list[AllowedAction]
     status: None | PullRequestStatus
     ready_to_merge: bool
+    failing_ci: bool
     needs_review: bool
     bot_request: BotRequest | None | Unset = UNSET
     update_request: None | Unset | UpdateRequest = UNSET
@@ -387,6 +392,8 @@ class PullRequest:
 
         ready_to_merge = self.ready_to_merge
 
+        failing_ci = self.failing_ci
+
         needs_review = self.needs_review
 
         bot_request: dict[str, Any] | None | Unset
@@ -468,6 +475,7 @@ class PullRequest:
             "allowedActions": allowed_actions,
             "status": status,
             "readyToMerge": ready_to_merge,
+            "failingCi": failing_ci,
             "needsReview": needs_review,
         })
         if bot_request is not UNSET:
@@ -660,6 +668,8 @@ class PullRequest:
 
         ready_to_merge = d.pop("readyToMerge")
 
+        failing_ci = d.pop("failingCi")
+
         needs_review = d.pop("needsReview")
 
         def _parse_bot_request(data: object) -> BotRequest | None | Unset:
@@ -792,6 +802,7 @@ class PullRequest:
             allowed_actions=allowed_actions,
             status=status,
             ready_to_merge=ready_to_merge,
+            failing_ci=failing_ci,
             needs_review=needs_review,
             bot_request=bot_request,
             update_request=update_request,
