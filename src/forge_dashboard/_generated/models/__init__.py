@@ -72,7 +72,6 @@ from .register_begin_request import RegisterBeginRequest
 from .registration_status import RegistrationStatus
 from .repo_ignore_request import RepoIgnoreRequest
 from .repo_status import RepoStatus
-from .request_log_entry import RequestLogEntry
 from .review_state import ReviewState
 from .review_state_decision import ReviewStateDecision
 from .session_user import SessionUser
@@ -170,7 +169,6 @@ __all__ = (
     "RegistrationStatus",
     "RepoIgnoreRequest",
     "RepoStatus",
-    "RequestLogEntry",
     "ReviewState",
     "ReviewStateDecision",
     "SessionUser",

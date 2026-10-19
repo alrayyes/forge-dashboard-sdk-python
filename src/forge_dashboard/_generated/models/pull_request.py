@@ -113,13 +113,19 @@ class PullRequest:
                 `ci` is pending (other runs are going) or failing for another
                 reason too. Always present; false on Forgejo, which has no
                 such state.
-            review_comments (int): How many review comments the pull request has. Ordinary
-                conversation comments are not counted. Always present, and 0 when
+            review_comments (int): How many review comments the pull request has, the ones on a
+                line of code. Ordinary conversation comments are counted apart,
+                in `conversationComments`. Always present, and 0 when
                 there are none or the forge can't say (a Forgejo draft or failed
                 reviews call, GitHub's unauthenticated fallback). On GitHub it is read from
                 the review threads in the pull request query, first 30 threads; on Forgejo it is the sum
                 of each review's comment count, from the reviews call that already
                 feeds `review`, so a draft (which makes no such call) reports 0.
+            conversation_comments (int): How many ordinary comments the pull request's conversation has,
+                apart from `reviewComments`. A review's own body is not a comment.
+                Always present, and 0 when there are none. On GitHub it comes from
+                the pull request query, on Forgejo from the pull request itself, so
+                neither costs a request.
             unresolved_threads (int | None): How many review threads are still open, or null when the forge
                 can't say. GitHub reports it from its review threads, except in the
                 unauthenticated fallback, which has none. Forgejo reports no
@@ -257,6 +263,7 @@ class PullRequest:
     requested_reviewer_logins: list[str]
     awaiting_workflow_approval: bool
     review_comments: int
+    conversation_comments: int
     unresolved_threads: int | None
     review_requested_from_me: bool
     empty: bool
@@ -356,6 +363,8 @@ class PullRequest:
 
         review_comments = self.review_comments
 
+        conversation_comments = self.conversation_comments
+
         unresolved_threads: int | None
         unresolved_threads = self.unresolved_threads
 
@@ -452,6 +461,7 @@ class PullRequest:
             "requestedReviewerLogins": requested_reviewer_logins,
             "awaitingWorkflowApproval": awaiting_workflow_approval,
             "reviewComments": review_comments,
+            "conversationComments": conversation_comments,
             "unresolvedThreads": unresolved_threads,
             "reviewRequestedFromMe": review_requested_from_me,
             "empty": empty,
@@ -605,6 +615,8 @@ class PullRequest:
         awaiting_workflow_approval = d.pop("awaitingWorkflowApproval")
 
         review_comments = d.pop("reviewComments")
+
+        conversation_comments = d.pop("conversationComments")
 
         def _parse_unresolved_threads(data: object) -> int | None:
             if data is None:
@@ -773,6 +785,7 @@ class PullRequest:
             requested_reviewer_logins=requested_reviewer_logins,
             awaiting_workflow_approval=awaiting_workflow_approval,
             review_comments=review_comments,
+            conversation_comments=conversation_comments,
             unresolved_threads=unresolved_threads,
             review_requested_from_me=review_requested_from_me,
             empty=empty,
