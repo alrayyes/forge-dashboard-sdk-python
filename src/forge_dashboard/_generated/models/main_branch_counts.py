@@ -21,12 +21,13 @@ T = TypeVar("T", bound="MainBranchCounts")
 @_attrs_define
 class MainBranchCounts:
     """ How many rows are in each status, the numbers on the filter pills.
-    `total` is every row, so it equals the sum of the other four.
+    `total` is every row, so it equals the sum of the other five.
 
         Attributes:
             failed (int):
             passed (int):
             running (int):
+            cancelled (int):
             none (int):
             total (int):
      """
@@ -34,6 +35,7 @@ class MainBranchCounts:
     failed: int
     passed: int
     running: int
+    cancelled: int
     none: int
     total: int
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -49,6 +51,8 @@ class MainBranchCounts:
 
         running = self.running
 
+        cancelled = self.cancelled
+
         none = self.none
 
         total = self.total
@@ -60,6 +64,7 @@ class MainBranchCounts:
             "failed": failed,
             "passed": passed,
             "running": running,
+            "cancelled": cancelled,
             "none": none,
             "total": total,
         })
@@ -77,6 +82,8 @@ class MainBranchCounts:
 
         running = d.pop("running")
 
+        cancelled = d.pop("cancelled")
+
         none = d.pop("none")
 
         total = d.pop("total")
@@ -85,6 +92,7 @@ class MainBranchCounts:
             failed=failed,
             passed=passed,
             running=running,
+            cancelled=cancelled,
             none=none,
             total=total,
         )
