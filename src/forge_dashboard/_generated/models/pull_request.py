@@ -20,6 +20,7 @@ if TYPE_CHECKING:
   from ..models.allowed_action import AllowedAction
   from ..models.auto_merge_status import AutoMergeStatus
   from ..models.bot_request import BotRequest
+  from ..models.closing_issue import ClosingIssue
   from ..models.label import Label
   from ..models.pull_request_status import PullRequestStatus
   from ..models.queued_action import QueuedAction
@@ -128,6 +129,20 @@ class PullRequest:
                 Always present, and 0 when there are none. On GitHub it comes from
                 the pull request query, on Forgejo from the pull request itself, so
                 neither costs a request.
+            closes_issues (list[ClosingIssue]): The issues the pull request will close when it merges. Always
+                present, and empty when there are none. On GitHub it is the
+                forge's own list of closing references, read in the pull request
+                query; GitHub's unauthenticated fallback (no token) has no such
+                field, so it lists none. Forgejo has none either, so the server
+                reads the closing keywords (close, closes, closed, fix, fixes,
+                fixed, resolve, resolves, resolved) in the description the way
+                Forgejo does: a keyword, an optional colon, one space, then `#NUMBER`
+                or `owner/repo#NUMBER`, and each keyword covers the one reference
+                right after it. Code, HTML comments and a number that runs into
+                letters count for nothing. The `owner/repo#NUMBER` form follows
+                Forgejo's source and has not been tried on a live instance. Only a
+                pull request aimed at its repo's default branch closes anything,
+                so one aimed elsewhere always lists none.
             unresolved_threads (int | None): How many review threads are still open, or null when the forge
                 can't say. GitHub reports it from its review threads, except in the
                 unauthenticated fallback, which has none. Forgejo reports no
@@ -271,6 +286,7 @@ class PullRequest:
     awaiting_workflow_approval: bool
     review_comments: int
     conversation_comments: int
+    closes_issues: list[ClosingIssue]
     unresolved_threads: int | None
     review_requested_from_me: bool
     empty: bool
@@ -299,6 +315,7 @@ class PullRequest:
         from ..models.allowed_action import AllowedAction # noqa: PLC0415
         from ..models.auto_merge_status import AutoMergeStatus # noqa: PLC0415
         from ..models.bot_request import BotRequest # noqa: PLC0415
+        from ..models.closing_issue import ClosingIssue # noqa: PLC0415
         from ..models.label import Label # noqa: PLC0415
         from ..models.pull_request_status import PullRequestStatus # noqa: PLC0415
         from ..models.queued_action import QueuedAction # noqa: PLC0415
@@ -374,6 +391,13 @@ class PullRequest:
         review_comments = self.review_comments
 
         conversation_comments = self.conversation_comments
+
+        closes_issues = []
+        for closes_issues_item_data in self.closes_issues:
+            closes_issues_item = closes_issues_item_data.to_dict()
+            closes_issues.append(closes_issues_item)
+
+
 
         unresolved_threads: int | None
         unresolved_threads = self.unresolved_threads
@@ -475,6 +499,7 @@ class PullRequest:
             "awaitingWorkflowApproval": awaiting_workflow_approval,
             "reviewComments": review_comments,
             "conversationComments": conversation_comments,
+            "closesIssues": closes_issues,
             "unresolvedThreads": unresolved_threads,
             "reviewRequestedFromMe": review_requested_from_me,
             "empty": empty,
@@ -514,6 +539,7 @@ class PullRequest:
         from ..models.allowed_action import AllowedAction # noqa: PLC0415
         from ..models.auto_merge_status import AutoMergeStatus # noqa: PLC0415
         from ..models.bot_request import BotRequest # noqa: PLC0415
+        from ..models.closing_issue import ClosingIssue # noqa: PLC0415
         from ..models.label import Label # noqa: PLC0415
         from ..models.pull_request_status import PullRequestStatus # noqa: PLC0415
         from ..models.queued_action import QueuedAction # noqa: PLC0415
@@ -633,6 +659,16 @@ class PullRequest:
         review_comments = d.pop("reviewComments")
 
         conversation_comments = d.pop("conversationComments")
+
+        closes_issues = []
+        _closes_issues = d.pop("closesIssues")
+        for closes_issues_item_data in (_closes_issues):
+            closes_issues_item = ClosingIssue.from_dict(closes_issues_item_data)
+
+
+
+            closes_issues.append(closes_issues_item)
+
 
         def _parse_unresolved_threads(data: object) -> int | None:
             if data is None:
@@ -805,6 +841,7 @@ class PullRequest:
             awaiting_workflow_approval=awaiting_workflow_approval,
             review_comments=review_comments,
             conversation_comments=conversation_comments,
+            closes_issues=closes_issues,
             unresolved_threads=unresolved_threads,
             review_requested_from_me=review_requested_from_me,
             empty=empty,
