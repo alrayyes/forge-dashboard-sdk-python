@@ -14,7 +14,9 @@ from typing import cast
 import datetime
 
 if TYPE_CHECKING:
+  from ..models.check_counts import CheckCounts
   from ..models.main_branch_commit import MainBranchCommit
+  from ..models.main_branch_release import MainBranchRelease
 
 
 
@@ -54,6 +56,46 @@ class MainBranch:
             run_url (str): Where to see the run on the forge: the failed job's page for a
                 failed pipeline, else the run's, else the commit's. Falls back to
                 the repository's `url`.
+            checks (CheckCounts): How many checks are in each state, so a client can say how far a
+                pipeline is without opening it. It is on every pull request and on
+                every default branch, for a passed, a failed and a running pipeline
+                alike. The server tallies them from what it already reads to work out
+                the overall state, so they cost no request. Always present, all zero
+                when there are no checks.
+
+                `waiting` is a check that has not started: queued, or pending where the
+                forge doesn't tell queued from running. A failed pipeline can still have
+                checks running or waiting, and says so. A pull request's counts agree
+                with its `ci`: one whose `ci` is `pending` has `failed` at 0, and one
+                whose `ci` is `success` has nothing running, waiting or failed. Two
+                kinds of run are therefore in none of the four, as long as something
+                else explains the state. A run held for approval: on a pull request
+                `awaitingWorkflowApproval` says that. A cancelled run: a push or a
+                concurrency group superseded it, and the overall state does not read it
+                as a failure while others still run. When cancelled runs (and, on a
+                branch, held ones) are the only reason a pipeline reads as failed, they
+                count as `failed` (a held run first, where both are there), so a failed
+                pipeline always has a failed count on GitHub. A branch whose status is
+                `cancelled` has `failed` at 0. A timed-out or stale check counts as `failed`, a skipped,
+                neutral or bare completed one as `passed`.
+
+                On GitHub the counts come from the same rollup as the overall state,
+                for a pull request and a branch alike; on Forgejo a pull request counts
+                the statuses of the combined commit status, where nothing is ever
+                `running`, and a default branch counts the workflow runs of the newest
+                commit that has one (a job count would cost a request per run), where a
+                running run is `running` and a queued or blocked one `waiting`. Forgejo
+                answers one page of those statuses, and when its total says there are
+                more than the page holds a pull request's counts are all zero rather
+                than an undercount. When GitHub's rollup of a pull request is of an
+                earlier commit than the head (a push still being processed), the counts
+                are zero too. GitHub's unauthenticated fallback has no such counts, so
+                there they are all zero.
+            latest_release (MainBranchRelease | None): The repository's latest published release, for a link to its
+                notes. Null when the repository has none, when its only releases
+                are drafts or pre-releases, and for every Forgejo repository,
+                whose latest release is a separate read per repository that the
+                refresh does not make.
             stale (bool): True when this row is the last known one because its forge
                 couldn't be read or its rate limit is spent. A client offers no
                 write on a stale row.
@@ -70,6 +112,8 @@ class MainBranch:
     finished_at: datetime.datetime | None
     duration_seconds: int | None
     run_url: str
+    checks: CheckCounts
+    latest_release: MainBranchRelease | None
     stale: bool
     stale_since: datetime.datetime | None
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -79,7 +123,9 @@ class MainBranch:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.check_counts import CheckCounts # noqa: PLC0415
         from ..models.main_branch_commit import MainBranchCommit # noqa: PLC0415
+        from ..models.main_branch_release import MainBranchRelease # noqa: PLC0415
         forge = self.forge.value
 
         full_name = self.full_name
@@ -111,6 +157,14 @@ class MainBranch:
 
         run_url = self.run_url
 
+        checks = self.checks.to_dict()
+
+        latest_release: dict[str, Any] | None
+        if isinstance(self.latest_release, MainBranchRelease):
+            latest_release = self.latest_release.to_dict()
+        else:
+            latest_release = self.latest_release
+
         stale = self.stale
 
         stale_since: None | str
@@ -133,6 +187,8 @@ class MainBranch:
             "finishedAt": finished_at,
             "durationSeconds": duration_seconds,
             "runUrl": run_url,
+            "checks": checks,
+            "latestRelease": latest_release,
             "stale": stale,
             "staleSince": stale_since,
         })
@@ -143,7 +199,9 @@ class MainBranch:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.check_counts import CheckCounts # noqa: PLC0415
         from ..models.main_branch_commit import MainBranchCommit # noqa: PLC0415
+        from ..models.main_branch_release import MainBranchRelease # noqa: PLC0415
         d = dict(src_dict)
         forge = Forge(d.pop("forge"))
 
@@ -210,6 +268,29 @@ class MainBranch:
 
         run_url = d.pop("runUrl")
 
+        checks = CheckCounts.from_dict(d.pop("checks"))
+
+
+
+
+        def _parse_latest_release(data: object) -> MainBranchRelease | None:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                latest_release_type_0 = MainBranchRelease.from_dict(data)
+
+
+
+                return latest_release_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(MainBranchRelease | None, data)
+
+        latest_release = _parse_latest_release(d.pop("latestRelease"))
+
+
         stale = d.pop("stale")
 
         def _parse_stale_since(data: object) -> datetime.datetime | None:
@@ -241,6 +322,8 @@ class MainBranch:
             finished_at=finished_at,
             duration_seconds=duration_seconds,
             run_url=run_url,
+            checks=checks,
+            latest_release=latest_release,
             stale=stale,
             stale_since=stale_since,
         )
