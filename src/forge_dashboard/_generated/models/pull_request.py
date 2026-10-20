@@ -46,6 +46,8 @@ class PullRequest:
             title (str):
             url (str): The real pull request URL on its own forge.
             author (str):
+            author_avatar_url (str): The forge's own avatar URL for the author, passed through unchanged and never proxied.
+                Empty when the forge supplies none, such as a deleted account.
             draft (bool):
             labels (list[Label]):
             created_at (datetime.datetime):
@@ -249,6 +251,7 @@ class PullRequest:
     title: str
     url: str
     author: str
+    author_avatar_url: str
     draft: bool
     labels: list[Label]
     created_at: datetime.datetime
@@ -314,6 +317,8 @@ class PullRequest:
         url = self.url
 
         author = self.author
+
+        author_avatar_url = self.author_avatar_url
 
         draft = self.draft
 
@@ -450,6 +455,7 @@ class PullRequest:
             "title": title,
             "url": url,
             "author": author,
+            "authorAvatarUrl": author_avatar_url,
             "draft": draft,
             "labels": labels,
             "createdAt": created_at,
@@ -530,6 +536,8 @@ class PullRequest:
         url = d.pop("url")
 
         author = d.pop("author")
+
+        author_avatar_url = d.pop("authorAvatarUrl")
 
         draft = d.pop("draft")
 
@@ -777,6 +785,7 @@ class PullRequest:
             title=title,
             url=url,
             author=author,
+            author_avatar_url=author_avatar_url,
             draft=draft,
             labels=labels,
             created_at=created_at,
