@@ -25,10 +25,13 @@ class Person:
         Attributes:
             login (str):
             avatar_url (str): The forge's own avatar URL, passed through unchanged and never proxied.
+            url (str): The person's profile page on the forge, built by the server from the web address of an item the board
+                already holds for that forge. Empty when the board holds none yet, so a client shows the name alone.
      """
 
     login: str
     avatar_url: str
+    url: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -40,12 +43,15 @@ class Person:
 
         avatar_url = self.avatar_url
 
+        url = self.url
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
             "login": login,
             "avatarUrl": avatar_url,
+            "url": url,
         })
 
         return field_dict
@@ -59,9 +65,12 @@ class Person:
 
         avatar_url = d.pop("avatarUrl")
 
+        url = d.pop("url")
+
         person = cls(
             login=login,
             avatar_url=avatar_url,
+            url=url,
         )
 
 

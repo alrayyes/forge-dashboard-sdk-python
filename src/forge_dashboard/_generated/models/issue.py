@@ -41,6 +41,8 @@ class Issue:
             author (str):
             author_avatar_url (str): The forge's own avatar URL for whoever filed the issue, passed through unchanged and
                 never proxied. Empty when the forge supplies none, such as a deleted account.
+            author_url (str): The author's profile page on the forge, built by the server from the forge's own web address.
+                Empty when there is nothing to link to, such as a deleted account.
             labels (list[Label]):
             created_at (datetime.datetime):
             updated_at (datetime.datetime):
@@ -54,6 +56,7 @@ class Issue:
     housekeeping: bool
     author: str
     author_avatar_url: str
+    author_url: str
     labels: list[Label]
     created_at: datetime.datetime
     updated_at: datetime.datetime
@@ -81,6 +84,8 @@ class Issue:
 
         author_avatar_url = self.author_avatar_url
 
+        author_url = self.author_url
+
         labels = []
         for labels_item_data in self.labels:
             labels_item = labels_item_data.to_dict()
@@ -104,6 +109,7 @@ class Issue:
             "housekeeping": housekeeping,
             "author": author,
             "authorAvatarUrl": author_avatar_url,
+            "authorUrl": author_url,
             "labels": labels,
             "createdAt": created_at,
             "updatedAt": updated_at,
@@ -136,6 +142,8 @@ class Issue:
 
         author_avatar_url = d.pop("authorAvatarUrl")
 
+        author_url = d.pop("authorUrl")
+
         labels = []
         _labels = d.pop("labels")
         for labels_item_data in (_labels):
@@ -165,6 +173,7 @@ class Issue:
             housekeeping=housekeeping,
             author=author,
             author_avatar_url=author_avatar_url,
+            author_url=author_url,
             labels=labels,
             created_at=created_at,
             updated_at=updated_at,
