@@ -20,6 +20,7 @@ if TYPE_CHECKING:
   from ..models.allowed_action import AllowedAction
   from ..models.auto_merge_status import AutoMergeStatus
   from ..models.bot_request import BotRequest
+  from ..models.check_counts import CheckCounts
   from ..models.closing_issue import ClosingIssue
   from ..models.label import Label
   from ..models.pull_request_status import PullRequestStatus
@@ -59,6 +60,29 @@ class PullRequest:
             ci (CIStatus): The combined result across every check reported against the pull
                 request's head commit. "none" means neither forge reported any
                 check at all, not that one failed.
+            checks (CheckCounts): How many of a pull request's checks are in each state, so a client can
+                say how far a pipeline is without opening it. The server tallies
+                them from what it already reads to work out `ci`, so they cost no
+                request. Always present, all zero when there are no checks.
+
+                `waiting` is a check that has not started: queued, or pending where the
+                forge doesn't tell queued from running. The counts agree with `ci`: a
+                pull request whose `ci` is `pending` has `failed` at 0, and one whose
+                `ci` is `success` has nothing running, waiting or failed. Two kinds of
+                run are therefore in none of the four. A run held for approval:
+                `awaitingWorkflowApproval` says that. A cancelled run: a push or a
+                concurrency group superseded it, and the overall state does not read it
+                as a failure while others still run. A timed-out or stale check counts
+                as `failed`, a skipped, neutral or bare completed one as `passed`.
+
+                On GitHub the counts come from the same rollup as `ci`; on Forgejo from
+                the statuses of the combined commit status, where nothing is ever
+                `running`. Forgejo answers one page of those statuses, and when its
+                total says there are more than the page holds the counts are all zero
+                rather than an undercount. When GitHub's rollup is of an earlier
+                commit than the head (a push still being processed), the counts are
+                zero too. GitHub's unauthenticated fallback has no such counts, so
+                there they are all zero.
             merge_status (MergeStatus): A pull request's mergeable/blocked state, as coarse as every forge
                 this service talks to can agree on. "blocked" covers anything
                 stopping a merge that isn't confirmed to be a real conflict —
@@ -281,6 +305,7 @@ class PullRequest:
     created_at: datetime.datetime
     updated_at: datetime.datetime
     ci: CIStatus
+    checks: CheckCounts
     merge_status: MergeStatus
     behind: bool
     head_sha: str
@@ -324,6 +349,7 @@ class PullRequest:
         from ..models.allowed_action import AllowedAction # noqa: PLC0415
         from ..models.auto_merge_status import AutoMergeStatus # noqa: PLC0415
         from ..models.bot_request import BotRequest # noqa: PLC0415
+        from ..models.check_counts import CheckCounts # noqa: PLC0415
         from ..models.closing_issue import ClosingIssue # noqa: PLC0415
         from ..models.label import Label # noqa: PLC0415
         from ..models.pull_request_status import PullRequestStatus # noqa: PLC0415
@@ -362,6 +388,8 @@ class PullRequest:
         updated_at = self.updated_at.isoformat()
 
         ci = self.ci.value
+
+        checks = self.checks.to_dict()
 
         merge_status = self.merge_status.value
 
@@ -497,6 +525,7 @@ class PullRequest:
             "createdAt": created_at,
             "updatedAt": updated_at,
             "ci": ci,
+            "checks": checks,
             "mergeStatus": merge_status,
             "behind": behind,
             "headSha": head_sha,
@@ -551,6 +580,7 @@ class PullRequest:
         from ..models.allowed_action import AllowedAction # noqa: PLC0415
         from ..models.auto_merge_status import AutoMergeStatus # noqa: PLC0415
         from ..models.bot_request import BotRequest # noqa: PLC0415
+        from ..models.check_counts import CheckCounts # noqa: PLC0415
         from ..models.closing_issue import ClosingIssue # noqa: PLC0415
         from ..models.label import Label # noqa: PLC0415
         from ..models.pull_request_status import PullRequestStatus # noqa: PLC0415
@@ -602,6 +632,11 @@ class PullRequest:
 
 
         ci = CIStatus(d.pop("ci"))
+
+
+
+
+        checks = CheckCounts.from_dict(d.pop("checks"))
 
 
 
@@ -842,6 +877,7 @@ class PullRequest:
             created_at=created_at,
             updated_at=updated_at,
             ci=ci,
+            checks=checks,
             merge_status=merge_status,
             behind=behind,
             head_sha=head_sha,
