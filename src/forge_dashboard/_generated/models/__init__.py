@@ -49,6 +49,7 @@ from .login_begin_request import LoginBeginRequest
 from .main_branch import MainBranch
 from .main_branch_commit import MainBranchCommit
 from .main_branch_counts import MainBranchCounts
+from .main_branch_release import MainBranchRelease
 from .main_branch_status import MainBranchStatus
 from .main_branches import MainBranches
 from .merge_status import MergeStatus
@@ -160,6 +161,7 @@ __all__ = (
     "MainBranchCommit",
     "MainBranchCounts",
     "MainBranches",
+    "MainBranchRelease",
     "MainBranchStatus",
     "MergeStatus",
     "NavCount",
