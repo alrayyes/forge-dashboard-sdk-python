@@ -147,7 +147,9 @@ def sync_detailed(
     number. An avatar is the forge's own URL, passed through unchanged
     and never proxied; this app sets no Content-Security-Policy today, so
     the browser loads it directly. A future policy's `img-src` has to
-    allow avatars.githubusercontent.com and the Forgejo host.
+    allow avatars.githubusercontent.com, repository-images.githubusercontent.com
+    (a GitHub repository's logo, see `logoUrl` on a repo in GET
+    /api/dashboard) and the Forgejo host.
 
     The error answers are those of GET /api/pull-requests/checks, with
     the same codes. A forge that can't be read is an error, never an
@@ -212,7 +214,9 @@ def sync(
     number. An avatar is the forge's own URL, passed through unchanged
     and never proxied; this app sets no Content-Security-Policy today, so
     the browser loads it directly. A future policy's `img-src` has to
-    allow avatars.githubusercontent.com and the Forgejo host.
+    allow avatars.githubusercontent.com, repository-images.githubusercontent.com
+    (a GitHub repository's logo, see `logoUrl` on a repo in GET
+    /api/dashboard) and the Forgejo host.
 
     The error answers are those of GET /api/pull-requests/checks, with
     the same codes. A forge that can't be read is an error, never an
@@ -272,7 +276,9 @@ async def asyncio_detailed(
     number. An avatar is the forge's own URL, passed through unchanged
     and never proxied; this app sets no Content-Security-Policy today, so
     the browser loads it directly. A future policy's `img-src` has to
-    allow avatars.githubusercontent.com and the Forgejo host.
+    allow avatars.githubusercontent.com, repository-images.githubusercontent.com
+    (a GitHub repository's logo, see `logoUrl` on a repo in GET
+    /api/dashboard) and the Forgejo host.
 
     The error answers are those of GET /api/pull-requests/checks, with
     the same codes. A forge that can't be read is an error, never an
@@ -337,7 +343,9 @@ async def asyncio(
     number. An avatar is the forge's own URL, passed through unchanged
     and never proxied; this app sets no Content-Security-Policy today, so
     the browser loads it directly. A future policy's `img-src` has to
-    allow avatars.githubusercontent.com and the Forgejo host.
+    allow avatars.githubusercontent.com, repository-images.githubusercontent.com
+    (a GitHub repository's logo, see `logoUrl` on a repo in GET
+    /api/dashboard) and the Forgejo host.
 
     The error answers are those of GET /api/pull-requests/checks, with
     the same codes. A forge that can't be read is an error, never an

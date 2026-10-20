@@ -68,6 +68,17 @@ class RepoStatus:
                 lands on a release branch. The dashboard's manual "Update
                 branch" button is still offered on it, since release-please
                 has no rebase action of its own.
+            logo_url (str | Unset): The repository's own logo, only when it has one: a GitHub
+                repository's custom social preview image, or a Forgejo
+                repository's own avatar. Absent otherwise, and never the
+                generated social card GitHub shows for a repository with none,
+                nor the owner's avatar. Always an https URL, passed through
+                unchanged and never proxied: on GitHub exactly
+                repository-images.githubusercontent.com, on Forgejo the
+                instance's own host. A GitHub custom image is a wide banner,
+                not a square logo.
+                Absent for a repository reached through an unauthenticated,
+                username-only listing, since that listing carries no image.
             webhook_locked_by_connection (bool | Unset): Present and true when canManageWebhooks is false because the
                 connection itself can't manage webhooks on this repo (GitHub
                 refused the hooks listing: a GitHub App without the Webhooks
@@ -93,6 +104,7 @@ class RepoStatus:
     has_webhook: bool
     can_manage_webhooks: bool
     auto_update_branch: bool
+    logo_url: str | Unset = UNSET
     webhook_locked_by_connection: bool | Unset = UNSET
     webhook_needs_token: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -120,6 +132,8 @@ class RepoStatus:
 
         auto_update_branch = self.auto_update_branch
 
+        logo_url = self.logo_url
+
         webhook_locked_by_connection = self.webhook_locked_by_connection
 
         webhook_needs_token = self.webhook_needs_token
@@ -138,6 +152,8 @@ class RepoStatus:
             "canManageWebhooks": can_manage_webhooks,
             "autoUpdateBranch": auto_update_branch,
         })
+        if logo_url is not UNSET:
+            field_dict["logoUrl"] = logo_url
         if webhook_locked_by_connection is not UNSET:
             field_dict["webhookLockedByConnection"] = webhook_locked_by_connection
         if webhook_needs_token is not UNSET:
@@ -171,6 +187,8 @@ class RepoStatus:
 
         auto_update_branch = d.pop("autoUpdateBranch")
 
+        logo_url = d.pop("logoUrl", UNSET)
+
         webhook_locked_by_connection = d.pop("webhookLockedByConnection", UNSET)
 
         webhook_needs_token = d.pop("webhookNeedsToken", UNSET)
@@ -185,6 +203,7 @@ class RepoStatus:
             has_webhook=has_webhook,
             can_manage_webhooks=can_manage_webhooks,
             auto_update_branch=auto_update_branch,
+            logo_url=logo_url,
             webhook_locked_by_connection=webhook_locked_by_connection,
             webhook_needs_token=webhook_needs_token,
         )
