@@ -37,6 +37,12 @@ class ActionError:
                 mean the dashboard's row was stale: the pull request has
                 nothing left to merge.
 
+                `forge_error` means the forge failed on its own side (a 5xx):
+                nothing is wrong with the request, so asking again may work.
+                `upstreamStatus` and `requestId` then say what the forge
+                answered with, for tracing a report. Update branch is tried a
+                second time by the server before this is answered.
+
                 `not_rate_limited` belongs to queueing an action: the forge
                 isn't rate limited, so act directly. `not_open` is only an
                 outcome of a queued action: the pull request was gone from the
@@ -57,12 +63,17 @@ class ActionError:
                 URL or JSON.
             resets_at (datetime.datetime | Unset): Only with `rate_limited`, when the forge said so. When the budget comes
                 back. On Forgejo it comes from the `Retry-After` header, in seconds or as a date.
+            upstream_status (int | Unset): Only with `forge_error`. The HTTP status the forge answered with.
+            request_id (str | Unset): Only with `forge_error`, and only when the forge sent one (GitHub's `X-GitHub-Request-
+                Id`). What the forge's support asks for.
      """
 
     error: str
     code: ActionErrorCode
     message: str
     resets_at: datetime.datetime | Unset = UNSET
+    upstream_status: int | Unset = UNSET
+    request_id: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -80,6 +91,10 @@ class ActionError:
         if not isinstance(self.resets_at, Unset):
             resets_at = self.resets_at.isoformat()
 
+        upstream_status = self.upstream_status
+
+        request_id = self.request_id
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -90,6 +105,10 @@ class ActionError:
         })
         if resets_at is not UNSET:
             field_dict["resetsAt"] = resets_at
+        if upstream_status is not UNSET:
+            field_dict["upstreamStatus"] = upstream_status
+        if request_id is not UNSET:
+            field_dict["requestId"] = request_id
 
         return field_dict
 
@@ -117,11 +136,17 @@ class ActionError:
 
 
 
+        upstream_status = d.pop("upstreamStatus", UNSET)
+
+        request_id = d.pop("requestId", UNSET)
+
         action_error = cls(
             error=error,
             code=code,
             message=message,
             resets_at=resets_at,
+            upstream_status=upstream_status,
+            request_id=request_id,
         )
 
 
