@@ -19,6 +19,7 @@ import datetime
 if TYPE_CHECKING:
   from ..models.allowed_action import AllowedAction
   from ..models.auto_merge_status import AutoMergeStatus
+  from ..models.auto_update import AutoUpdate
   from ..models.bot_request import BotRequest
   from ..models.check_counts import CheckCounts
   from ..models.closing_issue import ClosingIssue
@@ -220,6 +221,10 @@ class PullRequest:
                 isn't a draft. Unreviewed with nobody asked, approved, changes
                 requested and an unknown review state are all false. Always
                 present.
+            auto_update (AutoUpdate): Whether the dashboard brings this pull request's branch up to date by
+                itself: the pull request's own choice when it has one
+                (`POST /api/pull-requests/auto-update`), else its repo's
+                auto-update setting. Always present.
             bot_request (BotRequest | None | Unset): A Dependabot or Renovate rebase asked for through this app and not
                 settled yet, or null. The server keeps it, so a reload during the
                 wait still shows it, and moves it along on every snapshot that
@@ -329,6 +334,7 @@ class PullRequest:
     ready_to_merge: bool
     failing_ci: bool
     needs_review: bool
+    auto_update: AutoUpdate
     bot_request: BotRequest | None | Unset = UNSET
     update_request: None | Unset | UpdateRequest = UNSET
     queued: None | QueuedAction | Unset = UNSET
@@ -348,6 +354,7 @@ class PullRequest:
     def to_dict(self) -> dict[str, Any]:
         from ..models.allowed_action import AllowedAction # noqa: PLC0415
         from ..models.auto_merge_status import AutoMergeStatus # noqa: PLC0415
+        from ..models.auto_update import AutoUpdate # noqa: PLC0415
         from ..models.bot_request import BotRequest # noqa: PLC0415
         from ..models.check_counts import CheckCounts # noqa: PLC0415
         from ..models.closing_issue import ClosingIssue # noqa: PLC0415
@@ -464,6 +471,8 @@ class PullRequest:
 
         needs_review = self.needs_review
 
+        auto_update = self.auto_update.to_dict()
+
         bot_request: dict[str, Any] | None | Unset
         if isinstance(self.bot_request, Unset):
             bot_request = UNSET
@@ -549,6 +558,7 @@ class PullRequest:
             "readyToMerge": ready_to_merge,
             "failingCi": failing_ci,
             "needsReview": needs_review,
+            "autoUpdate": auto_update,
         })
         if bot_request is not UNSET:
             field_dict["botRequest"] = bot_request
@@ -579,6 +589,7 @@ class PullRequest:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.allowed_action import AllowedAction # noqa: PLC0415
         from ..models.auto_merge_status import AutoMergeStatus # noqa: PLC0415
+        from ..models.auto_update import AutoUpdate # noqa: PLC0415
         from ..models.bot_request import BotRequest # noqa: PLC0415
         from ..models.check_counts import CheckCounts # noqa: PLC0415
         from ..models.closing_issue import ClosingIssue # noqa: PLC0415
@@ -765,6 +776,11 @@ class PullRequest:
 
         needs_review = d.pop("needsReview")
 
+        auto_update = AutoUpdate.from_dict(d.pop("autoUpdate"))
+
+
+
+
         def _parse_bot_request(data: object) -> BotRequest | None | Unset:
             if data is None:
                 return data
@@ -901,6 +917,7 @@ class PullRequest:
             ready_to_merge=ready_to_merge,
             failing_ci=failing_ci,
             needs_review=needs_review,
+            auto_update=auto_update,
             bot_request=bot_request,
             update_request=update_request,
             queued=queued,
