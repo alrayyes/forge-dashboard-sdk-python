@@ -225,9 +225,8 @@ class PullRequest:
                 isn't a draft: what the Ready quick filter lists. Always
                 present. A pull request with no checks isn't ready.
             failing_ci (bool): True when CI is failing and not only because a workflow run is
-                held for approval: what the Failing CI quick filter and the status
-                filter's Failing choice list, and what the menu pill's Failed
-                number counts. Always present.
+                held for approval: what the Failing CI quick filter lists, and
+                what the menu pill's Failed number counts. Always present.
             needs_review (bool): True when a review is outstanding: the forge requires one, or a
                 reviewer was asked and hasn't answered, and the pull request
                 isn't a draft. Unreviewed with nobody asked, approved, changes
