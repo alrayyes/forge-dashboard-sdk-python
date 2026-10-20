@@ -36,6 +36,9 @@ from .details_comment_format import DetailsCommentFormat
 from .error import Error
 from .filter_state import FilterState
 from .forge import Forge
+from .forge_api_bucket import ForgeApiBucket
+from .forge_api_budget import ForgeApiBudget
+from .forge_api_stats import ForgeApiStats
 from .forge_error_kind import ForgeErrorKind
 from .forge_health import ForgeHealth
 from .health import Health
@@ -141,6 +144,9 @@ __all__ = (
     "Error",
     "FilterState",
     "Forge",
+    "ForgeApiBucket",
+    "ForgeApiBudget",
+    "ForgeApiStats",
     "ForgeErrorKind",
     "ForgeHealth",
     "Health",
