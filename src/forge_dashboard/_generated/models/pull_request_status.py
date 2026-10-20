@@ -22,8 +22,8 @@ T = TypeVar("T", bound="PullRequestStatus")
 @_attrs_define
 class PullRequestStatus:
     """ Why a pull request is waiting on something or can't be merged, in one
-    place for a client to show. Same shape as
-    `AllowedAction.blocked`.
+    place for a client to show. Same fields as
+    `AllowedAction.blocked`, plus `action`.
 
         Attributes:
             code (str): The same codes as `AllowedAction.blocked.code`. The server may
@@ -31,11 +31,20 @@ class PullRequestStatus:
                 doesn't know. Declared with `x-extensible-enum`.
             message (str): Plain words, safe to show a person.
             next_ (str | Unset): What unlocks it or what to do about it, when there is something.
+            action (str | Unset): The `allowedActions[].action` that clears this status, set only
+                when `code` is `behind`: `update_branch`, or the bot's own rebase
+                on a Dependabot or Renovate pull request. A client draws that
+                action's button inside the status line and nowhere else on the
+                row. Absent when no action clears it (a conflict, a check still
+                running, a draft) and when the action is locked, such as a
+                Renovate rebase already waiting. Same action as the entry marked
+                `primary`, so a client that ignores this field still has it.
      """
 
     code: str
     message: str
     next_: str | Unset = UNSET
+    action: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -49,6 +58,8 @@ class PullRequestStatus:
 
         next_ = self.next_
 
+        action = self.action
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -58,6 +69,8 @@ class PullRequestStatus:
         })
         if next_ is not UNSET:
             field_dict["next"] = next_
+        if action is not UNSET:
+            field_dict["action"] = action
 
         return field_dict
 
@@ -72,10 +85,13 @@ class PullRequestStatus:
 
         next_ = d.pop("next", UNSET)
 
+        action = d.pop("action", UNSET)
+
         pull_request_status = cls(
             code=code,
             message=message,
             next_=next_,
+            action=action,
         )
 
 
