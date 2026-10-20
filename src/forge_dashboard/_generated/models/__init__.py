@@ -21,6 +21,7 @@ from .bot_request_phase import BotRequestPhase
 from .check import Check
 from .check_state import CheckState
 from .ci_status import CIStatus
+from .closing_issue import ClosingIssue
 from .credential import Credential
 from .dashboard import Dashboard
 from .details_body import DetailsBody
@@ -119,6 +120,7 @@ __all__ = (
     "Check",
     "CheckState",
     "CIStatus",
+    "ClosingIssue",
     "Credential",
     "Dashboard",
     "DetailsBody",
