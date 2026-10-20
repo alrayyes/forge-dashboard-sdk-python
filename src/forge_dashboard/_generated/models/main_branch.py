@@ -38,8 +38,10 @@ class MainBranch:
                 "running" when none failed and some are still queued or running,
                 "cancelled" when nothing failed and nothing is running but some run
                 was cancelled (a newer push or a person stopped it, so nothing broke),
-                "passed" when all finished green, "none" when the commit has no
-                pipeline at all (or the repository has no commit yet).
+                "awaiting_approval" when GitHub holds the commit's workflow runs until
+                a maintainer approves them (they create no check runs, so nothing
+                runs), "passed" when all finished green, "none" when the commit has
+                no pipeline at all (or the repository has no commit yet).
             commit (MainBranchCommit | None): The newest commit, or null when the forge reported none (an empty repository,
                 or no run on Forgejo to name one from).
             failing_jobs (list[str]): The names of the failed jobs (GitHub checks, Forgejo Actions

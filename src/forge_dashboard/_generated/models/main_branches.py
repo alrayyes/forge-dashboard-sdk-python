@@ -29,7 +29,7 @@ class MainBranches:
         Attributes:
             generated_at (datetime.datetime): When the snapshot was refreshed, not when it was requested.
             counts (MainBranchCounts): How many rows are in each status, the numbers on the filter pills.
-                `total` is every row, so it equals the sum of the other five.
+                `total` is every row, so it equals the sum of the other six.
             branches (list[MainBranch]):
      """
 
