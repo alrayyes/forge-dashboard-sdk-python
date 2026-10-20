@@ -23,9 +23,10 @@ class NavCount:
     """ The Branches page's numbers: how many default branches
     it lists and how many of those have a pipeline running, failed and
     passed, the same four as `NavPullRequestCount`, plus `none`, the ones
-    with no pipeline. A branch whose only trouble is a cancelled run
-    counts in `total` only, as a pull request with no checks does, so the
-    parts need not add up. All five are always present.
+    with no pipeline, and `awaitingApproval`, the ones whose workflow runs
+    are held until someone approves them. A branch whose only trouble is a
+    cancelled run counts in `total` only, as a pull request with no checks
+    does, so the parts need not add up. All six are always present.
 
         Attributes:
             total (int): How many default branches the page lists.
@@ -33,6 +34,9 @@ class NavCount:
             failed (int): How many of them have a failing pipeline.
             passed (int): How many of them have a pipeline that passed.
             none (int): How many of them have no pipeline.
+            awaiting_approval (int): How many of them have workflow runs held until someone approves
+                them. Nothing has run and nothing has failed, so they are in none
+                of `running`, `failed` and `passed`.
      """
 
     total: int
@@ -40,6 +44,7 @@ class NavCount:
     failed: int
     passed: int
     none: int
+    awaiting_approval: int
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -57,6 +62,8 @@ class NavCount:
 
         none = self.none
 
+        awaiting_approval = self.awaiting_approval
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -66,6 +73,7 @@ class NavCount:
             "failed": failed,
             "passed": passed,
             "none": none,
+            "awaitingApproval": awaiting_approval,
         })
 
         return field_dict
@@ -85,12 +93,15 @@ class NavCount:
 
         none = d.pop("none")
 
+        awaiting_approval = d.pop("awaitingApproval")
+
         nav_count = cls(
             total=total,
             running=running,
             failed=failed,
             passed=passed,
             none=none,
+            awaiting_approval=awaiting_approval,
         )
 
 
