@@ -10,6 +10,7 @@ class ActionErrorCode(StrEnum):
     CHECKS_FAILING = "checks_failing"
     CHECKS_PENDING = "checks_pending"
     CONFLICT = "conflict"
+    FORGE_ERROR = "forge_error"
     NOT_MERGEABLE = "not_mergeable"
     NOT_OPEN = "not_open"
     NOT_RATE_LIMITED = "not_rate_limited"
