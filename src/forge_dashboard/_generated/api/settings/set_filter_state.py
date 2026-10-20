@@ -108,8 +108,14 @@ def sync_detailed(
             whatever the frontend's `$lib/filters` `loadState`/`saveState` already produce
             client-side (shared forge/repo/label/author/title/created/
             updated/groupBy, plus the two board-owned extras with no
-            equivalent on the other entity type). This server stores and
-            returns it verbatim, byte for byte, and never parses or
+            equivalent on the other entity type). `shared.label` is one
+            lowercase label, or several lowercase labels separated by a
+            newline: the Label filter matches an item carrying any of
+            them, and a single label saved before it took several still
+            reads as a list of one. At most 20 labels and 1000 characters in
+            all, with no control character other than the separator; a
+            save over either is refused. This server stores and
+            returns it verbatim, byte for byte, and apart from the label limits never parses or
             validates its shape — the same "opaque blob, not this layer's
             concern" treatment WebAuthnCeremonyOptions above gets, so a
             client-side shape change here never needs a matching spec change.
@@ -161,8 +167,14 @@ def sync(
             whatever the frontend's `$lib/filters` `loadState`/`saveState` already produce
             client-side (shared forge/repo/label/author/title/created/
             updated/groupBy, plus the two board-owned extras with no
-            equivalent on the other entity type). This server stores and
-            returns it verbatim, byte for byte, and never parses or
+            equivalent on the other entity type). `shared.label` is one
+            lowercase label, or several lowercase labels separated by a
+            newline: the Label filter matches an item carrying any of
+            them, and a single label saved before it took several still
+            reads as a list of one. At most 20 labels and 1000 characters in
+            all, with no control character other than the separator; a
+            save over either is refused. This server stores and
+            returns it verbatim, byte for byte, and apart from the label limits never parses or
             validates its shape — the same "opaque blob, not this layer's
             concern" treatment WebAuthnCeremonyOptions above gets, so a
             client-side shape change here never needs a matching spec change.
@@ -209,8 +221,14 @@ async def asyncio_detailed(
             whatever the frontend's `$lib/filters` `loadState`/`saveState` already produce
             client-side (shared forge/repo/label/author/title/created/
             updated/groupBy, plus the two board-owned extras with no
-            equivalent on the other entity type). This server stores and
-            returns it verbatim, byte for byte, and never parses or
+            equivalent on the other entity type). `shared.label` is one
+            lowercase label, or several lowercase labels separated by a
+            newline: the Label filter matches an item carrying any of
+            them, and a single label saved before it took several still
+            reads as a list of one. At most 20 labels and 1000 characters in
+            all, with no control character other than the separator; a
+            save over either is refused. This server stores and
+            returns it verbatim, byte for byte, and apart from the label limits never parses or
             validates its shape — the same "opaque blob, not this layer's
             concern" treatment WebAuthnCeremonyOptions above gets, so a
             client-side shape change here never needs a matching spec change.
@@ -262,8 +280,14 @@ async def asyncio(
             whatever the frontend's `$lib/filters` `loadState`/`saveState` already produce
             client-side (shared forge/repo/label/author/title/created/
             updated/groupBy, plus the two board-owned extras with no
-            equivalent on the other entity type). This server stores and
-            returns it verbatim, byte for byte, and never parses or
+            equivalent on the other entity type). `shared.label` is one
+            lowercase label, or several lowercase labels separated by a
+            newline: the Label filter matches an item carrying any of
+            them, and a single label saved before it took several still
+            reads as a list of one. At most 20 labels and 1000 characters in
+            all, with no control character other than the separator; a
+            save over either is refused. This server stores and
+            returns it verbatim, byte for byte, and apart from the label limits never parses or
             validates its shape — the same "opaque blob, not this layer's
             concern" treatment WebAuthnCeremonyOptions above gets, so a
             client-side shape change here never needs a matching spec change.
