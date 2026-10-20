@@ -57,6 +57,8 @@ from .nav_counts import NavCounts
 from .nav_issue_count import NavIssueCount
 from .nav_pull_request_count import NavPullRequestCount
 from .person import Person
+from .presence_answer import PresenceAnswer
+from .presence_report import PresenceReport
 from .pull_request import PullRequest
 from .pull_request_action_request import PullRequestActionRequest
 from .pull_request_auto_update_request import PullRequestAutoUpdateRequest
@@ -165,6 +167,8 @@ __all__ = (
     "NavIssueCount",
     "NavPullRequestCount",
     "Person",
+    "PresenceAnswer",
+    "PresenceReport",
     "PullRequest",
     "PullRequestActionRequest",
     "PullRequestAutoUpdateRequest",

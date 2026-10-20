@@ -20,9 +20,14 @@ def _get_kwargs(
     owner: str | Unset = UNSET,
     include_drafts: bool | Unset = False,
     include_hidden: bool | Unset = False,
+    x_background_read: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
-    
+    headers: dict[str, Any] = {}
+    if not isinstance(x_background_read, Unset):
+        headers["X-Background-Read"] = x_background_read
+
+
 
     
 
@@ -45,6 +50,7 @@ def _get_kwargs(
     }
 
 
+    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -99,6 +105,7 @@ def sync_detailed(
     owner: str | Unset = UNSET,
     include_drafts: bool | Unset = False,
     include_hidden: bool | Unset = False,
+    x_background_read: str | Unset = UNSET,
 
 ) -> Response[Dashboard | Error]:
     """ The aggregated view
@@ -122,6 +129,7 @@ def sync_detailed(
         owner (str | Unset):
         include_drafts (bool | Unset):  Default: False.
         include_hidden (bool | Unset):  Default: False.
+        x_background_read (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -136,6 +144,7 @@ def sync_detailed(
         owner=owner,
 include_drafts=include_drafts,
 include_hidden=include_hidden,
+x_background_read=x_background_read,
 
     )
 
@@ -151,6 +160,7 @@ def sync(
     owner: str | Unset = UNSET,
     include_drafts: bool | Unset = False,
     include_hidden: bool | Unset = False,
+    x_background_read: str | Unset = UNSET,
 
 ) -> Dashboard | Error | None:
     """ The aggregated view
@@ -174,6 +184,7 @@ def sync(
         owner (str | Unset):
         include_drafts (bool | Unset):  Default: False.
         include_hidden (bool | Unset):  Default: False.
+        x_background_read (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -189,6 +200,7 @@ def sync(
 owner=owner,
 include_drafts=include_drafts,
 include_hidden=include_hidden,
+x_background_read=x_background_read,
 
     ).parsed
 
@@ -198,6 +210,7 @@ async def asyncio_detailed(
     owner: str | Unset = UNSET,
     include_drafts: bool | Unset = False,
     include_hidden: bool | Unset = False,
+    x_background_read: str | Unset = UNSET,
 
 ) -> Response[Dashboard | Error]:
     """ The aggregated view
@@ -221,6 +234,7 @@ async def asyncio_detailed(
         owner (str | Unset):
         include_drafts (bool | Unset):  Default: False.
         include_hidden (bool | Unset):  Default: False.
+        x_background_read (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -235,6 +249,7 @@ async def asyncio_detailed(
         owner=owner,
 include_drafts=include_drafts,
 include_hidden=include_hidden,
+x_background_read=x_background_read,
 
     )
 
@@ -250,6 +265,7 @@ async def asyncio(
     owner: str | Unset = UNSET,
     include_drafts: bool | Unset = False,
     include_hidden: bool | Unset = False,
+    x_background_read: str | Unset = UNSET,
 
 ) -> Dashboard | Error | None:
     """ The aggregated view
@@ -273,6 +289,7 @@ async def asyncio(
         owner (str | Unset):
         include_drafts (bool | Unset):  Default: False.
         include_hidden (bool | Unset):  Default: False.
+        x_background_read (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -288,5 +305,6 @@ async def asyncio(
 owner=owner,
 include_drafts=include_drafts,
 include_hidden=include_hidden,
+x_background_read=x_background_read,
 
     )).parsed
