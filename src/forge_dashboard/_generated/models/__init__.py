@@ -14,6 +14,10 @@ from .api_token_create_response import APITokenCreateResponse
 from .auto_merge_status import AutoMergeStatus
 from .auto_merge_status_state import AutoMergeStatusState
 from .auto_merged_pull_request import AutoMergedPullRequest
+from .auto_update import AutoUpdate
+from .auto_update_source import AutoUpdateSource
+from .auto_update_unavailable import AutoUpdateUnavailable
+from .auto_update_unavailable_code import AutoUpdateUnavailableCode
 from .bot_request import BotRequest
 from .bot_request_action import BotRequestAction
 from .bot_request_bot import BotRequestBot
@@ -52,6 +56,7 @@ from .nav_pull_request_count import NavPullRequestCount
 from .person import Person
 from .pull_request import PullRequest
 from .pull_request_action_request import PullRequestActionRequest
+from .pull_request_auto_update_request import PullRequestAutoUpdateRequest
 from .pull_request_checks_response import PullRequestChecksResponse
 from .pull_request_dependabot_action_request import PullRequestDependabotActionRequest
 from .pull_request_dependabot_action_request_action import PullRequestDependabotActionRequestAction
@@ -114,6 +119,10 @@ __all__ = (
     "AutoMergedPullRequest",
     "AutoMergeStatus",
     "AutoMergeStatusState",
+    "AutoUpdate",
+    "AutoUpdateSource",
+    "AutoUpdateUnavailable",
+    "AutoUpdateUnavailableCode",
     "BotRequest",
     "BotRequestAction",
     "BotRequestBot",
@@ -152,6 +161,7 @@ __all__ = (
     "Person",
     "PullRequest",
     "PullRequestActionRequest",
+    "PullRequestAutoUpdateRequest",
     "PullRequestChecksResponse",
     "PullRequestDependabotActionRequest",
     "PullRequestDependabotActionRequestAction",
