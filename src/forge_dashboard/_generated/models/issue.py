@@ -14,6 +14,7 @@ import datetime
 
 if TYPE_CHECKING:
   from ..models.label import Label
+  from ..models.linked_pull_request import LinkedPullRequest
 
 
 
@@ -32,6 +33,15 @@ class Issue:
             number (int):
             title (str):
             url (str): The real issue URL on its own forge.
+            linked_pull_requests (list[LinkedPullRequest]): The open pull requests that will close the issue when they
+                merge,
+                the other side of a pull request's `closesIssues`, ordered by
+                repository and number. Always present, and empty when there are
+                none. The server joins the pull requests it already holds, so it
+                costs the forge no request. It counts every open pull request the
+                user could see, including a draft and one they hid, but not one in
+                a repository whose pull requests they ignore. A pull request that
+                merged or closed is gone from the list on the next refresh.
             housekeeping (bool): True for an issue a bot keeps open and rewrites, Renovate's
                 "Dependency Dashboard", which is not work for a person. The
                 server decides, so every client lists and counts the same
@@ -53,6 +63,7 @@ class Issue:
     number: int
     title: str
     url: str
+    linked_pull_requests: list[LinkedPullRequest]
     housekeeping: bool
     author: str
     author_avatar_url: str
@@ -68,6 +79,7 @@ class Issue:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.label import Label # noqa: PLC0415
+        from ..models.linked_pull_request import LinkedPullRequest # noqa: PLC0415
         forge = self.forge.value
 
         repo = self.repo
@@ -77,6 +89,13 @@ class Issue:
         title = self.title
 
         url = self.url
+
+        linked_pull_requests = []
+        for linked_pull_requests_item_data in self.linked_pull_requests:
+            linked_pull_requests_item = linked_pull_requests_item_data.to_dict()
+            linked_pull_requests.append(linked_pull_requests_item)
+
+
 
         housekeeping = self.housekeeping
 
@@ -106,6 +125,7 @@ class Issue:
             "number": number,
             "title": title,
             "url": url,
+            "linkedPullRequests": linked_pull_requests,
             "housekeeping": housekeeping,
             "author": author,
             "authorAvatarUrl": author_avatar_url,
@@ -122,6 +142,7 @@ class Issue:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.label import Label # noqa: PLC0415
+        from ..models.linked_pull_request import LinkedPullRequest # noqa: PLC0415
         d = dict(src_dict)
         forge = Forge(d.pop("forge"))
 
@@ -135,6 +156,16 @@ class Issue:
         title = d.pop("title")
 
         url = d.pop("url")
+
+        linked_pull_requests = []
+        _linked_pull_requests = d.pop("linkedPullRequests")
+        for linked_pull_requests_item_data in (_linked_pull_requests):
+            linked_pull_requests_item = LinkedPullRequest.from_dict(linked_pull_requests_item_data)
+
+
+
+            linked_pull_requests.append(linked_pull_requests_item)
+
 
         housekeeping = d.pop("housekeeping")
 
@@ -170,6 +201,7 @@ class Issue:
             number=number,
             title=title,
             url=url,
+            linked_pull_requests=linked_pull_requests,
             housekeeping=housekeeping,
             author=author,
             author_avatar_url=author_avatar_url,

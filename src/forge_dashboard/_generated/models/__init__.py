@@ -45,6 +45,7 @@ from .health import Health
 from .issue import Issue
 from .issue_details import IssueDetails
 from .label import Label
+from .linked_pull_request import LinkedPullRequest
 from .login_begin_request import LoginBeginRequest
 from .main_branch import MainBranch
 from .main_branch_commit import MainBranchCommit
@@ -156,6 +157,7 @@ __all__ = (
     "Issue",
     "IssueDetails",
     "Label",
+    "LinkedPullRequest",
     "LoginBeginRequest",
     "MainBranch",
     "MainBranchCommit",
