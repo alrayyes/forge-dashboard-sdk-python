@@ -39,6 +39,8 @@ class Issue:
                 unless the user's `hideDependencyDashboard` setting is on: then
                 the server leaves it out of `issues` as well.
             author (str):
+            author_avatar_url (str): The forge's own avatar URL for whoever filed the issue, passed through unchanged and
+                never proxied. Empty when the forge supplies none, such as a deleted account.
             labels (list[Label]):
             created_at (datetime.datetime):
             updated_at (datetime.datetime):
@@ -51,6 +53,7 @@ class Issue:
     url: str
     housekeeping: bool
     author: str
+    author_avatar_url: str
     labels: list[Label]
     created_at: datetime.datetime
     updated_at: datetime.datetime
@@ -76,6 +79,8 @@ class Issue:
 
         author = self.author
 
+        author_avatar_url = self.author_avatar_url
+
         labels = []
         for labels_item_data in self.labels:
             labels_item = labels_item_data.to_dict()
@@ -98,6 +103,7 @@ class Issue:
             "url": url,
             "housekeeping": housekeeping,
             "author": author,
+            "authorAvatarUrl": author_avatar_url,
             "labels": labels,
             "createdAt": created_at,
             "updatedAt": updated_at,
@@ -128,6 +134,8 @@ class Issue:
 
         author = d.pop("author")
 
+        author_avatar_url = d.pop("authorAvatarUrl")
+
         labels = []
         _labels = d.pop("labels")
         for labels_item_data in (_labels):
@@ -156,6 +164,7 @@ class Issue:
             url=url,
             housekeeping=housekeeping,
             author=author,
+            author_avatar_url=author_avatar_url,
             labels=labels,
             created_at=created_at,
             updated_at=updated_at,
