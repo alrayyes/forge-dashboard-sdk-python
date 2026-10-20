@@ -34,6 +34,7 @@ from .forge_error_kind import ForgeErrorKind
 from .forge_health import ForgeHealth
 from .health import Health
 from .issue import Issue
+from .issue_details import IssueDetails
 from .label import Label
 from .login_begin_request import LoginBeginRequest
 from .main_branch import MainBranch
@@ -131,6 +132,7 @@ __all__ = (
     "ForgeHealth",
     "Health",
     "Issue",
+    "IssueDetails",
     "Label",
     "LoginBeginRequest",
     "MainBranch",
