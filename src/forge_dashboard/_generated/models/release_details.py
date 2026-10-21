@@ -29,7 +29,8 @@ class ReleaseDetails:
             tag (str):
             name (str): The release's title. Empty when the forge has none, and then the tag is the title.
             url (str): The release's page on the forge.
-            published_at (str): When it was published, RFC 3339. Empty when the forge didn't say.
+            published_at (str): When it was published, RFC 3339. Always set, since a release with no publish date is a 404
+                instead.
             notes (DetailsBody): A pull request's description, or the release notes of a release pull request.
      """
 
