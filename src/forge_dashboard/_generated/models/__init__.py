@@ -6,6 +6,9 @@ from .admin_invite import AdminInvite
 from .admin_invite_create_request import AdminInviteCreateRequest
 from .admin_invite_create_response import AdminInviteCreateResponse
 from .admin_user import AdminUser
+from .advisories import Advisories
+from .advisory_severity import AdvisorySeverity
+from .advisory_state import AdvisoryState
 from .allowed_action import AllowedAction
 from .allowed_action_blocked import AllowedActionBlocked
 from .api_token import APIToken
@@ -118,6 +121,9 @@ __all__ = (
     "AdminInviteCreateRequest",
     "AdminInviteCreateResponse",
     "AdminUser",
+    "Advisories",
+    "AdvisorySeverity",
+    "AdvisoryState",
     "AllowedAction",
     "AllowedActionBlocked",
     "APIToken",

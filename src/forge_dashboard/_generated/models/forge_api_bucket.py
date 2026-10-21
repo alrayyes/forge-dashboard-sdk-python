@@ -26,7 +26,8 @@ class ForgeApiBucket:
             forge (Forge):
             credential (str): The credential the requests were made with, as a label with no secret and no user id.
             kind (str): Why the requests were made. Open-ended, so a new kind is not a breaking change; today `full`,
-                `scoped_webhook`, `ci_poll`, `auto_merge_poll`, `details`, `hook_maintenance`, `user_action` and `unknown`.
+                `scoped_webhook`, `ci_poll`, `auto_merge_poll`, `details`, `hook_maintenance`, `advisories`, `user_action` and
+                `unknown`.
             repo (str): The repository as `owner/name`, or empty when the request touched no single repository. `other`
                 collects the repositories past the cap on how many are counted separately.
             rest (int): REST requests that were charged against the REST budget.
