@@ -98,12 +98,6 @@ def sync_detailed(
     briefly unreachable, instead of waiting for the next scheduled
     background refresh.
 
-    Doesn't support `owner` the way GET /api/dashboard does — only
-    ever the signed-in user's own dashboard, never a shared one, so
-    a user with shared access to someone else's dashboard can never
-    spend that owner's own forge rate-limit budget on their own
-    schedule.
-
     The server holds a five-second cooldown per user, so this can't
     be used to hammer a forge's API budget. A call inside that
     window does not fetch: it answers 200 with the current snapshot
@@ -153,12 +147,6 @@ def sync(
     briefly unreachable, instead of waiting for the next scheduled
     background refresh.
 
-    Doesn't support `owner` the way GET /api/dashboard does — only
-    ever the signed-in user's own dashboard, never a shared one, so
-    a user with shared access to someone else's dashboard can never
-    spend that owner's own forge rate-limit budget on their own
-    schedule.
-
     The server holds a five-second cooldown per user, so this can't
     be used to hammer a forge's API budget. A call inside that
     window does not fetch: it answers 200 with the current snapshot
@@ -202,12 +190,6 @@ async def asyncio_detailed(
     snapshot — for retrying right away after a forge was only
     briefly unreachable, instead of waiting for the next scheduled
     background refresh.
-
-    Doesn't support `owner` the way GET /api/dashboard does — only
-    ever the signed-in user's own dashboard, never a shared one, so
-    a user with shared access to someone else's dashboard can never
-    spend that owner's own forge rate-limit budget on their own
-    schedule.
 
     The server holds a five-second cooldown per user, so this can't
     be used to hammer a forge's API budget. A call inside that
@@ -257,12 +239,6 @@ async def asyncio(
     snapshot — for retrying right away after a forge was only
     briefly unreachable, instead of waiting for the next scheduled
     background refresh.
-
-    Doesn't support `owner` the way GET /api/dashboard does — only
-    ever the signed-in user's own dashboard, never a shared one, so
-    a user with shared access to someone else's dashboard can never
-    spend that owner's own forge rate-limit budget on their own
-    schedule.
 
     The server holds a five-second cooldown per user, so this can't
     be used to hammer a forge's API budget. A call inside that

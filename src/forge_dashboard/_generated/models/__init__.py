@@ -98,8 +98,6 @@ from .settings_response import SettingsResponse
 from .settings_response_theme import SettingsResponseTheme
 from .settings_summary import SettingsSummary
 from .settings_summary_theme import SettingsSummaryTheme
-from .shared_user import SharedUser
-from .sharing_response import SharingResponse
 from .stack_position import StackPosition
 from .stack_ref import StackRef
 from .theme_request import ThemeRequest
@@ -213,8 +211,6 @@ __all__ = (
     "SettingsResponseTheme",
     "SettingsSummary",
     "SettingsSummaryTheme",
-    "SharedUser",
-    "SharingResponse",
     "StackPosition",
     "StackRef",
     "ThemeRequest",

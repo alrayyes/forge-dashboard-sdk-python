@@ -36,8 +36,7 @@ class Dashboard:
             queued_actions (list[QueuedAction]): The signed-in user's queued actions, waiting and finished in the
                 last 24 hours (GET /api/queued-actions), so a client lists them in
                 its Activity panel and learns an outcome from the stream it
-                already reads. Always present, empty when there are none, and
-                always empty on another user's shared dashboard.
+                already reads. Always present, empty when there are none.
             auto_merged (list[AutoMergedPullRequest]): Pull requests this app auto-merged in the last ten minutes, newest
                 first. They have already left `pullRequests`, so this is how a
                 client shows "Auto-merged owner/repo#N after checks passed". Always

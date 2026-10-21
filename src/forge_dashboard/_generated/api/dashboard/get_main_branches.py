@@ -90,7 +90,7 @@ def sync_detailed(
     `stale` with `staleSince`, the same carry-over `forges[].staleSince`
     on GET /api/dashboard reports. A forge whose rate-limit budget is
     spent is skipped until it resets and its rows are kept the same way.
-    Only the signed-in user's own repositories, so there is no `owner`.
+    Only the signed-in user's own repositories.
 
     A repository with no default branch yet (empty) or no pipeline has
     status `none`. Unauthenticated GitHub access (a username with no
@@ -142,7 +142,7 @@ def sync(
     `stale` with `staleSince`, the same carry-over `forges[].staleSince`
     on GET /api/dashboard reports. A forge whose rate-limit budget is
     spent is skipped until it resets and its rows are kept the same way.
-    Only the signed-in user's own repositories, so there is no `owner`.
+    Only the signed-in user's own repositories.
 
     A repository with no default branch yet (empty) or no pipeline has
     status `none`. Unauthenticated GitHub access (a username with no
@@ -189,7 +189,7 @@ async def asyncio_detailed(
     `stale` with `staleSince`, the same carry-over `forges[].staleSince`
     on GET /api/dashboard reports. A forge whose rate-limit budget is
     spent is skipped until it resets and its rows are kept the same way.
-    Only the signed-in user's own repositories, so there is no `owner`.
+    Only the signed-in user's own repositories.
 
     A repository with no default branch yet (empty) or no pipeline has
     status `none`. Unauthenticated GitHub access (a username with no
@@ -241,7 +241,7 @@ async def asyncio(
     `stale` with `staleSince`, the same carry-over `forges[].staleSince`
     on GET /api/dashboard reports. A forge whose rate-limit budget is
     spent is skipped until it resets and its rows are kept the same way.
-    Only the signed-in user's own repositories, so there is no `owner`.
+    Only the signed-in user's own repositories.
 
     A repository with no default branch yet (empty) or no pipeline has
     status `none`. Unauthenticated GitHub access (a username with no
