@@ -17,7 +17,21 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - if: ${{ contains(fromJSON('["version-update:semver-patch", "version-update:semver-minor"]'), steps.metadata.outputs.update-type) }}
-        run: gh pr merge --auto --squash "$PR_URL"
+        run: |
+          set -euo pipefail
+          if out=$(gh pr merge --auto --squash "$PR_URL" 2>&1); then
+            echo "$out"; exit 0
+          fi
+          echo "$out" >&2
+          case "$out" in
+            *"is in unstable status"* | *"is in clean status"*)
+              state=$(gh pr view "$PR_URL" --json mergeStateStatus --jq .mergeStateStatus)
+              case "$state" in
+                UNSTABLE | CLEAN) gh pr merge --squash "$PR_URL" ;;
+                *) echo "Not merging directly: merge state is $state" >&2; exit 1 ;;
+              esac ;;
+            *) exit 1 ;;
+          esac
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

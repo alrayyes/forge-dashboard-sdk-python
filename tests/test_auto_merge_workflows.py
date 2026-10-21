@@ -23,7 +23,12 @@ import pytest
 import yaml  # type: ignore[import-untyped]
 
 WORKFLOWS = Path(__file__).resolve().parent.parent / ".github" / "workflows"
-MERGE_WORKFLOWS = ["release-auto-merge.yml"]
+MERGE_WORKFLOWS = [
+    "release-auto-merge.yml",
+    "regenerate-auto-merge.yml",
+    "uv-lock-auto-merge.yml",
+    "dependabot-auto-merge.yml",
+]
 
 PR_URL = "https://github.com/alrayyes/forge-dashboard-sdk-python/pull/280"
 UNSTABLE = "GraphQL: Pull request Pull request is in unstable status (enablePullRequestAutoMerge)"
