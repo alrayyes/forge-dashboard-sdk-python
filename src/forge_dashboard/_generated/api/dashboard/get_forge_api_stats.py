@@ -84,7 +84,8 @@ def sync_detailed(
     `ci_poll` (one repository, waiting on a running check),
     `auto_merge_poll` (one repository, waiting on an armed auto-merge),
     `details` (a dialog or check list opened), `hook_maintenance`
-    (checking, adding or upgrading webhooks), `user_action` (a button
+    (checking, adding or upgrading webhooks), `advisories` (reading a
+    repository's open Dependabot alerts), `user_action` (a button
     pressed, a queued action, or something the dashboard does for you such
     as auto-merge) and `unknown` (a request nobody tagged, which is a bug
     to report). A request that names no repository, such as listing an
@@ -142,7 +143,8 @@ def sync(
     `ci_poll` (one repository, waiting on a running check),
     `auto_merge_poll` (one repository, waiting on an armed auto-merge),
     `details` (a dialog or check list opened), `hook_maintenance`
-    (checking, adding or upgrading webhooks), `user_action` (a button
+    (checking, adding or upgrading webhooks), `advisories` (reading a
+    repository's open Dependabot alerts), `user_action` (a button
     pressed, a queued action, or something the dashboard does for you such
     as auto-merge) and `unknown` (a request nobody tagged, which is a bug
     to report). A request that names no repository, such as listing an
@@ -195,7 +197,8 @@ async def asyncio_detailed(
     `ci_poll` (one repository, waiting on a running check),
     `auto_merge_poll` (one repository, waiting on an armed auto-merge),
     `details` (a dialog or check list opened), `hook_maintenance`
-    (checking, adding or upgrading webhooks), `user_action` (a button
+    (checking, adding or upgrading webhooks), `advisories` (reading a
+    repository's open Dependabot alerts), `user_action` (a button
     pressed, a queued action, or something the dashboard does for you such
     as auto-merge) and `unknown` (a request nobody tagged, which is a bug
     to report). A request that names no repository, such as listing an
@@ -253,7 +256,8 @@ async def asyncio(
     `ci_poll` (one repository, waiting on a running check),
     `auto_merge_poll` (one repository, waiting on an armed auto-merge),
     `details` (a dialog or check list opened), `hook_maintenance`
-    (checking, adding or upgrading webhooks), `user_action` (a button
+    (checking, adding or upgrading webhooks), `advisories` (reading a
+    repository's open Dependabot alerts), `user_action` (a button
     pressed, a queued action, or something the dashboard does for you such
     as auto-merge) and `unknown` (a request nobody tagged, which is a bug
     to report). A request that names no repository, such as listing an

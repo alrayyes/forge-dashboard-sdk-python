@@ -10,10 +10,12 @@ from ..types import UNSET, Unset
 
 from ..models.forge import Forge
 from ..models.main_branch_status import MainBranchStatus
+from ..types import UNSET, Unset
 from typing import cast
 import datetime
 
 if TYPE_CHECKING:
+  from ..models.advisories import Advisories
   from ..models.check_counts import CheckCounts
   from ..models.main_branch_commit import MainBranchCommit
   from ..models.main_branch_release import MainBranchRelease
@@ -100,6 +102,12 @@ class MainBranch:
                 couldn't be read or its rate limit is spent. A client offers no
                 write on a stale row.
             stale_since (datetime.datetime | None): When this row was last fetched. Null unless `stale`.
+            advisories (Advisories | Unset): The open dependency advisories on a repository's default branch, read
+                from the forge's own source (GitHub's Dependabot alerts). Absent from
+                the row when no source reads them for its forge. A source that can't
+                answer, such as alerts switched off or a token without the
+                `security_events` scope, gives `state` "unknown", never a count of
+                zero.
      """
 
     forge: Forge
@@ -116,6 +124,7 @@ class MainBranch:
     latest_release: MainBranchRelease | None
     stale: bool
     stale_since: datetime.datetime | None
+    advisories: Advisories | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -123,6 +132,7 @@ class MainBranch:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.advisories import Advisories # noqa: PLC0415
         from ..models.check_counts import CheckCounts # noqa: PLC0415
         from ..models.main_branch_commit import MainBranchCommit # noqa: PLC0415
         from ..models.main_branch_release import MainBranchRelease # noqa: PLC0415
@@ -173,6 +183,10 @@ class MainBranch:
         else:
             stale_since = self.stale_since
 
+        advisories: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.advisories, Unset):
+            advisories = self.advisories.to_dict()
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -192,6 +206,8 @@ class MainBranch:
             "stale": stale,
             "staleSince": stale_since,
         })
+        if advisories is not UNSET:
+            field_dict["advisories"] = advisories
 
         return field_dict
 
@@ -199,6 +215,7 @@ class MainBranch:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.advisories import Advisories # noqa: PLC0415
         from ..models.check_counts import CheckCounts # noqa: PLC0415
         from ..models.main_branch_commit import MainBranchCommit # noqa: PLC0415
         from ..models.main_branch_release import MainBranchRelease # noqa: PLC0415
@@ -311,6 +328,16 @@ class MainBranch:
         stale_since = _parse_stale_since(d.pop("staleSince"))
 
 
+        _advisories = d.pop("advisories", UNSET)
+        advisories: Advisories | Unset
+        if isinstance(_advisories,  Unset):
+            advisories = UNSET
+        else:
+            advisories = Advisories.from_dict(_advisories)
+
+
+
+
         main_branch = cls(
             forge=forge,
             full_name=full_name,
@@ -326,6 +353,7 @@ class MainBranch:
             latest_release=latest_release,
             stale=stale,
             stale_since=stale_since,
+            advisories=advisories,
         )
 
 
