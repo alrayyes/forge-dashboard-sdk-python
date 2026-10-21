@@ -14,6 +14,7 @@ class ActionErrorCode(StrEnum):
     NOT_MERGEABLE = "not_mergeable"
     NOT_OPEN = "not_open"
     NOT_RATE_LIMITED = "not_rate_limited"
+    NOT_REOPENABLE = "not_reopenable"
     PERMISSION = "permission"
     RATE_LIMITED = "rate_limited"
     READY_TO_MERGE = "ready_to_merge"

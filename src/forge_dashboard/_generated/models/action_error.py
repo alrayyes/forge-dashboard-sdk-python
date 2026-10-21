@@ -37,6 +37,10 @@ class ActionError:
                 mean the dashboard's row was stale: the pull request has
                 nothing left to merge.
 
+                `not_reopenable` belongs to Reopen: the pull request is still
+                closed and the forge won't reopen it, usually because its
+                branch was deleted or rewritten after the close.
+
                 `forge_error` means the forge failed on its own side (a 5xx):
                 nothing is wrong with the request, so asking again may work.
                 `upstreamStatus` and `requestId` then say what the forge
