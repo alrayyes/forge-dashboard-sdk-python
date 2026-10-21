@@ -141,7 +141,8 @@ def sync_detailed(
     first 10 people while `count` is the full number.
 
     The error answers are those of GET /api/pull-requests/details, with
-    the same codes. A tag that has no published release is a 404.
+    the same codes. A tag that has no published release is a 404, and so is a draft,
+    a pre-release or a release with no publish date.
 
     Args:
         forge (Forge):
@@ -196,7 +197,8 @@ def sync(
     first 10 people while `count` is the full number.
 
     The error answers are those of GET /api/pull-requests/details, with
-    the same codes. A tag that has no published release is a 404.
+    the same codes. A tag that has no published release is a 404, and so is a draft,
+    a pre-release or a release with no publish date.
 
     Args:
         forge (Forge):
@@ -246,7 +248,8 @@ async def asyncio_detailed(
     first 10 people while `count` is the full number.
 
     The error answers are those of GET /api/pull-requests/details, with
-    the same codes. A tag that has no published release is a 404.
+    the same codes. A tag that has no published release is a 404, and so is a draft,
+    a pre-release or a release with no publish date.
 
     Args:
         forge (Forge):
@@ -301,7 +304,8 @@ async def asyncio(
     first 10 people while `count` is the full number.
 
     The error answers are those of GET /api/pull-requests/details, with
-    the same codes. A tag that has no published release is a 404.
+    the same codes. A tag that has no published release is a 404, and so is a draft,
+    a pre-release or a release with no publish date.
 
     Args:
         forge (Forge):
