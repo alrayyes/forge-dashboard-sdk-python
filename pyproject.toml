@@ -88,6 +88,8 @@ also_copy = [
   "src/forge_dashboard/_generated/",
   # tests/test_reports.py loads hack/reports.py from here.
   "hack/",
+  # tests/test_auto_merge_workflows.py runs the merge steps from here.
+  ".github/workflows/",
   "pyproject.toml",
   "uv.lock",
 ]
