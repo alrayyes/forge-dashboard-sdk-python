@@ -17,7 +17,6 @@ from typing import cast
 
 def _get_kwargs(
     *,
-    owner: str | Unset = UNSET,
     include_drafts: bool | Unset = False,
     include_hidden: bool | Unset = False,
     x_background_read: str | Unset = UNSET,
@@ -32,8 +31,6 @@ def _get_kwargs(
     
 
     params: dict[str, Any] = {}
-
-    params["owner"] = owner
 
     params["includeDrafts"] = include_drafts
 
@@ -70,20 +67,6 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
-    if response.status_code == 403:
-        response_403 = Error.from_dict(response.json())
-
-
-
-        return response_403
-
-    if response.status_code == 404:
-        response_404 = Error.from_dict(response.json())
-
-
-
-        return response_404
-
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -102,7 +85,6 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     *,
     client: AuthenticatedClient,
-    owner: str | Unset = UNSET,
     include_drafts: bool | Unset = False,
     include_hidden: bool | Unset = False,
     x_background_read: str | Unset = UNSET,
@@ -115,18 +97,13 @@ def sync_detailed(
     blocks on a live call to either forge, so it answers instantly even
     when a forge is slow or unreachable.
 
-    Omitting `owner` returns the signed-in user's own dashboard. Passing
-    it returns that user's dashboard instead — allowed only when they've
-    shared it with the caller (or the caller is viewing their own
-    username), and refused with a 403 otherwise.
+    Always the signed-in user's own dashboard.
 
-    Draft pull requests are left out unless `includeDrafts=true`. With
-    `owner`, the same rule applies to that user's dashboard, and
-    `hiddenDrafts` counts only the drafts in repos that user hasn't
+    Draft pull requests are left out unless `includeDrafts=true`, and
+    `hiddenDrafts` counts only the drafts in repos the user hasn't
     ignored, the same repos whose other pull requests show.
 
     Args:
-        owner (str | Unset):
         include_drafts (bool | Unset):  Default: False.
         include_hidden (bool | Unset):  Default: False.
         x_background_read (str | Unset):
@@ -141,8 +118,7 @@ def sync_detailed(
 
 
     kwargs = _get_kwargs(
-        owner=owner,
-include_drafts=include_drafts,
+        include_drafts=include_drafts,
 include_hidden=include_hidden,
 x_background_read=x_background_read,
 
@@ -157,7 +133,6 @@ x_background_read=x_background_read,
 def sync(
     *,
     client: AuthenticatedClient,
-    owner: str | Unset = UNSET,
     include_drafts: bool | Unset = False,
     include_hidden: bool | Unset = False,
     x_background_read: str | Unset = UNSET,
@@ -170,18 +145,13 @@ def sync(
     blocks on a live call to either forge, so it answers instantly even
     when a forge is slow or unreachable.
 
-    Omitting `owner` returns the signed-in user's own dashboard. Passing
-    it returns that user's dashboard instead — allowed only when they've
-    shared it with the caller (or the caller is viewing their own
-    username), and refused with a 403 otherwise.
+    Always the signed-in user's own dashboard.
 
-    Draft pull requests are left out unless `includeDrafts=true`. With
-    `owner`, the same rule applies to that user's dashboard, and
-    `hiddenDrafts` counts only the drafts in repos that user hasn't
+    Draft pull requests are left out unless `includeDrafts=true`, and
+    `hiddenDrafts` counts only the drafts in repos the user hasn't
     ignored, the same repos whose other pull requests show.
 
     Args:
-        owner (str | Unset):
         include_drafts (bool | Unset):  Default: False.
         include_hidden (bool | Unset):  Default: False.
         x_background_read (str | Unset):
@@ -197,7 +167,6 @@ def sync(
 
     return sync_detailed(
         client=client,
-owner=owner,
 include_drafts=include_drafts,
 include_hidden=include_hidden,
 x_background_read=x_background_read,
@@ -207,7 +176,6 @@ x_background_read=x_background_read,
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
-    owner: str | Unset = UNSET,
     include_drafts: bool | Unset = False,
     include_hidden: bool | Unset = False,
     x_background_read: str | Unset = UNSET,
@@ -220,18 +188,13 @@ async def asyncio_detailed(
     blocks on a live call to either forge, so it answers instantly even
     when a forge is slow or unreachable.
 
-    Omitting `owner` returns the signed-in user's own dashboard. Passing
-    it returns that user's dashboard instead — allowed only when they've
-    shared it with the caller (or the caller is viewing their own
-    username), and refused with a 403 otherwise.
+    Always the signed-in user's own dashboard.
 
-    Draft pull requests are left out unless `includeDrafts=true`. With
-    `owner`, the same rule applies to that user's dashboard, and
-    `hiddenDrafts` counts only the drafts in repos that user hasn't
+    Draft pull requests are left out unless `includeDrafts=true`, and
+    `hiddenDrafts` counts only the drafts in repos the user hasn't
     ignored, the same repos whose other pull requests show.
 
     Args:
-        owner (str | Unset):
         include_drafts (bool | Unset):  Default: False.
         include_hidden (bool | Unset):  Default: False.
         x_background_read (str | Unset):
@@ -246,8 +209,7 @@ async def asyncio_detailed(
 
 
     kwargs = _get_kwargs(
-        owner=owner,
-include_drafts=include_drafts,
+        include_drafts=include_drafts,
 include_hidden=include_hidden,
 x_background_read=x_background_read,
 
@@ -262,7 +224,6 @@ x_background_read=x_background_read,
 async def asyncio(
     *,
     client: AuthenticatedClient,
-    owner: str | Unset = UNSET,
     include_drafts: bool | Unset = False,
     include_hidden: bool | Unset = False,
     x_background_read: str | Unset = UNSET,
@@ -275,18 +236,13 @@ async def asyncio(
     blocks on a live call to either forge, so it answers instantly even
     when a forge is slow or unreachable.
 
-    Omitting `owner` returns the signed-in user's own dashboard. Passing
-    it returns that user's dashboard instead — allowed only when they've
-    shared it with the caller (or the caller is viewing their own
-    username), and refused with a 403 otherwise.
+    Always the signed-in user's own dashboard.
 
-    Draft pull requests are left out unless `includeDrafts=true`. With
-    `owner`, the same rule applies to that user's dashboard, and
-    `hiddenDrafts` counts only the drafts in repos that user hasn't
+    Draft pull requests are left out unless `includeDrafts=true`, and
+    `hiddenDrafts` counts only the drafts in repos the user hasn't
     ignored, the same repos whose other pull requests show.
 
     Args:
-        owner (str | Unset):
         include_drafts (bool | Unset):  Default: False.
         include_hidden (bool | Unset):  Default: False.
         x_background_read (str | Unset):
@@ -302,7 +258,6 @@ async def asyncio(
 
     return (await asyncio_detailed(
         client=client,
-owner=owner,
 include_drafts=include_drafts,
 include_hidden=include_hidden,
 x_background_read=x_background_read,

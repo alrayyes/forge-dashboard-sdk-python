@@ -71,7 +71,7 @@ def sync_detailed(
      Stops the token authenticating immediately. Idempotent — deleting
     an id that's already gone (or never belonged to the signed-in
     user) still answers 204, the same as any other delete-by-id
-    endpoint here (compare DELETE /api/sharing/{username}), so a
+    endpoint here (compare DELETE /api/admin/users/{username}), so a
     double-click or a retried request isn't an error.
 
     Args:
@@ -108,7 +108,7 @@ def sync(
      Stops the token authenticating immediately. Idempotent — deleting
     an id that's already gone (or never belonged to the signed-in
     user) still answers 204, the same as any other delete-by-id
-    endpoint here (compare DELETE /api/sharing/{username}), so a
+    endpoint here (compare DELETE /api/admin/users/{username}), so a
     double-click or a retried request isn't an error.
 
     Args:
@@ -140,7 +140,7 @@ async def asyncio_detailed(
      Stops the token authenticating immediately. Idempotent — deleting
     an id that's already gone (or never belonged to the signed-in
     user) still answers 204, the same as any other delete-by-id
-    endpoint here (compare DELETE /api/sharing/{username}), so a
+    endpoint here (compare DELETE /api/admin/users/{username}), so a
     double-click or a retried request isn't an error.
 
     Args:
@@ -177,7 +177,7 @@ async def asyncio(
      Stops the token authenticating immediately. Idempotent — deleting
     an id that's already gone (or never belonged to the signed-in
     user) still answers 204, the same as any other delete-by-id
-    endpoint here (compare DELETE /api/sharing/{username}), so a
+    endpoint here (compare DELETE /api/admin/users/{username}), so a
     double-click or a retried request isn't an error.
 
     Args:

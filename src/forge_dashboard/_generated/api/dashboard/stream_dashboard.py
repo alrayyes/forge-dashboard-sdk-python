@@ -98,8 +98,6 @@ def sync_detailed(
     one, which is what turns that into a live update instead of
     something only the next scheduled refresh picks up.
 
-    Doesn't support `owner` the way GET /api/dashboard does — only
-    ever the signed-in user's own dashboard, never a shared one.
     The frontend's own 30-second poll against GET /api/dashboard
     keeps running unconditionally, connected or not — a browser or
     proxy that can't hold an SSE connection open just never
@@ -150,8 +148,6 @@ def sync(
     one, which is what turns that into a live update instead of
     something only the next scheduled refresh picks up.
 
-    Doesn't support `owner` the way GET /api/dashboard does — only
-    ever the signed-in user's own dashboard, never a shared one.
     The frontend's own 30-second poll against GET /api/dashboard
     keeps running unconditionally, connected or not — a browser or
     proxy that can't hold an SSE connection open just never
@@ -197,8 +193,6 @@ async def asyncio_detailed(
     one, which is what turns that into a live update instead of
     something only the next scheduled refresh picks up.
 
-    Doesn't support `owner` the way GET /api/dashboard does — only
-    ever the signed-in user's own dashboard, never a shared one.
     The frontend's own 30-second poll against GET /api/dashboard
     keeps running unconditionally, connected or not — a browser or
     proxy that can't hold an SSE connection open just never
@@ -249,8 +243,6 @@ async def asyncio(
     one, which is what turns that into a live update instead of
     something only the next scheduled refresh picks up.
 
-    Doesn't support `owner` the way GET /api/dashboard does — only
-    ever the signed-in user's own dashboard, never a shared one.
     The frontend's own 30-second poll against GET /api/dashboard
     keeps running unconditionally, connected or not — a browser or
     proxy that can't hold an SSE connection open just never
