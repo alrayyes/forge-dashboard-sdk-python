@@ -34,6 +34,9 @@ class Check:
                 maintainer approves it. It has no jobs yet, so it is not queued and
                 not failed; its `url` is the run's page, where the approve button is.
             url (str): That job's own page on the forge that ran it — never the pull request's own page.
+            job_id (int | Unset): The Actions job (or check run) id to pass to GET /api/checks/log.
+                Absent for a legacy commit status and for a workflow held for
+                approval, which have no output to read.
             required (bool | Unset): Whether the base branch's protection makes this check block the
                 merge (GitHub required status checks and rulesets, Forgejo
                 `status_check_contexts`). Absent when the forge can't tell — a
@@ -49,14 +52,14 @@ class Check:
                 with per-line timestamps and colour codes removed, at most 2,000
                 characters. Never markup, and a client must render it as text.
                 Whatever the forge already masks stays masked. Absent when the
-                log can't be read or has expired. GitHub only: Forgejo's API
-                doesn't serve job logs, so there the link to the run is all a
-                failed check offers.
+                log can't be read or has expired. GitHub only: for Forgejo the
+                whole output is read through GET /api/checks/log.
      """
 
     name: str
     state: CheckState
     url: str
+    job_id: int | Unset = UNSET
     required: bool | Unset = UNSET
     duration_seconds: int | Unset = UNSET
     failed_step: str | Unset = UNSET
@@ -74,6 +77,8 @@ class Check:
 
         url = self.url
 
+        job_id = self.job_id
+
         required = self.required
 
         duration_seconds = self.duration_seconds
@@ -90,6 +95,8 @@ class Check:
             "state": state,
             "url": url,
         })
+        if job_id is not UNSET:
+            field_dict["jobId"] = job_id
         if required is not UNSET:
             field_dict["required"] = required
         if duration_seconds is not UNSET:
@@ -115,6 +122,8 @@ class Check:
 
         url = d.pop("url")
 
+        job_id = d.pop("jobId", UNSET)
+
         required = d.pop("required", UNSET)
 
         duration_seconds = d.pop("durationSeconds", UNSET)
@@ -127,6 +136,7 @@ class Check:
             name=name,
             state=state,
             url=url,
+            job_id=job_id,
             required=required,
             duration_seconds=duration_seconds,
             failed_step=failed_step,

@@ -23,6 +23,7 @@ from .bot_request_bot import BotRequestBot
 from .bot_request_phase import BotRequestPhase
 from .check import Check
 from .check_counts import CheckCounts
+from .check_log import CheckLog
 from .check_state import CheckState
 from .ci_status import CIStatus
 from .closing_issue import ClosingIssue
@@ -133,6 +134,7 @@ __all__ = (
     "BotRequestPhase",
     "Check",
     "CheckCounts",
+    "CheckLog",
     "CheckState",
     "CIStatus",
     "ClosingIssue",
