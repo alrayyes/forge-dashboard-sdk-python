@@ -116,8 +116,10 @@ class MainBranch:
                 write on a stale row.
             stale_since (datetime.datetime | None): When this row was last fetched. Null unless `stale`.
             advisories (Advisories | Unset): The open dependency advisories on a repository's default branch, read
-                from the forge's own source (GitHub's Dependabot alerts). Absent from
-                the row when no source reads them for its forge. A source that can't
+                from GitHub's Dependabot alerts, or for a Forgejo repository from the
+                packages in its lockfiles matched against OSV, when the operator has
+                switched that on. Absent from the row when no source reads them for its
+                forge. A source that can't
                 answer, such as alerts switched off or a token without the
                 `security_events` scope, gives `state` "unknown", never a count of
                 zero.
