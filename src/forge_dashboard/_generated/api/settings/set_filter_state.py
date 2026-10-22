@@ -104,7 +104,7 @@ def sync_detailed(
 
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape (and the
-            Branches page's status, forge and search, in a `branches` group) —
+            Branches page's status, forge, advisories and search, in a `branches` group) —
             whatever the frontend's `$lib/filters` `loadState`/`saveState` already produce
             client-side (shared forge/repo/label/author/title/created/
             updated/groupBy, plus the two board-owned extras with no
@@ -164,7 +164,7 @@ def sync(
 
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape (and the
-            Branches page's status, forge and search, in a `branches` group) —
+            Branches page's status, forge, advisories and search, in a `branches` group) —
             whatever the frontend's `$lib/filters` `loadState`/`saveState` already produce
             client-side (shared forge/repo/label/author/title/created/
             updated/groupBy, plus the two board-owned extras with no
@@ -219,7 +219,7 @@ async def asyncio_detailed(
 
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape (and the
-            Branches page's status, forge and search, in a `branches` group) —
+            Branches page's status, forge, advisories and search, in a `branches` group) —
             whatever the frontend's `$lib/filters` `loadState`/`saveState` already produce
             client-side (shared forge/repo/label/author/title/created/
             updated/groupBy, plus the two board-owned extras with no
@@ -279,7 +279,7 @@ async def asyncio(
 
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape (and the
-            Branches page's status, forge and search, in a `branches` group) —
+            Branches page's status, forge, advisories and search, in a `branches` group) —
             whatever the frontend's `$lib/filters` `loadState`/`saveState` already produce
             client-side (shared forge/repo/label/author/title/created/
             updated/groupBy, plus the two board-owned extras with no
