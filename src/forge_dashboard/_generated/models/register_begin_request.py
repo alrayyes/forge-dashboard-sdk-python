@@ -8,7 +8,6 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
 
 
 
@@ -26,19 +25,11 @@ class RegisterBeginRequest:
             username (str): Surrounding whitespace is trimmed by the server, and what is
                 left must not be empty. Clients may check the same pattern for
                 quick feedback; the server decides.
-            display_name (str): Ignored once an invite is required (any account already
-                exists) — the invite's own displayName (set by the admin who
-                issued it) is what's actually used. Only the very first,
-                bootstrap registration on a fresh instance takes this value.
-            invite_token (str | Unset): Required once any account already exists (see GET
-                /api/auth/registration-status) — a single-use token from POST
-                /api/admin/invites, issued for exactly this username. Omitted
-                or ignored for the very first, bootstrap registration.
+            display_name (str):
      """
 
     username: str
     display_name: str
-    invite_token: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -50,8 +41,6 @@ class RegisterBeginRequest:
 
         display_name = self.display_name
 
-        invite_token = self.invite_token
-
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -59,8 +48,6 @@ class RegisterBeginRequest:
             "username": username,
             "displayName": display_name,
         })
-        if invite_token is not UNSET:
-            field_dict["inviteToken"] = invite_token
 
         return field_dict
 
@@ -73,12 +60,9 @@ class RegisterBeginRequest:
 
         display_name = d.pop("displayName")
 
-        invite_token = d.pop("inviteToken", UNSET)
-
         register_begin_request = cls(
             username=username,
             display_name=display_name,
-            invite_token=invite_token,
         )
 
 

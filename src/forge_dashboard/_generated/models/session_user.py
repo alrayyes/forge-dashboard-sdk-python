@@ -24,12 +24,10 @@ class SessionUser:
         Attributes:
             username (str):
             display_name (str):
-            is_admin (bool):
      """
 
     username: str
     display_name: str
-    is_admin: bool
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -41,15 +39,12 @@ class SessionUser:
 
         display_name = self.display_name
 
-        is_admin = self.is_admin
-
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
             "username": username,
             "displayName": display_name,
-            "isAdmin": is_admin,
         })
 
         return field_dict
@@ -63,12 +58,9 @@ class SessionUser:
 
         display_name = d.pop("displayName")
 
-        is_admin = d.pop("isAdmin")
-
         session_user = cls(
             username=username,
             display_name=display_name,
-            is_admin=is_admin,
         )
 
 
