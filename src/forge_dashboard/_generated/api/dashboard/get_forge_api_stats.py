@@ -85,7 +85,7 @@ def sync_detailed(
     `auto_merge_poll` (one repository, waiting on an armed auto-merge),
     `details` (a dialog or check list opened), `hook_maintenance`
     (checking, adding or upgrading webhooks), `advisories` (reading a
-    repository's open Dependabot alerts), `user_action` (a button
+    repository's open Dependabot alerts, or a Forgejo repository's lockfiles), `user_action` (a button
     pressed, a queued action, or something the dashboard does for you such
     as auto-merge) and `unknown` (a request nobody tagged, which is a bug
     to report). A request that names no repository, such as listing an
@@ -144,7 +144,7 @@ def sync(
     `auto_merge_poll` (one repository, waiting on an armed auto-merge),
     `details` (a dialog or check list opened), `hook_maintenance`
     (checking, adding or upgrading webhooks), `advisories` (reading a
-    repository's open Dependabot alerts), `user_action` (a button
+    repository's open Dependabot alerts, or a Forgejo repository's lockfiles), `user_action` (a button
     pressed, a queued action, or something the dashboard does for you such
     as auto-merge) and `unknown` (a request nobody tagged, which is a bug
     to report). A request that names no repository, such as listing an
@@ -198,7 +198,7 @@ async def asyncio_detailed(
     `auto_merge_poll` (one repository, waiting on an armed auto-merge),
     `details` (a dialog or check list opened), `hook_maintenance`
     (checking, adding or upgrading webhooks), `advisories` (reading a
-    repository's open Dependabot alerts), `user_action` (a button
+    repository's open Dependabot alerts, or a Forgejo repository's lockfiles), `user_action` (a button
     pressed, a queued action, or something the dashboard does for you such
     as auto-merge) and `unknown` (a request nobody tagged, which is a bug
     to report). A request that names no repository, such as listing an
@@ -257,7 +257,7 @@ async def asyncio(
     `auto_merge_poll` (one repository, waiting on an armed auto-merge),
     `details` (a dialog or check list opened), `hook_maintenance`
     (checking, adding or upgrading webhooks), `advisories` (reading a
-    repository's open Dependabot alerts), `user_action` (a button
+    repository's open Dependabot alerts, or a Forgejo repository's lockfiles), `user_action` (a button
     pressed, a queued action, or something the dashboard does for you such
     as auto-merge) and `unknown` (a request nobody tagged, which is a bug
     to report). A request that names no repository, such as listing an
