@@ -10,6 +10,8 @@ from ..types import UNSET, Unset
 
 from ..models.forge import Forge
 from ..types import UNSET, Unset
+from typing import cast
+import datetime
 
 
 
@@ -93,6 +95,11 @@ class RepoStatus:
                 signed-in user's role. Saving a token with the webhook scope in
                 Settings is the fix. Absent when a token is saved, whatever
                 role it holds. Set today for Forgejo only.
+            failing_since (datetime.datetime | Unset): Present when the last fetch of this repository failed, and the
+                time of the first failure in the run it is still part of. Its
+                pull requests and issues are then the last good ones. Absent
+                when the repository is fetching fine. It is not saved, so it
+                restarts from the first failure after a restart.
      """
 
     forge: Forge
@@ -107,6 +114,7 @@ class RepoStatus:
     logo_url: str | Unset = UNSET
     webhook_locked_by_connection: bool | Unset = UNSET
     webhook_needs_token: bool | Unset = UNSET
+    failing_since: datetime.datetime | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -138,6 +146,10 @@ class RepoStatus:
 
         webhook_needs_token = self.webhook_needs_token
 
+        failing_since: str | Unset = UNSET
+        if not isinstance(self.failing_since, Unset):
+            failing_since = self.failing_since.isoformat()
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -158,6 +170,8 @@ class RepoStatus:
             field_dict["webhookLockedByConnection"] = webhook_locked_by_connection
         if webhook_needs_token is not UNSET:
             field_dict["webhookNeedsToken"] = webhook_needs_token
+        if failing_since is not UNSET:
+            field_dict["failingSince"] = failing_since
 
         return field_dict
 
@@ -193,6 +207,16 @@ class RepoStatus:
 
         webhook_needs_token = d.pop("webhookNeedsToken", UNSET)
 
+        _failing_since = d.pop("failingSince", UNSET)
+        failing_since: datetime.datetime | Unset
+        if isinstance(_failing_since,  Unset):
+            failing_since = UNSET
+        else:
+            failing_since = datetime.datetime.fromisoformat(_failing_since)
+
+
+
+
         repo_status = cls(
             forge=forge,
             full_name=full_name,
@@ -206,6 +230,7 @@ class RepoStatus:
             logo_url=logo_url,
             webhook_locked_by_connection=webhook_locked_by_connection,
             webhook_needs_token=webhook_needs_token,
+            failing_since=failing_since,
         )
 
 
