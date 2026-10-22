@@ -3,6 +3,7 @@
 from .action_error import ActionError
 from .action_error_code import ActionErrorCode
 from .advisories import Advisories
+from .advisory_reason import AdvisoryReason
 from .advisory_severity import AdvisorySeverity
 from .advisory_state import AdvisoryState
 from .allowed_action import AllowedAction
@@ -115,6 +116,7 @@ __all__ = (
     "ActionError",
     "ActionErrorCode",
     "Advisories",
+    "AdvisoryReason",
     "AdvisorySeverity",
     "AdvisoryState",
     "AllowedAction",

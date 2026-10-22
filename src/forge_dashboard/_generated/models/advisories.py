@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.advisory_reason import AdvisoryReason
 from ..models.advisory_severity import AdvisorySeverity
 from ..models.advisory_state import AdvisoryState
 from ..types import UNSET, Unset
@@ -36,12 +37,19 @@ class Advisories:
             count (int): How many advisories are open. Only meaningful when `state` is "known".
             highest (AdvisorySeverity | Unset): The worst severity among the open advisories. Absent when there are none.
             url (str | Unset): Where to see the advisories on the forge. Absent when there are none or the state is unknown.
+            reason (AdvisoryReason | Unset): Why `state` is "unknown", when the dashboard can tell. Absent when
+                the state is "known". "refused" is a 403: the credential lacks the
+                Dependabot alerts permission. "switched_off" is a 404: alerts are off
+                for the repository. "throttled" is a rate limit, which clears by
+                itself. "failed" is any other error reading the alerts. "too_many" is
+                a repository with more open alerts than one read pages through.
      """
 
     state: AdvisoryState
     count: int
     highest: AdvisorySeverity | Unset = UNSET
     url: str | Unset = UNSET
+    reason: AdvisoryReason | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -60,6 +68,11 @@ class Advisories:
 
         url = self.url
 
+        reason: str | Unset = UNSET
+        if not isinstance(self.reason, Unset):
+            reason = self.reason.value
+
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -71,6 +84,8 @@ class Advisories:
             field_dict["highest"] = highest
         if url is not UNSET:
             field_dict["url"] = url
+        if reason is not UNSET:
+            field_dict["reason"] = reason
 
         return field_dict
 
@@ -98,11 +113,22 @@ class Advisories:
 
         url = d.pop("url", UNSET)
 
+        _reason = d.pop("reason", UNSET)
+        reason: AdvisoryReason | Unset
+        if isinstance(_reason,  Unset):
+            reason = UNSET
+        else:
+            reason = AdvisoryReason(_reason)
+
+
+
+
         advisories = cls(
             state=state,
             count=count,
             highest=highest,
             url=url,
+            reason=reason,
         )
 
 
