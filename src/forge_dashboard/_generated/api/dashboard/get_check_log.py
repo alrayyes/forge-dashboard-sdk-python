@@ -100,6 +100,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_502
 
+    if response.status_code == 503:
+        response_503 = Error.from_dict(response.json())
+
+
+
+        return response_503
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -129,6 +136,9 @@ def sync_detailed(
     codes and carriage returns removed, never markup, so a client must render
     it as text. Whatever the forge already masks stays masked. Only the last
     256 KiB are returned; `truncated` says the start was cut.
+
+    Only for a repository the dashboard tracks for you; any other answers 404
+    without asking the forge.
 
     Fetched live on every call and never as part of a snapshot, since a log
     can be large and most are never opened. GitHub reads the job's log
@@ -181,6 +191,9 @@ def sync(
     it as text. Whatever the forge already masks stays masked. Only the last
     256 KiB are returned; `truncated` says the start was cut.
 
+    Only for a repository the dashboard tracks for you; any other answers 404
+    without asking the forge.
+
     Fetched live on every call and never as part of a snapshot, since a log
     can be large and most are never opened. GitHub reads the job's log
     through its REST API (one request, then a short-lived download). Forgejo
@@ -226,6 +239,9 @@ async def asyncio_detailed(
     codes and carriage returns removed, never markup, so a client must render
     it as text. Whatever the forge already masks stays masked. Only the last
     256 KiB are returned; `truncated` says the start was cut.
+
+    Only for a repository the dashboard tracks for you; any other answers 404
+    without asking the forge.
 
     Fetched live on every call and never as part of a snapshot, since a log
     can be large and most are never opened. GitHub reads the job's log
@@ -277,6 +293,9 @@ async def asyncio(
     codes and carriage returns removed, never markup, so a client must render
     it as text. Whatever the forge already masks stays masked. Only the last
     256 KiB are returned; `truncated` says the start was cut.
+
+    Only for a repository the dashboard tracks for you; any other answers 404
+    without asking the forge.
 
     Fetched live on every call and never as part of a snapshot, since a log
     can be large and most are never opened. GitHub reads the job's log
