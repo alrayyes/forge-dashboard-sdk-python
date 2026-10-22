@@ -12,6 +12,7 @@ from typing import cast
 import datetime
 
 if TYPE_CHECKING:
+  from ..models.forge_health import ForgeHealth
   from ..models.main_branch import MainBranch
   from ..models.main_branch_counts import MainBranchCounts
 
@@ -30,11 +31,15 @@ class MainBranches:
             generated_at (datetime.datetime): When the snapshot was refreshed, not when it was requested.
             counts (MainBranchCounts): How many rows are in each status, the numbers on the filter pills.
                 `total` is every row, so it equals the sum of the other six.
+            forges (list[ForgeHealth]): Each forge's health as of the last refresh, the same as the dashboard's. A client
+                uses it to hold back an action that a forge which can't be reached, or whose rate limit is spent, would probably
+                refuse. The budget can run out between refreshes, so the forge still has the final say.
             branches (list[MainBranch]):
      """
 
     generated_at: datetime.datetime
     counts: MainBranchCounts
+    forges: list[ForgeHealth]
     branches: list[MainBranch]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -43,11 +48,19 @@ class MainBranches:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.forge_health import ForgeHealth # noqa: PLC0415
         from ..models.main_branch import MainBranch # noqa: PLC0415
         from ..models.main_branch_counts import MainBranchCounts # noqa: PLC0415
         generated_at = self.generated_at.isoformat()
 
         counts = self.counts.to_dict()
+
+        forges = []
+        for forges_item_data in self.forges:
+            forges_item = forges_item_data.to_dict()
+            forges.append(forges_item)
+
+
 
         branches = []
         for branches_item_data in self.branches:
@@ -62,6 +75,7 @@ class MainBranches:
         field_dict.update({
             "generatedAt": generated_at,
             "counts": counts,
+            "forges": forges,
             "branches": branches,
         })
 
@@ -71,6 +85,7 @@ class MainBranches:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.forge_health import ForgeHealth # noqa: PLC0415
         from ..models.main_branch import MainBranch # noqa: PLC0415
         from ..models.main_branch_counts import MainBranchCounts # noqa: PLC0415
         d = dict(src_dict)
@@ -82,6 +97,16 @@ class MainBranches:
         counts = MainBranchCounts.from_dict(d.pop("counts"))
 
 
+
+
+        forges = []
+        _forges = d.pop("forges")
+        for forges_item_data in (_forges):
+            forges_item = ForgeHealth.from_dict(forges_item_data)
+
+
+
+            forges.append(forges_item)
 
 
         branches = []
@@ -97,6 +122,7 @@ class MainBranches:
         main_branches = cls(
             generated_at=generated_at,
             counts=counts,
+            forges=forges,
             branches=branches,
         )
 
