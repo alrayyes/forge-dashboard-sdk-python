@@ -107,6 +107,11 @@ def sync_detailed(
     leave the row stale. Only a call that actually fetched answers
     without the header.
 
+    The same goes for a call made while the first refresh since the
+    server started is still running: it answers at once with the
+    current snapshot and `Retry-After`, instead of waiting for that
+    refresh to finish.
+
     Args:
         include_drafts (bool | Unset):  Default: False.
         include_hidden (bool | Unset):  Default: False.
@@ -156,6 +161,11 @@ def sync(
     leave the row stale. Only a call that actually fetched answers
     without the header.
 
+    The same goes for a call made while the first refresh since the
+    server started is still running: it answers at once with the
+    current snapshot and `Retry-After`, instead of waiting for that
+    refresh to finish.
+
     Args:
         include_drafts (bool | Unset):  Default: False.
         include_hidden (bool | Unset):  Default: False.
@@ -199,6 +209,11 @@ async def asyncio_detailed(
     or branch update to show the result, and a refusal there would
     leave the row stale. Only a call that actually fetched answers
     without the header.
+
+    The same goes for a call made while the first refresh since the
+    server started is still running: it answers at once with the
+    current snapshot and `Retry-After`, instead of waiting for that
+    refresh to finish.
 
     Args:
         include_drafts (bool | Unset):  Default: False.
@@ -248,6 +263,11 @@ async def asyncio(
     or branch update to show the result, and a refusal there would
     leave the row stale. Only a call that actually fetched answers
     without the header.
+
+    The same goes for a call made while the first refresh since the
+    server started is still running: it answers at once with the
+    current snapshot and `Retry-After`, instead of waiting for that
+    refresh to finish.
 
     Args:
         include_drafts (bool | Unset):  Default: False.
