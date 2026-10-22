@@ -45,6 +45,10 @@ class Check:
             duration_seconds (int | Unset): How long a completed check ran. Absent while it runs, or when
                 the forge doesn't say. GitHub only: Forgejo's API doesn't give
                 a job's timing.
+            run_attempt (int | Unset): Which attempt of its workflow run the job belongs to. Forgejo
+                only: it keeps a job's id and page when a run is retried, so this
+                is what tells a retry's output from the first attempt's. Absent
+                when the forge doesn't number attempts.
             failed_step (str | Unset): The name of the step of a failed job that broke. Absent when
                 the check isn't a job the token can read (a third-party check,
                 a forge with no step data, a token without access).
@@ -52,8 +56,10 @@ class Check:
                 with per-line timestamps and colour codes removed, at most 2,000
                 characters. Never markup, and a client must render it as text.
                 Whatever the forge already masks stays masked. Absent when the
-                log can't be read or has expired. GitHub only: for Forgejo the
-                whole output is read through GET /api/checks/log.
+                log can't be read or has expired. Both forges fill it for at
+                most five failed jobs of a list: on GitHub the first five in the
+                list's order, on Forgejo up to five, newest first. The whole output is read
+                through GET /api/checks/log.
      """
 
     name: str
@@ -62,6 +68,7 @@ class Check:
     job_id: int | Unset = UNSET
     required: bool | Unset = UNSET
     duration_seconds: int | Unset = UNSET
+    run_attempt: int | Unset = UNSET
     failed_step: str | Unset = UNSET
     excerpt: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -83,6 +90,8 @@ class Check:
 
         duration_seconds = self.duration_seconds
 
+        run_attempt = self.run_attempt
+
         failed_step = self.failed_step
 
         excerpt = self.excerpt
@@ -101,6 +110,8 @@ class Check:
             field_dict["required"] = required
         if duration_seconds is not UNSET:
             field_dict["durationSeconds"] = duration_seconds
+        if run_attempt is not UNSET:
+            field_dict["runAttempt"] = run_attempt
         if failed_step is not UNSET:
             field_dict["failedStep"] = failed_step
         if excerpt is not UNSET:
@@ -128,6 +139,8 @@ class Check:
 
         duration_seconds = d.pop("durationSeconds", UNSET)
 
+        run_attempt = d.pop("runAttempt", UNSET)
+
         failed_step = d.pop("failedStep", UNSET)
 
         excerpt = d.pop("excerpt", UNSET)
@@ -139,6 +152,7 @@ class Check:
             job_id=job_id,
             required=required,
             duration_seconds=duration_seconds,
+            run_attempt=run_attempt,
             failed_step=failed_step,
             excerpt=excerpt,
         )
