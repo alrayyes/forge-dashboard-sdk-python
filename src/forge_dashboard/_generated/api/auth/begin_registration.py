@@ -56,13 +56,6 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_403
 
-    if response.status_code == 409:
-        response_409 = Error.from_dict(response.json())
-
-
-
-        return response_409
-
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -86,13 +79,10 @@ def sync_detailed(
 ) -> Response[Error | WebAuthnCeremonyOptions]:
     """ Start a passkey registration ceremony
 
-     The very first registration on a fresh instance (zero registered
-    users — see GET /api/auth/registration-status) needs no
-    `inviteToken` and bootstraps that account as admin. Every
-    registration after that requires a valid, unexpired, unconsumed
-    `inviteToken` issued by an admin (POST /api/admin/invites) for
-    exactly this `username` — the invite's own `displayName` is what's
-    actually used, not this request's.
+     An instance has one user. The first registration on a fresh
+    instance (see GET /api/auth/registration-status) creates that
+    user. Once any account holds a passkey, this answers 403 whatever
+    username it carries.
 
     Args:
         body (RegisterBeginRequest):
@@ -125,13 +115,10 @@ def sync(
 ) -> Error | WebAuthnCeremonyOptions | None:
     """ Start a passkey registration ceremony
 
-     The very first registration on a fresh instance (zero registered
-    users — see GET /api/auth/registration-status) needs no
-    `inviteToken` and bootstraps that account as admin. Every
-    registration after that requires a valid, unexpired, unconsumed
-    `inviteToken` issued by an admin (POST /api/admin/invites) for
-    exactly this `username` — the invite's own `displayName` is what's
-    actually used, not this request's.
+     An instance has one user. The first registration on a fresh
+    instance (see GET /api/auth/registration-status) creates that
+    user. Once any account holds a passkey, this answers 403 whatever
+    username it carries.
 
     Args:
         body (RegisterBeginRequest):
@@ -159,13 +146,10 @@ async def asyncio_detailed(
 ) -> Response[Error | WebAuthnCeremonyOptions]:
     """ Start a passkey registration ceremony
 
-     The very first registration on a fresh instance (zero registered
-    users — see GET /api/auth/registration-status) needs no
-    `inviteToken` and bootstraps that account as admin. Every
-    registration after that requires a valid, unexpired, unconsumed
-    `inviteToken` issued by an admin (POST /api/admin/invites) for
-    exactly this `username` — the invite's own `displayName` is what's
-    actually used, not this request's.
+     An instance has one user. The first registration on a fresh
+    instance (see GET /api/auth/registration-status) creates that
+    user. Once any account holds a passkey, this answers 403 whatever
+    username it carries.
 
     Args:
         body (RegisterBeginRequest):
@@ -198,13 +182,10 @@ async def asyncio(
 ) -> Error | WebAuthnCeremonyOptions | None:
     """ Start a passkey registration ceremony
 
-     The very first registration on a fresh instance (zero registered
-    users — see GET /api/auth/registration-status) needs no
-    `inviteToken` and bootstraps that account as admin. Every
-    registration after that requires a valid, unexpired, unconsumed
-    `inviteToken` issued by an admin (POST /api/admin/invites) for
-    exactly this `username` — the invite's own `displayName` is what's
-    actually used, not this request's.
+     An instance has one user. The first registration on a fresh
+    instance (see GET /api/auth/registration-status) creates that
+    user. Once any account holds a passkey, this answers 403 whatever
+    username it carries.
 
     Args:
         body (RegisterBeginRequest):

@@ -65,9 +65,9 @@ def sync_detailed(
      Unauthenticated — a visitor deciding whether to show the login
     page's own "Register a new passkey instead" button has no session
     yet by definition. `open` is true only on a fresh instance with
-    zero registered users; once any account exists, self-registration
-    is closed and every registration after that requires a valid
-    `inviteToken` (see POST /api/auth/register/begin).
+    zero registered users; once any account holds a passkey,
+    registration is closed for good. More passkeys for that account are
+    added from Settings.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -98,9 +98,9 @@ def sync(
      Unauthenticated — a visitor deciding whether to show the login
     page's own "Register a new passkey instead" button has no session
     yet by definition. `open` is true only on a fresh instance with
-    zero registered users; once any account exists, self-registration
-    is closed and every registration after that requires a valid
-    `inviteToken` (see POST /api/auth/register/begin).
+    zero registered users; once any account holds a passkey,
+    registration is closed for good. More passkeys for that account are
+    added from Settings.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -126,9 +126,9 @@ async def asyncio_detailed(
      Unauthenticated — a visitor deciding whether to show the login
     page's own "Register a new passkey instead" button has no session
     yet by definition. `open` is true only on a fresh instance with
-    zero registered users; once any account exists, self-registration
-    is closed and every registration after that requires a valid
-    `inviteToken` (see POST /api/auth/register/begin).
+    zero registered users; once any account holds a passkey,
+    registration is closed for good. More passkeys for that account are
+    added from Settings.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -159,9 +159,9 @@ async def asyncio(
      Unauthenticated — a visitor deciding whether to show the login
     page's own "Register a new passkey instead" button has no session
     yet by definition. `open` is true only on a fresh instance with
-    zero registered users; once any account exists, self-registration
-    is closed and every registration after that requires a valid
-    `inviteToken` (see POST /api/auth/register/begin).
+    zero registered users; once any account holds a passkey,
+    registration is closed for good. More passkeys for that account are
+    added from Settings.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
