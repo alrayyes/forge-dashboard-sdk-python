@@ -45,6 +45,7 @@ from .forge_health import ForgeHealth
 from .health import Health
 from .issue import Issue
 from .issue_details import IssueDetails
+from .issue_details_state import IssueDetailsState
 from .label import Label
 from .linked_pull_request import LinkedPullRequest
 from .login_begin_request import LoginBeginRequest
@@ -158,6 +159,7 @@ __all__ = (
     "Health",
     "Issue",
     "IssueDetails",
+    "IssueDetailsState",
     "Label",
     "LinkedPullRequest",
     "LoginBeginRequest",

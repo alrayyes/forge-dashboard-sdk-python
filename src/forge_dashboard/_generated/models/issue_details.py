@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.issue_details_state import IssueDetailsState
 from typing import cast
 
 if TYPE_CHECKING:
@@ -27,12 +28,16 @@ class IssueDetails:
     """ What the issue dialog shows.
 
         Attributes:
+            state (IssueDetailsState): Whether the forge has the issue open or closed right now. The
+                dialog draws its status from this, so an issue closed or reopened
+                while the dialog is open shows the change.
             description (DetailsBody): A pull request's description, or the release notes of a release pull request.
             comments (list[DetailsComment]): The conversation, oldest first, at most the first 50.
             comment_count (int): How many comments the forge has on the issue.
             comments_truncated (bool): True when `commentCount` is more than the comments returned.
      """
 
+    state: IssueDetailsState
     description: DetailsBody
     comments: list[DetailsComment]
     comment_count: int
@@ -46,6 +51,8 @@ class IssueDetails:
     def to_dict(self) -> dict[str, Any]:
         from ..models.details_body import DetailsBody # noqa: PLC0415
         from ..models.details_comment import DetailsComment # noqa: PLC0415
+        state = self.state.value
+
         description = self.description.to_dict()
 
         comments = []
@@ -63,6 +70,7 @@ class IssueDetails:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
+            "state": state,
             "description": description,
             "comments": comments,
             "commentCount": comment_count,
@@ -78,6 +86,11 @@ class IssueDetails:
         from ..models.details_body import DetailsBody # noqa: PLC0415
         from ..models.details_comment import DetailsComment # noqa: PLC0415
         d = dict(src_dict)
+        state = IssueDetailsState(d.pop("state"))
+
+
+
+
         description = DetailsBody.from_dict(d.pop("description"))
 
 
@@ -98,6 +111,7 @@ class IssueDetails:
         comments_truncated = d.pop("commentsTruncated")
 
         issue_details = cls(
+            state=state,
             description=description,
             comments=comments,
             comment_count=comment_count,
