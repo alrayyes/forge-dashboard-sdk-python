@@ -43,7 +43,7 @@ class SettingsResponse:
                 githubAppConfigured).
             github_app_configured (bool): Whether this server has a GitHub App configured at all
                 (server-wide GITHUB_APP_ID/GITHUB_APP_PRIVATE_KEY_BASE64 —
-                not a per-user setting). The Settings page uses this to
+                not a saved setting). The Settings page uses this to
                 explain why githubAppInstallationId can't be saved when
                 it's false.
             forgejo_url (str): Always without a username, password, query string or fragment,
