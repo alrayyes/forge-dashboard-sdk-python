@@ -41,9 +41,14 @@ class AllowedAction:
                 because the failing checks aren't required, and `status` explains
                 it); `update_branch`, or `renovate_rebase` or `dependabot_rebase`
                 for a bot pull request, when being behind the base branch is what
-                holds Merge back. Every other state has none: checks running or
-                failing, a conflict, a draft, a stack parent, or the forge's own
-                block. `status` gives the reason there.
+                holds Merge back. A bot pull request that is behind also has its
+                rebase here whatever else holds Merge back (checks running or
+                failing, auto-merge armed), unless it conflicts, is a draft, is
+                stacked, or Merge is blocked with failing checks because their
+                runs wait for approval. Every other state has
+                none: checks running or failing on a pull request that is not a
+                behind bot one, a conflict, a draft, a stack parent, or the
+                forge's own block. `status` gives the reason there.
             blocked (AllowedActionBlocked | Unset): Present when the action is offered but can't be taken yet. Merge
                 is blocked rather than hidden while waiting or fixing something can
                 unlock it. An empty pull request, which nothing can unlock, has no
