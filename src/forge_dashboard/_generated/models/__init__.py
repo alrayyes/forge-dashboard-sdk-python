@@ -27,6 +27,7 @@ from .bot_request import BotRequest
 from .bot_request_action import BotRequestAction
 from .bot_request_bot import BotRequestBot
 from .bot_request_phase import BotRequestPhase
+from .cancel_run_request import CancelRunRequest
 from .check import Check
 from .check_counts import CheckCounts
 from .check_log import CheckLog
@@ -148,6 +149,7 @@ __all__ = (
     "BotRequestAction",
     "BotRequestBot",
     "BotRequestPhase",
+    "CancelRunRequest",
     "Check",
     "CheckCounts",
     "CheckLog",

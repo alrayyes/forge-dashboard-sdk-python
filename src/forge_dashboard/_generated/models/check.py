@@ -37,6 +37,18 @@ class Check:
             job_id (int | Unset): The Actions job (or check run) id to pass to GET /api/checks/log.
                 Absent for a legacy commit status and for a workflow held for
                 approval, which have no output to read.
+            run_id (int | Unset): The Actions workflow run this job belongs to, to pass to
+                `POST /api/checks/cancel-run`. Present only while the job is
+                queued or running, and only for an Actions job: a finished job,
+                a third-party check and a legacy commit status have none, and
+                nothing is left to cancel.
+
+                A Forgejo run whose jobs couldn't be read is listed as one check
+                named for the run, with a `runId` and no `jobId`. A client treats
+                a check with a `runId` and no `jobId` as the run itself, not as a
+                job of it, and doesn't list its name among the run's jobs.
+            run_name (str | Unset): The name of that workflow run, for a client to say which run a
+                cancel stops. Present with `runId`.
             required (bool | Unset): Whether the base branch's protection makes this check block the
                 merge (GitHub required status checks and rulesets, Forgejo
                 `status_check_contexts`). Absent when the forge can't tell — a
@@ -68,6 +80,8 @@ class Check:
     state: CheckState
     url: str
     job_id: int | Unset = UNSET
+    run_id: int | Unset = UNSET
+    run_name: str | Unset = UNSET
     required: bool | Unset = UNSET
     duration_seconds: int | Unset = UNSET
     run_attempt: int | Unset = UNSET
@@ -87,6 +101,10 @@ class Check:
         url = self.url
 
         job_id = self.job_id
+
+        run_id = self.run_id
+
+        run_name = self.run_name
 
         required = self.required
 
@@ -108,6 +126,10 @@ class Check:
         })
         if job_id is not UNSET:
             field_dict["jobId"] = job_id
+        if run_id is not UNSET:
+            field_dict["runId"] = run_id
+        if run_name is not UNSET:
+            field_dict["runName"] = run_name
         if required is not UNSET:
             field_dict["required"] = required
         if duration_seconds is not UNSET:
@@ -137,6 +159,10 @@ class Check:
 
         job_id = d.pop("jobId", UNSET)
 
+        run_id = d.pop("runId", UNSET)
+
+        run_name = d.pop("runName", UNSET)
+
         required = d.pop("required", UNSET)
 
         duration_seconds = d.pop("durationSeconds", UNSET)
@@ -152,6 +178,8 @@ class Check:
             state=state,
             url=url,
             job_id=job_id,
+            run_id=run_id,
+            run_name=run_name,
             required=required,
             duration_seconds=duration_seconds,
             run_attempt=run_attempt,
