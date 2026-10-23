@@ -31,10 +31,11 @@ class AdvisoryItem:
     """ One open Dependabot alert with the fields GitHub's alert page shows.
 
         Attributes:
-            number (int): The alert's number on the forge.
+            number (int): The alert's number on the forge. For Forgejo, the advisory's place in the list.
             state (str): The alert's state on the forge. Always "open" here.
             summary (str): The advisory's one-line title.
             severity (AdvisorySeverity | Unset): The worst severity among the open advisories. Absent when there are none.
+            id (str | Unset): The advisory's own id in the database that states it. Set for Forgejo.
             ghsa_id (str | Unset):
             cve_id (str | Unset):
             package (str | Unset): The vulnerable dependency's name.
@@ -59,6 +60,7 @@ class AdvisoryItem:
     state: str
     summary: str
     severity: AdvisorySeverity | Unset = UNSET
+    id: str | Unset = UNSET
     ghsa_id: str | Unset = UNSET
     cve_id: str | Unset = UNSET
     package: str | Unset = UNSET
@@ -95,6 +97,8 @@ class AdvisoryItem:
         if not isinstance(self.severity, Unset):
             severity = self.severity.value
 
+
+        id = self.id
 
         ghsa_id = self.ghsa_id
 
@@ -155,6 +159,8 @@ class AdvisoryItem:
         })
         if severity is not UNSET:
             field_dict["severity"] = severity
+        if id is not UNSET:
+            field_dict["id"] = id
         if ghsa_id is not UNSET:
             field_dict["ghsaId"] = ghsa_id
         if cve_id is not UNSET:
@@ -213,6 +219,8 @@ class AdvisoryItem:
 
 
 
+
+        id = d.pop("id", UNSET)
 
         ghsa_id = d.pop("ghsaId", UNSET)
 
@@ -286,6 +294,7 @@ class AdvisoryItem:
             state=state,
             summary=summary,
             severity=severity,
+            id=id,
             ghsa_id=ghsa_id,
             cve_id=cve_id,
             package=package,
