@@ -45,13 +45,16 @@ class AdvisoryList:
                 reads, and "failed" when one is too big or doesn't parse. A Forgejo
                 repository whose advisories have not been read yet, because its first
                 read is still running in the background, is "unknown" with no reason.
+            partial (bool | Unset): Set on a known Forgejo list that leaves out packages the dashboard may not send to OSV,
+                because they may be private. Absent otherwise.
             url (str | Unset): The repository's advisories page on the forge. Absent when none are open or the state is
-                unknown.
+                unknown, and for Forgejo, which has no page for a whole repository.
      """
 
     state: AdvisoryState
     advisories: list[AdvisoryItem]
     reason: AdvisoryReason | Unset = UNSET
+    partial: bool | Unset = UNSET
     url: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -75,6 +78,8 @@ class AdvisoryList:
             reason = self.reason.value
 
 
+        partial = self.partial
+
         url = self.url
 
 
@@ -86,6 +91,8 @@ class AdvisoryList:
         })
         if reason is not UNSET:
             field_dict["reason"] = reason
+        if partial is not UNSET:
+            field_dict["partial"] = partial
         if url is not UNSET:
             field_dict["url"] = url
 
@@ -122,12 +129,15 @@ class AdvisoryList:
 
 
 
+        partial = d.pop("partial", UNSET)
+
         url = d.pop("url", UNSET)
 
         advisory_list = cls(
             state=state,
             advisories=advisories,
             reason=reason,
+            partial=partial,
             url=url,
         )
 
