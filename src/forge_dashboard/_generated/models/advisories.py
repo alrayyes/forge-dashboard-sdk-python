@@ -49,7 +49,16 @@ class Advisories:
                 Forgejo repository, "not_enabled" is the operator not having switched
                 on lockfile checking (it is off by default, since it sends package
                 names to a third party), absent when it has no lockfile the dashboard
-                reads, and "failed" when one is too big or doesn't parse.
+                reads, and "failed" when one is too big or doesn't parse. A Forgejo
+                repository whose advisories have not been read yet, because its first
+                read is still running in the background, is "unknown" with no reason.
+            partial (bool | Unset): Only on a Forgejo repository whose `state` is "known": its lock
+                files list packages the dashboard leaves out because they are not
+                public (a private registry, a git or path source, a module on the
+                forge's own host), so `count` covers only the rest. Read it as
+                "at least this many", and a count of zero as "none found among
+                what was checked", not "none". Absent when the answer covers every
+                package the lock files list.
      """
 
     state: AdvisoryState
@@ -57,6 +66,7 @@ class Advisories:
     highest: AdvisorySeverity | Unset = UNSET
     url: str | Unset = UNSET
     reason: AdvisoryReason | Unset = UNSET
+    partial: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -80,6 +90,8 @@ class Advisories:
             reason = self.reason.value
 
 
+        partial = self.partial
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -93,6 +105,8 @@ class Advisories:
             field_dict["url"] = url
         if reason is not UNSET:
             field_dict["reason"] = reason
+        if partial is not UNSET:
+            field_dict["partial"] = partial
 
         return field_dict
 
@@ -130,12 +144,15 @@ class Advisories:
 
 
 
+        partial = d.pop("partial", UNSET)
+
         advisories = cls(
             state=state,
             count=count,
             highest=highest,
             url=url,
             reason=reason,
+            partial=partial,
         )
 
 
