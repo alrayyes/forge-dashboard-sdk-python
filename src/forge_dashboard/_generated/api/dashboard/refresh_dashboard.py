@@ -98,7 +98,7 @@ def sync_detailed(
     briefly unreachable, instead of waiting for the next scheduled
     background refresh.
 
-    The server holds a five-second cooldown per user, so this can't
+    The server holds a five-second cooldown, so this can't
     be used to hammer a forge's API budget. A call inside that
     window does not fetch: it answers 200 with the current snapshot
     and a `Retry-After` header carrying the seconds left. Never a
@@ -152,7 +152,7 @@ def sync(
     briefly unreachable, instead of waiting for the next scheduled
     background refresh.
 
-    The server holds a five-second cooldown per user, so this can't
+    The server holds a five-second cooldown, so this can't
     be used to hammer a forge's API budget. A call inside that
     window does not fetch: it answers 200 with the current snapshot
     and a `Retry-After` header carrying the seconds left. Never a
@@ -201,7 +201,7 @@ async def asyncio_detailed(
     briefly unreachable, instead of waiting for the next scheduled
     background refresh.
 
-    The server holds a five-second cooldown per user, so this can't
+    The server holds a five-second cooldown, so this can't
     be used to hammer a forge's API budget. A call inside that
     window does not fetch: it answers 200 with the current snapshot
     and a `Retry-After` header carrying the seconds left. Never a
@@ -255,7 +255,7 @@ async def asyncio(
     briefly unreachable, instead of waiting for the next scheduled
     background refresh.
 
-    The server holds a five-second cooldown per user, so this can't
+    The server holds a five-second cooldown, so this can't
     be used to hammer a forge's API budget. A call inside that
     window does not fetch: it answers 200 with the current snapshot
     and a `Retry-After` header carrying the seconds left. Never a
