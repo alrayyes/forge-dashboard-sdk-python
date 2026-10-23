@@ -11,6 +11,7 @@ from ... import errors
 from ...models.check_log import CheckLog
 from ...models.error import Error
 from ...models.forge import Forge
+from ...types import UNSET, Unset
 from typing import cast
 
 
@@ -20,6 +21,7 @@ def _get_kwargs(
     forge: Forge,
     full_name: str,
     job_id: int,
+    excerpt: bool | Unset = False,
 
 ) -> dict[str, Any]:
     
@@ -34,6 +36,8 @@ def _get_kwargs(
     params["fullName"] = full_name
 
     params["jobId"] = job_id
+
+    params["excerpt"] = excerpt
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -128,6 +132,7 @@ def sync_detailed(
     forge: Forge,
     full_name: str,
     job_id: int,
+    excerpt: bool | Unset = False,
 
 ) -> Response[CheckLog | Error]:
     """ Read the output of one CI job, on demand
@@ -149,10 +154,23 @@ def sync_detailed(
     expired, or the check may not be an Actions job at all. Those answer 403
     or 404 with a sentence a person can read.
 
+    With `excerpt=true` the answer is the failed job's excerpt instead: `text`
+    holds the last lines of the log with per-line timestamps and colour codes
+    removed, at most 2,000 characters, and `truncated` is always false (an
+    excerpt is a fixed-size tail, not a cut of what was asked for). Only
+    Forgejo serves it; GitHub fills a check's `excerpt` itself when the
+    checks are listed. A job whose log is gone or empty answers 200 with
+    empty `text`, so a client can show the check without it. A job's excerpt
+    is read once and kept once it finished, so asking again costs no
+    request to the forge. A client asks for the few failed jobs it is about
+    to show (the panel asks for the newest five), not for every job of a
+    list.
+
     Args:
         forge (Forge):
         full_name (str):
         job_id (int):
+        excerpt (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -167,6 +185,7 @@ def sync_detailed(
         forge=forge,
 full_name=full_name,
 job_id=job_id,
+excerpt=excerpt,
 
     )
 
@@ -182,6 +201,7 @@ def sync(
     forge: Forge,
     full_name: str,
     job_id: int,
+    excerpt: bool | Unset = False,
 
 ) -> CheckLog | Error | None:
     """ Read the output of one CI job, on demand
@@ -203,10 +223,23 @@ def sync(
     expired, or the check may not be an Actions job at all. Those answer 403
     or 404 with a sentence a person can read.
 
+    With `excerpt=true` the answer is the failed job's excerpt instead: `text`
+    holds the last lines of the log with per-line timestamps and colour codes
+    removed, at most 2,000 characters, and `truncated` is always false (an
+    excerpt is a fixed-size tail, not a cut of what was asked for). Only
+    Forgejo serves it; GitHub fills a check's `excerpt` itself when the
+    checks are listed. A job whose log is gone or empty answers 200 with
+    empty `text`, so a client can show the check without it. A job's excerpt
+    is read once and kept once it finished, so asking again costs no
+    request to the forge. A client asks for the few failed jobs it is about
+    to show (the panel asks for the newest five), not for every job of a
+    list.
+
     Args:
         forge (Forge):
         full_name (str):
         job_id (int):
+        excerpt (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -222,6 +255,7 @@ def sync(
 forge=forge,
 full_name=full_name,
 job_id=job_id,
+excerpt=excerpt,
 
     ).parsed
 
@@ -231,6 +265,7 @@ async def asyncio_detailed(
     forge: Forge,
     full_name: str,
     job_id: int,
+    excerpt: bool | Unset = False,
 
 ) -> Response[CheckLog | Error]:
     """ Read the output of one CI job, on demand
@@ -252,10 +287,23 @@ async def asyncio_detailed(
     expired, or the check may not be an Actions job at all. Those answer 403
     or 404 with a sentence a person can read.
 
+    With `excerpt=true` the answer is the failed job's excerpt instead: `text`
+    holds the last lines of the log with per-line timestamps and colour codes
+    removed, at most 2,000 characters, and `truncated` is always false (an
+    excerpt is a fixed-size tail, not a cut of what was asked for). Only
+    Forgejo serves it; GitHub fills a check's `excerpt` itself when the
+    checks are listed. A job whose log is gone or empty answers 200 with
+    empty `text`, so a client can show the check without it. A job's excerpt
+    is read once and kept once it finished, so asking again costs no
+    request to the forge. A client asks for the few failed jobs it is about
+    to show (the panel asks for the newest five), not for every job of a
+    list.
+
     Args:
         forge (Forge):
         full_name (str):
         job_id (int):
+        excerpt (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -270,6 +318,7 @@ async def asyncio_detailed(
         forge=forge,
 full_name=full_name,
 job_id=job_id,
+excerpt=excerpt,
 
     )
 
@@ -285,6 +334,7 @@ async def asyncio(
     forge: Forge,
     full_name: str,
     job_id: int,
+    excerpt: bool | Unset = False,
 
 ) -> CheckLog | Error | None:
     """ Read the output of one CI job, on demand
@@ -306,10 +356,23 @@ async def asyncio(
     expired, or the check may not be an Actions job at all. Those answer 403
     or 404 with a sentence a person can read.
 
+    With `excerpt=true` the answer is the failed job's excerpt instead: `text`
+    holds the last lines of the log with per-line timestamps and colour codes
+    removed, at most 2,000 characters, and `truncated` is always false (an
+    excerpt is a fixed-size tail, not a cut of what was asked for). Only
+    Forgejo serves it; GitHub fills a check's `excerpt` itself when the
+    checks are listed. A job whose log is gone or empty answers 200 with
+    empty `text`, so a client can show the check without it. A job's excerpt
+    is read once and kept once it finished, so asking again costs no
+    request to the forge. A client asks for the few failed jobs it is about
+    to show (the panel asks for the newest five), not for every job of a
+    list.
+
     Args:
         forge (Forge):
         full_name (str):
         job_id (int):
+        excerpt (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -325,5 +388,6 @@ async def asyncio(
 forge=forge,
 full_name=full_name,
 job_id=job_id,
+excerpt=excerpt,
 
     )).parsed
