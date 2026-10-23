@@ -3,9 +3,14 @@
 from .action_error import ActionError
 from .action_error_code import ActionErrorCode
 from .advisories import Advisories
+from .advisory_cvss import AdvisoryCVSS
+from .advisory_epss import AdvisoryEPSS
+from .advisory_item import AdvisoryItem
+from .advisory_list import AdvisoryList
 from .advisory_reason import AdvisoryReason
 from .advisory_severity import AdvisorySeverity
 from .advisory_state import AdvisoryState
+from .advisory_weakness import AdvisoryWeakness
 from .allowed_action import AllowedAction
 from .allowed_action_blocked import AllowedActionBlocked
 from .api_token import APIToken
@@ -119,9 +124,14 @@ __all__ = (
     "ActionError",
     "ActionErrorCode",
     "Advisories",
+    "AdvisoryCVSS",
+    "AdvisoryEPSS",
+    "AdvisoryItem",
+    "AdvisoryList",
     "AdvisoryReason",
     "AdvisorySeverity",
     "AdvisoryState",
+    "AdvisoryWeakness",
     "AllowedAction",
     "AllowedActionBlocked",
     "APIToken",
