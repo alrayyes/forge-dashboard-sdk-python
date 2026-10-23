@@ -143,6 +143,9 @@ def sync_detailed(
     render it with raw HTML disabled. A field GitHub didn't send is left
     out.
 
+    The same answer is the `get_repository_advisories` tool, over MCP and
+    WebMCP.
+
     Args:
         forge (Forge):
         full_name (str):
@@ -199,6 +202,9 @@ def sync(
     render it with raw HTML disabled. A field GitHub didn't send is left
     out.
 
+    The same answer is the `get_repository_advisories` tool, over MCP and
+    WebMCP.
+
     Args:
         forge (Forge):
         full_name (str):
@@ -249,6 +255,9 @@ async def asyncio_detailed(
     `description` is Markdown exactly as GitHub stores it, so a client must
     render it with raw HTML disabled. A field GitHub didn't send is left
     out.
+
+    The same answer is the `get_repository_advisories` tool, over MCP and
+    WebMCP.
 
     Args:
         forge (Forge):
@@ -305,6 +314,9 @@ async def asyncio(
     `description` is Markdown exactly as GitHub stores it, so a client must
     render it with raw HTML disabled. A field GitHub didn't send is left
     out.
+
+    The same answer is the `get_repository_advisories` tool, over MCP and
+    WebMCP.
 
     Args:
         forge (Forge):
