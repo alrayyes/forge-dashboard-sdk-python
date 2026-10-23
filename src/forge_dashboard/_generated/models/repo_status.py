@@ -100,6 +100,13 @@ class RepoStatus:
                 pull requests and issues are then the last good ones. Absent
                 when the repository is fetching fine. It is not saved, so it
                 restarts from the first failure after a restart.
+            failing_for_good (bool | Unset): Present and true when failingSince is older than the cutoff the
+                refresh schedule uses for a repository that keeps failing, a
+                fixed multiple of the refresh interval. Retrying has not helped
+                by then. The server works this out when it builds the response,
+                so a client shows it without doing the arithmetic, and a
+                repository crosses the cutoff in what the client sees at the
+                next refresh. Absent otherwise.
      """
 
     forge: Forge
@@ -115,6 +122,7 @@ class RepoStatus:
     webhook_locked_by_connection: bool | Unset = UNSET
     webhook_needs_token: bool | Unset = UNSET
     failing_since: datetime.datetime | Unset = UNSET
+    failing_for_good: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -150,6 +158,8 @@ class RepoStatus:
         if not isinstance(self.failing_since, Unset):
             failing_since = self.failing_since.isoformat()
 
+        failing_for_good = self.failing_for_good
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -172,6 +182,8 @@ class RepoStatus:
             field_dict["webhookNeedsToken"] = webhook_needs_token
         if failing_since is not UNSET:
             field_dict["failingSince"] = failing_since
+        if failing_for_good is not UNSET:
+            field_dict["failingForGood"] = failing_for_good
 
         return field_dict
 
@@ -217,6 +229,8 @@ class RepoStatus:
 
 
 
+        failing_for_good = d.pop("failingForGood", UNSET)
+
         repo_status = cls(
             forge=forge,
             full_name=full_name,
@@ -231,6 +245,7 @@ class RepoStatus:
             webhook_locked_by_connection=webhook_locked_by_connection,
             webhook_needs_token=webhook_needs_token,
             failing_since=failing_since,
+            failing_for_good=failing_for_good,
         )
 
 
