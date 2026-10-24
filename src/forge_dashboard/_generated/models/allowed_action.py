@@ -59,11 +59,15 @@ class AllowedAction:
                 is blocked rather than hidden while waiting or fixing something can
                 unlock it. An empty pull request, which nothing can unlock, has no
                 `merge` entry at all: see `status`.
-                `renovate_rebase` is blocked with `already_requested` while
+                A request that is already waiting is never listed blocked. While
                 Renovate's rebase checkbox in the pull request description is
-                ticked, whether it was ticked from this app or on the forge: one
-                rebase is already waiting for Renovate, and it is offered again
-                once Renovate has rebased and cleared the box.
+                ticked, whether from this app or on the forge, `renovate_rebase`
+                is absent and `cancel_renovate_rebase` is listed instead. A
+                Renovate rebase asked for through this app with no checkbox
+                behind it, and a Dependabot rebase or recreate that is pending,
+                list neither request nor cancel: Dependabot has no command to
+                withdraw one. The request is offered again once the bot has
+                acted or the request has expired.
      """
 
     action: str
