@@ -49,6 +49,9 @@ class Check:
                 job of it, and doesn't list its name among the run's jobs.
             run_name (str | Unset): The name of that workflow run, for a client to say which run a
                 cancel stops. Present with `runId`.
+            run_number (int | Unset): The forge's own number for that run, the one in the run's page
+                address. It tells two runs of one workflow apart. Present with
+                `runId` when the forge says it.
             required (bool | Unset): Whether the base branch's protection makes this check block the
                 merge (GitHub required status checks and rulesets, Forgejo
                 `status_check_contexts`). Absent when the forge can't tell — a
@@ -82,6 +85,7 @@ class Check:
     job_id: int | Unset = UNSET
     run_id: int | Unset = UNSET
     run_name: str | Unset = UNSET
+    run_number: int | Unset = UNSET
     required: bool | Unset = UNSET
     duration_seconds: int | Unset = UNSET
     run_attempt: int | Unset = UNSET
@@ -105,6 +109,8 @@ class Check:
         run_id = self.run_id
 
         run_name = self.run_name
+
+        run_number = self.run_number
 
         required = self.required
 
@@ -130,6 +136,8 @@ class Check:
             field_dict["runId"] = run_id
         if run_name is not UNSET:
             field_dict["runName"] = run_name
+        if run_number is not UNSET:
+            field_dict["runNumber"] = run_number
         if required is not UNSET:
             field_dict["required"] = required
         if duration_seconds is not UNSET:
@@ -163,6 +171,8 @@ class Check:
 
         run_name = d.pop("runName", UNSET)
 
+        run_number = d.pop("runNumber", UNSET)
+
         required = d.pop("required", UNSET)
 
         duration_seconds = d.pop("durationSeconds", UNSET)
@@ -180,6 +190,7 @@ class Check:
             job_id=job_id,
             run_id=run_id,
             run_name=run_name,
+            run_number=run_number,
             required=required,
             duration_seconds=duration_seconds,
             run_attempt=run_attempt,
