@@ -29,7 +29,8 @@ class Credential:
 
         Attributes:
             id (str): This passkey's own credential ID (base64url), distinct from the account's user ID.
-            label (str): The name given at registration time, so a list of several is tellable apart.
+            label (str): The passkey's name, given at registration and changeable with `PATCH /api/auth/credentials/{id}`.
+                Empty when it was never named; clients then fall back to `createdAt`.
             created_at (datetime.datetime):
      """
 

@@ -96,6 +96,7 @@ from .receive_forgejo_webhook_body import ReceiveForgejoWebhookBody
 from .receive_git_hub_webhook_body import ReceiveGitHubWebhookBody
 from .registration_status import RegistrationStatus
 from .release_details import ReleaseDetails
+from .rename_credential_request import RenameCredentialRequest
 from .repo_ignore_request import RepoIgnoreRequest
 from .repo_status import RepoStatus
 from .review_state import ReviewState
@@ -217,6 +218,7 @@ __all__ = (
     "ReceiveGitHubWebhookBody",
     "RegistrationStatus",
     "ReleaseDetails",
+    "RenameCredentialRequest",
     "RepoIgnoreRequest",
     "RepoStatus",
     "ReviewState",
