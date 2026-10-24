@@ -135,7 +135,7 @@ def sync_detailed(
     passed but waits on a failed one goes again too. Forgejo
     gained the rerun routes in version 17; an older instance answers 409
     with a plain sentence and sends no rerun request to the forge (the
-    pull request and its runs are still looked up first), and says so up
+    version is checked before the pull request or its runs are looked up), and says so up
     front in `ForgeHealth.rerunChecksBlocked`. `rerun_checks` still
     appears in `allowedActions` for such a Forgejo: a caller learns of
     the block from that health entry or from the 409. The block is per
@@ -146,6 +146,13 @@ def sync_detailed(
     means the pull request has no failed check to rerun. Anything the
     forge refuses (the token may not write to Actions, the run is too
     old or already running) arrives with its own plain-words `message`.
+    Jobs are rerun one request at a time, so a refusal can come after
+    earlier jobs restarted; the `message` then ends with which jobs
+    restarted and which did not. When the version could not be read the
+    forge decides, and a 404 from it reads "The forge couldn't find that
+    run or job. It may not support rerunning checks from here, or the
+    token can't see this repository." That sentence names no forge or
+    version, because a 404 can mean either.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
@@ -195,7 +202,7 @@ def sync(
     passed but waits on a failed one goes again too. Forgejo
     gained the rerun routes in version 17; an older instance answers 409
     with a plain sentence and sends no rerun request to the forge (the
-    pull request and its runs are still looked up first), and says so up
+    version is checked before the pull request or its runs are looked up), and says so up
     front in `ForgeHealth.rerunChecksBlocked`. `rerun_checks` still
     appears in `allowedActions` for such a Forgejo: a caller learns of
     the block from that health entry or from the 409. The block is per
@@ -206,6 +213,13 @@ def sync(
     means the pull request has no failed check to rerun. Anything the
     forge refuses (the token may not write to Actions, the run is too
     old or already running) arrives with its own plain-words `message`.
+    Jobs are rerun one request at a time, so a refusal can come after
+    earlier jobs restarted; the `message` then ends with which jobs
+    restarted and which did not. When the version could not be read the
+    forge decides, and a 404 from it reads "The forge couldn't find that
+    run or job. It may not support rerunning checks from here, or the
+    token can't see this repository." That sentence names no forge or
+    version, because a 404 can mean either.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
@@ -250,7 +264,7 @@ async def asyncio_detailed(
     passed but waits on a failed one goes again too. Forgejo
     gained the rerun routes in version 17; an older instance answers 409
     with a plain sentence and sends no rerun request to the forge (the
-    pull request and its runs are still looked up first), and says so up
+    version is checked before the pull request or its runs are looked up), and says so up
     front in `ForgeHealth.rerunChecksBlocked`. `rerun_checks` still
     appears in `allowedActions` for such a Forgejo: a caller learns of
     the block from that health entry or from the 409. The block is per
@@ -261,6 +275,13 @@ async def asyncio_detailed(
     means the pull request has no failed check to rerun. Anything the
     forge refuses (the token may not write to Actions, the run is too
     old or already running) arrives with its own plain-words `message`.
+    Jobs are rerun one request at a time, so a refusal can come after
+    earlier jobs restarted; the `message` then ends with which jobs
+    restarted and which did not. When the version could not be read the
+    forge decides, and a 404 from it reads "The forge couldn't find that
+    run or job. It may not support rerunning checks from here, or the
+    token can't see this repository." That sentence names no forge or
+    version, because a 404 can mean either.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
@@ -310,7 +331,7 @@ async def asyncio(
     passed but waits on a failed one goes again too. Forgejo
     gained the rerun routes in version 17; an older instance answers 409
     with a plain sentence and sends no rerun request to the forge (the
-    pull request and its runs are still looked up first), and says so up
+    version is checked before the pull request or its runs are looked up), and says so up
     front in `ForgeHealth.rerunChecksBlocked`. `rerun_checks` still
     appears in `allowedActions` for such a Forgejo: a caller learns of
     the block from that health entry or from the 409. The block is per
@@ -321,6 +342,13 @@ async def asyncio(
     means the pull request has no failed check to rerun. Anything the
     forge refuses (the token may not write to Actions, the run is too
     old or already running) arrives with its own plain-words `message`.
+    Jobs are rerun one request at a time, so a refusal can come after
+    earlier jobs restarted; the `message` then ends with which jobs
+    restarted and which did not. When the version could not be read the
+    forge decides, and a 404 from it reads "The forge couldn't find that
+    run or job. It may not support rerunning checks from here, or the
+    token can't see this repository." That sentence names no forge or
+    version, because a 404 can mean either.
 
     Args:
         body (PullRequestActionRequest): Which pull request to act on.
