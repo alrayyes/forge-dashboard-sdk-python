@@ -129,7 +129,10 @@ def sync_detailed(
     an external CI) can't be rerun here and is skipped. Refusals are an
     `ActionError`; a 409 means the branch has no failed job to rerun, or
     that the forge is a Forgejo older than version 17, which has no rerun
-    route (`ForgeHealth.rerunChecksBlocked` says so beforehand).
+    route (`ForgeHealth.rerunChecksBlocked` says so beforehand). On
+    Forgejo the version is checked before the runs are looked up, as for a
+    pull request, and a refusal that comes after some jobs restarted ends
+    with which jobs restarted and which did not.
 
     Args:
         body (MainBranchRerunRequest): Which repository's default branch to rerun the failed
@@ -174,7 +177,10 @@ def sync(
     an external CI) can't be rerun here and is skipped. Refusals are an
     `ActionError`; a 409 means the branch has no failed job to rerun, or
     that the forge is a Forgejo older than version 17, which has no rerun
-    route (`ForgeHealth.rerunChecksBlocked` says so beforehand).
+    route (`ForgeHealth.rerunChecksBlocked` says so beforehand). On
+    Forgejo the version is checked before the runs are looked up, as for a
+    pull request, and a refusal that comes after some jobs restarted ends
+    with which jobs restarted and which did not.
 
     Args:
         body (MainBranchRerunRequest): Which repository's default branch to rerun the failed
@@ -214,7 +220,10 @@ async def asyncio_detailed(
     an external CI) can't be rerun here and is skipped. Refusals are an
     `ActionError`; a 409 means the branch has no failed job to rerun, or
     that the forge is a Forgejo older than version 17, which has no rerun
-    route (`ForgeHealth.rerunChecksBlocked` says so beforehand).
+    route (`ForgeHealth.rerunChecksBlocked` says so beforehand). On
+    Forgejo the version is checked before the runs are looked up, as for a
+    pull request, and a refusal that comes after some jobs restarted ends
+    with which jobs restarted and which did not.
 
     Args:
         body (MainBranchRerunRequest): Which repository's default branch to rerun the failed
@@ -259,7 +268,10 @@ async def asyncio(
     an external CI) can't be rerun here and is skipped. Refusals are an
     `ActionError`; a 409 means the branch has no failed job to rerun, or
     that the forge is a Forgejo older than version 17, which has no rerun
-    route (`ForgeHealth.rerunChecksBlocked` says so beforehand).
+    route (`ForgeHealth.rerunChecksBlocked` says so beforehand). On
+    Forgejo the version is checked before the runs are looked up, as for a
+    pull request, and a refusal that comes after some jobs restarted ends
+    with which jobs restarted and which did not.
 
     Args:
         body (MainBranchRerunRequest): Which repository's default branch to rerun the failed
