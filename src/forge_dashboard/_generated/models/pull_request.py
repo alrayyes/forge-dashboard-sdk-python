@@ -24,6 +24,7 @@ if TYPE_CHECKING:
   from ..models.check_counts import CheckCounts
   from ..models.closing_issue import ClosingIssue
   from ..models.label import Label
+  from ..models.mentioned_issue import MentionedIssue
   from ..models.pull_request_status import PullRequestStatus
   from ..models.queued_action import QueuedAction
   from ..models.review_state import ReviewState
@@ -201,6 +202,27 @@ class PullRequest:
                 Forgejo's source and has not been tried on a live instance. Only a
                 pull request aimed at its repo's default branch closes anything,
                 so one aimed elsewhere always lists none.
+            mentions_issues (list[MentionedIssue]): The issues and pull requests the title or description mentions
+                without closing them, in order of first appearance and without
+                repeats, at most 20. Always present, and empty when there are none.
+                A mention is what GitHub and Forgejo both link: `#NUMBER`,
+                `owner/repo#NUMBER`, or the address of an issue or pull request
+                page on the forge, and on GitHub also `GH-NUMBER`. It has to stand
+                alone: `abc#1`, `&#1` and `#1abc` are not mentions, while emphasis
+                and table markup around it (`**#1**`, `_#1_`, `|#1|`) is fine. Code,
+                HTML comments and the text of a link, Markdown or HTML anchor,
+                count for nothing, and a link counts only by its target, when that
+                is a page on the forge. Only the first 64 KiB of the description is
+                read, cut at a space, and the first 100 references in it. A reference in a quotation still counts, and the pull
+                request's own number does not. What the pull request actually
+                closes is left out, even when the text also mentions it, and the
+                cap applies after that. Which references close depends on the
+                branch the pull request aims at, so a closing keyword on a pull
+                request that does not target the default branch is a mention. Only
+                the description closes, so a keyword in the title is a mention.
+                Comments, reviews and commit messages are not read. The server
+                reads the text on both forges, with or without a GitHub token, so a
+                client needs no rule of its own.
             unresolved_threads (int | None): How many review threads are still open, or null when the forge
                 can't say. GitHub reports it from its review threads, except in the
                 unauthenticated fallback, which has none. Forgejo reports no
@@ -350,6 +372,7 @@ class PullRequest:
     review_comments: int
     conversation_comments: int
     closes_issues: list[ClosingIssue]
+    mentions_issues: list[MentionedIssue]
     unresolved_threads: int | None
     review_requested_from_me: bool
     empty: bool
@@ -383,6 +406,7 @@ class PullRequest:
         from ..models.check_counts import CheckCounts # noqa: PLC0415
         from ..models.closing_issue import ClosingIssue # noqa: PLC0415
         from ..models.label import Label # noqa: PLC0415
+        from ..models.mentioned_issue import MentionedIssue # noqa: PLC0415
         from ..models.pull_request_status import PullRequestStatus # noqa: PLC0415
         from ..models.queued_action import QueuedAction # noqa: PLC0415
         from ..models.review_state import ReviewState # noqa: PLC0415
@@ -466,6 +490,13 @@ class PullRequest:
         for closes_issues_item_data in self.closes_issues:
             closes_issues_item = closes_issues_item_data.to_dict()
             closes_issues.append(closes_issues_item)
+
+
+
+        mentions_issues = []
+        for mentions_issues_item_data in self.mentions_issues:
+            mentions_issues_item = mentions_issues_item_data.to_dict()
+            mentions_issues.append(mentions_issues_item)
 
 
 
@@ -574,6 +605,7 @@ class PullRequest:
             "reviewComments": review_comments,
             "conversationComments": conversation_comments,
             "closesIssues": closes_issues,
+            "mentionsIssues": mentions_issues,
             "unresolvedThreads": unresolved_threads,
             "reviewRequestedFromMe": review_requested_from_me,
             "empty": empty,
@@ -618,6 +650,7 @@ class PullRequest:
         from ..models.check_counts import CheckCounts # noqa: PLC0415
         from ..models.closing_issue import ClosingIssue # noqa: PLC0415
         from ..models.label import Label # noqa: PLC0415
+        from ..models.mentioned_issue import MentionedIssue # noqa: PLC0415
         from ..models.pull_request_status import PullRequestStatus # noqa: PLC0415
         from ..models.queued_action import QueuedAction # noqa: PLC0415
         from ..models.review_state import ReviewState # noqa: PLC0415
@@ -752,6 +785,16 @@ class PullRequest:
 
 
             closes_issues.append(closes_issues_item)
+
+
+        mentions_issues = []
+        _mentions_issues = d.pop("mentionsIssues")
+        for mentions_issues_item_data in (_mentions_issues):
+            mentions_issues_item = MentionedIssue.from_dict(mentions_issues_item_data)
+
+
+
+            mentions_issues.append(mentions_issues_item)
 
 
         def _parse_unresolved_threads(data: object) -> int | None:
@@ -933,6 +976,7 @@ class PullRequest:
             review_comments=review_comments,
             conversation_comments=conversation_comments,
             closes_issues=closes_issues,
+            mentions_issues=mentions_issues,
             unresolved_threads=unresolved_threads,
             review_requested_from_me=review_requested_from_me,
             empty=empty,
