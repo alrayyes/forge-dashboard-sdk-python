@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.0.24](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v5.0.23...v5.0.24) (2026-10-24)
+
+
+### Bug Fixes
+
+* bump filelock ([#365](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/365)) ([27fcc13](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/27fcc1308971502c0beaea37b53807d8e8684eb5))
+* bump mkdocstrings[python] from 1.0.7 to 1.0.8 ([#361](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/361)) ([cc83031](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/cc830311e8a3ef50d6f080756b83066ebe56900f))
+* bump ruff from 0.17.0 to 0.17.1 ([#364](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/364)) ([3158a51](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/3158a51d0a1688ed600d1c79640a2f455c569046))
+* regenerate client from updated forge-dashboard spec ([#366](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/366)) ([50ec043](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/50ec0435554442052971328a7f0a9894d340dd9a))
+
 ## [5.0.23](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v5.0.22...v5.0.23) (2026-10-23)
 
 
