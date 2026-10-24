@@ -42,6 +42,13 @@ class Issue:
                 user could see, including a draft and one they hid, but not one in
                 a repository whose pull requests they ignore. A pull request that
                 merged or closed is gone from the list on the next refresh.
+            mentioned_by_pull_requests (list[LinkedPullRequest]): The open pull requests that mention the issue without
+                closing it,
+                the other side of a pull request's `mentionsIssues`, ordered by
+                repository and number and with the same entry as
+                `linkedPullRequests`. A pull request that closes the issue is only
+                in `linkedPullRequests`. Always present, and empty when there are
+                none. The pull requests counted are the same as in `linkedPullRequests`.
             housekeeping (bool): True for an issue a bot keeps open and rewrites, Renovate's
                 "Dependency Dashboard", which is not work for a person. The
                 server decides, so every client lists and counts the same
@@ -64,6 +71,7 @@ class Issue:
     title: str
     url: str
     linked_pull_requests: list[LinkedPullRequest]
+    mentioned_by_pull_requests: list[LinkedPullRequest]
     housekeeping: bool
     author: str
     author_avatar_url: str
@@ -97,6 +105,13 @@ class Issue:
 
 
 
+        mentioned_by_pull_requests = []
+        for mentioned_by_pull_requests_item_data in self.mentioned_by_pull_requests:
+            mentioned_by_pull_requests_item = mentioned_by_pull_requests_item_data.to_dict()
+            mentioned_by_pull_requests.append(mentioned_by_pull_requests_item)
+
+
+
         housekeeping = self.housekeeping
 
         author = self.author
@@ -126,6 +141,7 @@ class Issue:
             "title": title,
             "url": url,
             "linkedPullRequests": linked_pull_requests,
+            "mentionedByPullRequests": mentioned_by_pull_requests,
             "housekeeping": housekeeping,
             "author": author,
             "authorAvatarUrl": author_avatar_url,
@@ -167,6 +183,16 @@ class Issue:
             linked_pull_requests.append(linked_pull_requests_item)
 
 
+        mentioned_by_pull_requests = []
+        _mentioned_by_pull_requests = d.pop("mentionedByPullRequests")
+        for mentioned_by_pull_requests_item_data in (_mentioned_by_pull_requests):
+            mentioned_by_pull_requests_item = LinkedPullRequest.from_dict(mentioned_by_pull_requests_item_data)
+
+
+
+            mentioned_by_pull_requests.append(mentioned_by_pull_requests_item)
+
+
         housekeeping = d.pop("housekeeping")
 
         author = d.pop("author")
@@ -202,6 +228,7 @@ class Issue:
             title=title,
             url=url,
             linked_pull_requests=linked_pull_requests,
+            mentioned_by_pull_requests=mentioned_by_pull_requests,
             housekeeping=housekeeping,
             author=author,
             author_avatar_url=author_avatar_url,

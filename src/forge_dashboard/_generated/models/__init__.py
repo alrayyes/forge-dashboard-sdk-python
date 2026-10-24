@@ -64,6 +64,7 @@ from .main_branch_release import MainBranchRelease
 from .main_branch_rerun_request import MainBranchRerunRequest
 from .main_branch_status import MainBranchStatus
 from .main_branches import MainBranches
+from .mentioned_issue import MentionedIssue
 from .merge_status import MergeStatus
 from .nav_count import NavCount
 from .nav_counts import NavCounts
@@ -186,6 +187,7 @@ __all__ = (
     "MainBranchRelease",
     "MainBranchRerunRequest",
     "MainBranchStatus",
+    "MentionedIssue",
     "MergeStatus",
     "NavCount",
     "NavCounts",
