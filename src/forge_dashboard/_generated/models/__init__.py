@@ -56,7 +56,6 @@ from .issue_details import IssueDetails
 from .issue_details_state import IssueDetailsState
 from .label import Label
 from .linked_pull_request import LinkedPullRequest
-from .login_begin_request import LoginBeginRequest
 from .main_branch import MainBranch
 from .main_branch_commit import MainBranchCommit
 from .main_branch_counts import MainBranchCounts
@@ -95,7 +94,6 @@ from .reactions import Reactions
 from .ready import Ready
 from .receive_forgejo_webhook_body import ReceiveForgejoWebhookBody
 from .receive_git_hub_webhook_body import ReceiveGitHubWebhookBody
-from .register_begin_request import RegisterBeginRequest
 from .registration_status import RegistrationStatus
 from .release_details import ReleaseDetails
 from .repo_ignore_request import RepoIgnoreRequest
@@ -179,7 +177,6 @@ __all__ = (
     "IssueDetailsState",
     "Label",
     "LinkedPullRequest",
-    "LoginBeginRequest",
     "MainBranch",
     "MainBranchCommit",
     "MainBranchCounts",
@@ -218,7 +215,6 @@ __all__ = (
     "Ready",
     "ReceiveForgejoWebhookBody",
     "ReceiveGitHubWebhookBody",
-    "RegisterBeginRequest",
     "RegistrationStatus",
     "ReleaseDetails",
     "RepoIgnoreRequest",

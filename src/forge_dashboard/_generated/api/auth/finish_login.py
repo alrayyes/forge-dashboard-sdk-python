@@ -18,7 +18,6 @@ from typing import cast
 def _get_kwargs(
     *,
     body: WebAuthnCeremonyOptions,
-    username: str,
 
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
@@ -26,18 +25,11 @@ def _get_kwargs(
 
     
 
-    params: dict[str, Any] = {}
-
-    params["username"] = username
-
-
-    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
-
+    
 
     _kwargs: dict[str, Any] = {
         "method": "post",
         "url": "/api/auth/login/finish",
-        "params": params,
     }
 
     _kwargs["json"] = body.to_dict()
@@ -83,13 +75,11 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: WebAuthnCeremonyOptions,
-    username: str,
 
 ) -> Response[Error | SessionUser]:
     """ Complete a passkey login ceremony
 
     Args:
-        username (str):
         body (WebAuthnCeremonyOptions): The WebAuthn specification's own JSON shape for
             `PublicKeyCredentialCreationOptions`/`PublicKeyCredentialRequestOptions`
             (the begin responses) and `PublicKeyCredential`
@@ -108,7 +98,6 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         body=body,
-username=username,
 
     )
 
@@ -122,13 +111,11 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     body: WebAuthnCeremonyOptions,
-    username: str,
 
 ) -> Error | SessionUser | None:
     """ Complete a passkey login ceremony
 
     Args:
-        username (str):
         body (WebAuthnCeremonyOptions): The WebAuthn specification's own JSON shape for
             `PublicKeyCredentialCreationOptions`/`PublicKeyCredentialRequestOptions`
             (the begin responses) and `PublicKeyCredential`
@@ -148,7 +135,6 @@ def sync(
     return sync_detailed(
         client=client,
 body=body,
-username=username,
 
     ).parsed
 
@@ -156,13 +142,11 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: WebAuthnCeremonyOptions,
-    username: str,
 
 ) -> Response[Error | SessionUser]:
     """ Complete a passkey login ceremony
 
     Args:
-        username (str):
         body (WebAuthnCeremonyOptions): The WebAuthn specification's own JSON shape for
             `PublicKeyCredentialCreationOptions`/`PublicKeyCredentialRequestOptions`
             (the begin responses) and `PublicKeyCredential`
@@ -181,7 +165,6 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         body=body,
-username=username,
 
     )
 
@@ -195,13 +178,11 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     body: WebAuthnCeremonyOptions,
-    username: str,
 
 ) -> Error | SessionUser | None:
     """ Complete a passkey login ceremony
 
     Args:
-        username (str):
         body (WebAuthnCeremonyOptions): The WebAuthn specification's own JSON shape for
             `PublicKeyCredentialCreationOptions`/`PublicKeyCredentialRequestOptions`
             (the begin responses) and `PublicKeyCredential`
@@ -221,6 +202,5 @@ async def asyncio(
     return (await asyncio_detailed(
         client=client,
 body=body,
-username=username,
 
     )).parsed

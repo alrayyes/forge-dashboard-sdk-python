@@ -9,19 +9,15 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error import Error
-from ...models.register_begin_request import RegisterBeginRequest
 from ...models.web_authn_ceremony_options import WebAuthnCeremonyOptions
 from typing import cast
 
 
 
 def _get_kwargs(
-    *,
-    body: RegisterBeginRequest,
-
+    
 ) -> dict[str, Any]:
-    headers: dict[str, Any] = {}
-
+    
 
     
 
@@ -32,11 +28,7 @@ def _get_kwargs(
         "url": "/api/auth/register/begin",
     }
 
-    _kwargs["json"] = body.to_dict()
 
-    headers["Content-Type"] = "application/json"
-
-    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -74,18 +66,16 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: RegisterBeginRequest,
 
 ) -> Response[Error | WebAuthnCeremonyOptions]:
     """ Start a passkey registration ceremony
 
      An instance has one user. The first registration on a fresh
     instance (see GET /api/auth/registration-status) creates that
-    user. Once any account holds a passkey, this answers 403 whatever
-    username it carries.
-
-    Args:
-        body (RegisterBeginRequest):
+    user and the server names it, so the request carries no body. The
+    options require a resident key, so the passkey can be found at
+    sign-in without being named. Once any account holds a passkey, this
+    answers 403.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -97,8 +87,7 @@ def sync_detailed(
 
 
     kwargs = _get_kwargs(
-        body=body,
-
+        
     )
 
     response = client.get_httpx_client().request(
@@ -110,18 +99,16 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: RegisterBeginRequest,
 
 ) -> Error | WebAuthnCeremonyOptions | None:
     """ Start a passkey registration ceremony
 
      An instance has one user. The first registration on a fresh
     instance (see GET /api/auth/registration-status) creates that
-    user. Once any account holds a passkey, this answers 403 whatever
-    username it carries.
-
-    Args:
-        body (RegisterBeginRequest):
+    user and the server names it, so the request carries no body. The
+    options require a resident key, so the passkey can be found at
+    sign-in without being named. Once any account holds a passkey, this
+    answers 403.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -134,25 +121,22 @@ def sync(
 
     return sync_detailed(
         client=client,
-body=body,
 
     ).parsed
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: RegisterBeginRequest,
 
 ) -> Response[Error | WebAuthnCeremonyOptions]:
     """ Start a passkey registration ceremony
 
      An instance has one user. The first registration on a fresh
     instance (see GET /api/auth/registration-status) creates that
-    user. Once any account holds a passkey, this answers 403 whatever
-    username it carries.
-
-    Args:
-        body (RegisterBeginRequest):
+    user and the server names it, so the request carries no body. The
+    options require a resident key, so the passkey can be found at
+    sign-in without being named. Once any account holds a passkey, this
+    answers 403.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -164,8 +148,7 @@ async def asyncio_detailed(
 
 
     kwargs = _get_kwargs(
-        body=body,
-
+        
     )
 
     response = await client.get_async_httpx_client().request(
@@ -177,18 +160,16 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: RegisterBeginRequest,
 
 ) -> Error | WebAuthnCeremonyOptions | None:
     """ Start a passkey registration ceremony
 
      An instance has one user. The first registration on a fresh
     instance (see GET /api/auth/registration-status) creates that
-    user. Once any account holds a passkey, this answers 403 whatever
-    username it carries.
-
-    Args:
-        body (RegisterBeginRequest):
+    user and the server names it, so the request carries no body. The
+    options require a resident key, so the passkey can be found at
+    sign-in without being named. Once any account holds a passkey, this
+    answers 403.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -201,6 +182,5 @@ async def asyncio(
 
     return (await asyncio_detailed(
         client=client,
-body=body,
 
     )).parsed
