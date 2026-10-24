@@ -66,6 +66,12 @@ class ForgeHealth:
                 whatever permissions the App holds. Set only for GitHub when the connected credential is an App with no personal
                 access token saved to send commands as. The Dependabot buttons lock with this text, auto-update-branch skips
                 Dependabot pull requests, and the dependabot-action endpoint answers 409 with it. Omitted when commands work.
+            rerun_checks_blocked (str | Unset): Why this forge can't rerun checks. Set only for a Forgejo whose version is 7
+                to 16, which has no API route for it; a version below 7 may be a Gitea and is left to the forge. The version is
+                read in the background, read again after an hour while it blocks, and retried after a failed read or one that
+                gives no number. A block that has gone stale is dropped when the read fails. Rerun failed checks is not offered
+                for the forge, and the page shows this text where the button would be. Omitted when rerunning works or the
+                version could not be read.
      """
 
     forge: Forge
@@ -78,6 +84,7 @@ class ForgeHealth:
     rate_limit_graph_ql: RateLimit | Unset = UNSET
     rate_limit_rest: RateLimit | Unset = UNSET
     dependabot_commands_blocked: str | Unset = UNSET
+    rerun_checks_blocked: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -115,6 +122,8 @@ class ForgeHealth:
 
         dependabot_commands_blocked = self.dependabot_commands_blocked
 
+        rerun_checks_blocked = self.rerun_checks_blocked
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -137,6 +146,8 @@ class ForgeHealth:
             field_dict["rateLimitREST"] = rate_limit_rest
         if dependabot_commands_blocked is not UNSET:
             field_dict["dependabotCommandsBlocked"] = dependabot_commands_blocked
+        if rerun_checks_blocked is not UNSET:
+            field_dict["rerunChecksBlocked"] = rerun_checks_blocked
 
         return field_dict
 
@@ -201,6 +212,8 @@ class ForgeHealth:
 
         dependabot_commands_blocked = d.pop("dependabotCommandsBlocked", UNSET)
 
+        rerun_checks_blocked = d.pop("rerunChecksBlocked", UNSET)
+
         forge_health = cls(
             forge=forge,
             reachable=reachable,
@@ -212,6 +225,7 @@ class ForgeHealth:
             rate_limit_graph_ql=rate_limit_graph_ql,
             rate_limit_rest=rate_limit_rest,
             dependabot_commands_blocked=dependabot_commands_blocked,
+            rerun_checks_blocked=rerun_checks_blocked,
         )
 
 

@@ -129,8 +129,18 @@ def sync_detailed(
     Forgejo commit status doesn't say which workflow run it came from, so
     Forgejo's runs are found by the head commit instead. A failed check
     that isn't an Actions job (a third-party check, a legacy status, an
-    external CI) can't be rerun here and is skipped. A Forgejo instance
-    too old to have the rerun route refuses with its own words.
+    external CI) can't be rerun here and is skipped. On Forgejo the
+    jobs of each failed run are listed and each failed job is rerun
+    by itself; Forgejo restarts the jobs that need it, so a job that
+    passed but waits on a failed one goes again too. Forgejo
+    gained the rerun routes in version 17; an older instance answers 409
+    with a plain sentence and sends no rerun request to the forge (the
+    pull request and its runs are still looked up first), and says so up
+    front in `ForgeHealth.rerunChecksBlocked`. `rerun_checks` still
+    appears in `allowedActions` for such a Forgejo: a caller learns of
+    the block from that health entry or from the 409. The block is per
+    forge kind, so with an old and a new Forgejo side by side the 409
+    answers a click on the old one.
 
     Refusals are an `ActionError` (see Merge). `not_mergeable` with a 409
     means the pull request has no failed check to rerun. Anything the
@@ -179,8 +189,18 @@ def sync(
     Forgejo commit status doesn't say which workflow run it came from, so
     Forgejo's runs are found by the head commit instead. A failed check
     that isn't an Actions job (a third-party check, a legacy status, an
-    external CI) can't be rerun here and is skipped. A Forgejo instance
-    too old to have the rerun route refuses with its own words.
+    external CI) can't be rerun here and is skipped. On Forgejo the
+    jobs of each failed run are listed and each failed job is rerun
+    by itself; Forgejo restarts the jobs that need it, so a job that
+    passed but waits on a failed one goes again too. Forgejo
+    gained the rerun routes in version 17; an older instance answers 409
+    with a plain sentence and sends no rerun request to the forge (the
+    pull request and its runs are still looked up first), and says so up
+    front in `ForgeHealth.rerunChecksBlocked`. `rerun_checks` still
+    appears in `allowedActions` for such a Forgejo: a caller learns of
+    the block from that health entry or from the 409. The block is per
+    forge kind, so with an old and a new Forgejo side by side the 409
+    answers a click on the old one.
 
     Refusals are an `ActionError` (see Merge). `not_mergeable` with a 409
     means the pull request has no failed check to rerun. Anything the
@@ -224,8 +244,18 @@ async def asyncio_detailed(
     Forgejo commit status doesn't say which workflow run it came from, so
     Forgejo's runs are found by the head commit instead. A failed check
     that isn't an Actions job (a third-party check, a legacy status, an
-    external CI) can't be rerun here and is skipped. A Forgejo instance
-    too old to have the rerun route refuses with its own words.
+    external CI) can't be rerun here and is skipped. On Forgejo the
+    jobs of each failed run are listed and each failed job is rerun
+    by itself; Forgejo restarts the jobs that need it, so a job that
+    passed but waits on a failed one goes again too. Forgejo
+    gained the rerun routes in version 17; an older instance answers 409
+    with a plain sentence and sends no rerun request to the forge (the
+    pull request and its runs are still looked up first), and says so up
+    front in `ForgeHealth.rerunChecksBlocked`. `rerun_checks` still
+    appears in `allowedActions` for such a Forgejo: a caller learns of
+    the block from that health entry or from the 409. The block is per
+    forge kind, so with an old and a new Forgejo side by side the 409
+    answers a click on the old one.
 
     Refusals are an `ActionError` (see Merge). `not_mergeable` with a 409
     means the pull request has no failed check to rerun. Anything the
@@ -274,8 +304,18 @@ async def asyncio(
     Forgejo commit status doesn't say which workflow run it came from, so
     Forgejo's runs are found by the head commit instead. A failed check
     that isn't an Actions job (a third-party check, a legacy status, an
-    external CI) can't be rerun here and is skipped. A Forgejo instance
-    too old to have the rerun route refuses with its own words.
+    external CI) can't be rerun here and is skipped. On Forgejo the
+    jobs of each failed run are listed and each failed job is rerun
+    by itself; Forgejo restarts the jobs that need it, so a job that
+    passed but waits on a failed one goes again too. Forgejo
+    gained the rerun routes in version 17; an older instance answers 409
+    with a plain sentence and sends no rerun request to the forge (the
+    pull request and its runs are still looked up first), and says so up
+    front in `ForgeHealth.rerunChecksBlocked`. `rerun_checks` still
+    appears in `allowedActions` for such a Forgejo: a caller learns of
+    the block from that health entry or from the 409. The block is per
+    forge kind, so with an old and a new Forgejo side by side the 409
+    answers a click on the old one.
 
     Refusals are an `ActionError` (see Merge). `not_mergeable` with a 409
     means the pull request has no failed check to rerun. Anything the
