@@ -9,19 +9,15 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error import Error
-from ...models.login_begin_request import LoginBeginRequest
 from ...models.web_authn_ceremony_options import WebAuthnCeremonyOptions
 from typing import cast
 
 
 
 def _get_kwargs(
-    *,
-    body: LoginBeginRequest,
-
+    
 ) -> dict[str, Any]:
-    headers: dict[str, Any] = {}
-
+    
 
     
 
@@ -32,11 +28,7 @@ def _get_kwargs(
         "url": "/api/auth/login/begin",
     }
 
-    _kwargs["json"] = body.to_dict()
 
-    headers["Content-Type"] = "application/json"
-
-    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -74,13 +66,14 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: LoginBeginRequest,
 
 ) -> Response[Error | WebAuthnCeremonyOptions]:
     """ Start a passkey login ceremony
 
-    Args:
-        body (LoginBeginRequest):
+     An instance has one user, so there is nothing to name and the request
+    carries no body. The options name no passkey and no user, so the
+    browser offers whichever discoverable passkey it holds for the site
+    and nothing about the account is revealed to a visitor.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -92,8 +85,7 @@ def sync_detailed(
 
 
     kwargs = _get_kwargs(
-        body=body,
-
+        
     )
 
     response = client.get_httpx_client().request(
@@ -105,13 +97,14 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: LoginBeginRequest,
 
 ) -> Error | WebAuthnCeremonyOptions | None:
     """ Start a passkey login ceremony
 
-    Args:
-        body (LoginBeginRequest):
+     An instance has one user, so there is nothing to name and the request
+    carries no body. The options name no passkey and no user, so the
+    browser offers whichever discoverable passkey it holds for the site
+    and nothing about the account is revealed to a visitor.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -124,20 +117,20 @@ def sync(
 
     return sync_detailed(
         client=client,
-body=body,
 
     ).parsed
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: LoginBeginRequest,
 
 ) -> Response[Error | WebAuthnCeremonyOptions]:
     """ Start a passkey login ceremony
 
-    Args:
-        body (LoginBeginRequest):
+     An instance has one user, so there is nothing to name and the request
+    carries no body. The options name no passkey and no user, so the
+    browser offers whichever discoverable passkey it holds for the site
+    and nothing about the account is revealed to a visitor.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -149,8 +142,7 @@ async def asyncio_detailed(
 
 
     kwargs = _get_kwargs(
-        body=body,
-
+        
     )
 
     response = await client.get_async_httpx_client().request(
@@ -162,13 +154,14 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: LoginBeginRequest,
 
 ) -> Error | WebAuthnCeremonyOptions | None:
     """ Start a passkey login ceremony
 
-    Args:
-        body (LoginBeginRequest):
+     An instance has one user, so there is nothing to name and the request
+    carries no body. The options name no passkey and no user, so the
+    browser offers whichever discoverable passkey it holds for the site
+    and nothing about the account is revealed to a visitor.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -181,6 +174,5 @@ async def asyncio(
 
     return (await asyncio_detailed(
         client=client,
-body=body,
 
     )).parsed
