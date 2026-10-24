@@ -127,7 +127,9 @@ def sync_detailed(
     A Main branches row offers it when its `status` is `failed`. A failed
     check that isn't an Actions job (a third-party check, a legacy status,
     an external CI) can't be rerun here and is skipped. Refusals are an
-    `ActionError`; a 409 means the branch has no failed job to rerun.
+    `ActionError`; a 409 means the branch has no failed job to rerun, or
+    that the forge is a Forgejo older than version 17, which has no rerun
+    route (`ForgeHealth.rerunChecksBlocked` says so beforehand).
 
     Args:
         body (MainBranchRerunRequest): Which repository's default branch to rerun the failed
@@ -170,7 +172,9 @@ def sync(
     A Main branches row offers it when its `status` is `failed`. A failed
     check that isn't an Actions job (a third-party check, a legacy status,
     an external CI) can't be rerun here and is skipped. Refusals are an
-    `ActionError`; a 409 means the branch has no failed job to rerun.
+    `ActionError`; a 409 means the branch has no failed job to rerun, or
+    that the forge is a Forgejo older than version 17, which has no rerun
+    route (`ForgeHealth.rerunChecksBlocked` says so beforehand).
 
     Args:
         body (MainBranchRerunRequest): Which repository's default branch to rerun the failed
@@ -208,7 +212,9 @@ async def asyncio_detailed(
     A Main branches row offers it when its `status` is `failed`. A failed
     check that isn't an Actions job (a third-party check, a legacy status,
     an external CI) can't be rerun here and is skipped. Refusals are an
-    `ActionError`; a 409 means the branch has no failed job to rerun.
+    `ActionError`; a 409 means the branch has no failed job to rerun, or
+    that the forge is a Forgejo older than version 17, which has no rerun
+    route (`ForgeHealth.rerunChecksBlocked` says so beforehand).
 
     Args:
         body (MainBranchRerunRequest): Which repository's default branch to rerun the failed
@@ -251,7 +257,9 @@ async def asyncio(
     A Main branches row offers it when its `status` is `failed`. A failed
     check that isn't an Actions job (a third-party check, a legacy status,
     an external CI) can't be rerun here and is skipped. Refusals are an
-    `ActionError`; a 409 means the branch has no failed job to rerun.
+    `ActionError`; a 409 means the branch has no failed job to rerun, or
+    that the forge is a Forgejo older than version 17, which has no rerun
+    route (`ForgeHealth.rerunChecksBlocked` says so beforehand).
 
     Args:
         body (MainBranchRerunRequest): Which repository's default branch to rerun the failed
