@@ -27,6 +27,9 @@ from .bot_request import BotRequest
 from .bot_request_action import BotRequestAction
 from .bot_request_bot import BotRequestBot
 from .bot_request_phase import BotRequestPhase
+from .branch_deletion import BranchDeletion
+from .branch_deletion_outcome import BranchDeletionOutcome
+from .branch_deletion_reason import BranchDeletionReason
 from .cancel_run_request import CancelRunRequest
 from .check import Check
 from .check_counts import CheckCounts
@@ -81,6 +84,8 @@ from .pull_request_dependabot_action_request_action import PullRequestDependabot
 from .pull_request_details import PullRequestDetails
 from .pull_request_hide_request import PullRequestHideRequest
 from .pull_request_kind import PullRequestKind
+from .pull_request_merge_request import PullRequestMergeRequest
+from .pull_request_merge_result import PullRequestMergeResult
 from .pull_request_status import PullRequestStatus
 from .queued_action import QueuedAction
 from .queued_action_action import QueuedActionAction
@@ -149,6 +154,9 @@ __all__ = (
     "BotRequestAction",
     "BotRequestBot",
     "BotRequestPhase",
+    "BranchDeletion",
+    "BranchDeletionOutcome",
+    "BranchDeletionReason",
     "CancelRunRequest",
     "Check",
     "CheckCounts",
@@ -203,6 +211,8 @@ __all__ = (
     "PullRequestDetails",
     "PullRequestHideRequest",
     "PullRequestKind",
+    "PullRequestMergeRequest",
+    "PullRequestMergeResult",
     "PullRequestStatus",
     "QueuedAction",
     "QueuedActionAction",
