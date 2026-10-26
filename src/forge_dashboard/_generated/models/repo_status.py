@@ -59,6 +59,11 @@ class RepoStatus:
                 despite this having said true. For a GitHub App connection
                 there is no user role to read, so this is true when listing
                 the repo's webhooks worked on the last refresh.
+            rebase_bots (bool): Whether the signed-in user has turned on rebasing bot pull
+                requests for this repo. A behind Dependabot or Renovate pull
+                request gets the bot's own rebase, whatever the repo's
+                automatic branch update setting says. Human, draft and
+                release-please pull requests are not covered.
             auto_update_branch (bool): Whether the signed-in user has turned on automatic branch
                 updates for this repo — any of its pull requests the
                 background refresh finds behind its base branch gets updated
@@ -117,6 +122,7 @@ class RepoStatus:
     ignored_issues: bool
     has_webhook: bool
     can_manage_webhooks: bool
+    rebase_bots: bool
     auto_update_branch: bool
     logo_url: str | Unset = UNSET
     webhook_locked_by_connection: bool | Unset = UNSET
@@ -146,6 +152,8 @@ class RepoStatus:
 
         can_manage_webhooks = self.can_manage_webhooks
 
+        rebase_bots = self.rebase_bots
+
         auto_update_branch = self.auto_update_branch
 
         logo_url = self.logo_url
@@ -172,6 +180,7 @@ class RepoStatus:
             "ignoredIssues": ignored_issues,
             "hasWebhook": has_webhook,
             "canManageWebhooks": can_manage_webhooks,
+            "rebaseBots": rebase_bots,
             "autoUpdateBranch": auto_update_branch,
         })
         if logo_url is not UNSET:
@@ -211,6 +220,8 @@ class RepoStatus:
 
         can_manage_webhooks = d.pop("canManageWebhooks")
 
+        rebase_bots = d.pop("rebaseBots")
+
         auto_update_branch = d.pop("autoUpdateBranch")
 
         logo_url = d.pop("logoUrl", UNSET)
@@ -240,6 +251,7 @@ class RepoStatus:
             ignored_issues=ignored_issues,
             has_webhook=has_webhook,
             can_manage_webhooks=can_manage_webhooks,
+            rebase_bots=rebase_bots,
             auto_update_branch=auto_update_branch,
             logo_url=logo_url,
             webhook_locked_by_connection=webhook_locked_by_connection,
