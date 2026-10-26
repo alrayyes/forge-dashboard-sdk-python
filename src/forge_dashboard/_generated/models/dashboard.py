@@ -16,6 +16,7 @@ if TYPE_CHECKING:
   from ..models.auto_merged_pull_request import AutoMergedPullRequest
   from ..models.forge_health import ForgeHealth
   from ..models.issue import Issue
+  from ..models.main_branches import MainBranches
   from ..models.nav_counts import NavCounts
   from ..models.pull_request import PullRequest
   from ..models.queued_action import QueuedAction
@@ -70,6 +71,7 @@ class Dashboard:
                 zeros when there is nothing. A client hides a page's whole nav item at
                 zero total, and a state's number at zero. Every page except Issues also
                 carries `running` and `passed`.
+            main_branch_page (MainBranches):
             generated_at (datetime.datetime): When this snapshot was refreshed, not when it was requested.
             read_interval_seconds (int): How often, in seconds, a client should re-read GET
                 /api/dashboard. The server's advice, so a client needs no
@@ -104,6 +106,7 @@ class Dashboard:
     open_issue_count: int
     first_refresh_done: bool
     nav_counts: NavCounts
+    main_branch_page: MainBranches
     generated_at: datetime.datetime
     read_interval_seconds: int
     hidden_drafts: int
@@ -123,6 +126,7 @@ class Dashboard:
         from ..models.auto_merged_pull_request import AutoMergedPullRequest # noqa: PLC0415
         from ..models.forge_health import ForgeHealth # noqa: PLC0415
         from ..models.issue import Issue # noqa: PLC0415
+        from ..models.main_branches import MainBranches # noqa: PLC0415
         from ..models.nav_counts import NavCounts # noqa: PLC0415
         from ..models.pull_request import PullRequest # noqa: PLC0415
         from ..models.queued_action import QueuedAction # noqa: PLC0415
@@ -146,6 +150,8 @@ class Dashboard:
         first_refresh_done = self.first_refresh_done
 
         nav_counts = self.nav_counts.to_dict()
+
+        main_branch_page = self.main_branch_page.to_dict()
 
         generated_at = self.generated_at.isoformat()
 
@@ -194,6 +200,7 @@ class Dashboard:
             "openIssueCount": open_issue_count,
             "firstRefreshDone": first_refresh_done,
             "navCounts": nav_counts,
+            "mainBranchPage": main_branch_page,
             "generatedAt": generated_at,
             "readIntervalSeconds": read_interval_seconds,
             "hiddenDrafts": hidden_drafts,
@@ -216,6 +223,7 @@ class Dashboard:
         from ..models.auto_merged_pull_request import AutoMergedPullRequest # noqa: PLC0415
         from ..models.forge_health import ForgeHealth # noqa: PLC0415
         from ..models.issue import Issue # noqa: PLC0415
+        from ..models.main_branches import MainBranches # noqa: PLC0415
         from ..models.nav_counts import NavCounts # noqa: PLC0415
         from ..models.pull_request import PullRequest # noqa: PLC0415
         from ..models.queued_action import QueuedAction # noqa: PLC0415
@@ -246,6 +254,11 @@ class Dashboard:
         first_refresh_done = d.pop("firstRefreshDone")
 
         nav_counts = NavCounts.from_dict(d.pop("navCounts"))
+
+
+
+
+        main_branch_page = MainBranches.from_dict(d.pop("mainBranchPage"))
 
 
 
@@ -309,6 +322,7 @@ class Dashboard:
             open_issue_count=open_issue_count,
             first_refresh_done=first_refresh_done,
             nav_counts=nav_counts,
+            main_branch_page=main_branch_page,
             generated_at=generated_at,
             read_interval_seconds=read_interval_seconds,
             hidden_drafts=hidden_drafts,
