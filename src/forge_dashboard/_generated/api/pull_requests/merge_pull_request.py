@@ -10,14 +10,15 @@ from ... import errors
 
 from ...models.action_error import ActionError
 from ...models.error import Error
-from ...models.pull_request_action_request import PullRequestActionRequest
+from ...models.pull_request_merge_request import PullRequestMergeRequest
+from ...models.pull_request_merge_result import PullRequestMergeResult
 from typing import cast
 
 
 
 def _get_kwargs(
     *,
-    body: PullRequestActionRequest,
+    body: PullRequestMergeRequest,
 
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
@@ -41,7 +42,14 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> ActionError | Any | Error | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> ActionError | Any | Error | PullRequestMergeResult | None:
+    if response.status_code == 200:
+        response_200 = PullRequestMergeResult.from_dict(response.json())
+
+
+
+        return response_200
+
     if response.status_code == 204:
         response_204 = cast(Any, None)
         return response_204
@@ -101,7 +109,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[ActionError | Any | Error]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[ActionError | Any | Error | PullRequestMergeResult]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -113,9 +121,9 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     *,
     client: AuthenticatedClient,
-    body: PullRequestActionRequest,
+    body: PullRequestMergeRequest,
 
-) -> Response[ActionError | Any | Error]:
+) -> Response[ActionError | Any | Error | PullRequestMergeResult]:
     """ Merge one pull request, on the signed-in user's behalf
 
      Merges the named pull request using its repo's own configured
@@ -139,15 +147,22 @@ def sync_detailed(
     gets 409 `already_up_to_date` from this server, which never asks the
     forge.
 
+    `deleteBranch: true` also asks for the pull request's source branch
+    to be deleted once the merge has landed. The merge never depends on
+    it: a branch that can't or shouldn't be deleted leaves the merge
+    done and is reported in `branchDeletion`. Without `deleteBranch`
+    the answer is a bare 204 and the branch is left alone.
+
     Args:
-        body (PullRequestActionRequest): Which pull request to act on.
+        body (PullRequestMergeRequest): Which pull request to merge, and whether to delete its
+            source branch afterwards.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ActionError | Any | Error]
+        Response[ActionError | Any | Error | PullRequestMergeResult]
      """
 
 
@@ -165,9 +180,9 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient,
-    body: PullRequestActionRequest,
+    body: PullRequestMergeRequest,
 
-) -> ActionError | Any | Error | None:
+) -> ActionError | Any | Error | PullRequestMergeResult | None:
     """ Merge one pull request, on the signed-in user's behalf
 
      Merges the named pull request using its repo's own configured
@@ -191,15 +206,22 @@ def sync(
     gets 409 `already_up_to_date` from this server, which never asks the
     forge.
 
+    `deleteBranch: true` also asks for the pull request's source branch
+    to be deleted once the merge has landed. The merge never depends on
+    it: a branch that can't or shouldn't be deleted leaves the merge
+    done and is reported in `branchDeletion`. Without `deleteBranch`
+    the answer is a bare 204 and the branch is left alone.
+
     Args:
-        body (PullRequestActionRequest): Which pull request to act on.
+        body (PullRequestMergeRequest): Which pull request to merge, and whether to delete its
+            source branch afterwards.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ActionError | Any | Error
+        ActionError | Any | Error | PullRequestMergeResult
      """
 
 
@@ -212,9 +234,9 @@ body=body,
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
-    body: PullRequestActionRequest,
+    body: PullRequestMergeRequest,
 
-) -> Response[ActionError | Any | Error]:
+) -> Response[ActionError | Any | Error | PullRequestMergeResult]:
     """ Merge one pull request, on the signed-in user's behalf
 
      Merges the named pull request using its repo's own configured
@@ -238,15 +260,22 @@ async def asyncio_detailed(
     gets 409 `already_up_to_date` from this server, which never asks the
     forge.
 
+    `deleteBranch: true` also asks for the pull request's source branch
+    to be deleted once the merge has landed. The merge never depends on
+    it: a branch that can't or shouldn't be deleted leaves the merge
+    done and is reported in `branchDeletion`. Without `deleteBranch`
+    the answer is a bare 204 and the branch is left alone.
+
     Args:
-        body (PullRequestActionRequest): Which pull request to act on.
+        body (PullRequestMergeRequest): Which pull request to merge, and whether to delete its
+            source branch afterwards.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ActionError | Any | Error]
+        Response[ActionError | Any | Error | PullRequestMergeResult]
      """
 
 
@@ -264,9 +293,9 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient,
-    body: PullRequestActionRequest,
+    body: PullRequestMergeRequest,
 
-) -> ActionError | Any | Error | None:
+) -> ActionError | Any | Error | PullRequestMergeResult | None:
     """ Merge one pull request, on the signed-in user's behalf
 
      Merges the named pull request using its repo's own configured
@@ -290,15 +319,22 @@ async def asyncio(
     gets 409 `already_up_to_date` from this server, which never asks the
     forge.
 
+    `deleteBranch: true` also asks for the pull request's source branch
+    to be deleted once the merge has landed. The merge never depends on
+    it: a branch that can't or shouldn't be deleted leaves the merge
+    done and is reported in `branchDeletion`. Without `deleteBranch`
+    the answer is a bare 204 and the branch is left alone.
+
     Args:
-        body (PullRequestActionRequest): Which pull request to act on.
+        body (PullRequestMergeRequest): Which pull request to merge, and whether to delete its
+            source branch afterwards.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ActionError | Any | Error
+        ActionError | Any | Error | PullRequestMergeResult
      """
 
 
