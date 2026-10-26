@@ -111,10 +111,9 @@ class MainBranch:
                 are drafts or pre-releases, and for every Forgejo repository,
                 whose latest release is a separate read per repository that the
                 refresh does not make.
-            stale (bool): True when this row is the last known one because its forge
-                couldn't be read or its rate limit is spent. A client offers no
-                write on a stale row.
-            stale_since (datetime.datetime | None): When this row was last fetched. Null unless `stale`.
+            stale_since (datetime.datetime | None): Set when this row is the last known one because its forge couldn't
+                be read or its rate limit is spent: the time it was last fetched.
+                Null otherwise. A client offers no write on a stale row.
             advisories (Advisories | Unset): The open dependency advisories on a repository's default branch, read
                 from GitHub's Dependabot alerts, or for a Forgejo repository from the
                 packages in its lockfiles matched against OSV, when the operator has
@@ -137,7 +136,6 @@ class MainBranch:
     run_url: str
     checks: CheckCounts
     latest_release: MainBranchRelease | None
-    stale: bool
     stale_since: datetime.datetime | None
     advisories: Advisories | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -190,8 +188,6 @@ class MainBranch:
         else:
             latest_release = self.latest_release
 
-        stale = self.stale
-
         stale_since: None | str
         if isinstance(self.stale_since, datetime.datetime):
             stale_since = self.stale_since.isoformat()
@@ -218,7 +214,6 @@ class MainBranch:
             "runUrl": run_url,
             "checks": checks,
             "latestRelease": latest_release,
-            "stale": stale,
             "staleSince": stale_since,
         })
         if advisories is not UNSET:
@@ -323,8 +318,6 @@ class MainBranch:
         latest_release = _parse_latest_release(d.pop("latestRelease"))
 
 
-        stale = d.pop("stale")
-
         def _parse_stale_since(data: object) -> datetime.datetime | None:
             if data is None:
                 return data
@@ -366,7 +359,6 @@ class MainBranch:
             run_url=run_url,
             checks=checks,
             latest_release=latest_release,
-            stale=stale,
             stale_since=stale_since,
             advisories=advisories,
         )
