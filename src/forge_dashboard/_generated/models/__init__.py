@@ -61,14 +61,12 @@ from .label import Label
 from .linked_pull_request import LinkedPullRequest
 from .main_branch import MainBranch
 from .main_branch_commit import MainBranchCommit
-from .main_branch_counts import MainBranchCounts
 from .main_branch_release import MainBranchRelease
 from .main_branch_rerun_request import MainBranchRerunRequest
 from .main_branch_status import MainBranchStatus
 from .main_branches import MainBranches
 from .mentioned_issue import MentionedIssue
 from .merge_status import MergeStatus
-from .nav_count import NavCount
 from .nav_counts import NavCounts
 from .nav_issue_count import NavIssueCount
 from .nav_pull_request_count import NavPullRequestCount
@@ -187,14 +185,12 @@ __all__ = (
     "LinkedPullRequest",
     "MainBranch",
     "MainBranchCommit",
-    "MainBranchCounts",
     "MainBranches",
     "MainBranchRelease",
     "MainBranchRerunRequest",
     "MainBranchStatus",
     "MentionedIssue",
     "MergeStatus",
-    "NavCount",
     "NavCounts",
     "NavIssueCount",
     "NavPullRequestCount",

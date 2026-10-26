@@ -62,16 +62,17 @@ class Dashboard:
                 board shows by default, so they match each page when it opens. Pull
                 requests leave out ignored repos, draft pull requests and hidden pull
                 requests whatever `includeDrafts` and `includeHidden` ask for, so the
-                badge doesn't jump when a toggle flips; branches counts the default
-                branches GET /api/main-branches lists, which also leave out ignored
-                repos. Pull requests are
+                badge doesn't jump when a toggle flips. Pull requests are
                 split by `kind`
                 (release pull requests under `releases`, Dependabot and Renovate
                 under `bots`, the rest under `pullRequests`). Always present, with
                 zeros when there is nothing. A client hides a page's whole nav item at
                 zero total, and a state's number at zero. Every page except Issues also
-                carries `running` and `passed`.
-            main_branch_page (MainBranches):
+                carries `running` and `passed`. The Branches badge isn't here: a
+                client counts the rows of `mainBranchPage`.
+            main_branch_page (MainBranches): Every default branch the page lists, in no particular order. There is
+                no tally: a client counts the rows it holds, so the filter pills and
+                the navigation badge always agree with the list.
             generated_at (datetime.datetime): When this snapshot was refreshed, not when it was requested.
             read_interval_seconds (int): How often, in seconds, a client should re-read GET
                 /api/dashboard. The server's advice, so a client needs no

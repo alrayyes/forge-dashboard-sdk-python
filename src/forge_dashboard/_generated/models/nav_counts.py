@@ -11,7 +11,6 @@ from ..types import UNSET, Unset
 from typing import cast
 
 if TYPE_CHECKING:
-  from ..models.nav_count import NavCount
   from ..models.nav_issue_count import NavIssueCount
   from ..models.nav_pull_request_count import NavPullRequestCount
 
@@ -29,24 +28,16 @@ class NavCounts:
     board shows by default, so they match each page when it opens. Pull
     requests leave out ignored repos, draft pull requests and hidden pull
     requests whatever `includeDrafts` and `includeHidden` ask for, so the
-    badge doesn't jump when a toggle flips; branches counts the default
-    branches GET /api/main-branches lists, which also leave out ignored
-    repos. Pull requests are
+    badge doesn't jump when a toggle flips. Pull requests are
     split by `kind`
     (release pull requests under `releases`, Dependabot and Renovate
     under `bots`, the rest under `pullRequests`). Always present, with
     zeros when there is nothing. A client hides a page's whole nav item at
     zero total, and a state's number at zero. Every page except Issues also
-    carries `running` and `passed`.
+    carries `running` and `passed`. The Branches badge isn't here: a
+    client counts the rows of `mainBranchPage`.
 
         Attributes:
-            branches (NavCount): The Branches page's numbers: how many default branches
-                it lists and how many of those have a pipeline running, failed and
-                passed, the same four as `NavPullRequestCount`, plus `none`, the ones
-                with no pipeline, and `awaitingApproval`, the ones whose workflow runs
-                are held until someone approves them. A branch whose only trouble is a
-                cancelled run counts in `total` only, as a pull request with no checks
-                does, so the parts need not add up. All six are always present.
             pull_requests (NavPullRequestCount): A pull request page's numbers. `running`, `failed` and
                 `passed` count the pull requests whose CI is pending, failing and
                 succeeded. A pull request with no checks counts in `total` only, so
@@ -62,7 +53,6 @@ class NavCounts:
                 the four numbers need not add up. All four are always present.
      """
 
-    branches: NavCount
     pull_requests: NavPullRequestCount
     issues: NavIssueCount
     releases: NavPullRequestCount
@@ -74,11 +64,8 @@ class NavCounts:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.nav_count import NavCount # noqa: PLC0415
         from ..models.nav_issue_count import NavIssueCount # noqa: PLC0415
         from ..models.nav_pull_request_count import NavPullRequestCount # noqa: PLC0415
-        branches = self.branches.to_dict()
-
         pull_requests = self.pull_requests.to_dict()
 
         issues = self.issues.to_dict()
@@ -91,7 +78,6 @@ class NavCounts:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "branches": branches,
             "pullRequests": pull_requests,
             "issues": issues,
             "releases": releases,
@@ -104,15 +90,9 @@ class NavCounts:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.nav_count import NavCount # noqa: PLC0415
         from ..models.nav_issue_count import NavIssueCount # noqa: PLC0415
         from ..models.nav_pull_request_count import NavPullRequestCount # noqa: PLC0415
         d = dict(src_dict)
-        branches = NavCount.from_dict(d.pop("branches"))
-
-
-
-
         pull_requests = NavPullRequestCount.from_dict(d.pop("pullRequests"))
 
 
@@ -134,7 +114,6 @@ class NavCounts:
 
 
         nav_counts = cls(
-            branches=branches,
             pull_requests=pull_requests,
             issues=issues,
             releases=releases,
