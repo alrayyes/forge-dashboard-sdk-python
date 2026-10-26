@@ -93,7 +93,6 @@ from .queued_action_request import QueuedActionRequest
 from .queued_action_request_action import QueuedActionRequestAction
 from .queued_action_status import QueuedActionStatus
 from .rate_limit import RateLimit
-from .rate_limit_severity import RateLimitSeverity
 from .reaction import Reaction
 from .reactions import Reactions
 from .ready import Ready
@@ -220,7 +219,6 @@ __all__ = (
     "QueuedActionRequestAction",
     "QueuedActionStatus",
     "RateLimit",
-    "RateLimitSeverity",
     "Reaction",
     "Reactions",
     "Ready",
