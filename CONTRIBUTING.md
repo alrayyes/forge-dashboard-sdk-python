@@ -24,7 +24,8 @@ uv run mutmut run
 ```
 
 `lefthook run pre-push` runs the fast subset of the above (format, lint,
-type check, tests) before every push; mutation testing runs in CI, not the
+type check, tests) before every push, plus a gitleaks scan of the whole
+history; mutation testing runs in CI, not the
 hook, since a full `mutmut run` is too slow for every push.
 
 ## Regenerating the client
