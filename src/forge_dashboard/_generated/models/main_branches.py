@@ -14,7 +14,6 @@ import datetime
 if TYPE_CHECKING:
   from ..models.forge_health import ForgeHealth
   from ..models.main_branch import MainBranch
-  from ..models.main_branch_counts import MainBranchCounts
 
 
 
@@ -26,11 +25,12 @@ T = TypeVar("T", bound="MainBranches")
 
 @_attrs_define
 class MainBranches:
-    """ 
+    """ Every default branch the page lists, in no particular order. There is
+    no tally: a client counts the rows it holds, so the filter pills and
+    the navigation badge always agree with the list.
+
         Attributes:
             generated_at (datetime.datetime): When the snapshot was refreshed, not when it was requested.
-            counts (MainBranchCounts): How many rows are in each status, the numbers on the filter pills.
-                `total` is every row, so it equals the sum of the other six.
             forges (list[ForgeHealth]): Each forge's health as of the last refresh, the same as the dashboard's. A client
                 uses it to hold back an action that a forge which can't be reached, or whose rate limit is spent, would probably
                 refuse. The budget can run out between refreshes, so the forge still has the final say.
@@ -38,7 +38,6 @@ class MainBranches:
      """
 
     generated_at: datetime.datetime
-    counts: MainBranchCounts
     forges: list[ForgeHealth]
     branches: list[MainBranch]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -50,10 +49,7 @@ class MainBranches:
     def to_dict(self) -> dict[str, Any]:
         from ..models.forge_health import ForgeHealth # noqa: PLC0415
         from ..models.main_branch import MainBranch # noqa: PLC0415
-        from ..models.main_branch_counts import MainBranchCounts # noqa: PLC0415
         generated_at = self.generated_at.isoformat()
-
-        counts = self.counts.to_dict()
 
         forges = []
         for forges_item_data in self.forges:
@@ -74,7 +70,6 @@ class MainBranches:
         field_dict.update(self.additional_properties)
         field_dict.update({
             "generatedAt": generated_at,
-            "counts": counts,
             "forges": forges,
             "branches": branches,
         })
@@ -87,14 +82,8 @@ class MainBranches:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.forge_health import ForgeHealth # noqa: PLC0415
         from ..models.main_branch import MainBranch # noqa: PLC0415
-        from ..models.main_branch_counts import MainBranchCounts # noqa: PLC0415
         d = dict(src_dict)
         generated_at = datetime.datetime.fromisoformat(d.pop("generatedAt"))
-
-
-
-
-        counts = MainBranchCounts.from_dict(d.pop("counts"))
 
 
 
@@ -121,7 +110,6 @@ class MainBranches:
 
         main_branches = cls(
             generated_at=generated_at,
-            counts=counts,
             forges=forges,
             branches=branches,
         )
