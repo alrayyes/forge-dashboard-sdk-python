@@ -76,9 +76,7 @@ def sync_detailed(
     whatever its status, with a
     count per status, so a client
     filters and sorts locally and its pill counts always match what each
-    pill lists. Rows come newest commit first (`commit.committedAt`),
-    whatever their status. A row with no commit time comes after
-    every dated one; ties and undated rows go by `fullName`, then `forge`.
+    pill lists. Rows come in no particular order: the client orders them.
 
     Served from the snapshot the background refresh already holds, so it
     never calls a forge. On GitHub the branch's check status rides the
@@ -87,7 +85,7 @@ def sync_detailed(
     per repository.
 
     A forge that can't be reached keeps its last known rows, each marked
-    `stale` with `staleSince`, the same carry-over `forges[].staleSince`
+    `staleSince`, the same carry-over `forges[].staleSince`
     on GET /api/dashboard reports. A forge whose rate-limit budget is
     spent is skipped until it resets and its rows are kept the same way.
     Only the signed-in user's own repositories.
@@ -128,9 +126,7 @@ def sync(
     whatever its status, with a
     count per status, so a client
     filters and sorts locally and its pill counts always match what each
-    pill lists. Rows come newest commit first (`commit.committedAt`),
-    whatever their status. A row with no commit time comes after
-    every dated one; ties and undated rows go by `fullName`, then `forge`.
+    pill lists. Rows come in no particular order: the client orders them.
 
     Served from the snapshot the background refresh already holds, so it
     never calls a forge. On GitHub the branch's check status rides the
@@ -139,7 +135,7 @@ def sync(
     per repository.
 
     A forge that can't be reached keeps its last known rows, each marked
-    `stale` with `staleSince`, the same carry-over `forges[].staleSince`
+    `staleSince`, the same carry-over `forges[].staleSince`
     on GET /api/dashboard reports. A forge whose rate-limit budget is
     spent is skipped until it resets and its rows are kept the same way.
     Only the signed-in user's own repositories.
@@ -175,9 +171,7 @@ async def asyncio_detailed(
     whatever its status, with a
     count per status, so a client
     filters and sorts locally and its pill counts always match what each
-    pill lists. Rows come newest commit first (`commit.committedAt`),
-    whatever their status. A row with no commit time comes after
-    every dated one; ties and undated rows go by `fullName`, then `forge`.
+    pill lists. Rows come in no particular order: the client orders them.
 
     Served from the snapshot the background refresh already holds, so it
     never calls a forge. On GitHub the branch's check status rides the
@@ -186,7 +180,7 @@ async def asyncio_detailed(
     per repository.
 
     A forge that can't be reached keeps its last known rows, each marked
-    `stale` with `staleSince`, the same carry-over `forges[].staleSince`
+    `staleSince`, the same carry-over `forges[].staleSince`
     on GET /api/dashboard reports. A forge whose rate-limit budget is
     spent is skipped until it resets and its rows are kept the same way.
     Only the signed-in user's own repositories.
@@ -227,9 +221,7 @@ async def asyncio(
     whatever its status, with a
     count per status, so a client
     filters and sorts locally and its pill counts always match what each
-    pill lists. Rows come newest commit first (`commit.committedAt`),
-    whatever their status. A row with no commit time comes after
-    every dated one; ties and undated rows go by `fullName`, then `forge`.
+    pill lists. Rows come in no particular order: the client orders them.
 
     Served from the snapshot the background refresh already holds, so it
     never calls a forge. On GitHub the branch's check status rides the
@@ -238,7 +230,7 @@ async def asyncio(
     per repository.
 
     A forge that can't be reached keeps its last known rows, each marked
-    `stale` with `staleSince`, the same carry-over `forges[].staleSince`
+    `staleSince`, the same carry-over `forges[].staleSince`
     on GET /api/dashboard reports. A forge whose rate-limit budget is
     spent is skipped until it resets and its rows are kept the same way.
     Only the signed-in user's own repositories.
