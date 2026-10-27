@@ -90,7 +90,7 @@ def sync_detailed(
     """ Choose which job lists a dashboard stream sends
 
      Replaces the set of pull requests and default branches whose job
-    lists the stream named by `streamId` sends as `checks` events.
+    lists the stream named by `streamId` sends as `run` events.
     The server lists a subject when it is newly watched, when its row
     in a new snapshot changed (CI state, check counts, or a branch's
     run), and when `refresh` is true. Nothing else costs a forge
@@ -98,7 +98,12 @@ def sync_detailed(
     and every snapshot after it tries again, changed or not, until a
     listing works.
 
-    The event is the JSON of the `CheckListEvent` schema.
+    A listing is one event for each workflow run attempt the subject
+    holds, then one with `gone` set for each run attempt the last
+    listing sent and this one lacks. The last event of a listing has
+    `final` set. A rerun keeps its run id and takes a new attempt, so
+    its event carries a new `key` and the first attempt's key comes
+    back as gone. The event is the JSON of the `RunEvent` schema.
 
     Args:
         body (StreamWatchRequest):
@@ -132,7 +137,7 @@ def sync(
     """ Choose which job lists a dashboard stream sends
 
      Replaces the set of pull requests and default branches whose job
-    lists the stream named by `streamId` sends as `checks` events.
+    lists the stream named by `streamId` sends as `run` events.
     The server lists a subject when it is newly watched, when its row
     in a new snapshot changed (CI state, check counts, or a branch's
     run), and when `refresh` is true. Nothing else costs a forge
@@ -140,7 +145,12 @@ def sync(
     and every snapshot after it tries again, changed or not, until a
     listing works.
 
-    The event is the JSON of the `CheckListEvent` schema.
+    A listing is one event for each workflow run attempt the subject
+    holds, then one with `gone` set for each run attempt the last
+    listing sent and this one lacks. The last event of a listing has
+    `final` set. A rerun keeps its run id and takes a new attempt, so
+    its event carries a new `key` and the first attempt's key comes
+    back as gone. The event is the JSON of the `RunEvent` schema.
 
     Args:
         body (StreamWatchRequest):
@@ -169,7 +179,7 @@ async def asyncio_detailed(
     """ Choose which job lists a dashboard stream sends
 
      Replaces the set of pull requests and default branches whose job
-    lists the stream named by `streamId` sends as `checks` events.
+    lists the stream named by `streamId` sends as `run` events.
     The server lists a subject when it is newly watched, when its row
     in a new snapshot changed (CI state, check counts, or a branch's
     run), and when `refresh` is true. Nothing else costs a forge
@@ -177,7 +187,12 @@ async def asyncio_detailed(
     and every snapshot after it tries again, changed or not, until a
     listing works.
 
-    The event is the JSON of the `CheckListEvent` schema.
+    A listing is one event for each workflow run attempt the subject
+    holds, then one with `gone` set for each run attempt the last
+    listing sent and this one lacks. The last event of a listing has
+    `final` set. A rerun keeps its run id and takes a new attempt, so
+    its event carries a new `key` and the first attempt's key comes
+    back as gone. The event is the JSON of the `RunEvent` schema.
 
     Args:
         body (StreamWatchRequest):
@@ -211,7 +226,7 @@ async def asyncio(
     """ Choose which job lists a dashboard stream sends
 
      Replaces the set of pull requests and default branches whose job
-    lists the stream named by `streamId` sends as `checks` events.
+    lists the stream named by `streamId` sends as `run` events.
     The server lists a subject when it is newly watched, when its row
     in a new snapshot changed (CI state, check counts, or a branch's
     run), and when `refresh` is true. Nothing else costs a forge
@@ -219,7 +234,12 @@ async def asyncio(
     and every snapshot after it tries again, changed or not, until a
     listing works.
 
-    The event is the JSON of the `CheckListEvent` schema.
+    A listing is one event for each workflow run attempt the subject
+    holds, then one with `gone` set for each run attempt the last
+    listing sent and this one lacks. The last event of a listing has
+    `final` set. A rerun keeps its run id and takes a new attempt, so
+    its event carries a new `key` and the first attempt's key comes
+    back as gone. The event is the JSON of the `RunEvent` schema.
 
     Args:
         body (StreamWatchRequest):

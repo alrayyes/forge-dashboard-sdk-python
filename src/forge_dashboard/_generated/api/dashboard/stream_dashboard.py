@@ -8,9 +8,9 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
-from ...models.check_list_event import CheckListEvent
 from ...models.dashboard import Dashboard
 from ...models.error import Error
+from ...models.run_event import RunEvent
 from ...types import UNSET, Unset
 from typing import cast
 
@@ -50,9 +50,9 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> CheckListEvent | Dashboard | Error | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Dashboard | RunEvent | Error | None:
     if response.status_code == 200:
-        def _parse_response_200(data: object) -> CheckListEvent | Dashboard:
+        def _parse_response_200(data: object) -> Dashboard | RunEvent:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
@@ -65,7 +65,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
                 pass
             if not isinstance(data, dict):
                 raise TypeError()
-            response_200_type_1 = CheckListEvent.from_dict(data)
+            response_200_type_1 = RunEvent.from_dict(data)
 
 
 
@@ -95,7 +95,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[CheckListEvent | Dashboard | Error]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Dashboard | RunEvent | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -111,7 +111,7 @@ def sync_detailed(
     include_hidden: bool | Unset = False,
     sid: str | Unset = UNSET,
 
-) -> Response[CheckListEvent | Dashboard | Error]:
+) -> Response[Dashboard | RunEvent | Error]:
     """ Server-Sent Events stream of the signed-in user's own dashboard
 
      Pushes a fresh snapshot every time this user's background
@@ -132,10 +132,11 @@ def sync_detailed(
 
     A client that passes `sid` can also follow the job lists of the
     pull requests and default branches it has open, through
-    `POST /api/dashboard/stream/watch`. Each list arrives as a named
-    `checks` event on this stream, so a client that only listens for
-    default messages never sees one. A reconnect reuses the same
-    `sid` with nothing watched, so the client sends its watch again.
+    `POST /api/dashboard/stream/watch`. Each list arrives as named
+    `run` events on this stream, one for each workflow run attempt, so a
+    client that only listens for default messages never sees one. A
+    reconnect reuses the same `sid` with nothing watched, so the client
+    sends its watch again.
 
     Args:
         include_drafts (bool | Unset):  Default: False.
@@ -147,7 +148,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CheckListEvent | Dashboard | Error]
+        Response[Dashboard | RunEvent | Error]
      """
 
 
@@ -171,7 +172,7 @@ def sync(
     include_hidden: bool | Unset = False,
     sid: str | Unset = UNSET,
 
-) -> CheckListEvent | Dashboard | Error | None:
+) -> Dashboard | RunEvent | Error | None:
     """ Server-Sent Events stream of the signed-in user's own dashboard
 
      Pushes a fresh snapshot every time this user's background
@@ -192,10 +193,11 @@ def sync(
 
     A client that passes `sid` can also follow the job lists of the
     pull requests and default branches it has open, through
-    `POST /api/dashboard/stream/watch`. Each list arrives as a named
-    `checks` event on this stream, so a client that only listens for
-    default messages never sees one. A reconnect reuses the same
-    `sid` with nothing watched, so the client sends its watch again.
+    `POST /api/dashboard/stream/watch`. Each list arrives as named
+    `run` events on this stream, one for each workflow run attempt, so a
+    client that only listens for default messages never sees one. A
+    reconnect reuses the same `sid` with nothing watched, so the client
+    sends its watch again.
 
     Args:
         include_drafts (bool | Unset):  Default: False.
@@ -207,7 +209,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        CheckListEvent | Dashboard | Error
+        Dashboard | RunEvent | Error
      """
 
 
@@ -226,7 +228,7 @@ async def asyncio_detailed(
     include_hidden: bool | Unset = False,
     sid: str | Unset = UNSET,
 
-) -> Response[CheckListEvent | Dashboard | Error]:
+) -> Response[Dashboard | RunEvent | Error]:
     """ Server-Sent Events stream of the signed-in user's own dashboard
 
      Pushes a fresh snapshot every time this user's background
@@ -247,10 +249,11 @@ async def asyncio_detailed(
 
     A client that passes `sid` can also follow the job lists of the
     pull requests and default branches it has open, through
-    `POST /api/dashboard/stream/watch`. Each list arrives as a named
-    `checks` event on this stream, so a client that only listens for
-    default messages never sees one. A reconnect reuses the same
-    `sid` with nothing watched, so the client sends its watch again.
+    `POST /api/dashboard/stream/watch`. Each list arrives as named
+    `run` events on this stream, one for each workflow run attempt, so a
+    client that only listens for default messages never sees one. A
+    reconnect reuses the same `sid` with nothing watched, so the client
+    sends its watch again.
 
     Args:
         include_drafts (bool | Unset):  Default: False.
@@ -262,7 +265,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CheckListEvent | Dashboard | Error]
+        Response[Dashboard | RunEvent | Error]
      """
 
 
@@ -286,7 +289,7 @@ async def asyncio(
     include_hidden: bool | Unset = False,
     sid: str | Unset = UNSET,
 
-) -> CheckListEvent | Dashboard | Error | None:
+) -> Dashboard | RunEvent | Error | None:
     """ Server-Sent Events stream of the signed-in user's own dashboard
 
      Pushes a fresh snapshot every time this user's background
@@ -307,10 +310,11 @@ async def asyncio(
 
     A client that passes `sid` can also follow the job lists of the
     pull requests and default branches it has open, through
-    `POST /api/dashboard/stream/watch`. Each list arrives as a named
-    `checks` event on this stream, so a client that only listens for
-    default messages never sees one. A reconnect reuses the same
-    `sid` with nothing watched, so the client sends its watch again.
+    `POST /api/dashboard/stream/watch`. Each list arrives as named
+    `run` events on this stream, one for each workflow run attempt, so a
+    client that only listens for default messages never sees one. A
+    reconnect reuses the same `sid` with nothing watched, so the client
+    sends its watch again.
 
     Args:
         include_drafts (bool | Unset):  Default: False.
@@ -322,7 +326,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        CheckListEvent | Dashboard | Error
+        Dashboard | RunEvent | Error
      """
 
 
