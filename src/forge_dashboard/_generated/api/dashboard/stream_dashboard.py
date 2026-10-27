@@ -8,6 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.check_list_event import CheckListEvent
 from ...models.dashboard import Dashboard
 from ...models.error import Error
 from ...types import UNSET, Unset
@@ -19,6 +20,7 @@ def _get_kwargs(
     *,
     include_drafts: bool | Unset = False,
     include_hidden: bool | Unset = False,
+    sid: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
     
@@ -30,6 +32,8 @@ def _get_kwargs(
     params["includeDrafts"] = include_drafts
 
     params["includeHidden"] = include_hidden
+
+    params["sid"] = sid
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -46,11 +50,28 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Dashboard | Error | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> CheckListEvent | Dashboard | Error | None:
     if response.status_code == 200:
-        response_200 = Dashboard.from_dict(response.text)
+        def _parse_response_200(data: object) -> CheckListEvent | Dashboard:
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                response_200_type_0 = Dashboard.from_dict(data)
 
 
+
+                return response_200_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            if not isinstance(data, dict):
+                raise TypeError()
+            response_200_type_1 = CheckListEvent.from_dict(data)
+
+
+
+            return response_200_type_1
+
+        response_200 = _parse_response_200(response.text)
 
         return response_200
 
@@ -74,7 +95,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Dashboard | Error]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[CheckListEvent | Dashboard | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -88,8 +109,9 @@ def sync_detailed(
     client: AuthenticatedClient,
     include_drafts: bool | Unset = False,
     include_hidden: bool | Unset = False,
+    sid: str | Unset = UNSET,
 
-) -> Response[Dashboard | Error]:
+) -> Response[CheckListEvent | Dashboard | Error]:
     """ Server-Sent Events stream of the signed-in user's own dashboard
 
      Pushes a fresh snapshot every time this user's background
@@ -108,22 +130,31 @@ def sync_detailed(
     applies to every event on it. A client that changes its mind
     reconnects with the new value.
 
+    A client that passes `sid` can also follow the job lists of the
+    pull requests and default branches it has open, through
+    `POST /api/dashboard/stream/watch`. Each list arrives as a named
+    `checks` event on this stream, so a client that only listens for
+    default messages never sees one. A reconnect reuses the same
+    `sid` with nothing watched, so the client sends its watch again.
+
     Args:
         include_drafts (bool | Unset):  Default: False.
         include_hidden (bool | Unset):  Default: False.
+        sid (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Dashboard | Error]
+        Response[CheckListEvent | Dashboard | Error]
      """
 
 
     kwargs = _get_kwargs(
         include_drafts=include_drafts,
 include_hidden=include_hidden,
+sid=sid,
 
     )
 
@@ -138,8 +169,9 @@ def sync(
     client: AuthenticatedClient,
     include_drafts: bool | Unset = False,
     include_hidden: bool | Unset = False,
+    sid: str | Unset = UNSET,
 
-) -> Dashboard | Error | None:
+) -> CheckListEvent | Dashboard | Error | None:
     """ Server-Sent Events stream of the signed-in user's own dashboard
 
      Pushes a fresh snapshot every time this user's background
@@ -158,16 +190,24 @@ def sync(
     applies to every event on it. A client that changes its mind
     reconnects with the new value.
 
+    A client that passes `sid` can also follow the job lists of the
+    pull requests and default branches it has open, through
+    `POST /api/dashboard/stream/watch`. Each list arrives as a named
+    `checks` event on this stream, so a client that only listens for
+    default messages never sees one. A reconnect reuses the same
+    `sid` with nothing watched, so the client sends its watch again.
+
     Args:
         include_drafts (bool | Unset):  Default: False.
         include_hidden (bool | Unset):  Default: False.
+        sid (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Dashboard | Error
+        CheckListEvent | Dashboard | Error
      """
 
 
@@ -175,6 +215,7 @@ def sync(
         client=client,
 include_drafts=include_drafts,
 include_hidden=include_hidden,
+sid=sid,
 
     ).parsed
 
@@ -183,8 +224,9 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     include_drafts: bool | Unset = False,
     include_hidden: bool | Unset = False,
+    sid: str | Unset = UNSET,
 
-) -> Response[Dashboard | Error]:
+) -> Response[CheckListEvent | Dashboard | Error]:
     """ Server-Sent Events stream of the signed-in user's own dashboard
 
      Pushes a fresh snapshot every time this user's background
@@ -203,22 +245,31 @@ async def asyncio_detailed(
     applies to every event on it. A client that changes its mind
     reconnects with the new value.
 
+    A client that passes `sid` can also follow the job lists of the
+    pull requests and default branches it has open, through
+    `POST /api/dashboard/stream/watch`. Each list arrives as a named
+    `checks` event on this stream, so a client that only listens for
+    default messages never sees one. A reconnect reuses the same
+    `sid` with nothing watched, so the client sends its watch again.
+
     Args:
         include_drafts (bool | Unset):  Default: False.
         include_hidden (bool | Unset):  Default: False.
+        sid (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Dashboard | Error]
+        Response[CheckListEvent | Dashboard | Error]
      """
 
 
     kwargs = _get_kwargs(
         include_drafts=include_drafts,
 include_hidden=include_hidden,
+sid=sid,
 
     )
 
@@ -233,8 +284,9 @@ async def asyncio(
     client: AuthenticatedClient,
     include_drafts: bool | Unset = False,
     include_hidden: bool | Unset = False,
+    sid: str | Unset = UNSET,
 
-) -> Dashboard | Error | None:
+) -> CheckListEvent | Dashboard | Error | None:
     """ Server-Sent Events stream of the signed-in user's own dashboard
 
      Pushes a fresh snapshot every time this user's background
@@ -253,16 +305,24 @@ async def asyncio(
     applies to every event on it. A client that changes its mind
     reconnects with the new value.
 
+    A client that passes `sid` can also follow the job lists of the
+    pull requests and default branches it has open, through
+    `POST /api/dashboard/stream/watch`. Each list arrives as a named
+    `checks` event on this stream, so a client that only listens for
+    default messages never sees one. A reconnect reuses the same
+    `sid` with nothing watched, so the client sends its watch again.
+
     Args:
         include_drafts (bool | Unset):  Default: False.
         include_hidden (bool | Unset):  Default: False.
+        sid (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Dashboard | Error
+        CheckListEvent | Dashboard | Error
      """
 
 
@@ -270,5 +330,6 @@ async def asyncio(
         client=client,
 include_drafts=include_drafts,
 include_hidden=include_hidden,
+sid=sid,
 
     )).parsed

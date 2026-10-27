@@ -33,8 +33,11 @@ from .branch_deletion_reason import BranchDeletionReason
 from .cancel_run_request import CancelRunRequest
 from .check import Check
 from .check_counts import CheckCounts
+from .check_list_event import CheckListEvent
 from .check_log import CheckLog
 from .check_state import CheckState
+from .check_subject import CheckSubject
+from .check_subject_kind import CheckSubjectKind
 from .ci_status import CIStatus
 from .closing_issue import ClosingIssue
 from .credential import Credential
@@ -111,6 +114,7 @@ from .settings_summary import SettingsSummary
 from .settings_summary_theme import SettingsSummaryTheme
 from .stack_position import StackPosition
 from .stack_ref import StackRef
+from .stream_watch_request import StreamWatchRequest
 from .theme_request import ThemeRequest
 from .theme_request_theme import ThemeRequestTheme
 from .theme_response import ThemeResponse
@@ -157,8 +161,11 @@ __all__ = (
     "CancelRunRequest",
     "Check",
     "CheckCounts",
+    "CheckListEvent",
     "CheckLog",
     "CheckState",
+    "CheckSubject",
+    "CheckSubjectKind",
     "CIStatus",
     "ClosingIssue",
     "Credential",
@@ -235,6 +242,7 @@ __all__ = (
     "SettingsSummaryTheme",
     "StackPosition",
     "StackRef",
+    "StreamWatchRequest",
     "ThemeRequest",
     "ThemeRequestTheme",
     "ThemeResponse",
