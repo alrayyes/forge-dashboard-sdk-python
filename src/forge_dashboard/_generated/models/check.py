@@ -8,7 +8,8 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..models.check_state import CheckState
+from ..models.check_conclusion import CheckConclusion
+from ..models.check_status import CheckStatus
 from ..types import UNSET, Unset
 from typing import cast
 import datetime
@@ -28,21 +29,22 @@ class Check:
 
         Attributes:
             name (str):
-            state (CheckState): One job/check's own status — the per-job detail CIStatus
-                deliberately doesn't carry, since CIStatus is the combined result
-                across every one of them.
+            status (CheckStatus): How far one job has got, as a fact. The page works out what to show
+                from it and `conclusion`.
 
-                "awaiting_approval" is a GitHub workflow run held until a
-                maintainer approves it. It has no jobs yet, so it is not queued and
-                not failed; its `url` is the run's page, where the approve button is.
+                "waiting" is a GitHub workflow run held until a maintainer approves
+                it. It has no jobs yet, so it is not queued and has not failed; its
+                `url` is the run's page, where the approve button is.
             url (str): That job's own page on the forge that ran it — never the pull request's own page.
+            conclusion (CheckConclusion | Unset): How a finished job ended. Sent only when `status` is "completed".
+                Both forges' own results are folded onto these five.
             job_id (int | Unset): The Actions job (or check run) id to pass to GET /api/checks/log.
                 Absent for a legacy commit status and for a workflow held for
                 approval, which have no output to read.
             run_id (int | Unset): The Actions workflow run this job belongs to, to pass to
                 `POST /api/checks/cancel-run`. Present on every Actions job,
                 finished or not; only a job that is queued or running has
-                anything left to cancel, which a client reads from `state`. A
+                anything left to cancel, which a client reads from `status`. A
                 third-party check and a legacy commit status have none.
 
                 A Forgejo run whose jobs couldn't be read is listed as one check
@@ -87,8 +89,9 @@ class Check:
      """
 
     name: str
-    state: CheckState
+    status: CheckStatus
     url: str
+    conclusion: CheckConclusion | Unset = UNSET
     job_id: int | Unset = UNSET
     run_id: int | Unset = UNSET
     run_name: str | Unset = UNSET
@@ -108,9 +111,14 @@ class Check:
     def to_dict(self) -> dict[str, Any]:
         name = self.name
 
-        state = self.state.value
+        status = self.status.value
 
         url = self.url
+
+        conclusion: str | Unset = UNSET
+        if not isinstance(self.conclusion, Unset):
+            conclusion = self.conclusion.value
+
 
         job_id = self.job_id
 
@@ -141,9 +149,11 @@ class Check:
         field_dict.update(self.additional_properties)
         field_dict.update({
             "name": name,
-            "state": state,
+            "status": status,
             "url": url,
         })
+        if conclusion is not UNSET:
+            field_dict["conclusion"] = conclusion
         if job_id is not UNSET:
             field_dict["jobId"] = job_id
         if run_id is not UNSET:
@@ -174,12 +184,22 @@ class Check:
         d = dict(src_dict)
         name = d.pop("name")
 
-        state = CheckState(d.pop("state"))
+        status = CheckStatus(d.pop("status"))
 
 
 
 
         url = d.pop("url")
+
+        _conclusion = d.pop("conclusion", UNSET)
+        conclusion: CheckConclusion | Unset
+        if isinstance(_conclusion,  Unset):
+            conclusion = UNSET
+        else:
+            conclusion = CheckConclusion(_conclusion)
+
+
+
 
         job_id = d.pop("jobId", UNSET)
 
@@ -219,8 +239,9 @@ class Check:
 
         check = cls(
             name=name,
-            state=state,
+            status=status,
             url=url,
+            conclusion=conclusion,
             job_id=job_id,
             run_id=run_id,
             run_name=run_name,
