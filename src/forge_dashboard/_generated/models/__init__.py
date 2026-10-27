@@ -32,7 +32,6 @@ from .branch_deletion_outcome import BranchDeletionOutcome
 from .branch_deletion_reason import BranchDeletionReason
 from .cancel_run_request import CancelRunRequest
 from .check import Check
-from .check_conclusion import CheckConclusion
 from .check_counts import CheckCounts
 from .check_log import CheckLog
 from .check_status import CheckStatus
@@ -160,7 +159,6 @@ __all__ = (
     "BranchDeletionReason",
     "CancelRunRequest",
     "Check",
-    "CheckConclusion",
     "CheckCounts",
     "CheckLog",
     "CheckStatus",
