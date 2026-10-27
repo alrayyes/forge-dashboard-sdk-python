@@ -10,6 +10,8 @@ from ..types import UNSET, Unset
 
 from ..models.check_state import CheckState
 from ..types import UNSET, Unset
+from typing import cast
+import datetime
 
 
 
@@ -57,9 +59,12 @@ class Check:
                 `status_check_contexts`). Absent when the forge can't tell — a
                 token that can't read protection, or a check that can't be
                 mapped to a protection entry. Absent is not the same as false.
-            duration_seconds (int | Unset): How long a completed check ran. Absent while it runs, or when
-                the forge doesn't say. GitHub only: Forgejo's API doesn't give
-                a job's timing.
+            started_at (datetime.datetime | Unset): When the forge says the job started. Absent until it has, and when
+                the forge doesn't say. GitHub only: Forgejo's API doesn't give a
+                job's timing. A client works out how long a job ran from this and
+                `completedAt`.
+            completed_at (datetime.datetime | Unset): When the forge says the job finished. Absent while it runs, and
+                when the forge doesn't say. GitHub only, like `startedAt`.
             run_attempt (int | Unset): Which attempt of its workflow run the job belongs to. Forgejo
                 only: it keeps a job's id and page when a run is retried, so this
                 is what tells a retry's output from the first attempt's. Absent
@@ -87,7 +92,8 @@ class Check:
     run_name: str | Unset = UNSET
     run_number: int | Unset = UNSET
     required: bool | Unset = UNSET
-    duration_seconds: int | Unset = UNSET
+    started_at: datetime.datetime | Unset = UNSET
+    completed_at: datetime.datetime | Unset = UNSET
     run_attempt: int | Unset = UNSET
     failed_step: str | Unset = UNSET
     excerpt: str | Unset = UNSET
@@ -114,7 +120,13 @@ class Check:
 
         required = self.required
 
-        duration_seconds = self.duration_seconds
+        started_at: str | Unset = UNSET
+        if not isinstance(self.started_at, Unset):
+            started_at = self.started_at.isoformat()
+
+        completed_at: str | Unset = UNSET
+        if not isinstance(self.completed_at, Unset):
+            completed_at = self.completed_at.isoformat()
 
         run_attempt = self.run_attempt
 
@@ -140,8 +152,10 @@ class Check:
             field_dict["runNumber"] = run_number
         if required is not UNSET:
             field_dict["required"] = required
-        if duration_seconds is not UNSET:
-            field_dict["durationSeconds"] = duration_seconds
+        if started_at is not UNSET:
+            field_dict["startedAt"] = started_at
+        if completed_at is not UNSET:
+            field_dict["completedAt"] = completed_at
         if run_attempt is not UNSET:
             field_dict["runAttempt"] = run_attempt
         if failed_step is not UNSET:
@@ -175,7 +189,25 @@ class Check:
 
         required = d.pop("required", UNSET)
 
-        duration_seconds = d.pop("durationSeconds", UNSET)
+        _started_at = d.pop("startedAt", UNSET)
+        started_at: datetime.datetime | Unset
+        if isinstance(_started_at,  Unset):
+            started_at = UNSET
+        else:
+            started_at = datetime.datetime.fromisoformat(_started_at)
+
+
+
+
+        _completed_at = d.pop("completedAt", UNSET)
+        completed_at: datetime.datetime | Unset
+        if isinstance(_completed_at,  Unset):
+            completed_at = UNSET
+        else:
+            completed_at = datetime.datetime.fromisoformat(_completed_at)
+
+
+
 
         run_attempt = d.pop("runAttempt", UNSET)
 
@@ -192,7 +224,8 @@ class Check:
             run_name=run_name,
             run_number=run_number,
             required=required,
-            duration_seconds=duration_seconds,
+            started_at=started_at,
+            completed_at=completed_at,
             run_attempt=run_attempt,
             failed_step=failed_step,
             excerpt=excerpt,
