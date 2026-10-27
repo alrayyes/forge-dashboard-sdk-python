@@ -8,7 +8,6 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..models.check_conclusion import CheckConclusion
 from ..models.check_status import CheckStatus
 from ..types import UNSET, Unset
 from typing import cast
@@ -34,10 +33,24 @@ class Check:
 
                 "waiting" is a GitHub workflow run held until a maintainer approves
                 it. It has no jobs yet, so it is not queued and has not failed; its
-                `url` is the run's page, where the approve button is.
+                `url` is the run's page, where the approve button is. A check run
+                that finishes as `action_required` is the other shape of the same
+                wait: it is "completed" with that conclusion. The page treats the
+                two alike.
             url (str): That job's own page on the forge that ran it — never the pull request's own page.
-            conclusion (CheckConclusion | Unset): How a finished job ended. Sent only when `status` is "completed".
-                Both forges' own results are folded onto these five.
+            conclusion (str | Unset): How a finished job ended, in the forge's own word. Sent only when
+                `status` is "completed". It is not folded onto a fixed set: GitHub
+                sends its check run conclusion as it is (`success`, `failure`,
+                `neutral`, `cancelled`, `skipped`, `timed_out`, `action_required`,
+                `stale`, `startup_failure`) and Forgejo sends the terminal status of
+                the job (`success`, `failure`, `cancelled`, `skipped`). A legacy
+                commit status, which has no conclusion, is sent as `success` or
+                `failure`. A client decides what each word means and what to do
+                with one it doesn't know.
+
+                `action_required` means the job needs someone's approval, and `url`
+                is where to give it. The page shows it as waiting for approval,
+                the same as a held run whose `status` is "waiting".
             job_id (int | Unset): The Actions job (or check run) id to pass to GET /api/checks/log.
                 Absent for a legacy commit status and for a workflow held for
                 approval, which have no output to read.
@@ -92,7 +105,7 @@ class Check:
     name: str
     status: CheckStatus
     url: str
-    conclusion: CheckConclusion | Unset = UNSET
+    conclusion: str | Unset = UNSET
     job_id: int | Unset = UNSET
     run_id: int | Unset = UNSET
     run_name: str | Unset = UNSET
@@ -116,10 +129,7 @@ class Check:
 
         url = self.url
 
-        conclusion: str | Unset = UNSET
-        if not isinstance(self.conclusion, Unset):
-            conclusion = self.conclusion.value
-
+        conclusion = self.conclusion
 
         job_id = self.job_id
 
@@ -192,15 +202,7 @@ class Check:
 
         url = d.pop("url")
 
-        _conclusion = d.pop("conclusion", UNSET)
-        conclusion: CheckConclusion | Unset
-        if isinstance(_conclusion,  Unset):
-            conclusion = UNSET
-        else:
-            conclusion = CheckConclusion(_conclusion)
-
-
-
+        conclusion = d.pop("conclusion", UNSET)
 
         job_id = d.pop("jobId", UNSET)
 
