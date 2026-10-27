@@ -469,7 +469,7 @@ wheels = [
 
 [[package]]
 name = "forge-dashboard-sdk"
-version = "12.0.2"
+version = "13.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "attrs" },
