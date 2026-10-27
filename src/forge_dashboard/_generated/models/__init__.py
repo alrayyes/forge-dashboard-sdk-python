@@ -32,10 +32,11 @@ from .branch_deletion_outcome import BranchDeletionOutcome
 from .branch_deletion_reason import BranchDeletionReason
 from .cancel_run_request import CancelRunRequest
 from .check import Check
+from .check_conclusion import CheckConclusion
 from .check_counts import CheckCounts
 from .check_list_event import CheckListEvent
 from .check_log import CheckLog
-from .check_state import CheckState
+from .check_status import CheckStatus
 from .check_subject import CheckSubject
 from .check_subject_kind import CheckSubjectKind
 from .ci_status import CIStatus
@@ -159,10 +160,11 @@ __all__ = (
     "BranchDeletionReason",
     "CancelRunRequest",
     "Check",
+    "CheckConclusion",
     "CheckCounts",
     "CheckListEvent",
     "CheckLog",
-    "CheckState",
+    "CheckStatus",
     "CheckSubject",
     "CheckSubjectKind",
     "CIStatus",

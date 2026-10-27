@@ -1,11 +1,8 @@
 from enum import StrEnum
 
-class CheckState(StrEnum):
-    AWAITING_APPROVAL = "awaiting_approval"
+class CheckConclusion(StrEnum):
     CANCELLED = "cancelled"
     FAILURE = "failure"
-    QUEUED = "queued"
-    RUNNING = "running"
     SKIPPED = "skipped"
     SUCCESS = "success"
     TIMED_OUT = "timed_out"
