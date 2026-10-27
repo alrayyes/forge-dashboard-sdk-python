@@ -120,7 +120,7 @@ def sync_detailed(
 
      The branch twin of POST /api/pull-requests/rerun-checks. Asks the forge
     to rerun the failed jobs of the Actions workflow runs on the commit
-    GET /api/main-branches/checks lists, and nothing that passed. It
+    the branch's job list shows, and nothing that passed. It
     answers once the forge has queued them, not when they finish, so a
     client shows a queued state and lets the next refresh carry the result.
 
@@ -168,7 +168,7 @@ def sync(
 
      The branch twin of POST /api/pull-requests/rerun-checks. Asks the forge
     to rerun the failed jobs of the Actions workflow runs on the commit
-    GET /api/main-branches/checks lists, and nothing that passed. It
+    the branch's job list shows, and nothing that passed. It
     answers once the forge has queued them, not when they finish, so a
     client shows a queued state and lets the next refresh carry the result.
 
@@ -211,7 +211,7 @@ async def asyncio_detailed(
 
      The branch twin of POST /api/pull-requests/rerun-checks. Asks the forge
     to rerun the failed jobs of the Actions workflow runs on the commit
-    GET /api/main-branches/checks lists, and nothing that passed. It
+    the branch's job list shows, and nothing that passed. It
     answers once the forge has queued them, not when they finish, so a
     client shows a queued state and lets the next refresh carry the result.
 
@@ -259,7 +259,7 @@ async def asyncio(
 
      The branch twin of POST /api/pull-requests/rerun-checks. Asks the forge
     to rerun the failed jobs of the Actions workflow runs on the commit
-    GET /api/main-branches/checks lists, and nothing that passed. It
+    the branch's job list shows, and nothing that passed. It
     answers once the forge has queued them, not when they finish, so a
     client shows a queued state and lets the next refresh carry the result.
 

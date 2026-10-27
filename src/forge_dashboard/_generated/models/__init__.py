@@ -79,7 +79,6 @@ from .presence_report import PresenceReport
 from .pull_request import PullRequest
 from .pull_request_action_request import PullRequestActionRequest
 from .pull_request_auto_update_request import PullRequestAutoUpdateRequest
-from .pull_request_checks_response import PullRequestChecksResponse
 from .pull_request_dependabot_action_request import PullRequestDependabotActionRequest
 from .pull_request_dependabot_action_request_action import PullRequestDependabotActionRequestAction
 from .pull_request_details import PullRequestDetails
@@ -207,7 +206,6 @@ __all__ = (
     "PullRequest",
     "PullRequestActionRequest",
     "PullRequestAutoUpdateRequest",
-    "PullRequestChecksResponse",
     "PullRequestDependabotActionRequest",
     "PullRequestDependabotActionRequestAction",
     "PullRequestDetails",
