@@ -151,9 +151,7 @@ def sync_detailed(
     (a GitHub repository's logo, see `logoUrl` on a repo in GET
     /api/dashboard) and the Forgejo host.
 
-    The error answers are those of GET /api/pull-requests/checks, with
-    the same codes. A forge that can't be read is an error, never an
-    empty thread.
+    A forge that can't be read is an error, never an empty thread.
 
     Args:
         forge (Forge):
@@ -218,9 +216,7 @@ def sync(
     (a GitHub repository's logo, see `logoUrl` on a repo in GET
     /api/dashboard) and the Forgejo host.
 
-    The error answers are those of GET /api/pull-requests/checks, with
-    the same codes. A forge that can't be read is an error, never an
-    empty thread.
+    A forge that can't be read is an error, never an empty thread.
 
     Args:
         forge (Forge):
@@ -280,9 +276,7 @@ async def asyncio_detailed(
     (a GitHub repository's logo, see `logoUrl` on a repo in GET
     /api/dashboard) and the Forgejo host.
 
-    The error answers are those of GET /api/pull-requests/checks, with
-    the same codes. A forge that can't be read is an error, never an
-    empty thread.
+    A forge that can't be read is an error, never an empty thread.
 
     Args:
         forge (Forge):
@@ -347,9 +341,7 @@ async def asyncio(
     (a GitHub repository's logo, see `logoUrl` on a repo in GET
     /api/dashboard) and the Forgejo host.
 
-    The error answers are those of GET /api/pull-requests/checks, with
-    the same codes. A forge that can't be read is an error, never an
-    empty thread.
+    A forge that can't be read is an error, never an empty thread.
 
     Args:
         forge (Forge):

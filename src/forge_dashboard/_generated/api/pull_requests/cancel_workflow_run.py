@@ -120,9 +120,8 @@ def sync_detailed(
 
      Asks the forge to cancel a whole workflow run: every job of it stops,
     because neither GitHub nor Forgejo can stop one job of a running
-    workflow. A client takes `runId` from a check in a checks list
-    (`GET /api/pull-requests/checks` or `GET /api/main-branches/checks`),
-    where a job that is still queued or running carries the id and name of
+    workflow. A client takes `runId` from a check in a `checks` event on
+    GET /api/dashboard/stream, where a job that is still queued or running carries the id and name of
     its run. A check with no `runId` (a third-party check, a legacy commit
     status, an external CI) belongs to no Actions run and can't be
     cancelled here.
@@ -181,9 +180,8 @@ def sync(
 
      Asks the forge to cancel a whole workflow run: every job of it stops,
     because neither GitHub nor Forgejo can stop one job of a running
-    workflow. A client takes `runId` from a check in a checks list
-    (`GET /api/pull-requests/checks` or `GET /api/main-branches/checks`),
-    where a job that is still queued or running carries the id and name of
+    workflow. A client takes `runId` from a check in a `checks` event on
+    GET /api/dashboard/stream, where a job that is still queued or running carries the id and name of
     its run. A check with no `runId` (a third-party check, a legacy commit
     status, an external CI) belongs to no Actions run and can't be
     cancelled here.
@@ -237,9 +235,8 @@ async def asyncio_detailed(
 
      Asks the forge to cancel a whole workflow run: every job of it stops,
     because neither GitHub nor Forgejo can stop one job of a running
-    workflow. A client takes `runId` from a check in a checks list
-    (`GET /api/pull-requests/checks` or `GET /api/main-branches/checks`),
-    where a job that is still queued or running carries the id and name of
+    workflow. A client takes `runId` from a check in a `checks` event on
+    GET /api/dashboard/stream, where a job that is still queued or running carries the id and name of
     its run. A check with no `runId` (a third-party check, a legacy commit
     status, an external CI) belongs to no Actions run and can't be
     cancelled here.
@@ -298,9 +295,8 @@ async def asyncio(
 
      Asks the forge to cancel a whole workflow run: every job of it stops,
     because neither GitHub nor Forgejo can stop one job of a running
-    workflow. A client takes `runId` from a check in a checks list
-    (`GET /api/pull-requests/checks` or `GET /api/main-branches/checks`),
-    where a job that is still queued or running carries the id and name of
+    workflow. A client takes `runId` from a check in a `checks` event on
+    GET /api/dashboard/stream, where a job that is still queued or running carries the id and name of
     its run. A check with no `runId` (a third-party check, a legacy commit
     status, an external CI) belongs to no Actions run and can't be
     cancelled here.
