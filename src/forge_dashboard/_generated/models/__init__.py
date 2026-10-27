@@ -34,7 +34,6 @@ from .cancel_run_request import CancelRunRequest
 from .check import Check
 from .check_conclusion import CheckConclusion
 from .check_counts import CheckCounts
-from .check_list_event import CheckListEvent
 from .check_log import CheckLog
 from .check_status import CheckStatus
 from .check_subject import CheckSubject
@@ -106,6 +105,7 @@ from .repo_ignore_request import RepoIgnoreRequest
 from .repo_status import RepoStatus
 from .review_state import ReviewState
 from .review_state_decision import ReviewStateDecision
+from .run_event import RunEvent
 from .session_user import SessionUser
 from .settings_request import SettingsRequest
 from .settings_response import SettingsResponse
@@ -162,7 +162,6 @@ __all__ = (
     "Check",
     "CheckConclusion",
     "CheckCounts",
-    "CheckListEvent",
     "CheckLog",
     "CheckStatus",
     "CheckSubject",
@@ -234,6 +233,7 @@ __all__ = (
     "RepoStatus",
     "ReviewState",
     "ReviewStateDecision",
+    "RunEvent",
     "SessionUser",
     "SettingsRequest",
     "SettingsResponse",
