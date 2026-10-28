@@ -44,7 +44,9 @@ class ForgeHealth:
                 response are the last good ones, fetched at this time, instead of
                 none. Absent when the data
                 is current, and for a forge that has never fetched successfully,
-                which has nothing to show. A client can say "unreachable, showing
+                which has nothing to show. A forge that has not answered within
+                three minutes counts as failed, so a hung forge does not hold
+                back the others. A client can say "unreachable, showing
                 data from 3 minutes ago".
             error (str | Unset): A human-readable explanation of the last failure, if reachable is false. Mapped from
                 errorKind, not the raw underlying error text. Omitted when reachable.
