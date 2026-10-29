@@ -59,6 +59,11 @@ class MainBranchRun:
                 the same as a held run whose `status` is "waiting".
             started_at (datetime.datetime | Unset): When the forge says the run attempt started. Absent until it has.
             completed_at (datetime.datetime | Unset): When the forge says the run attempt finished. Absent until it has.
+            jobs_truncated (bool | Unset): True when the forge has more jobs for this run attempt than `checks`
+                lists, because the job list was cut short. Absent when the list is
+                whole. A page that folds jobs can't tell a cut list from a whole one,
+                so it keeps the row's own `status` and `checks` while any run says
+                this.
      """
 
     checks: list[Check]
@@ -68,6 +73,7 @@ class MainBranchRun:
     conclusion: str | Unset = UNSET
     started_at: datetime.datetime | Unset = UNSET
     completed_at: datetime.datetime | Unset = UNSET
+    jobs_truncated: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -102,6 +108,8 @@ class MainBranchRun:
         if not isinstance(self.completed_at, Unset):
             completed_at = self.completed_at.isoformat()
 
+        jobs_truncated = self.jobs_truncated
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -120,6 +128,8 @@ class MainBranchRun:
             field_dict["startedAt"] = started_at
         if completed_at is not UNSET:
             field_dict["completedAt"] = completed_at
+        if jobs_truncated is not UNSET:
+            field_dict["jobsTruncated"] = jobs_truncated
 
         return field_dict
 
@@ -175,6 +185,8 @@ class MainBranchRun:
 
 
 
+        jobs_truncated = d.pop("jobsTruncated", UNSET)
+
         main_branch_run = cls(
             checks=checks,
             run_id=run_id,
@@ -183,6 +195,7 @@ class MainBranchRun:
             conclusion=conclusion,
             started_at=started_at,
             completed_at=completed_at,
+            jobs_truncated=jobs_truncated,
         )
 
 
