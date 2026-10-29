@@ -19,6 +19,7 @@ if TYPE_CHECKING:
   from ..models.check_counts import CheckCounts
   from ..models.main_branch_commit import MainBranchCommit
   from ..models.main_branch_release import MainBranchRelease
+  from ..models.main_branch_run import MainBranchRun
 
 
 
@@ -119,6 +120,14 @@ class MainBranch:
             stale_since (datetime.datetime | None): Set when this row is the last known one because its forge couldn't
                 be read or its rate limit is spent: the time it was last fetched.
                 Null otherwise. A client offers no write on a stale row.
+            runs (list[MainBranchRun] | Unset): What each workflow run attempt on the newest commit did, the
+                facts `status`, `failingJobs` and `checks` were worked out from,
+                in the order the forge listed them. A client can fold them into
+                its own pill. They are the jobs `GET /api/main-branches/checks`
+                lists, grouped as the stream's `run` events group them. Present
+                for a Forgejo repository with at least one run; absent for a
+                GitHub repository, whose refresh reads counts rather than runs,
+                and for a repository with no run.
             advisories (Advisories | Unset): The open dependency advisories on a repository's default branch, read
                 from GitHub's Dependabot alerts, or for a Forgejo repository from the
                 packages in its lockfiles matched against OSV, when the operator has
@@ -142,6 +151,7 @@ class MainBranch:
     checks: CheckCounts
     latest_release: MainBranchRelease | None
     stale_since: datetime.datetime | None
+    runs: list[MainBranchRun] | Unset = UNSET
     advisories: Advisories | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -154,6 +164,7 @@ class MainBranch:
         from ..models.check_counts import CheckCounts # noqa: PLC0415
         from ..models.main_branch_commit import MainBranchCommit # noqa: PLC0415
         from ..models.main_branch_release import MainBranchRelease # noqa: PLC0415
+        from ..models.main_branch_run import MainBranchRun # noqa: PLC0415
         forge = self.forge.value
 
         full_name = self.full_name
@@ -199,6 +210,15 @@ class MainBranch:
         else:
             stale_since = self.stale_since
 
+        runs: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.runs, Unset):
+            runs = []
+            for runs_item_data in self.runs:
+                runs_item = runs_item_data.to_dict()
+                runs.append(runs_item)
+
+
+
         advisories: dict[str, Any] | Unset = UNSET
         if not isinstance(self.advisories, Unset):
             advisories = self.advisories.to_dict()
@@ -221,6 +241,8 @@ class MainBranch:
             "latestRelease": latest_release,
             "staleSince": stale_since,
         })
+        if runs is not UNSET:
+            field_dict["runs"] = runs
         if advisories is not UNSET:
             field_dict["advisories"] = advisories
 
@@ -234,6 +256,7 @@ class MainBranch:
         from ..models.check_counts import CheckCounts # noqa: PLC0415
         from ..models.main_branch_commit import MainBranchCommit # noqa: PLC0415
         from ..models.main_branch_release import MainBranchRelease # noqa: PLC0415
+        from ..models.main_branch_run import MainBranchRun # noqa: PLC0415
         d = dict(src_dict)
         forge = Forge(d.pop("forge"))
 
@@ -341,6 +364,18 @@ class MainBranch:
         stale_since = _parse_stale_since(d.pop("staleSince"))
 
 
+        _runs = d.pop("runs", UNSET)
+        runs: list[MainBranchRun] | Unset = UNSET
+        if _runs is not UNSET:
+            runs = []
+            for runs_item_data in _runs:
+                runs_item = MainBranchRun.from_dict(runs_item_data)
+
+
+
+                runs.append(runs_item)
+
+
         _advisories = d.pop("advisories", UNSET)
         advisories: Advisories | Unset
         if isinstance(_advisories,  Unset):
@@ -365,6 +400,7 @@ class MainBranch:
             checks=checks,
             latest_release=latest_release,
             stale_since=stale_since,
+            runs=runs,
             advisories=advisories,
         )
 
