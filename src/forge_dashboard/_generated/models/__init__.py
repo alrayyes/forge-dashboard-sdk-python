@@ -65,6 +65,7 @@ from .main_branch import MainBranch
 from .main_branch_commit import MainBranchCommit
 from .main_branch_release import MainBranchRelease
 from .main_branch_rerun_request import MainBranchRerunRequest
+from .main_branch_run import MainBranchRun
 from .main_branch_status import MainBranchStatus
 from .main_branches import MainBranches
 from .mentioned_issue import MentionedIssue
@@ -193,6 +194,7 @@ __all__ = (
     "MainBranches",
     "MainBranchRelease",
     "MainBranchRerunRequest",
+    "MainBranchRun",
     "MainBranchStatus",
     "MentionedIssue",
     "MergeStatus",
