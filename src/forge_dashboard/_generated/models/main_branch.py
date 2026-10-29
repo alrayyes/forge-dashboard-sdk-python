@@ -125,9 +125,10 @@ class MainBranch:
                 in the order the forge listed them. A client can fold them into
                 its own pill. They are the jobs `GET /api/main-branches/checks`
                 lists, grouped as the stream's `run` events group them. Present
-                for a Forgejo repository with at least one run; absent for a
-                GitHub repository, whose refresh reads counts rather than runs,
-                and for a repository with no run.
+                for a repository with at least one check. On GitHub they are the
+                first 50 checks of the newest commit, grouped by the workflow run
+                each belongs to, so every run says `jobsTruncated` when the commit
+                has more checks than that. Absent for a repository with no check.
             advisories (Advisories | Unset): The open dependency advisories on a repository's default branch, read
                 from GitHub's Dependabot alerts, or for a Forgejo repository from the
                 packages in its lockfiles matched against OSV, when the operator has
