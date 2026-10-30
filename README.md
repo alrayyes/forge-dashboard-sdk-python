@@ -35,7 +35,7 @@ forge-dashboard accepts either a browser's passkey session cookie or a
 personal API token — `Authorization: Bearer <token>` — as an alternative
 that needs no WebAuthn ceremony. This SDK only speaks the token half, the
 one a script can actually use. Mint one by signing into the dashboard once
-and calling `POST /api/tokens`, then pass it to `ForgeDashboardClient` or
+and calling `POST /api/v1/tokens`, then pass it to `ForgeDashboardClient` or
 set `FORGE_DASHBOARD_API_TOKEN` in the environment:
 
 ```python

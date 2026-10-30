@@ -16,7 +16,7 @@ from forge_dashboard.retry import AsyncRetryTransport, RetryConfig, RetryTranspo
 def _auth_echo_transport(got: dict[str, str | None]) -> httpx.MockTransport:
     def handler(request: httpx.Request) -> httpx.Response:
         got["authorization"] = request.headers.get("authorization")
-        return httpx.Response(200, json={"version": "dev"}, request=request)
+        return httpx.Response(200, json={"version": "dev", "apiVersion": "v1"}, request=request)
 
     return httpx.MockTransport(handler)
 
@@ -102,17 +102,18 @@ def test_ahealth_raises_typeerror_for_undocumented_status() -> None:
 
 def test_get_version_returns_parsed_body() -> None:
     def handler(request: httpx.Request) -> httpx.Response:
-        return httpx.Response(200, json={"version": "1.2.3"}, request=request)
+        return httpx.Response(200, json={"version": "1.2.3", "apiVersion": "v1"}, request=request)
 
     httpx_client = httpx.Client(base_url="https://example.test", transport=httpx.MockTransport(handler))
     client = ForgeDashboardClient("https://example.test", httpx_client=httpx_client)
 
     assert client.get_version().version == "1.2.3"
+    assert client.get_version().api_version == "v1"
 
 
 def test_aget_version_returns_parsed_body() -> None:
     async def handler(request: httpx.Request) -> httpx.Response:
-        return httpx.Response(200, json={"version": "1.2.3"}, request=request)
+        return httpx.Response(200, json={"version": "1.2.3", "apiVersion": "v1"}, request=request)
 
     async_client = httpx.AsyncClient(base_url="https://example.test", transport=httpx.MockTransport(handler))
     client = ForgeDashboardClient("https://example.test", httpx_async_client=async_client)
