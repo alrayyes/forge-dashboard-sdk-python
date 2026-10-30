@@ -20,7 +20,7 @@ T = TypeVar("T", bound="TimezoneRequest")
 
 @_attrs_define
 class TimezoneRequest:
-    """ See PUT /api/settings/timezone's own description.
+    """ See PUT /api/v1/settings/timezone's own description.
 
         Attributes:
             timezone (str): An IANA zone name, or empty for the browser's own. `Local` is refused.

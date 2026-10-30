@@ -26,8 +26,8 @@ class PullRequestMergeRequest:
 
         Attributes:
             forge (Forge):
-            full_name (str): "owner/repo", matching a Repo.fullName from GET /api/dashboard.
-            number (int): Matching a PullRequest.number from GET /api/dashboard.
+            full_name (str): "owner/repo", matching a Repo.fullName from GET /api/v1/dashboard.
+            number (int): Matching a PullRequest.number from GET /api/v1/dashboard.
             delete_branch (bool | Unset): Delete the source branch once the merge has landed. Default: False.
      """
 

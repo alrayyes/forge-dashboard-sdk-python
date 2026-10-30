@@ -22,10 +22,13 @@ T = TypeVar("T", bound="Version")
 class Version:
     """ 
         Attributes:
+            api_version (str): The API's current major version, such as v1: the path segment
+                the versioned operations live under. It is one value, not a list.
             version (str): The release tag this binary was built from, with no leading
                 "v" — or "dev" for a build outside the release pipeline.
      """
 
+    api_version: str
     version: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -34,12 +37,15 @@ class Version:
 
 
     def to_dict(self) -> dict[str, Any]:
+        api_version = self.api_version
+
         version = self.version
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
+            "apiVersion": api_version,
             "version": version,
         })
 
@@ -50,9 +56,12 @@ class Version:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
+        api_version = d.pop("apiVersion")
+
         version = d.pop("version")
 
         version = cls(
+            api_version=api_version,
             version=version,
         )
 

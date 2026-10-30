@@ -28,8 +28,8 @@ class PullRequestAutoUpdateRequest:
 
         Attributes:
             forge (Forge):
-            full_name (str): "owner/repo", matching a Repo.fullName from GET /api/dashboard.
-            number (int): Matching a PullRequest.number from GET /api/dashboard.
+            full_name (str): "owner/repo", matching a Repo.fullName from GET /api/v1/dashboard.
+            number (int): Matching a PullRequest.number from GET /api/v1/dashboard.
             enabled (bool | None | Unset): `true` to update this pull request automatically, `false` to
                 leave it alone, whatever its repo says. `null` or absent
                 returns it to its repo's setting.

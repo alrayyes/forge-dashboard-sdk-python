@@ -21,7 +21,7 @@ T = TypeVar("T", bound="ThemeResponse")
 
 @_attrs_define
 class ThemeResponse:
-    """ See GET /api/settings/theme's own description.
+    """ See GET /api/v1/settings/theme's own description.
 
         Attributes:
             theme (ThemeResponseTheme):

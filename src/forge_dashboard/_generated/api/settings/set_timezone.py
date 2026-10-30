@@ -29,7 +29,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "put",
-        "url": "/api/settings/timezone",
+        "url": "/api/v1/settings/timezone",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -86,12 +86,12 @@ def sync_detailed(
 ) -> Response[Error | TimezoneResponse]:
     """ Save the signed-in user's own time zone
 
-     A dedicated, instant save, not routed through PUT /api/settings,
+     A dedicated, instant save, not routed through PUT /api/v1/settings,
     which replaces every other field. Exists for browsers that report
     UTC to every page, such as Firefox with fingerprint resistance.
 
     Args:
-        body (TimezoneRequest): See PUT /api/settings/timezone's own description.
+        body (TimezoneRequest): See PUT /api/v1/settings/timezone's own description.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -121,12 +121,12 @@ def sync(
 ) -> Error | TimezoneResponse | None:
     """ Save the signed-in user's own time zone
 
-     A dedicated, instant save, not routed through PUT /api/settings,
+     A dedicated, instant save, not routed through PUT /api/v1/settings,
     which replaces every other field. Exists for browsers that report
     UTC to every page, such as Firefox with fingerprint resistance.
 
     Args:
-        body (TimezoneRequest): See PUT /api/settings/timezone's own description.
+        body (TimezoneRequest): See PUT /api/v1/settings/timezone's own description.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -151,12 +151,12 @@ async def asyncio_detailed(
 ) -> Response[Error | TimezoneResponse]:
     """ Save the signed-in user's own time zone
 
-     A dedicated, instant save, not routed through PUT /api/settings,
+     A dedicated, instant save, not routed through PUT /api/v1/settings,
     which replaces every other field. Exists for browsers that report
     UTC to every page, such as Firefox with fingerprint resistance.
 
     Args:
-        body (TimezoneRequest): See PUT /api/settings/timezone's own description.
+        body (TimezoneRequest): See PUT /api/v1/settings/timezone's own description.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -186,12 +186,12 @@ async def asyncio(
 ) -> Error | TimezoneResponse | None:
     """ Save the signed-in user's own time zone
 
-     A dedicated, instant save, not routed through PUT /api/settings,
+     A dedicated, instant save, not routed through PUT /api/v1/settings,
     which replaces every other field. Exists for browsers that report
     UTC to every page, such as Firefox with fingerprint resistance.
 
     Args:
-        body (TimezoneRequest): See PUT /api/settings/timezone's own description.
+        body (TimezoneRequest): See PUT /api/v1/settings/timezone's own description.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

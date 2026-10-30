@@ -41,7 +41,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/issues/details",
+        "url": "/api/v1/issues/details",
         "params": params,
     }
 
@@ -127,9 +127,9 @@ def sync_detailed(
 
      What the issue dialog shows: the description, the conversation in
     order, and the thumbs up and thumbs down reactions on each with who
-    gave them. The same shape and rules as GET /api/pull-requests/details
+    gave them. The same shape and rules as GET /api/v1/pull-requests/details
     without the release notes, which only a pull request has. Fetched live
-    on every call, never as part of GET /api/dashboard's snapshot.
+    on every call, never as part of GET /api/v1/dashboard's snapshot.
 
     GitHub answers with one GraphQL query. Forgejo costs one call for the
     issue, one for its comments, one for the description's reactions and
@@ -145,7 +145,7 @@ def sync_detailed(
     number. An avatar is the forge's own URL, passed through unchanged and
     never proxied.
 
-    The error answers are those of GET /api/pull-requests/details, with
+    The error answers are those of GET /api/v1/pull-requests/details, with
     the same codes. An issue that doesn't exist is a 404, and a forge that
     can't be read is an error, never an empty thread.
 
@@ -188,9 +188,9 @@ def sync(
 
      What the issue dialog shows: the description, the conversation in
     order, and the thumbs up and thumbs down reactions on each with who
-    gave them. The same shape and rules as GET /api/pull-requests/details
+    gave them. The same shape and rules as GET /api/v1/pull-requests/details
     without the release notes, which only a pull request has. Fetched live
-    on every call, never as part of GET /api/dashboard's snapshot.
+    on every call, never as part of GET /api/v1/dashboard's snapshot.
 
     GitHub answers with one GraphQL query. Forgejo costs one call for the
     issue, one for its comments, one for the description's reactions and
@@ -206,7 +206,7 @@ def sync(
     number. An avatar is the forge's own URL, passed through unchanged and
     never proxied.
 
-    The error answers are those of GET /api/pull-requests/details, with
+    The error answers are those of GET /api/v1/pull-requests/details, with
     the same codes. An issue that doesn't exist is a 404, and a forge that
     can't be read is an error, never an empty thread.
 
@@ -244,9 +244,9 @@ async def asyncio_detailed(
 
      What the issue dialog shows: the description, the conversation in
     order, and the thumbs up and thumbs down reactions on each with who
-    gave them. The same shape and rules as GET /api/pull-requests/details
+    gave them. The same shape and rules as GET /api/v1/pull-requests/details
     without the release notes, which only a pull request has. Fetched live
-    on every call, never as part of GET /api/dashboard's snapshot.
+    on every call, never as part of GET /api/v1/dashboard's snapshot.
 
     GitHub answers with one GraphQL query. Forgejo costs one call for the
     issue, one for its comments, one for the description's reactions and
@@ -262,7 +262,7 @@ async def asyncio_detailed(
     number. An avatar is the forge's own URL, passed through unchanged and
     never proxied.
 
-    The error answers are those of GET /api/pull-requests/details, with
+    The error answers are those of GET /api/v1/pull-requests/details, with
     the same codes. An issue that doesn't exist is a 404, and a forge that
     can't be read is an error, never an empty thread.
 
@@ -305,9 +305,9 @@ async def asyncio(
 
      What the issue dialog shows: the description, the conversation in
     order, and the thumbs up and thumbs down reactions on each with who
-    gave them. The same shape and rules as GET /api/pull-requests/details
+    gave them. The same shape and rules as GET /api/v1/pull-requests/details
     without the release notes, which only a pull request has. Fetched live
-    on every call, never as part of GET /api/dashboard's snapshot.
+    on every call, never as part of GET /api/v1/dashboard's snapshot.
 
     GitHub answers with one GraphQL query. Forgejo costs one call for the
     issue, one for its comments, one for the description's reactions and
@@ -323,7 +323,7 @@ async def asyncio(
     number. An avatar is the forge's own URL, passed through unchanged and
     never proxied.
 
-    The error answers are those of GET /api/pull-requests/details, with
+    The error answers are those of GET /api/v1/pull-requests/details, with
     the same codes. An issue that doesn't exist is a 404, and a forge that
     can't be read is an error, never an empty thread.
 

@@ -21,7 +21,7 @@ T = TypeVar("T", bound="ThemeRequest")
 
 @_attrs_define
 class ThemeRequest:
-    """ See PUT /api/settings/theme's own description.
+    """ See PUT /api/v1/settings/theme's own description.
 
         Attributes:
             theme (ThemeRequestTheme):

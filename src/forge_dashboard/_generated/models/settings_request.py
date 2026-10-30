@@ -31,7 +31,7 @@ class SettingsRequest:
     0 or omitted really does disconnect the App. Rejected (400) if
     the server has no GitHub App configured (see
     SettingsResponse.githubAppConfigured). Theme isn't settable
-    here at all — see PUT /api/settings/theme.
+    here at all — see PUT /api/v1/settings/theme.
 
         Attributes:
             github_token (str | Unset):

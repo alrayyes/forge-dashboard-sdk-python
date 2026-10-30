@@ -29,7 +29,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/checks/cancel-run",
+        "url": "/api/v1/checks/cancel-run",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -121,7 +121,7 @@ def sync_detailed(
      Asks the forge to cancel a whole workflow run: every job of it stops,
     because neither GitHub nor Forgejo can stop one job of a running
     workflow. A client takes `runId` from a check in a `run` event on
-    GET /api/dashboard/stream, from a job that is still queued or running.
+    GET /api/v1/dashboard/stream, from a job that is still queued or running.
     A check with no `runId` (a third-party check, a legacy commit status,
     an external CI) belongs to no Actions run and can't be cancelled
     here.
@@ -181,7 +181,7 @@ def sync(
      Asks the forge to cancel a whole workflow run: every job of it stops,
     because neither GitHub nor Forgejo can stop one job of a running
     workflow. A client takes `runId` from a check in a `run` event on
-    GET /api/dashboard/stream, from a job that is still queued or running.
+    GET /api/v1/dashboard/stream, from a job that is still queued or running.
     A check with no `runId` (a third-party check, a legacy commit status,
     an external CI) belongs to no Actions run and can't be cancelled
     here.
@@ -236,7 +236,7 @@ async def asyncio_detailed(
      Asks the forge to cancel a whole workflow run: every job of it stops,
     because neither GitHub nor Forgejo can stop one job of a running
     workflow. A client takes `runId` from a check in a `run` event on
-    GET /api/dashboard/stream, from a job that is still queued or running.
+    GET /api/v1/dashboard/stream, from a job that is still queued or running.
     A check with no `runId` (a third-party check, a legacy commit status,
     an external CI) belongs to no Actions run and can't be cancelled
     here.
@@ -296,7 +296,7 @@ async def asyncio(
      Asks the forge to cancel a whole workflow run: every job of it stops,
     because neither GitHub nor Forgejo can stop one job of a running
     workflow. A client takes `runId` from a check in a `run` event on
-    GET /api/dashboard/stream, from a job that is still queued or running.
+    GET /api/v1/dashboard/stream, from a job that is still queued or running.
     A check with no `runId` (a third-party check, a legacy commit status,
     an external CI) belongs to no Actions run and can't be cancelled
     here.

@@ -29,7 +29,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/pull-requests/auto-merge/cancel",
+        "url": "/api/v1/pull-requests/auto-merge/cancel",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -97,7 +97,7 @@ def sync_detailed(
 ) -> Response[ActionError | Any | Error]:
     """ Cancel auto-merge on a pull request, on the signed-in user's behalf
 
-     Forgejo: removes the intent stored by `POST /api/pull-requests/auto-merge`,
+     Forgejo: removes the intent stored by `POST /api/v1/pull-requests/auto-merge`,
     so the background pass never merges the pull request. Nothing is sent
     to the forge. Idempotent: a pull request with no intent is a 204 too.
 
@@ -138,7 +138,7 @@ def sync(
 ) -> ActionError | Any | Error | None:
     """ Cancel auto-merge on a pull request, on the signed-in user's behalf
 
-     Forgejo: removes the intent stored by `POST /api/pull-requests/auto-merge`,
+     Forgejo: removes the intent stored by `POST /api/v1/pull-requests/auto-merge`,
     so the background pass never merges the pull request. Nothing is sent
     to the forge. Idempotent: a pull request with no intent is a 204 too.
 
@@ -174,7 +174,7 @@ async def asyncio_detailed(
 ) -> Response[ActionError | Any | Error]:
     """ Cancel auto-merge on a pull request, on the signed-in user's behalf
 
-     Forgejo: removes the intent stored by `POST /api/pull-requests/auto-merge`,
+     Forgejo: removes the intent stored by `POST /api/v1/pull-requests/auto-merge`,
     so the background pass never merges the pull request. Nothing is sent
     to the forge. Idempotent: a pull request with no intent is a 204 too.
 
@@ -215,7 +215,7 @@ async def asyncio(
 ) -> ActionError | Any | Error | None:
     """ Cancel auto-merge on a pull request, on the signed-in user's behalf
 
-     Forgejo: removes the intent stored by `POST /api/pull-requests/auto-merge`,
+     Forgejo: removes the intent stored by `POST /api/v1/pull-requests/auto-merge`,
     so the background pass never merges the pull request. Nothing is sent
     to the forge. Idempotent: a pull request with no intent is a 204 too.
 

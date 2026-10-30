@@ -28,7 +28,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/pull-requests/auto-update",
+        "url": "/api/v1/pull-requests/auto-update",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -91,13 +91,13 @@ def sync_detailed(
 
      A pure local write: nothing is sent to the forge. The choice is kept
     only while it differs from the repo's auto-update setting
-    (`/api/repos/auto-update-branch/enable`), so a choice that matches
+    (`/api/v1/repos/auto-update-branch/enable`), so a choice that matches
     the repo is dropped and the pull request follows the repo again, and
     a later change to the repo's setting reaches it. With `enabled`
     `null` or absent the pull request goes back to its repo's setting.
     Idempotent. A draft and a release-please pull request are never
     updated automatically, whatever is chosen: `autoUpdate.unavailable`
-    in GET /api/dashboard says so. The server forgets the choice once
+    in GET /api/v1/dashboard says so. The server forgets the choice once
     the pull request is no longer open, its repo is no longer tracked, or
     the repo's setting changes to match it. A pull request the dashboard
     doesn't hold is a 404.
@@ -137,13 +137,13 @@ def sync(
 
      A pure local write: nothing is sent to the forge. The choice is kept
     only while it differs from the repo's auto-update setting
-    (`/api/repos/auto-update-branch/enable`), so a choice that matches
+    (`/api/v1/repos/auto-update-branch/enable`), so a choice that matches
     the repo is dropped and the pull request follows the repo again, and
     a later change to the repo's setting reaches it. With `enabled`
     `null` or absent the pull request goes back to its repo's setting.
     Idempotent. A draft and a release-please pull request are never
     updated automatically, whatever is chosen: `autoUpdate.unavailable`
-    in GET /api/dashboard says so. The server forgets the choice once
+    in GET /api/v1/dashboard says so. The server forgets the choice once
     the pull request is no longer open, its repo is no longer tracked, or
     the repo's setting changes to match it. A pull request the dashboard
     doesn't hold is a 404.
@@ -178,13 +178,13 @@ async def asyncio_detailed(
 
      A pure local write: nothing is sent to the forge. The choice is kept
     only while it differs from the repo's auto-update setting
-    (`/api/repos/auto-update-branch/enable`), so a choice that matches
+    (`/api/v1/repos/auto-update-branch/enable`), so a choice that matches
     the repo is dropped and the pull request follows the repo again, and
     a later change to the repo's setting reaches it. With `enabled`
     `null` or absent the pull request goes back to its repo's setting.
     Idempotent. A draft and a release-please pull request are never
     updated automatically, whatever is chosen: `autoUpdate.unavailable`
-    in GET /api/dashboard says so. The server forgets the choice once
+    in GET /api/v1/dashboard says so. The server forgets the choice once
     the pull request is no longer open, its repo is no longer tracked, or
     the repo's setting changes to match it. A pull request the dashboard
     doesn't hold is a 404.
@@ -224,13 +224,13 @@ async def asyncio(
 
      A pure local write: nothing is sent to the forge. The choice is kept
     only while it differs from the repo's auto-update setting
-    (`/api/repos/auto-update-branch/enable`), so a choice that matches
+    (`/api/v1/repos/auto-update-branch/enable`), so a choice that matches
     the repo is dropped and the pull request follows the repo again, and
     a later change to the repo's setting reaches it. With `enabled`
     `null` or absent the pull request goes back to its repo's setting.
     Idempotent. A draft and a release-please pull request are never
     updated automatically, whatever is chosen: `autoUpdate.unavailable`
-    in GET /api/dashboard says so. The server forgets the choice once
+    in GET /api/v1/dashboard says so. The server forgets the choice once
     the pull request is no longer open, its repo is no longer tracked, or
     the repo's setting changes to match it. A pull request the dashboard
     doesn't hold is a 404.

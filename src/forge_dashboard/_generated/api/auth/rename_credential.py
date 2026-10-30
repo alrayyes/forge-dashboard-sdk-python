@@ -30,7 +30,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "patch",
-        "url": "/api/auth/credentials/{id}".format(id=quote(str(id), safe=""),),
+        "url": "/api/v1/auth/credentials/{id}".format(id=quote(str(id), safe=""),),
     }
 
     _kwargs["json"] = body.to_dict()

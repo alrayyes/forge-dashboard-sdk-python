@@ -38,7 +38,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/main-branches/advisories",
+        "url": "/api/v1/main-branches/advisories",
         "params": params,
     }
 
@@ -125,7 +125,7 @@ def sync_detailed(
     repository: each open Dependabot alert with the fields GitHub's own
     alert page shows. The list and the detail view are the same answer, so
     opening one advisory costs no second call. Fetched live on every call,
-    never as part of GET /api/main-branches' snapshot, so a repository
+    never as part of GET /api/v1/main-branches' snapshot, so a repository
     nobody opens costs no budget.
 
     Sorted by severity, highest first, then newest first. GitHub reads them
@@ -191,7 +191,7 @@ def sync(
     repository: each open Dependabot alert with the fields GitHub's own
     alert page shows. The list and the detail view are the same answer, so
     opening one advisory costs no second call. Fetched live on every call,
-    never as part of GET /api/main-branches' snapshot, so a repository
+    never as part of GET /api/v1/main-branches' snapshot, so a repository
     nobody opens costs no budget.
 
     Sorted by severity, highest first, then newest first. GitHub reads them
@@ -252,7 +252,7 @@ async def asyncio_detailed(
     repository: each open Dependabot alert with the fields GitHub's own
     alert page shows. The list and the detail view are the same answer, so
     opening one advisory costs no second call. Fetched live on every call,
-    never as part of GET /api/main-branches' snapshot, so a repository
+    never as part of GET /api/v1/main-branches' snapshot, so a repository
     nobody opens costs no budget.
 
     Sorted by severity, highest first, then newest first. GitHub reads them
@@ -318,7 +318,7 @@ async def asyncio(
     repository: each open Dependabot alert with the fields GitHub's own
     alert page shows. The list and the detail view are the same answer, so
     opening one advisory costs no second call. Fetched live on every call,
-    never as part of GET /api/main-branches' snapshot, so a repository
+    never as part of GET /api/v1/main-branches' snapshot, so a repository
     nobody opens costs no budget.
 
     Sorted by severity, highest first, then newest first. GitHub reads them

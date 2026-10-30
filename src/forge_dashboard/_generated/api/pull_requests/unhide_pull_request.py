@@ -28,7 +28,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/pull-requests/unhide",
+        "url": "/api/v1/pull-requests/unhide",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -82,7 +82,7 @@ def sync_detailed(
 ) -> Response[Any | Error]:
     """ Bring a hidden pull request back onto the signed-in user's dashboard
 
-     The reverse of POST /api/pull-requests/hide. Idempotent: restoring a
+     The reverse of POST /api/v1/pull-requests/hide. Idempotent: restoring a
     pull request that isn't hidden is a 204 too.
 
     Args:
@@ -116,7 +116,7 @@ def sync(
 ) -> Any | Error | None:
     """ Bring a hidden pull request back onto the signed-in user's dashboard
 
-     The reverse of POST /api/pull-requests/hide. Idempotent: restoring a
+     The reverse of POST /api/v1/pull-requests/hide. Idempotent: restoring a
     pull request that isn't hidden is a 204 too.
 
     Args:
@@ -145,7 +145,7 @@ async def asyncio_detailed(
 ) -> Response[Any | Error]:
     """ Bring a hidden pull request back onto the signed-in user's dashboard
 
-     The reverse of POST /api/pull-requests/hide. Idempotent: restoring a
+     The reverse of POST /api/v1/pull-requests/hide. Idempotent: restoring a
     pull request that isn't hidden is a 204 too.
 
     Args:
@@ -179,7 +179,7 @@ async def asyncio(
 ) -> Any | Error | None:
     """ Bring a hidden pull request back onto the signed-in user's dashboard
 
-     The reverse of POST /api/pull-requests/hide. Idempotent: restoring a
+     The reverse of POST /api/v1/pull-requests/hide. Idempotent: restoring a
     pull request that isn't hidden is a 204 too.
 
     Args:

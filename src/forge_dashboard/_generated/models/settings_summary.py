@@ -22,7 +22,7 @@ T = TypeVar("T", bound="SettingsSummary")
 
 @_attrs_define
 class SettingsSummary:
-    """ The signed-in user's settings as `GET /api/settings/summary` and the
+    """ The signed-in user's settings as `GET /api/v1/settings/summary` and the
     `get_settings` MCP tool return them: every field of
     SettingsResponse except `webhookToken` and `webhookSecret`, which are
     never part of it, plus `webhookConfigured`. No forge token appears,
@@ -39,7 +39,7 @@ class SettingsSummary:
             forgejo_token_set (bool):
             webhook_configured (bool): Whether this user's webhook token and secret exist. They are
                 created the first time the Settings page reads
-                `GET /api/settings`, never by this read, so this is false for a
+                `GET /api/v1/settings`, never by this read, so this is false for a
                 user who has not opened Settings yet.
             renovate_rebase_label (str):
             renovate_authors (list[str]):

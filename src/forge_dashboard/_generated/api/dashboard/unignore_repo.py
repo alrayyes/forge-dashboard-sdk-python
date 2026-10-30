@@ -28,7 +28,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/repos/unignore",
+        "url": "/api/v1/repos/unignore",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -82,7 +82,7 @@ def sync_detailed(
 ) -> Response[Any | Error]:
     """ Stop ignoring one tracked repo
 
-     The reverse of POST /api/repos/ignore. Idempotent: un-ignoring a
+     The reverse of POST /api/v1/repos/ignore. Idempotent: un-ignoring a
     repo that was never ignored is a no-op, not an error.
 
     Args:
@@ -116,7 +116,7 @@ def sync(
 ) -> Any | Error | None:
     """ Stop ignoring one tracked repo
 
-     The reverse of POST /api/repos/ignore. Idempotent: un-ignoring a
+     The reverse of POST /api/v1/repos/ignore. Idempotent: un-ignoring a
     repo that was never ignored is a no-op, not an error.
 
     Args:
@@ -145,7 +145,7 @@ async def asyncio_detailed(
 ) -> Response[Any | Error]:
     """ Stop ignoring one tracked repo
 
-     The reverse of POST /api/repos/ignore. Idempotent: un-ignoring a
+     The reverse of POST /api/v1/repos/ignore. Idempotent: un-ignoring a
     repo that was never ignored is a no-op, not an error.
 
     Args:
@@ -179,7 +179,7 @@ async def asyncio(
 ) -> Any | Error | None:
     """ Stop ignoring one tracked repo
 
-     The reverse of POST /api/repos/ignore. Idempotent: un-ignoring a
+     The reverse of POST /api/v1/repos/ignore. Idempotent: un-ignoring a
     repo that was never ignored is a no-op, not an error.
 
     Args:

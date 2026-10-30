@@ -20,7 +20,7 @@ T = TypeVar("T", bound="TimezoneResponse")
 
 @_attrs_define
 class TimezoneResponse:
-    """ See GET /api/settings/timezone's own description.
+    """ See GET /api/v1/settings/timezone's own description.
 
         Attributes:
             timezone (str): An IANA zone name such as `Europe/Amsterdam`, or empty for the browser's own.

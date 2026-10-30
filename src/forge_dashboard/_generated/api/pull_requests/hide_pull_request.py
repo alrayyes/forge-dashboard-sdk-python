@@ -28,7 +28,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/pull-requests/hide",
+        "url": "/api/v1/pull-requests/hide",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -84,12 +84,12 @@ def sync_detailed(
 
      Reversible, not destructive, like ignoring a repo: nothing is sent to
     the forge. A hidden pull request leaves `pullRequests` in
-    GET /api/dashboard and everything counted from it, and is counted in
+    GET /api/v1/dashboard and everything counted from it, and is counted in
     `hiddenPullRequests` instead. It stays listed for
     `includeHidden=true`, marked `hidden`, so a client can offer a Restore.
 
     With `days`, the hide ends by itself that many days from now. Without
-    it the pull request stays hidden until `POST /api/pull-requests/unhide`.
+    it the pull request stays hidden until `POST /api/v1/pull-requests/unhide`.
     A repeat call replaces the earlier choice (hide until restored, then
     hide for 7 days, ends with the 7 days). The server forgets the record
     once the pull request is no longer open, so the list never grows
@@ -131,12 +131,12 @@ def sync(
 
      Reversible, not destructive, like ignoring a repo: nothing is sent to
     the forge. A hidden pull request leaves `pullRequests` in
-    GET /api/dashboard and everything counted from it, and is counted in
+    GET /api/v1/dashboard and everything counted from it, and is counted in
     `hiddenPullRequests` instead. It stays listed for
     `includeHidden=true`, marked `hidden`, so a client can offer a Restore.
 
     With `days`, the hide ends by itself that many days from now. Without
-    it the pull request stays hidden until `POST /api/pull-requests/unhide`.
+    it the pull request stays hidden until `POST /api/v1/pull-requests/unhide`.
     A repeat call replaces the earlier choice (hide until restored, then
     hide for 7 days, ends with the 7 days). The server forgets the record
     once the pull request is no longer open, so the list never grows
@@ -173,12 +173,12 @@ async def asyncio_detailed(
 
      Reversible, not destructive, like ignoring a repo: nothing is sent to
     the forge. A hidden pull request leaves `pullRequests` in
-    GET /api/dashboard and everything counted from it, and is counted in
+    GET /api/v1/dashboard and everything counted from it, and is counted in
     `hiddenPullRequests` instead. It stays listed for
     `includeHidden=true`, marked `hidden`, so a client can offer a Restore.
 
     With `days`, the hide ends by itself that many days from now. Without
-    it the pull request stays hidden until `POST /api/pull-requests/unhide`.
+    it the pull request stays hidden until `POST /api/v1/pull-requests/unhide`.
     A repeat call replaces the earlier choice (hide until restored, then
     hide for 7 days, ends with the 7 days). The server forgets the record
     once the pull request is no longer open, so the list never grows
@@ -220,12 +220,12 @@ async def asyncio(
 
      Reversible, not destructive, like ignoring a repo: nothing is sent to
     the forge. A hidden pull request leaves `pullRequests` in
-    GET /api/dashboard and everything counted from it, and is counted in
+    GET /api/v1/dashboard and everything counted from it, and is counted in
     `hiddenPullRequests` instead. It stays listed for
     `includeHidden=true`, marked `hidden`, so a client can offer a Restore.
 
     With `days`, the hide ends by itself that many days from now. Without
-    it the pull request stays hidden until `POST /api/pull-requests/unhide`.
+    it the pull request stays hidden until `POST /api/v1/pull-requests/unhide`.
     A repeat call replaces the earlier choice (hide until restored, then
     hide for 7 days, ends with the 7 days). The server forgets the record
     once the pull request is no longer open, so the list never grows

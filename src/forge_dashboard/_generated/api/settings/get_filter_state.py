@@ -25,7 +25,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/settings/filter-state",
+        "url": "/api/v1/settings/filter-state",
     }
 
 
@@ -78,7 +78,7 @@ def sync_detailed(
     """ The signed-in user's own saved dashboard/Insights filter state
 
      A lightweight read of one opaque blob, deliberately not
-    GET /api/settings itself for the same reason GET /api/settings/theme
+    GET /api/v1/settings itself for the same reason GET /api/v1/settings/theme
     isn't either: this loads on every dashboard/Insights visit and
     shouldn't provision webhook credentials as a side effect.
     `{}` for a user who's never saved any filters yet, not a 404.
@@ -112,7 +112,7 @@ def sync(
     """ The signed-in user's own saved dashboard/Insights filter state
 
      A lightweight read of one opaque blob, deliberately not
-    GET /api/settings itself for the same reason GET /api/settings/theme
+    GET /api/v1/settings itself for the same reason GET /api/v1/settings/theme
     isn't either: this loads on every dashboard/Insights visit and
     shouldn't provision webhook credentials as a side effect.
     `{}` for a user who's never saved any filters yet, not a 404.
@@ -141,7 +141,7 @@ async def asyncio_detailed(
     """ The signed-in user's own saved dashboard/Insights filter state
 
      A lightweight read of one opaque blob, deliberately not
-    GET /api/settings itself for the same reason GET /api/settings/theme
+    GET /api/v1/settings itself for the same reason GET /api/v1/settings/theme
     isn't either: this loads on every dashboard/Insights visit and
     shouldn't provision webhook credentials as a side effect.
     `{}` for a user who's never saved any filters yet, not a 404.
@@ -175,7 +175,7 @@ async def asyncio(
     """ The signed-in user's own saved dashboard/Insights filter state
 
      A lightweight read of one opaque blob, deliberately not
-    GET /api/settings itself for the same reason GET /api/settings/theme
+    GET /api/v1/settings itself for the same reason GET /api/v1/settings/theme
     isn't either: this loads on every dashboard/Insights visit and
     shouldn't provision webhook credentials as a side effect.
     `{}` for a user who's never saved any filters yet, not a 404.

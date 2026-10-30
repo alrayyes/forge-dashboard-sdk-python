@@ -25,7 +25,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/stats/forge-api",
+        "url": "/api/v1/stats/forge-api",
     }
 
 
@@ -101,7 +101,7 @@ def sync_detailed(
     caller types in, so until the dashboard has one user, someone who saves
     another account's installation id sees that installation's counts. `budgets` are the rate limits
     each forge last
-    reported, the same figures as `forges` on GET /api/dashboard.
+    reported, the same figures as `forges` on GET /api/v1/dashboard.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -160,7 +160,7 @@ def sync(
     caller types in, so until the dashboard has one user, someone who saves
     another account's installation id sees that installation's counts. `budgets` are the rate limits
     each forge last
-    reported, the same figures as `forges` on GET /api/dashboard.
+    reported, the same figures as `forges` on GET /api/v1/dashboard.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -214,7 +214,7 @@ async def asyncio_detailed(
     caller types in, so until the dashboard has one user, someone who saves
     another account's installation id sees that installation's counts. `budgets` are the rate limits
     each forge last
-    reported, the same figures as `forges` on GET /api/dashboard.
+    reported, the same figures as `forges` on GET /api/v1/dashboard.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -273,7 +273,7 @@ async def asyncio(
     caller types in, so until the dashboard has one user, someone who saves
     another account's installation id sees that installation's counts. `budgets` are the rate limits
     each forge last
-    reported, the same figures as `forges` on GET /api/dashboard.
+    reported, the same figures as `forges` on GET /api/v1/dashboard.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

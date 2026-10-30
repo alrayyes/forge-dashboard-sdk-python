@@ -41,7 +41,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/pull-requests/details",
+        "url": "/api/v1/pull-requests/details",
         "params": params,
     }
 
@@ -129,7 +129,7 @@ def sync_detailed(
     conversation in order, the thumbs up and thumbs down reactions on each
     with who gave them, and, for a release pull request, the release
     notes. Fetched live on every call, never as part of GET
-    /api/dashboard's snapshot: comments and reactions for every row would
+    /api/v1/dashboard's snapshot: comments and reactions for every row would
     spend the forge's budget on rows nobody opens.
 
     GitHub answers with one GraphQL query. Forgejo costs one call for the
@@ -149,7 +149,7 @@ def sync_detailed(
     the browser loads it directly. A future policy's `img-src` has to
     allow avatars.githubusercontent.com, repository-images.githubusercontent.com
     (a GitHub repository's logo, see `logoUrl` on a repo in GET
-    /api/dashboard) and the Forgejo host.
+    /api/v1/dashboard) and the Forgejo host.
 
     A forge that can't be read is an error, never an empty thread.
 
@@ -194,7 +194,7 @@ def sync(
     conversation in order, the thumbs up and thumbs down reactions on each
     with who gave them, and, for a release pull request, the release
     notes. Fetched live on every call, never as part of GET
-    /api/dashboard's snapshot: comments and reactions for every row would
+    /api/v1/dashboard's snapshot: comments and reactions for every row would
     spend the forge's budget on rows nobody opens.
 
     GitHub answers with one GraphQL query. Forgejo costs one call for the
@@ -214,7 +214,7 @@ def sync(
     the browser loads it directly. A future policy's `img-src` has to
     allow avatars.githubusercontent.com, repository-images.githubusercontent.com
     (a GitHub repository's logo, see `logoUrl` on a repo in GET
-    /api/dashboard) and the Forgejo host.
+    /api/v1/dashboard) and the Forgejo host.
 
     A forge that can't be read is an error, never an empty thread.
 
@@ -254,7 +254,7 @@ async def asyncio_detailed(
     conversation in order, the thumbs up and thumbs down reactions on each
     with who gave them, and, for a release pull request, the release
     notes. Fetched live on every call, never as part of GET
-    /api/dashboard's snapshot: comments and reactions for every row would
+    /api/v1/dashboard's snapshot: comments and reactions for every row would
     spend the forge's budget on rows nobody opens.
 
     GitHub answers with one GraphQL query. Forgejo costs one call for the
@@ -274,7 +274,7 @@ async def asyncio_detailed(
     the browser loads it directly. A future policy's `img-src` has to
     allow avatars.githubusercontent.com, repository-images.githubusercontent.com
     (a GitHub repository's logo, see `logoUrl` on a repo in GET
-    /api/dashboard) and the Forgejo host.
+    /api/v1/dashboard) and the Forgejo host.
 
     A forge that can't be read is an error, never an empty thread.
 
@@ -319,7 +319,7 @@ async def asyncio(
     conversation in order, the thumbs up and thumbs down reactions on each
     with who gave them, and, for a release pull request, the release
     notes. Fetched live on every call, never as part of GET
-    /api/dashboard's snapshot: comments and reactions for every row would
+    /api/v1/dashboard's snapshot: comments and reactions for every row would
     spend the forge's budget on rows nobody opens.
 
     GitHub answers with one GraphQL query. Forgejo costs one call for the
@@ -339,7 +339,7 @@ async def asyncio(
     the browser loads it directly. A future policy's `img-src` has to
     allow avatars.githubusercontent.com, repository-images.githubusercontent.com
     (a GitHub repository's logo, see `logoUrl` on a repo in GET
-    /api/dashboard) and the Forgejo host.
+    /api/v1/dashboard) and the Forgejo host.
 
     A forge that can't be read is an error, never an empty thread.
 

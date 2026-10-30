@@ -25,7 +25,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/settings/timezone",
+        "url": "/api/v1/settings/timezone",
     }
 
 
@@ -72,7 +72,7 @@ def sync_detailed(
 
      A lightweight, side-effect-free read of one field, for every page to
     check on load so it can show times in the user's zone. Deliberately
-    not GET /api/settings, for the reason GET /api/settings/theme isn't.
+    not GET /api/v1/settings, for the reason GET /api/v1/settings/theme isn't.
     Empty means "use the browser's own zone".
 
     Raises:
@@ -103,7 +103,7 @@ def sync(
 
      A lightweight, side-effect-free read of one field, for every page to
     check on load so it can show times in the user's zone. Deliberately
-    not GET /api/settings, for the reason GET /api/settings/theme isn't.
+    not GET /api/v1/settings, for the reason GET /api/v1/settings/theme isn't.
     Empty means "use the browser's own zone".
 
     Raises:
@@ -129,7 +129,7 @@ async def asyncio_detailed(
 
      A lightweight, side-effect-free read of one field, for every page to
     check on load so it can show times in the user's zone. Deliberately
-    not GET /api/settings, for the reason GET /api/settings/theme isn't.
+    not GET /api/v1/settings, for the reason GET /api/v1/settings/theme isn't.
     Empty means "use the browser's own zone".
 
     Raises:
@@ -160,7 +160,7 @@ async def asyncio(
 
      A lightweight, side-effect-free read of one field, for every page to
     check on load so it can show times in the user's zone. Deliberately
-    not GET /api/settings, for the reason GET /api/settings/theme isn't.
+    not GET /api/v1/settings, for the reason GET /api/v1/settings/theme isn't.
     Empty means "use the browser's own zone".
 
     Raises:

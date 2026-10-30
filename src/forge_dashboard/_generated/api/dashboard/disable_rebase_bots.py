@@ -28,7 +28,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/repos/rebase-bots/disable",
+        "url": "/api/v1/repos/rebase-bots/disable",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -82,7 +82,7 @@ def sync_detailed(
 ) -> Response[Any | Error]:
     """ Stop rebasing Dependabot and Renovate pull requests for one tracked repo
 
-     The reverse of POST /api/repos/rebase-bots/enable. Idempotent:
+     The reverse of POST /api/v1/repos/rebase-bots/enable. Idempotent:
     disabling a repo that was never enabled is a no-op, not an error.
 
     Args:
@@ -116,7 +116,7 @@ def sync(
 ) -> Any | Error | None:
     """ Stop rebasing Dependabot and Renovate pull requests for one tracked repo
 
-     The reverse of POST /api/repos/rebase-bots/enable. Idempotent:
+     The reverse of POST /api/v1/repos/rebase-bots/enable. Idempotent:
     disabling a repo that was never enabled is a no-op, not an error.
 
     Args:
@@ -145,7 +145,7 @@ async def asyncio_detailed(
 ) -> Response[Any | Error]:
     """ Stop rebasing Dependabot and Renovate pull requests for one tracked repo
 
-     The reverse of POST /api/repos/rebase-bots/enable. Idempotent:
+     The reverse of POST /api/v1/repos/rebase-bots/enable. Idempotent:
     disabling a repo that was never enabled is a no-op, not an error.
 
     Args:
@@ -179,7 +179,7 @@ async def asyncio(
 ) -> Any | Error | None:
     """ Stop rebasing Dependabot and Renovate pull requests for one tracked repo
 
-     The reverse of POST /api/repos/rebase-bots/enable. Idempotent:
+     The reverse of POST /api/v1/repos/rebase-bots/enable. Idempotent:
     disabling a repo that was never enabled is a no-op, not an error.
 
     Args:

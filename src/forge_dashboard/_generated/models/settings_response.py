@@ -73,7 +73,7 @@ class SettingsResponse:
                 means "system" — follow the browser's prefers-color-scheme
                 rather than a saved choice. Set only from Settings; every
                 other page reads it via the lightweight
-                GET /api/settings/theme instead of this endpoint.
+                GET /api/v1/settings/theme instead of this endpoint.
             ignored_title_counts (list[int | None]): Per pattern in `ignoredTitles`, same order and same length: how
                 many of the viewer's currently open issues that pattern matches
                 on its own. An issue two patterns match counts for both, so the
@@ -86,11 +86,11 @@ class SettingsResponse:
                 saved, worked out from the issues the viewer had before the save.
             timezone (str | Unset): The signed-in user's own time zone as an IANA name such as
                 `Europe/Amsterdam`. Empty means the browser's own zone. Set only
-                from Settings (PUT /api/settings/timezone); every other page reads
-                it via GET /api/settings/timezone.
+                from Settings (PUT /api/v1/settings/timezone); every other page reads
+                it via GET /api/v1/settings/timezone.
             hide_dependency_dashboard (bool | Unset): Whether the user hides the bot-kept "Dependency Dashboard" issue
                 everywhere: the server leaves a `housekeeping` issue out of the
-                `issues` of GET /api/dashboard and its stream, and out of every
+                `issues` of GET /api/v1/dashboard and its stream, and out of every
                 count and total built from them (`navCounts`, Insights). Always
                 present once the server applies it.
             ignored_titles (list[str] | Unset): Patterns for issue titles to leave out, in the server's own
