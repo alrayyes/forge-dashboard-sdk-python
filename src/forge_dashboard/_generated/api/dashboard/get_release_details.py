@@ -41,7 +41,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/releases/details",
+        "url": "/api/v1/releases/details",
         "params": params,
     }
 
@@ -128,7 +128,7 @@ def sync_detailed(
      What the release dialog on the Main branches page shows for a
     repository's latest published release: its title, when it was
     published, its notes and the thumbs reactions on them. Fetched live on
-    every call, never as part of GET /api/main-branches' snapshot, so a
+    every call, never as part of GET /api/v1/main-branches' snapshot, so a
     release nobody opens costs no budget.
 
     GitHub answers with one GraphQL query. Only GitHub rows carry a latest
@@ -140,7 +140,7 @@ def sync_detailed(
     20,000 characters (`truncated`), and a reaction names at most its
     first 10 people while `count` is the full number.
 
-    The error answers are those of GET /api/pull-requests/details, with
+    The error answers are those of GET /api/v1/pull-requests/details, with
     the same codes. A tag that has no published release is a 404, and so is a draft,
     a pre-release or a release with no publish date.
 
@@ -184,7 +184,7 @@ def sync(
      What the release dialog on the Main branches page shows for a
     repository's latest published release: its title, when it was
     published, its notes and the thumbs reactions on them. Fetched live on
-    every call, never as part of GET /api/main-branches' snapshot, so a
+    every call, never as part of GET /api/v1/main-branches' snapshot, so a
     release nobody opens costs no budget.
 
     GitHub answers with one GraphQL query. Only GitHub rows carry a latest
@@ -196,7 +196,7 @@ def sync(
     20,000 characters (`truncated`), and a reaction names at most its
     first 10 people while `count` is the full number.
 
-    The error answers are those of GET /api/pull-requests/details, with
+    The error answers are those of GET /api/v1/pull-requests/details, with
     the same codes. A tag that has no published release is a 404, and so is a draft,
     a pre-release or a release with no publish date.
 
@@ -235,7 +235,7 @@ async def asyncio_detailed(
      What the release dialog on the Main branches page shows for a
     repository's latest published release: its title, when it was
     published, its notes and the thumbs reactions on them. Fetched live on
-    every call, never as part of GET /api/main-branches' snapshot, so a
+    every call, never as part of GET /api/v1/main-branches' snapshot, so a
     release nobody opens costs no budget.
 
     GitHub answers with one GraphQL query. Only GitHub rows carry a latest
@@ -247,7 +247,7 @@ async def asyncio_detailed(
     20,000 characters (`truncated`), and a reaction names at most its
     first 10 people while `count` is the full number.
 
-    The error answers are those of GET /api/pull-requests/details, with
+    The error answers are those of GET /api/v1/pull-requests/details, with
     the same codes. A tag that has no published release is a 404, and so is a draft,
     a pre-release or a release with no publish date.
 
@@ -291,7 +291,7 @@ async def asyncio(
      What the release dialog on the Main branches page shows for a
     repository's latest published release: its title, when it was
     published, its notes and the thumbs reactions on them. Fetched live on
-    every call, never as part of GET /api/main-branches' snapshot, so a
+    every call, never as part of GET /api/v1/main-branches' snapshot, so a
     release nobody opens costs no budget.
 
     GitHub answers with one GraphQL query. Only GitHub rows carry a latest
@@ -303,7 +303,7 @@ async def asyncio(
     20,000 characters (`truncated`), and a reaction names at most its
     first 10 people while `count` is the full number.
 
-    The error answers are those of GET /api/pull-requests/details, with
+    The error answers are those of GET /api/v1/pull-requests/details, with
     the same codes. A tag that has no published release is a 404, and so is a draft,
     a pre-release or a release with no publish date.
 

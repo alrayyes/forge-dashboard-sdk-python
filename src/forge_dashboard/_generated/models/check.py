@@ -51,11 +51,11 @@ class Check:
                 `action_required` means the job needs someone's approval, and `url`
                 is where to give it. The page shows it as waiting for approval,
                 the same as a held run whose `status` is "waiting".
-            job_id (int | Unset): The Actions job (or check run) id to pass to GET /api/checks/log.
+            job_id (int | Unset): The Actions job (or check run) id to pass to GET /api/v1/checks/log.
                 Absent for a legacy commit status and for a workflow held for
                 approval, which have no output to read.
             run_id (int | Unset): The Actions workflow run this job belongs to, to pass to
-                `POST /api/checks/cancel-run`. Present on every Actions job,
+                `POST /api/v1/checks/cancel-run`. Present on every Actions job,
                 finished or not; only a job that is queued or running has
                 anything left to cancel, which a client reads from `status`. A
                 third-party check and a legacy commit status have none.
@@ -98,8 +98,8 @@ class Check:
                 the first five failed jobs of a list, in the list's order.
                 Forgejo never fills it in a list, since that would read a log
                 while the list is built: ask for it through
-                GET /api/checks/log with `excerpt=true`. The whole output is read
-                through GET /api/checks/log.
+                GET /api/v1/checks/log with `excerpt=true`. The whole output is read
+                through GET /api/v1/checks/log.
      """
 
     name: str

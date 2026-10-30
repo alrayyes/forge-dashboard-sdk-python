@@ -25,7 +25,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/settings/theme",
+        "url": "/api/v1/settings/theme",
     }
 
 
@@ -72,7 +72,7 @@ def sync_detailed(
 
      A lightweight, side-effect-free read of one field — theme — for
     every page to check on load. Deliberately not
-    GET /api/settings itself: that handler also provisions webhook
+    GET /api/v1/settings itself: that handler also provisions webhook
     credentials on first call (EnsureWebhookCredentials), which
     every page loading shouldn't trigger for a user who's never
     opened Settings at all.
@@ -105,7 +105,7 @@ def sync(
 
      A lightweight, side-effect-free read of one field — theme — for
     every page to check on load. Deliberately not
-    GET /api/settings itself: that handler also provisions webhook
+    GET /api/v1/settings itself: that handler also provisions webhook
     credentials on first call (EnsureWebhookCredentials), which
     every page loading shouldn't trigger for a user who's never
     opened Settings at all.
@@ -133,7 +133,7 @@ async def asyncio_detailed(
 
      A lightweight, side-effect-free read of one field — theme — for
     every page to check on load. Deliberately not
-    GET /api/settings itself: that handler also provisions webhook
+    GET /api/v1/settings itself: that handler also provisions webhook
     credentials on first call (EnsureWebhookCredentials), which
     every page loading shouldn't trigger for a user who's never
     opened Settings at all.
@@ -166,7 +166,7 @@ async def asyncio(
 
      A lightweight, side-effect-free read of one field — theme — for
     every page to check on load. Deliberately not
-    GET /api/settings itself: that handler also provisions webhook
+    GET /api/v1/settings itself: that handler also provisions webhook
     credentials on first call (EnsureWebhookCredentials), which
     every page loading shouldn't trigger for a user who's never
     opened Settings at all.

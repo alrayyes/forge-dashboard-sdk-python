@@ -29,7 +29,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/pull-requests/dependabot-action",
+        "url": "/api/v1/pull-requests/dependabot-action",
     }
 
     _kwargs["json"] = body.to_dict()

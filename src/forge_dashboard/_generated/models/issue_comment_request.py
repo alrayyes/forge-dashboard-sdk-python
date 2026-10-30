@@ -25,8 +25,8 @@ class IssueCommentRequest:
 
         Attributes:
             forge (Forge):
-            full_name (str): "owner/repo", matching an Issue.repo from GET /api/dashboard.
-            number (int): Matching an Issue.number from GET /api/dashboard.
+            full_name (str): "owner/repo", matching an Issue.repo from GET /api/v1/dashboard.
+            number (int): Matching an Issue.number from GET /api/v1/dashboard.
             body (str): The comment, as Markdown. Blank text is refused.
      """
 

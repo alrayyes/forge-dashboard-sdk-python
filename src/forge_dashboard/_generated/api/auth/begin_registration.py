@@ -25,7 +25,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/auth/register/begin",
+        "url": "/api/v1/auth/register/begin",
     }
 
 
@@ -78,7 +78,7 @@ def sync_detailed(
     """ Start a passkey registration ceremony
 
      An instance has one user. The first registration on a fresh
-    instance (see GET /api/auth/registration-status) creates that
+    instance (see GET /api/v1/auth/registration-status) creates that
     user and the server names it, so the request carries no body. The
     options require a resident key, so the passkey can be found at
     sign-in without being named. Once any account holds a passkey, this
@@ -111,7 +111,7 @@ def sync(
     """ Start a passkey registration ceremony
 
      An instance has one user. The first registration on a fresh
-    instance (see GET /api/auth/registration-status) creates that
+    instance (see GET /api/v1/auth/registration-status) creates that
     user and the server names it, so the request carries no body. The
     options require a resident key, so the passkey can be found at
     sign-in without being named. Once any account holds a passkey, this
@@ -139,7 +139,7 @@ async def asyncio_detailed(
     """ Start a passkey registration ceremony
 
      An instance has one user. The first registration on a fresh
-    instance (see GET /api/auth/registration-status) creates that
+    instance (see GET /api/v1/auth/registration-status) creates that
     user and the server names it, so the request carries no body. The
     options require a resident key, so the passkey can be found at
     sign-in without being named. Once any account holds a passkey, this
@@ -172,7 +172,7 @@ async def asyncio(
     """ Start a passkey registration ceremony
 
      An instance has one user. The first registration on a fresh
-    instance (see GET /api/auth/registration-status) creates that
+    instance (see GET /api/v1/auth/registration-status) creates that
     user and the server names it, so the request carries no body. The
     options require a resident key, so the passkey can be found at
     sign-in without being named. Once any account holds a passkey, this

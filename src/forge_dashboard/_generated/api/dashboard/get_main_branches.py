@@ -25,7 +25,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/main-branches",
+        "url": "/api/v1/main-branches",
     }
 
 
@@ -91,7 +91,7 @@ def sync_detailed(
 
     A forge that can't be reached keeps its last known rows, each marked
     `staleSince`, the same carry-over `forges[].staleSince`
-    on GET /api/dashboard reports. A forge whose rate-limit budget is
+    on GET /api/v1/dashboard reports. A forge whose rate-limit budget is
     spent is skipped until it resets and its rows are kept the same way.
     Only the signed-in user's own repositories.
 
@@ -146,7 +146,7 @@ def sync(
 
     A forge that can't be reached keeps its last known rows, each marked
     `staleSince`, the same carry-over `forges[].staleSince`
-    on GET /api/dashboard reports. A forge whose rate-limit budget is
+    on GET /api/v1/dashboard reports. A forge whose rate-limit budget is
     spent is skipped until it resets and its rows are kept the same way.
     Only the signed-in user's own repositories.
 
@@ -196,7 +196,7 @@ async def asyncio_detailed(
 
     A forge that can't be reached keeps its last known rows, each marked
     `staleSince`, the same carry-over `forges[].staleSince`
-    on GET /api/dashboard reports. A forge whose rate-limit budget is
+    on GET /api/v1/dashboard reports. A forge whose rate-limit budget is
     spent is skipped until it resets and its rows are kept the same way.
     Only the signed-in user's own repositories.
 
@@ -251,7 +251,7 @@ async def asyncio(
 
     A forge that can't be reached keeps its last known rows, each marked
     `staleSince`, the same carry-over `forges[].staleSince`
-    on GET /api/dashboard reports. A forge whose rate-limit budget is
+    on GET /api/v1/dashboard reports. A forge whose rate-limit budget is
     spent is skipped until it resets and its rows are kept the same way.
     Only the signed-in user's own repositories.
 

@@ -27,8 +27,8 @@ class PullRequestHideRequest:
 
         Attributes:
             forge (Forge):
-            full_name (str): "owner/repo", matching a Repo.fullName from GET /api/dashboard.
-            number (int): Matching a PullRequest.number from GET /api/dashboard.
+            full_name (str): "owner/repo", matching a Repo.fullName from GET /api/v1/dashboard.
+            number (int): Matching a PullRequest.number from GET /api/v1/dashboard.
             days (int | Unset): Hide for this many days, then show it again on its own.
      """
 

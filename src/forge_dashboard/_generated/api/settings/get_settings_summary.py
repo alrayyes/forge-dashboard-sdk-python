@@ -25,7 +25,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/settings/summary",
+        "url": "/api/v1/settings/summary",
     }
 
 
@@ -70,7 +70,7 @@ def sync_detailed(
 ) -> Response[Error | SettingsSummary]:
     """ The signed-in user's settings, read without side effects
 
-     The same data as `GET /api/settings`, minus the webhook token and
+     The same data as `GET /api/v1/settings`, minus the webhook token and
     secret, plus `webhookConfigured`. It never provisions webhook
     credentials: for a user who has none yet it answers
     `webhookConfigured: false` and creates nothing. Forge tokens are
@@ -103,7 +103,7 @@ def sync(
 ) -> Error | SettingsSummary | None:
     """ The signed-in user's settings, read without side effects
 
-     The same data as `GET /api/settings`, minus the webhook token and
+     The same data as `GET /api/v1/settings`, minus the webhook token and
     secret, plus `webhookConfigured`. It never provisions webhook
     credentials: for a user who has none yet it answers
     `webhookConfigured: false` and creates nothing. Forge tokens are
@@ -131,7 +131,7 @@ async def asyncio_detailed(
 ) -> Response[Error | SettingsSummary]:
     """ The signed-in user's settings, read without side effects
 
-     The same data as `GET /api/settings`, minus the webhook token and
+     The same data as `GET /api/v1/settings`, minus the webhook token and
     secret, plus `webhookConfigured`. It never provisions webhook
     credentials: for a user who has none yet it answers
     `webhookConfigured: false` and creates nothing. Forge tokens are
@@ -164,7 +164,7 @@ async def asyncio(
 ) -> Error | SettingsSummary | None:
     """ The signed-in user's settings, read without side effects
 
-     The same data as `GET /api/settings`, minus the webhook token and
+     The same data as `GET /api/v1/settings`, minus the webhook token and
     secret, plus `webhookConfigured`. It never provisions webhook
     credentials: for a user who has none yet it answers
     `webhookConfigured: false` and creates nothing. Forge tokens are

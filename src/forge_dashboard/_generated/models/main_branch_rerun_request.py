@@ -25,7 +25,7 @@ class MainBranchRerunRequest:
 
         Attributes:
             forge (Forge):
-            full_name (str): "owner/repo", matching a MainBranch.fullName from GET /api/main-branches.
+            full_name (str): "owner/repo", matching a MainBranch.fullName from GET /api/v1/main-branches.
      """
 
     forge: Forge

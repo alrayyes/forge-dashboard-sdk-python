@@ -41,7 +41,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/dashboard/stream",
+        "url": "/api/v1/dashboard/stream",
         "params": params,
     }
 
@@ -120,7 +120,7 @@ def sync_detailed(
     one, which is what turns that into a live update instead of
     something only the next scheduled refresh picks up.
 
-    The frontend's own 30-second poll against GET /api/dashboard
+    The frontend's own 30-second poll against GET /api/v1/dashboard
     keeps running unconditionally, connected or not — a browser or
     proxy that can't hold an SSE connection open just never
     benefits from this, rather than the dashboard going stale
@@ -132,7 +132,7 @@ def sync_detailed(
 
     A client that passes `sid` can also follow the job lists of the
     pull requests and default branches it has open, through
-    `POST /api/dashboard/stream/watch`. Each list arrives as named
+    `POST /api/v1/dashboard/stream/watch`. Each list arrives as named
     `run` events on this stream, one for each workflow run attempt, so a
     client that only listens for default messages never sees one. A
     reconnect reuses the same `sid` with nothing watched, so the client
@@ -181,7 +181,7 @@ def sync(
     one, which is what turns that into a live update instead of
     something only the next scheduled refresh picks up.
 
-    The frontend's own 30-second poll against GET /api/dashboard
+    The frontend's own 30-second poll against GET /api/v1/dashboard
     keeps running unconditionally, connected or not — a browser or
     proxy that can't hold an SSE connection open just never
     benefits from this, rather than the dashboard going stale
@@ -193,7 +193,7 @@ def sync(
 
     A client that passes `sid` can also follow the job lists of the
     pull requests and default branches it has open, through
-    `POST /api/dashboard/stream/watch`. Each list arrives as named
+    `POST /api/v1/dashboard/stream/watch`. Each list arrives as named
     `run` events on this stream, one for each workflow run attempt, so a
     client that only listens for default messages never sees one. A
     reconnect reuses the same `sid` with nothing watched, so the client
@@ -237,7 +237,7 @@ async def asyncio_detailed(
     one, which is what turns that into a live update instead of
     something only the next scheduled refresh picks up.
 
-    The frontend's own 30-second poll against GET /api/dashboard
+    The frontend's own 30-second poll against GET /api/v1/dashboard
     keeps running unconditionally, connected or not — a browser or
     proxy that can't hold an SSE connection open just never
     benefits from this, rather than the dashboard going stale
@@ -249,7 +249,7 @@ async def asyncio_detailed(
 
     A client that passes `sid` can also follow the job lists of the
     pull requests and default branches it has open, through
-    `POST /api/dashboard/stream/watch`. Each list arrives as named
+    `POST /api/v1/dashboard/stream/watch`. Each list arrives as named
     `run` events on this stream, one for each workflow run attempt, so a
     client that only listens for default messages never sees one. A
     reconnect reuses the same `sid` with nothing watched, so the client
@@ -298,7 +298,7 @@ async def asyncio(
     one, which is what turns that into a live update instead of
     something only the next scheduled refresh picks up.
 
-    The frontend's own 30-second poll against GET /api/dashboard
+    The frontend's own 30-second poll against GET /api/v1/dashboard
     keeps running unconditionally, connected or not — a browser or
     proxy that can't hold an SSE connection open just never
     benefits from this, rather than the dashboard going stale
@@ -310,7 +310,7 @@ async def asyncio(
 
     A client that passes `sid` can also follow the job lists of the
     pull requests and default branches it has open, through
-    `POST /api/dashboard/stream/watch`. Each list arrives as named
+    `POST /api/v1/dashboard/stream/watch`. Each list arrives as named
     `run` events on this stream, one for each workflow run attempt, so a
     client that only listens for default messages never sees one. A
     reconnect reuses the same `sid` with nothing watched, so the client

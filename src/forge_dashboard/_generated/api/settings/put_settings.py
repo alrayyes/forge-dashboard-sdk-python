@@ -29,7 +29,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "put",
-        "url": "/api/settings",
+        "url": "/api/v1/settings",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -102,7 +102,7 @@ def sync_detailed(
             0 or omitted really does disconnect the App. Rejected (400) if
             the server has no GitHub App configured (see
             SettingsResponse.githubAppConfigured). Theme isn't settable
-            here at all — see PUT /api/settings/theme.
+            here at all — see PUT /api/v1/settings/theme.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -148,7 +148,7 @@ def sync(
             0 or omitted really does disconnect the App. Rejected (400) if
             the server has no GitHub App configured (see
             SettingsResponse.githubAppConfigured). Theme isn't settable
-            here at all — see PUT /api/settings/theme.
+            here at all — see PUT /api/v1/settings/theme.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -189,7 +189,7 @@ async def asyncio_detailed(
             0 or omitted really does disconnect the App. Rejected (400) if
             the server has no GitHub App configured (see
             SettingsResponse.githubAppConfigured). Theme isn't settable
-            here at all — see PUT /api/settings/theme.
+            here at all — see PUT /api/v1/settings/theme.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -235,7 +235,7 @@ async def asyncio(
             0 or omitted really does disconnect the App. Rejected (400) if
             the server has no GitHub App configured (see
             SettingsResponse.githubAppConfigured). Theme isn't settable
-            here at all — see PUT /api/settings/theme.
+            here at all — see PUT /api/v1/settings/theme.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

@@ -28,7 +28,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "put",
-        "url": "/api/settings/filter-state",
+        "url": "/api/v1/settings/filter-state",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -90,7 +90,7 @@ def sync_detailed(
     """ Save the signed-in user's own dashboard/Insights filter state
 
      A dedicated, lightweight save separate from the main
-    PUT /api/settings — filters change on nearly every click, a
+    PUT /api/v1/settings — filters change on nearly every click, a
     mismatch for that endpoint's "always a full form submit"
     convention. The body replaces the saved state entirely,
     the same "always a full submit, just of a much smaller and
@@ -150,7 +150,7 @@ def sync(
     """ Save the signed-in user's own dashboard/Insights filter state
 
      A dedicated, lightweight save separate from the main
-    PUT /api/settings — filters change on nearly every click, a
+    PUT /api/v1/settings — filters change on nearly every click, a
     mismatch for that endpoint's "always a full form submit"
     convention. The body replaces the saved state entirely,
     the same "always a full submit, just of a much smaller and
@@ -205,7 +205,7 @@ async def asyncio_detailed(
     """ Save the signed-in user's own dashboard/Insights filter state
 
      A dedicated, lightweight save separate from the main
-    PUT /api/settings — filters change on nearly every click, a
+    PUT /api/v1/settings — filters change on nearly every click, a
     mismatch for that endpoint's "always a full form submit"
     convention. The body replaces the saved state entirely,
     the same "always a full submit, just of a much smaller and
@@ -265,7 +265,7 @@ async def asyncio(
     """ Save the signed-in user's own dashboard/Insights filter state
 
      A dedicated, lightweight save separate from the main
-    PUT /api/settings — filters change on nearly every click, a
+    PUT /api/v1/settings — filters change on nearly every click, a
     mismatch for that endpoint's "always a full form submit"
     convention. The body replaces the saved state entirely,
     the same "always a full submit, just of a much smaller and

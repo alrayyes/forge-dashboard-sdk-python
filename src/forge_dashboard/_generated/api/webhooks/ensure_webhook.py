@@ -29,7 +29,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/webhooks/ensure",
+        "url": "/api/v1/webhooks/ensure",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -114,7 +114,7 @@ def sync_detailed(
      Creates a webhook on the named repo, pointed at the signed-in
     user's own webhook URL and secret, subscribed to the events
     docs/webhooks.md's manual steps recommend. If one already exists
-    there (found the same way GET /api/dashboard's own `hasWebhook`
+    there (found the same way GET /api/v1/dashboard's own `hasWebhook`
     does — matching by URL path, not object identity) it's brought
     back to active with the right events instead of creating a
     duplicate.
@@ -166,7 +166,7 @@ def sync(
      Creates a webhook on the named repo, pointed at the signed-in
     user's own webhook URL and secret, subscribed to the events
     docs/webhooks.md's manual steps recommend. If one already exists
-    there (found the same way GET /api/dashboard's own `hasWebhook`
+    there (found the same way GET /api/v1/dashboard's own `hasWebhook`
     does — matching by URL path, not object identity) it's brought
     back to active with the right events instead of creating a
     duplicate.
@@ -213,7 +213,7 @@ async def asyncio_detailed(
      Creates a webhook on the named repo, pointed at the signed-in
     user's own webhook URL and secret, subscribed to the events
     docs/webhooks.md's manual steps recommend. If one already exists
-    there (found the same way GET /api/dashboard's own `hasWebhook`
+    there (found the same way GET /api/v1/dashboard's own `hasWebhook`
     does — matching by URL path, not object identity) it's brought
     back to active with the right events instead of creating a
     duplicate.
@@ -265,7 +265,7 @@ async def asyncio(
      Creates a webhook on the named repo, pointed at the signed-in
     user's own webhook URL and secret, subscribed to the events
     docs/webhooks.md's manual steps recommend. If one already exists
-    there (found the same way GET /api/dashboard's own `hasWebhook`
+    there (found the same way GET /api/v1/dashboard's own `hasWebhook`
     does — matching by URL path, not object identity) it's brought
     back to active with the right events instead of creating a
     duplicate.

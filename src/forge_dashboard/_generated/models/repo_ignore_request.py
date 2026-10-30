@@ -24,11 +24,11 @@ class RepoIgnoreRequest:
     """ Which repo to ignore, and in which scope(s). At least one
     of prs/issues must be true — a request with both false is
     rejected with 400 rather than silently doing nothing; use POST
-    /api/repos/unignore to clear both at once instead.
+    /api/v1/repos/unignore to clear both at once instead.
 
         Attributes:
             forge (Forge):
-            full_name (str): "owner/repo", matching a Repo.fullName from GET /api/dashboard.
+            full_name (str): "owner/repo", matching a Repo.fullName from GET /api/v1/dashboard.
             prs (bool): Whether to ignore this repo's pull requests.
             issues (bool): Whether to ignore this repo's issues.
      """

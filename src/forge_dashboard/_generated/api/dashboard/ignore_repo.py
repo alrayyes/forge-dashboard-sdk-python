@@ -28,7 +28,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/repos/ignore",
+        "url": "/api/v1/repos/ignore",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -83,7 +83,7 @@ def sync_detailed(
     """ Hide one tracked repo's pull requests, issues, or both from the dashboard and Insights
 
      Reversible, not destructive: the repo itself keeps
-    appearing in GET /api/dashboard's `repos` array with accurate
+    appearing in GET /api/v1/dashboard's `repos` array with accurate
     webhook-coverage status, and keeps being fetched and counted —
     only the pullRequests and/or issues entries the request scopes
     stop appearing there and on Insights. A repeat call
@@ -96,7 +96,7 @@ def sync_detailed(
         body (RepoIgnoreRequest): Which repo to ignore, and in which scope(s). At least one
             of prs/issues must be true — a request with both false is
             rejected with 400 rather than silently doing nothing; use POST
-            /api/repos/unignore to clear both at once instead.
+            /api/v1/repos/unignore to clear both at once instead.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -127,7 +127,7 @@ def sync(
     """ Hide one tracked repo's pull requests, issues, or both from the dashboard and Insights
 
      Reversible, not destructive: the repo itself keeps
-    appearing in GET /api/dashboard's `repos` array with accurate
+    appearing in GET /api/v1/dashboard's `repos` array with accurate
     webhook-coverage status, and keeps being fetched and counted —
     only the pullRequests and/or issues entries the request scopes
     stop appearing there and on Insights. A repeat call
@@ -140,7 +140,7 @@ def sync(
         body (RepoIgnoreRequest): Which repo to ignore, and in which scope(s). At least one
             of prs/issues must be true — a request with both false is
             rejected with 400 rather than silently doing nothing; use POST
-            /api/repos/unignore to clear both at once instead.
+            /api/v1/repos/unignore to clear both at once instead.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -166,7 +166,7 @@ async def asyncio_detailed(
     """ Hide one tracked repo's pull requests, issues, or both from the dashboard and Insights
 
      Reversible, not destructive: the repo itself keeps
-    appearing in GET /api/dashboard's `repos` array with accurate
+    appearing in GET /api/v1/dashboard's `repos` array with accurate
     webhook-coverage status, and keeps being fetched and counted —
     only the pullRequests and/or issues entries the request scopes
     stop appearing there and on Insights. A repeat call
@@ -179,7 +179,7 @@ async def asyncio_detailed(
         body (RepoIgnoreRequest): Which repo to ignore, and in which scope(s). At least one
             of prs/issues must be true — a request with both false is
             rejected with 400 rather than silently doing nothing; use POST
-            /api/repos/unignore to clear both at once instead.
+            /api/v1/repos/unignore to clear both at once instead.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -210,7 +210,7 @@ async def asyncio(
     """ Hide one tracked repo's pull requests, issues, or both from the dashboard and Insights
 
      Reversible, not destructive: the repo itself keeps
-    appearing in GET /api/dashboard's `repos` array with accurate
+    appearing in GET /api/v1/dashboard's `repos` array with accurate
     webhook-coverage status, and keeps being fetched and counted —
     only the pullRequests and/or issues entries the request scopes
     stop appearing there and on Insights. A repeat call
@@ -223,7 +223,7 @@ async def asyncio(
         body (RepoIgnoreRequest): Which repo to ignore, and in which scope(s). At least one
             of prs/issues must be true — a request with both false is
             rejected with 400 rather than silently doing nothing; use POST
-            /api/repos/unignore to clear both at once instead.
+            /api/v1/repos/unignore to clear both at once instead.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

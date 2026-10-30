@@ -28,8 +28,8 @@ class QueuedActionRequest:
             action (QueuedActionRequestAction): The `AllowedAction.action` to run at the reset. Only these
                 three are queueable; Merge, Close and the rest answer 400.
             forge (Forge):
-            full_name (str): "owner/repo", matching a Repo.fullName from GET /api/dashboard.
-            number (int): Matching a PullRequest.number from GET /api/dashboard.
+            full_name (str): "owner/repo", matching a Repo.fullName from GET /api/v1/dashboard.
+            number (int): Matching a PullRequest.number from GET /api/v1/dashboard.
      """
 
     action: QueuedActionRequestAction

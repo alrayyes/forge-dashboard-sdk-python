@@ -25,7 +25,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/queued-actions",
+        "url": "/api/v1/queued-actions",
     }
 
 
@@ -79,7 +79,7 @@ def sync_detailed(
     resets, oldest first: the ones still `queued`, and the
     final ones (`done`, `skipped`, `failed`) kept for 24 hours so a
     client can show the outcome in its Activity list. The same list
-    rides along on GET /api/dashboard as `queuedActions`.
+    rides along on GET /api/v1/dashboard as `queuedActions`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -111,7 +111,7 @@ def sync(
     resets, oldest first: the ones still `queued`, and the
     final ones (`done`, `skipped`, `failed`) kept for 24 hours so a
     client can show the outcome in its Activity list. The same list
-    rides along on GET /api/dashboard as `queuedActions`.
+    rides along on GET /api/v1/dashboard as `queuedActions`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -138,7 +138,7 @@ async def asyncio_detailed(
     resets, oldest first: the ones still `queued`, and the
     final ones (`done`, `skipped`, `failed`) kept for 24 hours so a
     client can show the outcome in its Activity list. The same list
-    rides along on GET /api/dashboard as `queuedActions`.
+    rides along on GET /api/v1/dashboard as `queuedActions`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -170,7 +170,7 @@ async def asyncio(
     resets, oldest first: the ones still `queued`, and the
     final ones (`done`, `skipped`, `failed`) kept for 24 hours so a
     client can show the outcome in its Activity list. The same list
-    rides along on GET /api/dashboard as `queuedActions`.
+    rides along on GET /api/v1/dashboard as `queuedActions`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

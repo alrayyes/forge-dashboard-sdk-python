@@ -31,7 +31,7 @@ class QueuedAction:
     with Cancel, and a final one in its Activity list.
 
         Attributes:
-            id (str): Opaque. What DELETE /api/queued-actions/{id} takes.
+            id (str): Opaque. What DELETE /api/v1/queued-actions/{id} takes.
             action (QueuedActionAction):
             forge (Forge):
             full_name (str): "owner/repo".

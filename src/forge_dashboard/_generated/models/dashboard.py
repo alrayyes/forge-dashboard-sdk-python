@@ -35,7 +35,7 @@ class Dashboard:
     """ 
         Attributes:
             queued_actions (list[QueuedAction]): The signed-in user's queued actions, waiting and finished in the
-                last 24 hours (GET /api/queued-actions), so a client lists them in
+                last 24 hours (GET /api/v1/queued-actions), so a client lists them in
                 its Activity panel and learns an outcome from the stream it
                 already reads. Always present, empty when there are none.
             auto_merged (list[AutoMergedPullRequest]): Pull requests this app auto-merged in the last ten minutes, newest
@@ -55,7 +55,7 @@ class Dashboard:
                 last run: those rows are on the page, and their forge reports
                 `reachable: false` with `staleSince` until the first refresh
                 succeeds. The same
-                on `GET /api/dashboard`, the stream and the MCP `get_dashboard`
+                on `GET /api/v1/dashboard`, the stream and the MCP `get_dashboard`
                 output. Always present. A client of an older server that
                 lacks it should treat a missing flag as true (loaded).
             nav_counts (NavCounts): The numbers behind the navigation badges, counted from what the
@@ -75,7 +75,7 @@ class Dashboard:
                 the navigation badge always agree with the list.
             generated_at (datetime.datetime): When this snapshot was refreshed, not when it was requested.
             read_interval_seconds (int): How often, in seconds, a client should re-read GET
-                /api/dashboard. The server's advice, so a client needs no
+                /api/v1/dashboard. The server's advice, so a client needs no
                 interval of its own. The read is cheap and never calls a
                 forge; this is not the backend's refresh schedule. It is
                 shorter (2) until the viewer's first refresh has finished, so a

@@ -29,7 +29,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "put",
-        "url": "/api/settings/theme",
+        "url": "/api/v1/settings/theme",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -87,7 +87,7 @@ def sync_detailed(
     """ Save the signed-in user's own theme preference
 
      A dedicated, instant save — deliberately not routed
-    through the main PUT /api/settings, whose every other field is
+    through the main PUT /api/v1/settings, whose every other field is
     a plain replace rather than a per-field merge: a request
     carrying only theme through that handler would blank every
     other saved setting. Picking a theme applies immediately, the
@@ -96,7 +96,7 @@ def sync_detailed(
     own Save button.
 
     Args:
-        body (ThemeRequest): See PUT /api/settings/theme's own description.
+        body (ThemeRequest): See PUT /api/v1/settings/theme's own description.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -127,7 +127,7 @@ def sync(
     """ Save the signed-in user's own theme preference
 
      A dedicated, instant save — deliberately not routed
-    through the main PUT /api/settings, whose every other field is
+    through the main PUT /api/v1/settings, whose every other field is
     a plain replace rather than a per-field merge: a request
     carrying only theme through that handler would blank every
     other saved setting. Picking a theme applies immediately, the
@@ -136,7 +136,7 @@ def sync(
     own Save button.
 
     Args:
-        body (ThemeRequest): See PUT /api/settings/theme's own description.
+        body (ThemeRequest): See PUT /api/v1/settings/theme's own description.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -162,7 +162,7 @@ async def asyncio_detailed(
     """ Save the signed-in user's own theme preference
 
      A dedicated, instant save — deliberately not routed
-    through the main PUT /api/settings, whose every other field is
+    through the main PUT /api/v1/settings, whose every other field is
     a plain replace rather than a per-field merge: a request
     carrying only theme through that handler would blank every
     other saved setting. Picking a theme applies immediately, the
@@ -171,7 +171,7 @@ async def asyncio_detailed(
     own Save button.
 
     Args:
-        body (ThemeRequest): See PUT /api/settings/theme's own description.
+        body (ThemeRequest): See PUT /api/v1/settings/theme's own description.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -202,7 +202,7 @@ async def asyncio(
     """ Save the signed-in user's own theme preference
 
      A dedicated, instant save — deliberately not routed
-    through the main PUT /api/settings, whose every other field is
+    through the main PUT /api/v1/settings, whose every other field is
     a plain replace rather than a per-field merge: a request
     carrying only theme through that handler would blank every
     other saved setting. Picking a theme applies immediately, the
@@ -211,7 +211,7 @@ async def asyncio(
     own Save button.
 
     Args:
-        body (ThemeRequest): See PUT /api/settings/theme's own description.
+        body (ThemeRequest): See PUT /api/v1/settings/theme's own description.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

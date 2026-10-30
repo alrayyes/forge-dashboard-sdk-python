@@ -28,7 +28,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/repos/auto-update-branch/disable",
+        "url": "/api/v1/repos/auto-update-branch/disable",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -82,7 +82,7 @@ def sync_detailed(
 ) -> Response[Any | Error]:
     """ Turn off automatic branch updates for one tracked repo
 
-     The reverse of POST /api/repos/auto-update-branch/enable.
+     The reverse of POST /api/v1/repos/auto-update-branch/enable.
     Idempotent: disabling a repo that was never enabled is a no-op,
     not an error.
 
@@ -117,7 +117,7 @@ def sync(
 ) -> Any | Error | None:
     """ Turn off automatic branch updates for one tracked repo
 
-     The reverse of POST /api/repos/auto-update-branch/enable.
+     The reverse of POST /api/v1/repos/auto-update-branch/enable.
     Idempotent: disabling a repo that was never enabled is a no-op,
     not an error.
 
@@ -147,7 +147,7 @@ async def asyncio_detailed(
 ) -> Response[Any | Error]:
     """ Turn off automatic branch updates for one tracked repo
 
-     The reverse of POST /api/repos/auto-update-branch/enable.
+     The reverse of POST /api/v1/repos/auto-update-branch/enable.
     Idempotent: disabling a repo that was never enabled is a no-op,
     not an error.
 
@@ -182,7 +182,7 @@ async def asyncio(
 ) -> Any | Error | None:
     """ Turn off automatic branch updates for one tracked repo
 
-     The reverse of POST /api/repos/auto-update-branch/enable.
+     The reverse of POST /api/v1/repos/auto-update-branch/enable.
     Idempotent: disabling a repo that was never enabled is a no-op,
     not an error.
 

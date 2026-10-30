@@ -35,7 +35,7 @@ class MainBranch:
 
         Attributes:
             forge (Forge):
-            full_name (str): "owner/repo", matching a Repo.fullName from GET /api/dashboard.
+            full_name (str): "owner/repo", matching a Repo.fullName from GET /api/v1/dashboard.
             url (str): The repository's own page on its forge.
             branch (str): The repository's default branch. Empty for a repository the forge reports no default branch for.
             status (MainBranchStatus): The result of the latest pipeline on a default branch's newest
@@ -129,7 +129,7 @@ class MainBranch:
             runs (list[MainBranchRun] | Unset): What each workflow run attempt on the newest commit did, the
                 facts `status`, `failingJobs` and `checks` were worked out from,
                 in the order the forge listed them. A client can fold them into
-                its own pill. They are the jobs `GET /api/main-branches/checks`
+                its own pill. They are the jobs `GET /api/v1/main-branches/checks`
                 lists, grouped as the stream's `run` events group them. Present
                 for a repository with at least one check. On GitHub they are the
                 first 50 checks of the newest commit, grouped by the workflow run

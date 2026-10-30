@@ -29,7 +29,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/main-branches/rerun-checks",
+        "url": "/api/v1/main-branches/rerun-checks",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -118,7 +118,7 @@ def sync_detailed(
 ) -> Response[ActionError | Any | Error]:
     """ Rerun only the failed jobs of a repository's default-branch pipeline, on the signed-in user's behalf
 
-     The branch twin of POST /api/pull-requests/rerun-checks. Asks the forge
+     The branch twin of POST /api/v1/pull-requests/rerun-checks. Asks the forge
     to rerun the failed jobs of the Actions workflow runs on the commit
     the branch's job list shows, and nothing that passed. It
     answers once the forge has queued them, not when they finish, so a
@@ -166,7 +166,7 @@ def sync(
 ) -> ActionError | Any | Error | None:
     """ Rerun only the failed jobs of a repository's default-branch pipeline, on the signed-in user's behalf
 
-     The branch twin of POST /api/pull-requests/rerun-checks. Asks the forge
+     The branch twin of POST /api/v1/pull-requests/rerun-checks. Asks the forge
     to rerun the failed jobs of the Actions workflow runs on the commit
     the branch's job list shows, and nothing that passed. It
     answers once the forge has queued them, not when they finish, so a
@@ -209,7 +209,7 @@ async def asyncio_detailed(
 ) -> Response[ActionError | Any | Error]:
     """ Rerun only the failed jobs of a repository's default-branch pipeline, on the signed-in user's behalf
 
-     The branch twin of POST /api/pull-requests/rerun-checks. Asks the forge
+     The branch twin of POST /api/v1/pull-requests/rerun-checks. Asks the forge
     to rerun the failed jobs of the Actions workflow runs on the commit
     the branch's job list shows, and nothing that passed. It
     answers once the forge has queued them, not when they finish, so a
@@ -257,7 +257,7 @@ async def asyncio(
 ) -> ActionError | Any | Error | None:
     """ Rerun only the failed jobs of a repository's default-branch pipeline, on the signed-in user's behalf
 
-     The branch twin of POST /api/pull-requests/rerun-checks. Asks the forge
+     The branch twin of POST /api/v1/pull-requests/rerun-checks. Asks the forge
     to rerun the failed jobs of the Actions workflow runs on the commit
     the branch's job list shows, and nothing that passed. It
     answers once the forge has queued them, not when they finish, so a

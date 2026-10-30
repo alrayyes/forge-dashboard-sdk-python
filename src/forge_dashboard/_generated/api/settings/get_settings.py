@@ -25,7 +25,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/settings",
+        "url": "/api/v1/settings",
     }
 
 
@@ -74,7 +74,7 @@ def sync_detailed(
     webhook token and secret are returned, since the user pastes them
     into the forge's webhook setup, and a first read creates them. For
     a read that creates nothing and omits both, see
-    `GET /api/settings/summary`.
+    `GET /api/v1/settings/summary`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -106,7 +106,7 @@ def sync(
     webhook token and secret are returned, since the user pastes them
     into the forge's webhook setup, and a first read creates them. For
     a read that creates nothing and omits both, see
-    `GET /api/settings/summary`.
+    `GET /api/v1/settings/summary`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -133,7 +133,7 @@ async def asyncio_detailed(
     webhook token and secret are returned, since the user pastes them
     into the forge's webhook setup, and a first read creates them. For
     a read that creates nothing and omits both, see
-    `GET /api/settings/summary`.
+    `GET /api/v1/settings/summary`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -165,7 +165,7 @@ async def asyncio(
     webhook token and secret are returned, since the user pastes them
     into the forge's webhook setup, and a first read creates them. For
     a read that creates nothing and omits both, see
-    `GET /api/settings/summary`.
+    `GET /api/v1/settings/summary`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

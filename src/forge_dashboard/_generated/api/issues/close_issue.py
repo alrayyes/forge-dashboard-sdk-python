@@ -29,7 +29,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/issues/close",
+        "url": "/api/v1/issues/close",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -112,7 +112,7 @@ def sync_detailed(
     """ Close one issue, on the signed-in user's behalf
 
      Closes the named issue. The Issues page's dialog offers it, on its own
-    or after posting a comment with `POST /api/issues/comment`. Closing an
+    or after posting a comment with `POST /api/v1/issues/comment`. Closing an
     issue that is already closed is not refused: both forges treat it as
     done, so the call succeeds and there is no `already_closed` answer.
 
@@ -160,7 +160,7 @@ def sync(
     """ Close one issue, on the signed-in user's behalf
 
      Closes the named issue. The Issues page's dialog offers it, on its own
-    or after posting a comment with `POST /api/issues/comment`. Closing an
+    or after posting a comment with `POST /api/v1/issues/comment`. Closing an
     issue that is already closed is not refused: both forges treat it as
     done, so the call succeeds and there is no `already_closed` answer.
 
@@ -203,7 +203,7 @@ async def asyncio_detailed(
     """ Close one issue, on the signed-in user's behalf
 
      Closes the named issue. The Issues page's dialog offers it, on its own
-    or after posting a comment with `POST /api/issues/comment`. Closing an
+    or after posting a comment with `POST /api/v1/issues/comment`. Closing an
     issue that is already closed is not refused: both forges treat it as
     done, so the call succeeds and there is no `already_closed` answer.
 
@@ -251,7 +251,7 @@ async def asyncio(
     """ Close one issue, on the signed-in user's behalf
 
      Closes the named issue. The Issues page's dialog offers it, on its own
-    or after posting a comment with `POST /api/issues/comment`. Closing an
+    or after posting a comment with `POST /api/v1/issues/comment`. Closing an
     issue that is already closed is not refused: both forges treat it as
     done, so the call succeeds and there is no `already_closed` answer.
 

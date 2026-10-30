@@ -26,7 +26,7 @@ T = TypeVar("T", bound="AutoUpdate")
 class AutoUpdate:
     """ Whether the dashboard brings this pull request's branch up to date by
     itself: the pull request's own choice when it has one
-    (`POST /api/pull-requests/auto-update`), else its repo's
+    (`POST /api/v1/pull-requests/auto-update`), else its repo's
     auto-update setting. Always present.
 
         Attributes:
