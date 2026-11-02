@@ -102,6 +102,12 @@ def sync_detailed(
     with 403, so a script or agent can't change the filters the user
     sees. Each save is logged with the user agent.
 
+    A save whose top-level `rev` is lower than the saved copy's is
+    ignored and still answers 204. A page that is closing sends its last
+    save beside one already in flight, so the older one can arrive
+    last, and it must not replace the newer copy. A body with no `rev`,
+    or a saved copy with none, is always stored.
+
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape (and the
             Branches page's status, forge, advisories and search, in a `branches` group) —
@@ -162,6 +168,12 @@ def sync(
     with 403, so a script or agent can't change the filters the user
     sees. Each save is logged with the user agent.
 
+    A save whose top-level `rev` is lower than the saved copy's is
+    ignored and still answers 204. A page that is closing sends its last
+    save beside one already in flight, so the older one can arrive
+    last, and it must not replace the newer copy. A body with no `rev`,
+    or a saved copy with none, is always stored.
+
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape (and the
             Branches page's status, forge, advisories and search, in a `branches` group) —
@@ -216,6 +228,12 @@ async def asyncio_detailed(
     A signed-in browser session only: a personal API token is refused
     with 403, so a script or agent can't change the filters the user
     sees. Each save is logged with the user agent.
+
+    A save whose top-level `rev` is lower than the saved copy's is
+    ignored and still answers 204. A page that is closing sends its last
+    save beside one already in flight, so the older one can arrive
+    last, and it must not replace the newer copy. A body with no `rev`,
+    or a saved copy with none, is always stored.
 
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape (and the
@@ -276,6 +294,12 @@ async def asyncio(
     A signed-in browser session only: a personal API token is refused
     with 403, so a script or agent can't change the filters the user
     sees. Each save is logged with the user agent.
+
+    A save whose top-level `rev` is lower than the saved copy's is
+    ignored and still answers 204. A page that is closing sends its last
+    save beside one already in flight, so the older one can arrive
+    last, and it must not replace the newer copy. A body with no `rev`,
+    or a saved copy with none, is always stored.
 
     Args:
         body (FilterState): The dashboard/Insights filter bar's own saved shape (and the
