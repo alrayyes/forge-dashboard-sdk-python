@@ -58,9 +58,9 @@ class ForgeHealth:
                 "unreachable" is a request that got no response; "upstream_error" is
                 the forge answering with a 5xx (a gateway timeout, say), and the
                 status is in ForgeHealth.upstreamStatus. "unauthorized" covers both a
-                bad token and a forbidden request; "not_found" usually means a wrong instance URL. "conflict" is only
-                ever returned from a pull-request write — the forge reports the PR
-                itself isn't currently mergeable. "unknown" covers a signal this
+                bad token and a forbidden request; "not_found" usually means a wrong
+                instance URL. "conflict" is only ever returned from a pull-request
+                write — the forge reports the PR itself isn't currently mergeable. "unknown" covers a signal this
                 service doesn't recognize, rather than a guessed-at specific cause.
             upstream_status (int | Unset): The 5xx status the forge answered with, set only when errorKind is
                 upstream_error. The forge is not shown as down until three fetches in a row have failed, whatever the cause,
