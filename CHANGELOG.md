@@ -1,5 +1,12 @@
 # Changelog
 
+## [15.0.19](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v15.0.18...v15.0.19) (2026-11-12)
+
+
+### Bug Fixes
+
+* regenerate client from updated forge-dashboard spec ([#497](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/497)) ([5c30f13](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/5c30f13eacd2ecdd1154a878feabea1a11b3dd23))
+
 ## [15.0.18](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v15.0.17...v15.0.18) (2026-11-12)
 
 
