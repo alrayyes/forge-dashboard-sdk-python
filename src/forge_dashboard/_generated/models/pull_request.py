@@ -335,6 +335,17 @@ class PullRequest:
                 Cancel clears both. Omitted means unknown: a client must not
                 guess it from other fields, and should treat a value it doesn't
                 know like an omitted one.
+            base_requires_up_to_date (bool | Unset): Whether the base branch's protection requires a pull request to be
+                up to date before it merges: GitHub's branch protection "Require
+                branches to be up to date before merging" (`strict`), Forgejo's
+                "Block merge if the pull request is outdated"
+                (`block_on_outdated_branch`). A fact about the branch, read once
+                per repository and cached, and only for a pull request that is
+                `behind`, since that is the only one it matters for. Omitted when
+                unknown (the protection can't be read with this token, GitHub's
+                branch has no classic rule so a ruleset may require it instead, or
+                the pull request isn't behind). A client must not guess it, and
+                must not blame being behind for a hold unless this is true.
             auto_merge_allowed (bool | Unset): Whether GitHub will accept an "Enable auto-merge" request for
                 this pull request from the signed-in viewer, read from the
                 GraphQL `PullRequest.viewerCanEnableAutoMerge` field. GitHub
@@ -417,6 +428,7 @@ class PullRequest:
     queued: None | QueuedAction | Unset = UNSET
     auto_merge_enabled: bool | Unset = UNSET
     auto_merge_held_by: str | Unset = UNSET
+    base_requires_up_to_date: bool | Unset = UNSET
     auto_merge_allowed: bool | Unset = UNSET
     review: ReviewState | Unset = UNSET
     auto_merge: AutoMergeStatus | Unset = UNSET
@@ -586,6 +598,8 @@ class PullRequest:
 
         auto_merge_held_by = self.auto_merge_held_by
 
+        base_requires_up_to_date = self.base_requires_up_to_date
+
         auto_merge_allowed = self.auto_merge_allowed
 
         review: dict[str, Any] | Unset = UNSET
@@ -656,6 +670,8 @@ class PullRequest:
             field_dict["autoMergeEnabled"] = auto_merge_enabled
         if auto_merge_held_by is not UNSET:
             field_dict["autoMergeHeldBy"] = auto_merge_held_by
+        if base_requires_up_to_date is not UNSET:
+            field_dict["baseRequiresUpToDate"] = base_requires_up_to_date
         if auto_merge_allowed is not UNSET:
             field_dict["autoMergeAllowed"] = auto_merge_allowed
         if review is not UNSET:
@@ -942,6 +958,8 @@ class PullRequest:
 
         auto_merge_held_by = d.pop("autoMergeHeldBy", UNSET)
 
+        base_requires_up_to_date = d.pop("baseRequiresUpToDate", UNSET)
+
         auto_merge_allowed = d.pop("autoMergeAllowed", UNSET)
 
         _review = d.pop("review", UNSET)
@@ -1021,6 +1039,7 @@ class PullRequest:
             queued=queued,
             auto_merge_enabled=auto_merge_enabled,
             auto_merge_held_by=auto_merge_held_by,
+            base_requires_up_to_date=base_requires_up_to_date,
             auto_merge_allowed=auto_merge_allowed,
             review=review,
             auto_merge=auto_merge,
