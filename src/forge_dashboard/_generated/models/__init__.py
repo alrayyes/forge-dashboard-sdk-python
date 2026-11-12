@@ -57,6 +57,7 @@ from .forge_health import ForgeHealth
 from .get_image_forge import GetImageForge
 from .get_pull_request_rerunnable_response_200 import GetPullRequestRerunnableResponse200
 from .health import Health
+from .hidden_draft_counts import HiddenDraftCounts
 from .issue import Issue
 from .issue_action_request import IssueActionRequest
 from .issue_comment_request import IssueCommentRequest
@@ -190,6 +191,7 @@ __all__ = (
     "GetImageForge",
     "GetPullRequestRerunnableResponse200",
     "Health",
+    "HiddenDraftCounts",
     "Issue",
     "IssueActionRequest",
     "IssueCommentRequest",
