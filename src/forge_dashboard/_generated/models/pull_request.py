@@ -141,7 +141,8 @@ class PullRequest:
                 looks like while the forge rechecks it. The row says "Checking for
                 conflicts" for about 90 seconds. It is time limited: if the flag
                 stays false for the same head and base, the status becomes
-                "conflicting".
+                "conflicting", with conflictConfirmed false unless a refused merge or
+                update named a conflict.
                 "unstable" is GitHub's UNSTABLE: the pull request can be merged, but
                 a check that branch protection doesn't require is failing or still
                 running. Merge stays available.
@@ -301,6 +302,15 @@ class PullRequest:
                 itself: the pull request's own choice when it has one
                 (`POST /api/v1/pull-requests/auto-update`), else its repo's
                 auto-update setting. Always present.
+            conflict_confirmed (bool | Unset): Forgejo only, and only with mergeStatus "conflicting". True when a
+                merge or update of this pull request was refused naming a
+                conflict. False when no refusal has, and the status is only the
+                forge's mergeable flag staying false for about 90 seconds on the
+                same head and base. Left out on GitHub, which reports conflicts
+                itself, and on every other status. It is dropped when the pull
+                request gets a new head or its base moves.
+            conflict_files (list[str] | Unset): The files the refusal named, when it named any. Left out unless
+                conflictConfirmed is true.
             bot_request (BotRequest | None | Unset): A Dependabot or Renovate rebase asked for through this app and not
                 settled yet, or null. The server keeps it, so a reload during the
                 wait still shows it, and moves it along on every snapshot that
@@ -423,6 +433,8 @@ class PullRequest:
     failing_ci: bool
     needs_review: bool
     auto_update: AutoUpdate
+    conflict_confirmed: bool | Unset = UNSET
+    conflict_files: list[str] | Unset = UNSET
     bot_request: BotRequest | None | Unset = UNSET
     update_request: None | Unset | UpdateRequest = UNSET
     queued: None | QueuedAction | Unset = UNSET
@@ -570,6 +582,14 @@ class PullRequest:
 
         auto_update = self.auto_update.to_dict()
 
+        conflict_confirmed = self.conflict_confirmed
+
+        conflict_files: list[str] | Unset = UNSET
+        if not isinstance(self.conflict_files, Unset):
+            conflict_files = self.conflict_files
+
+
+
         bot_request: dict[str, Any] | None | Unset
         if isinstance(self.bot_request, Unset):
             bot_request = UNSET
@@ -660,6 +680,10 @@ class PullRequest:
             "needsReview": needs_review,
             "autoUpdate": auto_update,
         })
+        if conflict_confirmed is not UNSET:
+            field_dict["conflictConfirmed"] = conflict_confirmed
+        if conflict_files is not UNSET:
+            field_dict["conflictFiles"] = conflict_files
         if bot_request is not UNSET:
             field_dict["botRequest"] = bot_request
         if update_request is not UNSET:
@@ -894,6 +918,11 @@ class PullRequest:
 
 
 
+        conflict_confirmed = d.pop("conflictConfirmed", UNSET)
+
+        conflict_files = cast(list[str], d.pop("conflictFiles", UNSET))
+
+
         def _parse_bot_request(data: object) -> BotRequest | None | Unset:
             if data is None:
                 return data
@@ -1034,6 +1063,8 @@ class PullRequest:
             failing_ci=failing_ci,
             needs_review=needs_review,
             auto_update=auto_update,
+            conflict_confirmed=conflict_confirmed,
+            conflict_files=conflict_files,
             bot_request=bot_request,
             update_request=update_request,
             queued=queued,
