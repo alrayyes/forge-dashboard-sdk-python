@@ -142,7 +142,8 @@ def sync_detailed(
     Only the forge the item belongs to is reached. Forgejo: the saved
     instance, with the saved token sent to that host only. GitHub:
     `github.com` and its user-content hosts (`user-images`,
-    `private-user-images` and `raw.githubusercontent.com`), without a
+    `private-user-images`, `raw`, `avatars` and `repository-images`
+    under `githubusercontent.com`), without a
     token, since its attachment links are signed. A
     `github.com/user-attachments/...` link in a private repository is not
     served unsigned, so when `fullName` and `number` (or `tag`) name the
@@ -214,7 +215,8 @@ def sync(
     Only the forge the item belongs to is reached. Forgejo: the saved
     instance, with the saved token sent to that host only. GitHub:
     `github.com` and its user-content hosts (`user-images`,
-    `private-user-images` and `raw.githubusercontent.com`), without a
+    `private-user-images`, `raw`, `avatars` and `repository-images`
+    under `githubusercontent.com`), without a
     token, since its attachment links are signed. A
     `github.com/user-attachments/...` link in a private repository is not
     served unsigned, so when `fullName` and `number` (or `tag`) name the
@@ -281,7 +283,8 @@ async def asyncio_detailed(
     Only the forge the item belongs to is reached. Forgejo: the saved
     instance, with the saved token sent to that host only. GitHub:
     `github.com` and its user-content hosts (`user-images`,
-    `private-user-images` and `raw.githubusercontent.com`), without a
+    `private-user-images`, `raw`, `avatars` and `repository-images`
+    under `githubusercontent.com`), without a
     token, since its attachment links are signed. A
     `github.com/user-attachments/...` link in a private repository is not
     served unsigned, so when `fullName` and `number` (or `tag`) name the
@@ -353,7 +356,8 @@ async def asyncio(
     Only the forge the item belongs to is reached. Forgejo: the saved
     instance, with the saved token sent to that host only. GitHub:
     `github.com` and its user-content hosts (`user-images`,
-    `private-user-images` and `raw.githubusercontent.com`), without a
+    `private-user-images`, `raw`, `avatars` and `repository-images`
+    under `githubusercontent.com`), without a
     token, since its attachment links are signed. A
     `github.com/user-attachments/...` link in a private repository is not
     served unsigned, so when `fullName` and `number` (or `tag`) name the
