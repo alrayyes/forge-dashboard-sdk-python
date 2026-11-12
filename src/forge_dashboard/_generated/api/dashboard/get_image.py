@@ -10,6 +10,7 @@ from ... import errors
 
 from ...models.error import Error
 from ...models.get_image_forge import GetImageForge
+from ...types import UNSET, Unset
 from typing import cast
 
 
@@ -18,6 +19,9 @@ def _get_kwargs(
     *,
     forge: GetImageForge,
     url_query: str,
+    full_name: str | Unset = UNSET,
+    number: int | Unset = UNSET,
+    tag: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
     
@@ -30,6 +34,12 @@ def _get_kwargs(
     params["forge"] = json_forge
 
     params["url"] = url_query
+
+    params["fullName"] = full_name
+
+    params["number"] = number
+
+    params["tag"] = tag
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -116,6 +126,9 @@ def sync_detailed(
     client: AuthenticatedClient,
     forge: GetImageForge,
     url_query: str,
+    full_name: str | Unset = UNSET,
+    number: int | Unset = UNSET,
+    tag: str | Unset = UNSET,
 
 ) -> Response[Error]:
     """ Read an image embedded in a forge's Markdown, through the server
@@ -130,7 +143,16 @@ def sync_detailed(
     instance, with the saved token sent to that host only. GitHub:
     `github.com` and its user-content hosts (`user-images`,
     `private-user-images` and `raw.githubusercontent.com`), without a
-    token, since its attachment links are signed. Any other host, scheme or
+    token, since its attachment links are signed. A
+    `github.com/user-attachments/...` link in a private repository is not
+    served unsigned, so when `fullName` and `number` (or `tag`) name the
+    item it sits in, the server reads that item's rendered HTML through the
+    GitHub API with the saved token and fetches the signed address found
+    there instead, without the token. If the lookup finds nothing or fails, or the signed address is on
+    a host
+    that isn't allowed or doesn't load, the link is fetched as written.
+    Each such image costs one GitHub API request, which is never served from
+    the ETag cache because the signature expires. Any other host, scheme or
     address answers 403 without a request. A redirect is followed only to
     another allowed host, and at most three times. GitHub's hosts are also
     refused at connect time if they resolve to a non-public address.
@@ -143,6 +165,9 @@ def sync_detailed(
     Args:
         forge (GetImageForge):
         url_query (str):
+        full_name (str | Unset):
+        number (int | Unset):
+        tag (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -156,6 +181,9 @@ def sync_detailed(
     kwargs = _get_kwargs(
         forge=forge,
 url_query=url_query,
+full_name=full_name,
+number=number,
+tag=tag,
 
     )
 
@@ -170,6 +198,9 @@ def sync(
     client: AuthenticatedClient,
     forge: GetImageForge,
     url_query: str,
+    full_name: str | Unset = UNSET,
+    number: int | Unset = UNSET,
+    tag: str | Unset = UNSET,
 
 ) -> Error | None:
     """ Read an image embedded in a forge's Markdown, through the server
@@ -184,7 +215,16 @@ def sync(
     instance, with the saved token sent to that host only. GitHub:
     `github.com` and its user-content hosts (`user-images`,
     `private-user-images` and `raw.githubusercontent.com`), without a
-    token, since its attachment links are signed. Any other host, scheme or
+    token, since its attachment links are signed. A
+    `github.com/user-attachments/...` link in a private repository is not
+    served unsigned, so when `fullName` and `number` (or `tag`) name the
+    item it sits in, the server reads that item's rendered HTML through the
+    GitHub API with the saved token and fetches the signed address found
+    there instead, without the token. If the lookup finds nothing or fails, or the signed address is on
+    a host
+    that isn't allowed or doesn't load, the link is fetched as written.
+    Each such image costs one GitHub API request, which is never served from
+    the ETag cache because the signature expires. Any other host, scheme or
     address answers 403 without a request. A redirect is followed only to
     another allowed host, and at most three times. GitHub's hosts are also
     refused at connect time if they resolve to a non-public address.
@@ -197,6 +237,9 @@ def sync(
     Args:
         forge (GetImageForge):
         url_query (str):
+        full_name (str | Unset):
+        number (int | Unset):
+        tag (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -211,6 +254,9 @@ def sync(
         client=client,
 forge=forge,
 url_query=url_query,
+full_name=full_name,
+number=number,
+tag=tag,
 
     ).parsed
 
@@ -219,6 +265,9 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     forge: GetImageForge,
     url_query: str,
+    full_name: str | Unset = UNSET,
+    number: int | Unset = UNSET,
+    tag: str | Unset = UNSET,
 
 ) -> Response[Error]:
     """ Read an image embedded in a forge's Markdown, through the server
@@ -233,7 +282,16 @@ async def asyncio_detailed(
     instance, with the saved token sent to that host only. GitHub:
     `github.com` and its user-content hosts (`user-images`,
     `private-user-images` and `raw.githubusercontent.com`), without a
-    token, since its attachment links are signed. Any other host, scheme or
+    token, since its attachment links are signed. A
+    `github.com/user-attachments/...` link in a private repository is not
+    served unsigned, so when `fullName` and `number` (or `tag`) name the
+    item it sits in, the server reads that item's rendered HTML through the
+    GitHub API with the saved token and fetches the signed address found
+    there instead, without the token. If the lookup finds nothing or fails, or the signed address is on
+    a host
+    that isn't allowed or doesn't load, the link is fetched as written.
+    Each such image costs one GitHub API request, which is never served from
+    the ETag cache because the signature expires. Any other host, scheme or
     address answers 403 without a request. A redirect is followed only to
     another allowed host, and at most three times. GitHub's hosts are also
     refused at connect time if they resolve to a non-public address.
@@ -246,6 +304,9 @@ async def asyncio_detailed(
     Args:
         forge (GetImageForge):
         url_query (str):
+        full_name (str | Unset):
+        number (int | Unset):
+        tag (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -259,6 +320,9 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         forge=forge,
 url_query=url_query,
+full_name=full_name,
+number=number,
+tag=tag,
 
     )
 
@@ -273,6 +337,9 @@ async def asyncio(
     client: AuthenticatedClient,
     forge: GetImageForge,
     url_query: str,
+    full_name: str | Unset = UNSET,
+    number: int | Unset = UNSET,
+    tag: str | Unset = UNSET,
 
 ) -> Error | None:
     """ Read an image embedded in a forge's Markdown, through the server
@@ -287,7 +354,16 @@ async def asyncio(
     instance, with the saved token sent to that host only. GitHub:
     `github.com` and its user-content hosts (`user-images`,
     `private-user-images` and `raw.githubusercontent.com`), without a
-    token, since its attachment links are signed. Any other host, scheme or
+    token, since its attachment links are signed. A
+    `github.com/user-attachments/...` link in a private repository is not
+    served unsigned, so when `fullName` and `number` (or `tag`) name the
+    item it sits in, the server reads that item's rendered HTML through the
+    GitHub API with the saved token and fetches the signed address found
+    there instead, without the token. If the lookup finds nothing or fails, or the signed address is on
+    a host
+    that isn't allowed or doesn't load, the link is fetched as written.
+    Each such image costs one GitHub API request, which is never served from
+    the ETag cache because the signature expires. Any other host, scheme or
     address answers 403 without a request. A redirect is followed only to
     another allowed host, and at most three times. GitHub's hosts are also
     refused at connect time if they resolve to a non-public address.
@@ -300,6 +376,9 @@ async def asyncio(
     Args:
         forge (GetImageForge):
         url_query (str):
+        full_name (str | Unset):
+        number (int | Unset):
+        tag (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -314,5 +393,8 @@ async def asyncio(
         client=client,
 forge=forge,
 url_query=url_query,
+full_name=full_name,
+number=number,
+tag=tag,
 
     )).parsed
