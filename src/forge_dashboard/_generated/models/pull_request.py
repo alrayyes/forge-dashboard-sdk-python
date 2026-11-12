@@ -230,6 +230,16 @@ class PullRequest:
                 Forgejo's source and has not been tried on a live instance. Only a
                 pull request aimed at its repo's default branch closes anything,
                 so one aimed elsewhere always lists none.
+            refs_issues (list[MentionedIssue]): The issues the title or description references with a keyword,
+                work on a ticket that stays open: `Refs`, `Ref`, `Related to` or
+                `See`, with an optional colon, then `#NUMBER` or
+                `owner/repo#NUMBER` (several may follow one keyword, as in
+                `Refs #3, #4 and #5`), at most 20, in order of first appearance and
+                without repeats. Each entry has `relation` `refs`. A ticket the
+                pull request also closes is only in `closesIssues`. Read from the
+                title and description on both forges, with the same rules as
+                `mentionsIssues` for code, comments and link text. Always present,
+                and empty when there are none.
             mentions_issues (list[MentionedIssue]): The issues and pull requests the title or description mentions
                 without closing them, in order of first appearance and without
                 repeats, at most 20. Always present, and empty when there are none.
@@ -423,6 +433,7 @@ class PullRequest:
     review_comments: int
     conversation_comments: int
     closes_issues: list[ClosingIssue]
+    refs_issues: list[MentionedIssue]
     mentions_issues: list[MentionedIssue]
     unresolved_threads: int | None
     review_requested_from_me: bool
@@ -544,6 +555,13 @@ class PullRequest:
         for closes_issues_item_data in self.closes_issues:
             closes_issues_item = closes_issues_item_data.to_dict()
             closes_issues.append(closes_issues_item)
+
+
+
+        refs_issues = []
+        for refs_issues_item_data in self.refs_issues:
+            refs_issues_item = refs_issues_item_data.to_dict()
+            refs_issues.append(refs_issues_item)
 
 
 
@@ -669,6 +687,7 @@ class PullRequest:
             "reviewComments": review_comments,
             "conversationComments": conversation_comments,
             "closesIssues": closes_issues,
+            "refsIssues": refs_issues,
             "mentionsIssues": mentions_issues,
             "unresolvedThreads": unresolved_threads,
             "reviewRequestedFromMe": review_requested_from_me,
@@ -855,6 +874,16 @@ class PullRequest:
 
 
             closes_issues.append(closes_issues_item)
+
+
+        refs_issues = []
+        _refs_issues = d.pop("refsIssues")
+        for refs_issues_item_data in (_refs_issues):
+            refs_issues_item = MentionedIssue.from_dict(refs_issues_item_data)
+
+
+
+            refs_issues.append(refs_issues_item)
 
 
         mentions_issues = []
@@ -1053,6 +1082,7 @@ class PullRequest:
             review_comments=review_comments,
             conversation_comments=conversation_comments,
             closes_issues=closes_issues,
+            refs_issues=refs_issues,
             mentions_issues=mentions_issues,
             unresolved_threads=unresolved_threads,
             review_requested_from_me=review_requested_from_me,

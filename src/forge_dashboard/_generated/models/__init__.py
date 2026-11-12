@@ -61,6 +61,7 @@ from .issue_action_request import IssueActionRequest
 from .issue_comment_request import IssueCommentRequest
 from .issue_details import IssueDetails
 from .issue_details_state import IssueDetailsState
+from .issue_relation import IssueRelation
 from .label import Label
 from .linked_pull_request import LinkedPullRequest
 from .main_branch import MainBranch
@@ -192,6 +193,7 @@ __all__ = (
     "IssueCommentRequest",
     "IssueDetails",
     "IssueDetailsState",
+    "IssueRelation",
     "Label",
     "LinkedPullRequest",
     "MainBranch",
