@@ -37,6 +37,7 @@ from .check_log import CheckLog
 from .check_status import CheckStatus
 from .check_subject import CheckSubject
 from .check_subject_kind import CheckSubjectKind
+from .check_waiting_for import CheckWaitingFor
 from .ci_status import CIStatus
 from .closing_issue import ClosingIssue
 from .credential import Credential
@@ -169,6 +170,7 @@ __all__ = (
     "CheckStatus",
     "CheckSubject",
     "CheckSubjectKind",
+    "CheckWaitingFor",
     "CIStatus",
     "ClosingIssue",
     "Credential",
