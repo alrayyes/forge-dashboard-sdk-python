@@ -10,6 +10,7 @@ from ... import errors
 
 from ...models.error import Error
 from ...models.get_image_forge import GetImageForge
+from ...models.get_image_kind import GetImageKind
 from ...types import UNSET, Unset
 from typing import cast
 
@@ -22,6 +23,7 @@ def _get_kwargs(
     full_name: str | Unset = UNSET,
     number: int | Unset = UNSET,
     tag: str | Unset = UNSET,
+    kind: GetImageKind | Unset = UNSET,
 
 ) -> dict[str, Any]:
     
@@ -40,6 +42,12 @@ def _get_kwargs(
     params["number"] = number
 
     params["tag"] = tag
+
+    json_kind: str | Unset = UNSET
+    if not isinstance(kind, Unset):
+        json_kind = kind.value
+
+    params["kind"] = json_kind
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -106,6 +114,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_502
 
+    if response.status_code == 503:
+        response_503 = Error.from_dict(response.json())
+
+
+
+        return response_503
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -129,6 +144,7 @@ def sync_detailed(
     full_name: str | Unset = UNSET,
     number: int | Unset = UNSET,
     tag: str | Unset = UNSET,
+    kind: GetImageKind | Unset = UNSET,
 
 ) -> Response[Error]:
     """ Read an image embedded in a forge's Markdown, through the server
@@ -159,9 +175,15 @@ def sync_detailed(
     refused at connect time if they resolve to a non-public address.
 
     The body must be a PNG, JPEG, GIF or WebP by its own bytes, not by the
-    host's `Content-Type`, and at most 8 MiB. SVG and anything else answers
-    415. The answer carries `nosniff` and a sandboxing
-    `Content-Security-Policy`, and is cacheable by the browser for an hour.
+    host's `Content-Type`, and at most 8 MiB (512 KiB with `kind=avatar`).
+    SVG and anything else answers 415.
+
+    The cost is bounded. At most 8 fetches run upstream at once; another
+    request waits up to 5 seconds for a slot, then answers 503 with
+    `Retry-After`. A fetched image is served again from a server-side cache
+    for 5 minutes, without a new upstream fetch. The answer carries
+    `nosniff` and a sandboxing `Content-Security-Policy`, and is cacheable
+    by the browser for an hour.
 
     Args:
         forge (GetImageForge):
@@ -169,6 +191,7 @@ def sync_detailed(
         full_name (str | Unset):
         number (int | Unset):
         tag (str | Unset):
+        kind (GetImageKind | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -185,6 +208,7 @@ url_query=url_query,
 full_name=full_name,
 number=number,
 tag=tag,
+kind=kind,
 
     )
 
@@ -202,6 +226,7 @@ def sync(
     full_name: str | Unset = UNSET,
     number: int | Unset = UNSET,
     tag: str | Unset = UNSET,
+    kind: GetImageKind | Unset = UNSET,
 
 ) -> Error | None:
     """ Read an image embedded in a forge's Markdown, through the server
@@ -232,9 +257,15 @@ def sync(
     refused at connect time if they resolve to a non-public address.
 
     The body must be a PNG, JPEG, GIF or WebP by its own bytes, not by the
-    host's `Content-Type`, and at most 8 MiB. SVG and anything else answers
-    415. The answer carries `nosniff` and a sandboxing
-    `Content-Security-Policy`, and is cacheable by the browser for an hour.
+    host's `Content-Type`, and at most 8 MiB (512 KiB with `kind=avatar`).
+    SVG and anything else answers 415.
+
+    The cost is bounded. At most 8 fetches run upstream at once; another
+    request waits up to 5 seconds for a slot, then answers 503 with
+    `Retry-After`. A fetched image is served again from a server-side cache
+    for 5 minutes, without a new upstream fetch. The answer carries
+    `nosniff` and a sandboxing `Content-Security-Policy`, and is cacheable
+    by the browser for an hour.
 
     Args:
         forge (GetImageForge):
@@ -242,6 +273,7 @@ def sync(
         full_name (str | Unset):
         number (int | Unset):
         tag (str | Unset):
+        kind (GetImageKind | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -259,6 +291,7 @@ url_query=url_query,
 full_name=full_name,
 number=number,
 tag=tag,
+kind=kind,
 
     ).parsed
 
@@ -270,6 +303,7 @@ async def asyncio_detailed(
     full_name: str | Unset = UNSET,
     number: int | Unset = UNSET,
     tag: str | Unset = UNSET,
+    kind: GetImageKind | Unset = UNSET,
 
 ) -> Response[Error]:
     """ Read an image embedded in a forge's Markdown, through the server
@@ -300,9 +334,15 @@ async def asyncio_detailed(
     refused at connect time if they resolve to a non-public address.
 
     The body must be a PNG, JPEG, GIF or WebP by its own bytes, not by the
-    host's `Content-Type`, and at most 8 MiB. SVG and anything else answers
-    415. The answer carries `nosniff` and a sandboxing
-    `Content-Security-Policy`, and is cacheable by the browser for an hour.
+    host's `Content-Type`, and at most 8 MiB (512 KiB with `kind=avatar`).
+    SVG and anything else answers 415.
+
+    The cost is bounded. At most 8 fetches run upstream at once; another
+    request waits up to 5 seconds for a slot, then answers 503 with
+    `Retry-After`. A fetched image is served again from a server-side cache
+    for 5 minutes, without a new upstream fetch. The answer carries
+    `nosniff` and a sandboxing `Content-Security-Policy`, and is cacheable
+    by the browser for an hour.
 
     Args:
         forge (GetImageForge):
@@ -310,6 +350,7 @@ async def asyncio_detailed(
         full_name (str | Unset):
         number (int | Unset):
         tag (str | Unset):
+        kind (GetImageKind | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -326,6 +367,7 @@ url_query=url_query,
 full_name=full_name,
 number=number,
 tag=tag,
+kind=kind,
 
     )
 
@@ -343,6 +385,7 @@ async def asyncio(
     full_name: str | Unset = UNSET,
     number: int | Unset = UNSET,
     tag: str | Unset = UNSET,
+    kind: GetImageKind | Unset = UNSET,
 
 ) -> Error | None:
     """ Read an image embedded in a forge's Markdown, through the server
@@ -373,9 +416,15 @@ async def asyncio(
     refused at connect time if they resolve to a non-public address.
 
     The body must be a PNG, JPEG, GIF or WebP by its own bytes, not by the
-    host's `Content-Type`, and at most 8 MiB. SVG and anything else answers
-    415. The answer carries `nosniff` and a sandboxing
-    `Content-Security-Policy`, and is cacheable by the browser for an hour.
+    host's `Content-Type`, and at most 8 MiB (512 KiB with `kind=avatar`).
+    SVG and anything else answers 415.
+
+    The cost is bounded. At most 8 fetches run upstream at once; another
+    request waits up to 5 seconds for a slot, then answers 503 with
+    `Retry-After`. A fetched image is served again from a server-side cache
+    for 5 minutes, without a new upstream fetch. The answer carries
+    `nosniff` and a sandboxing `Content-Security-Policy`, and is cacheable
+    by the browser for an hour.
 
     Args:
         forge (GetImageForge):
@@ -383,6 +432,7 @@ async def asyncio(
         full_name (str | Unset):
         number (int | Unset):
         tag (str | Unset):
+        kind (GetImageKind | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -400,5 +450,6 @@ url_query=url_query,
 full_name=full_name,
 number=number,
 tag=tag,
+kind=kind,
 
     )).parsed
