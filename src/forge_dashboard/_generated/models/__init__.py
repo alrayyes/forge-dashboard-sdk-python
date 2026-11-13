@@ -82,6 +82,8 @@ from .nav_pull_request_count import NavPullRequestCount
 from .person import Person
 from .presence_answer import PresenceAnswer
 from .presence_report import PresenceReport
+from .provider_status import ProviderStatus
+from .provider_status_indicator import ProviderStatusIndicator
 from .pull_request import PullRequest
 from .pull_request_action_request import PullRequestActionRequest
 from .pull_request_auto_update_request import PullRequestAutoUpdateRequest
@@ -217,6 +219,8 @@ __all__ = (
     "Person",
     "PresenceAnswer",
     "PresenceReport",
+    "ProviderStatus",
+    "ProviderStatusIndicator",
     "PullRequest",
     "PullRequestActionRequest",
     "PullRequestAutoUpdateRequest",
