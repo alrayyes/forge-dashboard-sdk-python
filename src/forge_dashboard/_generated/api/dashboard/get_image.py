@@ -23,6 +23,7 @@ def _get_kwargs(
     full_name: str | Unset = UNSET,
     number: int | Unset = UNSET,
     tag: str | Unset = UNSET,
+    comment: int | Unset = UNSET,
     kind: GetImageKind | Unset = UNSET,
 
 ) -> dict[str, Any]:
@@ -42,6 +43,8 @@ def _get_kwargs(
     params["number"] = number
 
     params["tag"] = tag
+
+    params["comment"] = comment
 
     json_kind: str | Unset = UNSET
     if not isinstance(kind, Unset):
@@ -144,6 +147,7 @@ def sync_detailed(
     full_name: str | Unset = UNSET,
     number: int | Unset = UNSET,
     tag: str | Unset = UNSET,
+    comment: int | Unset = UNSET,
     kind: GetImageKind | Unset = UNSET,
 
 ) -> Response[Error]:
@@ -162,8 +166,9 @@ def sync_detailed(
     under `githubusercontent.com`), without a
     token, since its attachment links are signed. A
     `github.com/user-attachments/...` link in a private repository is not
-    served unsigned, so when `fullName` and `number` (or `tag`) name the
-    item it sits in, the server reads that item's rendered HTML through the
+    served unsigned, so when `fullName` and `number` (or `tag`, or the
+    `comment` it was posted in) name where it sits, the server reads that
+    item's or comment's rendered HTML through the
     GitHub API with the saved token and fetches the signed address found
     there instead, without the token. If the lookup finds nothing or fails, or the signed address is on
     a host
@@ -191,6 +196,7 @@ def sync_detailed(
         full_name (str | Unset):
         number (int | Unset):
         tag (str | Unset):
+        comment (int | Unset):
         kind (GetImageKind | Unset):
 
     Raises:
@@ -208,6 +214,7 @@ url_query=url_query,
 full_name=full_name,
 number=number,
 tag=tag,
+comment=comment,
 kind=kind,
 
     )
@@ -226,6 +233,7 @@ def sync(
     full_name: str | Unset = UNSET,
     number: int | Unset = UNSET,
     tag: str | Unset = UNSET,
+    comment: int | Unset = UNSET,
     kind: GetImageKind | Unset = UNSET,
 
 ) -> Error | None:
@@ -244,8 +252,9 @@ def sync(
     under `githubusercontent.com`), without a
     token, since its attachment links are signed. A
     `github.com/user-attachments/...` link in a private repository is not
-    served unsigned, so when `fullName` and `number` (or `tag`) name the
-    item it sits in, the server reads that item's rendered HTML through the
+    served unsigned, so when `fullName` and `number` (or `tag`, or the
+    `comment` it was posted in) name where it sits, the server reads that
+    item's or comment's rendered HTML through the
     GitHub API with the saved token and fetches the signed address found
     there instead, without the token. If the lookup finds nothing or fails, or the signed address is on
     a host
@@ -273,6 +282,7 @@ def sync(
         full_name (str | Unset):
         number (int | Unset):
         tag (str | Unset):
+        comment (int | Unset):
         kind (GetImageKind | Unset):
 
     Raises:
@@ -291,6 +301,7 @@ url_query=url_query,
 full_name=full_name,
 number=number,
 tag=tag,
+comment=comment,
 kind=kind,
 
     ).parsed
@@ -303,6 +314,7 @@ async def asyncio_detailed(
     full_name: str | Unset = UNSET,
     number: int | Unset = UNSET,
     tag: str | Unset = UNSET,
+    comment: int | Unset = UNSET,
     kind: GetImageKind | Unset = UNSET,
 
 ) -> Response[Error]:
@@ -321,8 +333,9 @@ async def asyncio_detailed(
     under `githubusercontent.com`), without a
     token, since its attachment links are signed. A
     `github.com/user-attachments/...` link in a private repository is not
-    served unsigned, so when `fullName` and `number` (or `tag`) name the
-    item it sits in, the server reads that item's rendered HTML through the
+    served unsigned, so when `fullName` and `number` (or `tag`, or the
+    `comment` it was posted in) name where it sits, the server reads that
+    item's or comment's rendered HTML through the
     GitHub API with the saved token and fetches the signed address found
     there instead, without the token. If the lookup finds nothing or fails, or the signed address is on
     a host
@@ -350,6 +363,7 @@ async def asyncio_detailed(
         full_name (str | Unset):
         number (int | Unset):
         tag (str | Unset):
+        comment (int | Unset):
         kind (GetImageKind | Unset):
 
     Raises:
@@ -367,6 +381,7 @@ url_query=url_query,
 full_name=full_name,
 number=number,
 tag=tag,
+comment=comment,
 kind=kind,
 
     )
@@ -385,6 +400,7 @@ async def asyncio(
     full_name: str | Unset = UNSET,
     number: int | Unset = UNSET,
     tag: str | Unset = UNSET,
+    comment: int | Unset = UNSET,
     kind: GetImageKind | Unset = UNSET,
 
 ) -> Error | None:
@@ -403,8 +419,9 @@ async def asyncio(
     under `githubusercontent.com`), without a
     token, since its attachment links are signed. A
     `github.com/user-attachments/...` link in a private repository is not
-    served unsigned, so when `fullName` and `number` (or `tag`) name the
-    item it sits in, the server reads that item's rendered HTML through the
+    served unsigned, so when `fullName` and `number` (or `tag`, or the
+    `comment` it was posted in) name where it sits, the server reads that
+    item's or comment's rendered HTML through the
     GitHub API with the saved token and fetches the signed address found
     there instead, without the token. If the lookup finds nothing or fails, or the signed address is on
     a host
@@ -432,6 +449,7 @@ async def asyncio(
         full_name (str | Unset):
         number (int | Unset):
         tag (str | Unset):
+        comment (int | Unset):
         kind (GetImageKind | Unset):
 
     Raises:
@@ -450,6 +468,7 @@ url_query=url_query,
 full_name=full_name,
 number=number,
 tag=tag,
+comment=comment,
 kind=kind,
 
     )).parsed
