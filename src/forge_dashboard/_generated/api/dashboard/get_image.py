@@ -11,6 +11,7 @@ from ... import errors
 from ...models.error import Error
 from ...models.get_image_forge import GetImageForge
 from ...models.get_image_kind import GetImageKind
+from ...models.get_image_width import GetImageWidth
 from ...types import UNSET, Unset
 from typing import cast
 
@@ -25,6 +26,7 @@ def _get_kwargs(
     tag: str | Unset = UNSET,
     comment: int | Unset = UNSET,
     kind: GetImageKind | Unset = UNSET,
+    width: GetImageWidth | Unset = UNSET,
 
 ) -> dict[str, Any]:
     
@@ -51,6 +53,12 @@ def _get_kwargs(
         json_kind = kind.value
 
     params["kind"] = json_kind
+
+    json_width: int | Unset = UNSET
+    if not isinstance(width, Unset):
+        json_width = width.value
+
+    params["width"] = json_width
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -149,6 +157,7 @@ def sync_detailed(
     tag: str | Unset = UNSET,
     comment: int | Unset = UNSET,
     kind: GetImageKind | Unset = UNSET,
+    width: GetImageWidth | Unset = UNSET,
 
 ) -> Response[Error]:
     """ Read an image embedded in a forge's Markdown, through the server
@@ -198,6 +207,7 @@ def sync_detailed(
         tag (str | Unset):
         comment (int | Unset):
         kind (GetImageKind | Unset):
+        width (GetImageWidth | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -216,6 +226,7 @@ number=number,
 tag=tag,
 comment=comment,
 kind=kind,
+width=width,
 
     )
 
@@ -235,6 +246,7 @@ def sync(
     tag: str | Unset = UNSET,
     comment: int | Unset = UNSET,
     kind: GetImageKind | Unset = UNSET,
+    width: GetImageWidth | Unset = UNSET,
 
 ) -> Error | None:
     """ Read an image embedded in a forge's Markdown, through the server
@@ -284,6 +296,7 @@ def sync(
         tag (str | Unset):
         comment (int | Unset):
         kind (GetImageKind | Unset):
+        width (GetImageWidth | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -303,6 +316,7 @@ number=number,
 tag=tag,
 comment=comment,
 kind=kind,
+width=width,
 
     ).parsed
 
@@ -316,6 +330,7 @@ async def asyncio_detailed(
     tag: str | Unset = UNSET,
     comment: int | Unset = UNSET,
     kind: GetImageKind | Unset = UNSET,
+    width: GetImageWidth | Unset = UNSET,
 
 ) -> Response[Error]:
     """ Read an image embedded in a forge's Markdown, through the server
@@ -365,6 +380,7 @@ async def asyncio_detailed(
         tag (str | Unset):
         comment (int | Unset):
         kind (GetImageKind | Unset):
+        width (GetImageWidth | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -383,6 +399,7 @@ number=number,
 tag=tag,
 comment=comment,
 kind=kind,
+width=width,
 
     )
 
@@ -402,6 +419,7 @@ async def asyncio(
     tag: str | Unset = UNSET,
     comment: int | Unset = UNSET,
     kind: GetImageKind | Unset = UNSET,
+    width: GetImageWidth | Unset = UNSET,
 
 ) -> Error | None:
     """ Read an image embedded in a forge's Markdown, through the server
@@ -451,6 +469,7 @@ async def asyncio(
         tag (str | Unset):
         comment (int | Unset):
         kind (GetImageKind | Unset):
+        width (GetImageWidth | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -470,5 +489,6 @@ number=number,
 tag=tag,
 comment=comment,
 kind=kind,
+width=width,
 
     )).parsed
