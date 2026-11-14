@@ -1,5 +1,12 @@
 # Changelog
 
+## [15.0.29](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v15.0.28...v15.0.29) (2026-11-14)
+
+
+### Bug Fixes
+
+* move to httpx2 with openapi-python-client 0.30.0 ([#522](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/522)) ([4d7584d](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/4d7584d19ff04b0858168bb52a3e0abf197e4398))
+
 ## [15.0.28](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v15.0.27...v15.0.28) (2026-11-14)
 
 
