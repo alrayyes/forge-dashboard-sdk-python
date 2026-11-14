@@ -171,7 +171,7 @@ def sync_detailed(
     Only the forge the item belongs to is reached. Forgejo: the saved
     instance, with the saved token sent to that host only. GitHub:
     `github.com` and its user-content hosts (`user-images`,
-    `private-user-images`, `raw`, `avatars` and `repository-images`
+    `private-user-images`, `raw`, `gist`, `avatars` and `repository-images`
     under `githubusercontent.com`), without a
     token, since its attachment links are signed. A
     `github.com/user-attachments/...` link in a private repository is not
@@ -260,7 +260,7 @@ def sync(
     Only the forge the item belongs to is reached. Forgejo: the saved
     instance, with the saved token sent to that host only. GitHub:
     `github.com` and its user-content hosts (`user-images`,
-    `private-user-images`, `raw`, `avatars` and `repository-images`
+    `private-user-images`, `raw`, `gist`, `avatars` and `repository-images`
     under `githubusercontent.com`), without a
     token, since its attachment links are signed. A
     `github.com/user-attachments/...` link in a private repository is not
@@ -344,7 +344,7 @@ async def asyncio_detailed(
     Only the forge the item belongs to is reached. Forgejo: the saved
     instance, with the saved token sent to that host only. GitHub:
     `github.com` and its user-content hosts (`user-images`,
-    `private-user-images`, `raw`, `avatars` and `repository-images`
+    `private-user-images`, `raw`, `gist`, `avatars` and `repository-images`
     under `githubusercontent.com`), without a
     token, since its attachment links are signed. A
     `github.com/user-attachments/...` link in a private repository is not
@@ -433,7 +433,7 @@ async def asyncio(
     Only the forge the item belongs to is reached. Forgejo: the saved
     instance, with the saved token sent to that host only. GitHub:
     `github.com` and its user-content hosts (`user-images`,
-    `private-user-images`, `raw`, `avatars` and `repository-images`
+    `private-user-images`, `raw`, `gist`, `avatars` and `repository-images`
     under `githubusercontent.com`), without a
     token, since its attachment links are signed. A
     `github.com/user-attachments/...` link in a private repository is not
