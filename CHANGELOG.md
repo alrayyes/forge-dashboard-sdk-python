@@ -1,5 +1,14 @@
 # Changelog
 
+## [15.0.27](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v15.0.26...v15.0.27) (2026-11-14)
+
+
+### Bug Fixes
+
+* bump mkdocs-material from 9.8.0 to 9.8.1 ([#515](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/515)) ([fc42bfb](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/fc42bfb74d8404a63c65cb02c45243e8c08b11bd))
+* bump ruff from 0.17.3 to 0.17.4 ([#514](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/514)) ([ca286d3](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/ca286d399989d26fc6004741365c522bdc69ab40))
+* regenerate client from updated forge-dashboard spec ([#517](https://github.com/alrayyes/forge-dashboard-sdk-python/issues/517)) ([0a9c365](https://github.com/alrayyes/forge-dashboard-sdk-python/commit/0a9c3656c955c530a2201c28dce2ff0a4889364a))
+
 ## [15.0.26](https://github.com/alrayyes/forge-dashboard-sdk-python/compare/v15.0.25...v15.0.26) (2026-11-13)
 
 
