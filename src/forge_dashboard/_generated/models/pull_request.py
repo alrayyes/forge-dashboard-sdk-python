@@ -155,6 +155,11 @@ class PullRequest:
                 get recomputed just because the base moved), so folding this
                 into mergeStatus would force picking one and losing the
                 other.
+            edited_by_others (bool): Whether a Dependabot pull request's head branch holds a commit
+                Dependabot didn't write, such as a bot refreshing a lockfile on it.
+                Dependabot refuses to rebase such a branch, so the pull request
+                offers Update branch instead of Dependabot's Rebase. Always false
+                for any other author. Always present.
             head_sha (str): The commit the pull request's head branch points at. A bot's
                 rebase moves it, which shows the bot acted even when the pull
                 request is still reported behind, or wasn't behind to begin
@@ -420,6 +425,7 @@ class PullRequest:
     checks: CheckCounts
     merge_status: MergeStatus
     behind: bool
+    edited_by_others: bool
     head_sha: str
     kind: PullRequestKind
     base_branch: str
@@ -514,6 +520,8 @@ class PullRequest:
         merge_status = self.merge_status.value
 
         behind = self.behind
+
+        edited_by_others = self.edited_by_others
 
         head_sha = self.head_sha
 
@@ -674,6 +682,7 @@ class PullRequest:
             "checks": checks,
             "mergeStatus": merge_status,
             "behind": behind,
+            "editedByOthers": edited_by_others,
             "headSha": head_sha,
             "kind": kind,
             "baseBranch": base_branch,
@@ -804,6 +813,8 @@ class PullRequest:
 
 
         behind = d.pop("behind")
+
+        edited_by_others = d.pop("editedByOthers")
 
         head_sha = d.pop("headSha")
 
@@ -1069,6 +1080,7 @@ class PullRequest:
             checks=checks,
             merge_status=merge_status,
             behind=behind,
+            edited_by_others=edited_by_others,
             head_sha=head_sha,
             kind=kind,
             base_branch=base_branch,
