@@ -15,6 +15,7 @@ from typing import cast
 import datetime
 
 if TYPE_CHECKING:
+  from ..models.forge_capabilities import ForgeCapabilities
   from ..models.provider_status import ProviderStatus
   from ..models.rate_limit import RateLimit
 
@@ -33,6 +34,9 @@ class ForgeHealth:
             forge (Forge):
             reachable (bool): Whether the last refresh attempt against this forge succeeded.
             repo_count (int): Repositories with write access this forge reported.
+            capabilities (ForgeCapabilities): What one forge can do, as facts a client reads instead of testing the forge's
+                name. A forge this service learns to talk to is one more set of values here, so a client that reads these needs
+                no change for it.
             starting (bool | Unset): True while the rows shown for this forge are the ones the last run
                 saved and no refresh has asked the forge since the app started.
                 The forge is then neither reachable nor in error (errorKind is
@@ -89,6 +93,7 @@ class ForgeHealth:
     forge: Forge
     reachable: bool
     repo_count: int
+    capabilities: ForgeCapabilities
     starting: bool | Unset = UNSET
     stale_since: datetime.datetime | Unset = UNSET
     error: str | Unset = UNSET
@@ -106,6 +111,7 @@ class ForgeHealth:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.forge_capabilities import ForgeCapabilities # noqa: PLC0415
         from ..models.provider_status import ProviderStatus # noqa: PLC0415
         from ..models.rate_limit import RateLimit # noqa: PLC0415
         forge = self.forge.value
@@ -113,6 +119,8 @@ class ForgeHealth:
         reachable = self.reachable
 
         repo_count = self.repo_count
+
+        capabilities = self.capabilities.to_dict()
 
         starting = self.starting
 
@@ -152,6 +160,7 @@ class ForgeHealth:
             "forge": forge,
             "reachable": reachable,
             "repoCount": repo_count,
+            "capabilities": capabilities,
         })
         if starting is not UNSET:
             field_dict["starting"] = starting
@@ -180,6 +189,7 @@ class ForgeHealth:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.forge_capabilities import ForgeCapabilities # noqa: PLC0415
         from ..models.provider_status import ProviderStatus # noqa: PLC0415
         from ..models.rate_limit import RateLimit # noqa: PLC0415
         d = dict(src_dict)
@@ -191,6 +201,11 @@ class ForgeHealth:
         reachable = d.pop("reachable")
 
         repo_count = d.pop("repoCount")
+
+        capabilities = ForgeCapabilities.from_dict(d.pop("capabilities"))
+
+
+
 
         starting = d.pop("starting", UNSET)
 
@@ -256,6 +271,7 @@ class ForgeHealth:
             forge=forge,
             reachable=reachable,
             repo_count=repo_count,
+            capabilities=capabilities,
             starting=starting,
             stale_since=stale_since,
             error=error,
