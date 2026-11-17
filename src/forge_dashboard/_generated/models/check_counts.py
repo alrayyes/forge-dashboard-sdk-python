@@ -33,15 +33,14 @@ class CheckCounts:
     checks running or waiting, and says so. A pull request's counts agree
     with its `ci`: one whose `ci` is `pending` has `failed` at 0, and one
     whose `ci` is `success` has nothing running, waiting or failed. On a
-    pull request two kinds of run are therefore in none of the four, as
-    long as something else explains the state. A run held for approval:
-    `awaitingWorkflowApproval` says that. A cancelled run: a push or a
-    concurrency group superseded it, and the overall state does not read it
-    as a failure while others still run. A pull request whose `ci` is
-    `cancelled` counts its cancelled runs in `cancelled`. A default branch
-    counts every job its pipeline lists, so its cancelled jobs are in
-    `cancelled` and its held runs in `held`, never in `failed`: a failed
-    branch can have a `failed` of 0 when a held or cancelled run is what
+    pull request or branch a cancelled run and a run held for approval
+    have counts of their own, `cancelled` and `held`, and are never in
+    `failed`: a push or a concurrency group superseded a cancelled run, and
+    the overall state does not read it as a failure while others still run.
+    A held run is also said by `awaitingWorkflowApproval`. Every check the
+    pipeline lists is in exactly one count, so the counts add up to the
+    jobs the pipeline lists, on a pull request and a default branch alike.
+    A failed branch can have a `failed` of 0 when a held or cancelled run is what
     failed it. A timed-out or stale check counts as `failed`, a skipped,
     neutral or bare completed one as `passed`, on Forgejo too.
 
@@ -57,8 +56,8 @@ class CheckCounts:
     `skipped` is a newer field and says how many of the `passed` checks
     were skipped. It never exceeds `passed`: it is inside `passed`, not
     beside it, so `passed` still counts every check that needs nothing more
-    and the counts still add up to the checks the pipeline lists on a default
-    branch (on a pull request, bar its cancelled and held runs). The
+    and the counts still add up to the checks the pipeline lists, on a pull
+    request and a default branch alike. The
     server always sends it, which is why it is required; a client that may
     talk to an older server may read a missing one as zero. A neutral or bare
     completed check is passed without being skipped. A client that draws the
@@ -70,11 +69,11 @@ class CheckCounts:
     for a pull request and a branch alike; on Forgejo a pull request counts
     the statuses of the combined commit status, which only say pending, and
     takes the running ones out of the pending count by reading the jobs of
-    the commit's runs that are still going. When a run has failed, a
-    pending status of a job in a run that has failed is no wait: its
-    needs failed, so Forgejo leaves it blocked and nothing will start it,
-    and it is in none of the four. A default branch counts it as `cancelled`: it
-    counts the jobs of the workflow runs of the newest commit that has one,
+    the commit's runs that are still going. A pending status of a job in a
+    run that has failed is no wait: its needs failed, so Forgejo leaves it
+    blocked and nothing will start it, and it counts as `notStarted`, not
+    `waiting`. A default branch counts the jobs of the workflow runs of the
+    newest commit that has one,
     where a running job is `running`, a queued one `waiting`, and a blocked
     one `waiting` unless its run has failed. A run
     whose jobs can't be read counts as one check by its own status. Forgejo
@@ -92,14 +91,22 @@ class CheckCounts:
             failed (int):
             skipped (int):
             unknown (int):
-            cancelled (int | Unset): On a pull request, absent unless its `ci` is `cancelled`, then how
-                many runs were cancelled. On a default branch, always how many
-                jobs were cancelled, so its counts add up to the jobs the pipeline
-                lists. A newer field, so a client treats a missing one as 0.
-            held (int | Unset): On a default branch, how many runs are held for approval, so its
-                counts add up. A pull request never sets it: it says so with
-                `awaitingWorkflowApproval`. A newer field, so a client treats a
-                missing one as 0.
+            cancelled (int | Unset): How many runs were cancelled, on a pull request and a default
+                branch alike, so the counts add up to the jobs the pipeline lists.
+                Absent when none were. A newer field, so a client treats a missing
+                one as 0.
+            held (int | Unset): How many runs are held for approval, so the counts add up. A pull
+                request also says so with `awaitingWorkflowApproval`. Forgejo does
+                not tell a held job from a waiting one, so it never sets this: the
+                job is in `waiting`. Absent when none are. A newer field, so a
+                client treats a missing one as 0.
+            not_started (int | Unset): How many jobs are queued in a run that has already failed, so
+                nothing will start them. Forgejo leaves a job whose needs failed
+                blocked in the finished run and says pending for it. It is neither
+                `waiting` nor `failed`, so a failed pull request stays failed and
+                the counts still add up. Only Forgejo pull requests set it. Absent
+                when none are. A newer field, so a client treats a missing one as
+                0.
      """
 
     passed: int
@@ -110,6 +117,7 @@ class CheckCounts:
     unknown: int
     cancelled: int | Unset = UNSET
     held: int | Unset = UNSET
+    not_started: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -133,6 +141,8 @@ class CheckCounts:
 
         held = self.held
 
+        not_started = self.not_started
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -148,6 +158,8 @@ class CheckCounts:
             field_dict["cancelled"] = cancelled
         if held is not UNSET:
             field_dict["held"] = held
+        if not_started is not UNSET:
+            field_dict["notStarted"] = not_started
 
         return field_dict
 
@@ -172,6 +184,8 @@ class CheckCounts:
 
         held = d.pop("held", UNSET)
 
+        not_started = d.pop("notStarted", UNSET)
+
         check_counts = cls(
             passed=passed,
             running=running,
@@ -181,6 +195,7 @@ class CheckCounts:
             unknown=unknown,
             cancelled=cancelled,
             held=held,
+            not_started=not_started,
         )
 
 
