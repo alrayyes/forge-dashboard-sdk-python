@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.issue_details_kind import IssueDetailsKind
 from ..models.issue_details_state import IssueDetailsState
 from typing import cast
 
@@ -28,6 +29,11 @@ class IssueDetails:
     """ What the issue dialog shows.
 
         Attributes:
+            kind (IssueDetailsKind): What the number turned out to be. A forge shares one number space
+                between issues and pull requests, so a bare number in a description
+                can name either, and this endpoint answers for both. The
+                client decides which dialog to open; a pull request's `state` is
+                `closed` once it is merged as well as when it is closed unmerged.
             state (IssueDetailsState): Whether the forge has the issue open or closed right now. The
                 dialog draws its status from this, so an issue closed or reopened
                 while the dialog is open shows the change.
@@ -37,6 +43,7 @@ class IssueDetails:
             comments_truncated (bool): True when `commentCount` is more than the comments returned.
      """
 
+    kind: IssueDetailsKind
     state: IssueDetailsState
     description: DetailsBody
     comments: list[DetailsComment]
@@ -51,6 +58,8 @@ class IssueDetails:
     def to_dict(self) -> dict[str, Any]:
         from ..models.details_body import DetailsBody # noqa: PLC0415
         from ..models.details_comment import DetailsComment # noqa: PLC0415
+        kind = self.kind.value
+
         state = self.state.value
 
         description = self.description.to_dict()
@@ -70,6 +79,7 @@ class IssueDetails:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
+            "kind": kind,
             "state": state,
             "description": description,
             "comments": comments,
@@ -86,6 +96,11 @@ class IssueDetails:
         from ..models.details_body import DetailsBody # noqa: PLC0415
         from ..models.details_comment import DetailsComment # noqa: PLC0415
         d = dict(src_dict)
+        kind = IssueDetailsKind(d.pop("kind"))
+
+
+
+
         state = IssueDetailsState(d.pop("state"))
 
 
@@ -111,6 +126,7 @@ class IssueDetails:
         comments_truncated = d.pop("commentsTruncated")
 
         issue_details = cls(
+            kind=kind,
             state=state,
             description=description,
             comments=comments,

@@ -66,6 +66,7 @@ from .issue import Issue
 from .issue_action_request import IssueActionRequest
 from .issue_comment_request import IssueCommentRequest
 from .issue_details import IssueDetails
+from .issue_details_kind import IssueDetailsKind
 from .issue_details_state import IssueDetailsState
 from .issue_relation import IssueRelation
 from .label import Label
@@ -207,6 +208,7 @@ __all__ = (
     "IssueActionRequest",
     "IssueCommentRequest",
     "IssueDetails",
+    "IssueDetailsKind",
     "IssueDetailsState",
     "IssueRelation",
     "Label",
