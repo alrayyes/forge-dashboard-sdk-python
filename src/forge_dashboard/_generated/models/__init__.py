@@ -40,6 +40,7 @@ from .check_subject_kind import CheckSubjectKind
 from .check_waiting_for import CheckWaitingFor
 from .ci_status import CIStatus
 from .closing_issue import ClosingIssue
+from .connection_authorize_response import ConnectionAuthorizeResponse
 from .credential import Credential
 from .dashboard import Dashboard
 from .details_body import DetailsBody
@@ -125,6 +126,7 @@ from .settings_summary import SettingsSummary
 from .settings_summary_theme import SettingsSummaryTheme
 from .stack_position import StackPosition
 from .stack_ref import StackRef
+from .start_forgejo_connection_request import StartForgejoConnectionRequest
 from .stream_watch_request import StreamWatchRequest
 from .theme_request import ThemeRequest
 from .theme_request_theme import ThemeRequestTheme
@@ -179,6 +181,7 @@ __all__ = (
     "CheckWaitingFor",
     "CIStatus",
     "ClosingIssue",
+    "ConnectionAuthorizeResponse",
     "Credential",
     "Dashboard",
     "DetailsBody",
@@ -264,6 +267,7 @@ __all__ = (
     "SettingsSummaryTheme",
     "StackPosition",
     "StackRef",
+    "StartForgejoConnectionRequest",
     "StreamWatchRequest",
     "ThemeRequest",
     "ThemeRequestTheme",
