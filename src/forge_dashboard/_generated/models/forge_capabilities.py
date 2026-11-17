@@ -34,7 +34,8 @@ class ForgeCapabilities:
             approval_gated_runs (bool): True when a run can be held until a person approves it.
             dependabot_commands (bool): True when a `@dependabot` comment does anything on this forge.
             advisory_source (str): Where the repository advisories come from. Open-ended, so a new source is not a breaking
-                change; today `dependabot` and `osv`.
+                change; today `dependabot` and `osv`. A client keys its advisory wording (notice text, unreadable reasons) by
+                this value, not by the forge's name, and says something neutral for a source it has no words for.
             advisory_unknown_needs_reason (bool): True when an `unknown` advisory answer is worth showing only if the row
                 names a reason. Without one it usually means a repository with nothing to check. False when every `unknown`
                 answer is a failure to read.
