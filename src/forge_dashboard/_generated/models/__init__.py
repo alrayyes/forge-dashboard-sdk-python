@@ -7,6 +7,7 @@ from .advisory_cvss import AdvisoryCVSS
 from .advisory_epss import AdvisoryEPSS
 from .advisory_item import AdvisoryItem
 from .advisory_list import AdvisoryList
+from .advisory_list_refresh_failed import AdvisoryListRefreshFailed
 from .advisory_reason import AdvisoryReason
 from .advisory_severity import AdvisorySeverity
 from .advisory_state import AdvisoryState
@@ -149,6 +150,7 @@ __all__ = (
     "AdvisoryEPSS",
     "AdvisoryItem",
     "AdvisoryList",
+    "AdvisoryListRefreshFailed",
     "AdvisoryReason",
     "AdvisorySeverity",
     "AdvisoryState",
