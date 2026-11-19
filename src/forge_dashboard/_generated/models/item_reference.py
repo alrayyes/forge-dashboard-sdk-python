@@ -40,7 +40,10 @@ class ItemReference:
             state (ItemReferenceState): Where the related item stands. Only a pull request is `merged`; `closed` means
                 closed without merging.
             direction (ItemReferenceDirection): `incoming` when the related item refers to the asked-for one,
-                `outgoing` when the asked-for one refers to it.
+                `outgoing` when the asked-for one refers to it. The `relation` is
+                always the referring item's: what the related item does to the
+                asked-for one when `incoming`, what the asked-for one does to the
+                related item when `outgoing`.
             relation (ItemReferenceRelation): What the referring item does to the referred-to one. `closes`
                 closes it when merged (a closing keyword). `refs` references it
                 without closing it (`Refs`, `Related to`, `See`). `mentions` only
