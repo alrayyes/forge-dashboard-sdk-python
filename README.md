@@ -17,8 +17,7 @@ API yourself.
 - Python 3.12 or later.
 - A running forge-dashboard instance.
 - A personal API token for that instance (see "Authentication" below) —
-  every endpoint except `health`, `get_version` and the two webhook
-  receivers needs one.
+  every endpoint except `health` and the two webhook receivers needs one.
 
 ## Installation
 
@@ -50,15 +49,14 @@ client = ForgeDashboardClient(
 
 ## Usage
 
-`health` and `get_version` need no token and are good first calls to prove
-the client reaches the server at all:
+`health` needs no token and is a good first call to prove the client reaches
+the server at all:
 
 ```python
 from forge_dashboard import ForgeDashboardClient
 
 with ForgeDashboardClient("https://forge-dashboard.example.com") as client:
-    version = client.get_version()
-    print("server version:", version.version)
+    print("server status:", client.health().status)
 ```
 
 The aggregated dashboard needs a token, and demonstrates error handling:
