@@ -72,9 +72,7 @@ class ForgeDashboardClient:
         # doesn't mask a real mutation of raise_on_unexpected_status on the
         # same line -- that one *is* read, by every generated operation's
         # _parse_response.
-        self._raw = _GeneratedClient(
-            base_url=base_url, token=token or ""
-        )  # pragma: no mutate - never read back, see comment above
+        self._raw = _GeneratedClient(base_url=base_url, token=token or "")  # pragma: no mutate
         self._raw.raise_on_unexpected_status = raise_on_unexpected_status
 
         sync_client = httpx_client
