@@ -1,7 +1,6 @@
 """ Contains all the data models used in inputs/outputs """
 
 from .action_error import ActionError
-from .action_error_code import ActionErrorCode
 from .advisories import Advisories
 from .advisory_cvss import AdvisoryCVSS
 from .advisory_epss import AdvisoryEPSS
@@ -152,7 +151,6 @@ from .webhook_ensure_request import WebhookEnsureRequest
 
 __all__ = (
     "ActionError",
-    "ActionErrorCode",
     "Advisories",
     "AdvisoryCVSS",
     "AdvisoryEPSS",
