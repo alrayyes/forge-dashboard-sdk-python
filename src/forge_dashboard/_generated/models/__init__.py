@@ -133,6 +133,10 @@ from .settings_response import SettingsResponse
 from .settings_response_theme import SettingsResponseTheme
 from .settings_summary import SettingsSummary
 from .settings_summary_theme import SettingsSummaryTheme
+from .setup_forgejo import SetupForgejo
+from .setup_git_hub import SetupGitHub
+from .setup_installation import SetupInstallation
+from .setup_response import SetupResponse
 from .stack_position import StackPosition
 from .stack_ref import StackRef
 from .start_forgejo_connection_request import StartForgejoConnectionRequest
@@ -145,6 +149,8 @@ from .timezone_request import TimezoneRequest
 from .timezone_response import TimezoneResponse
 from .update_request import UpdateRequest
 from .update_request_phase import UpdateRequestPhase
+from .verify_forgejo_instance_request import VerifyForgejoInstanceRequest
+from .verify_forgejo_instance_response import VerifyForgejoInstanceResponse
 from .version import Version
 from .web_authn_ceremony_options import WebAuthnCeremonyOptions
 from .webhook_ensure_request import WebhookEnsureRequest
@@ -283,6 +289,10 @@ __all__ = (
     "SettingsResponseTheme",
     "SettingsSummary",
     "SettingsSummaryTheme",
+    "SetupForgejo",
+    "SetupGitHub",
+    "SetupInstallation",
+    "SetupResponse",
     "StackPosition",
     "StackRef",
     "StartForgejoConnectionRequest",
@@ -295,6 +305,8 @@ __all__ = (
     "TimezoneResponse",
     "UpdateRequest",
     "UpdateRequestPhase",
+    "VerifyForgejoInstanceRequest",
+    "VerifyForgejoInstanceResponse",
     "Version",
     "WebAuthnCeremonyOptions",
     "WebhookEnsureRequest",
