@@ -324,6 +324,11 @@ class PullRequest:
             failing_ci (bool): True when CI is failing and not only because a workflow run is
                 held for approval: what the Failing CI quick filter lists, and
                 what the menu pill's Failed number counts. Always present.
+            out_of_date (bool): True when this pull request is behind its base branch with
+                something left to merge, at any CI state, drafts and hidden ones
+                included: what the row's Out of date badge shows and what the Out of
+                date quick filter lists. An empty pull request has nothing to
+                update, so it is false. Always present.
             green_behind_base (bool): True when this is a green dependency pull request that is behind
                 its base branch with something left to merge, and isn't a draft or
                 hidden: what the "behind the base branch" chip lists, and what the
@@ -498,6 +503,7 @@ class PullRequest:
     status: None | PullRequestStatus
     ready_to_merge: bool
     failing_ci: bool
+    out_of_date: bool
     green_behind_base: bool
     needs_review: bool
     auto_update: AutoUpdate
@@ -659,6 +665,8 @@ class PullRequest:
 
         failing_ci = self.failing_ci
 
+        out_of_date = self.out_of_date
+
         green_behind_base = self.green_behind_base
 
         needs_review = self.needs_review
@@ -773,6 +781,7 @@ class PullRequest:
             "status": status,
             "readyToMerge": ready_to_merge,
             "failingCi": failing_ci,
+            "outOfDate": out_of_date,
             "greenBehindBase": green_behind_base,
             "needsReview": needs_review,
             "autoUpdate": auto_update,
@@ -1026,6 +1035,8 @@ class PullRequest:
 
         failing_ci = d.pop("failingCi")
 
+        out_of_date = d.pop("outOfDate")
+
         green_behind_base = d.pop("greenBehindBase")
 
         needs_review = d.pop("needsReview")
@@ -1194,6 +1205,7 @@ class PullRequest:
             status=status,
             ready_to_merge=ready_to_merge,
             failing_ci=failing_ci,
+            out_of_date=out_of_date,
             green_behind_base=green_behind_base,
             needs_review=needs_review,
             auto_update=auto_update,
