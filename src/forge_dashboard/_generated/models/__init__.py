@@ -47,6 +47,7 @@ from .details_body import DetailsBody
 from .details_body_format import DetailsBodyFormat
 from .details_comment import DetailsComment
 from .details_comment_format import DetailsCommentFormat
+from .disconnect_git_hub_response_200 import DisconnectGitHubResponse200
 from .error import Error
 from .failed_installation import FailedInstallation
 from .filter_state import FilterState
@@ -203,6 +204,7 @@ __all__ = (
     "DetailsBodyFormat",
     "DetailsComment",
     "DetailsCommentFormat",
+    "DisconnectGitHubResponse200",
     "Error",
     "FailedInstallation",
     "FilterState",
