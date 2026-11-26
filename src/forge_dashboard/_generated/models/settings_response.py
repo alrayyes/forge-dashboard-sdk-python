@@ -26,9 +26,9 @@ class SettingsResponse:
     """ The signed-in user's own GitHub/Forgejo configuration. Never
     includes a forge token's value — only whether one is currently
     saved, so the UI can show a "Configured" badge without the secret
-    ever reaching the browser. webhookToken/webhookSecret are the
-    exception: they're ours to hand back in the clear, since the user
-    has to paste them into the forge's own webhook setup.
+    ever reaching the browser. The webhook token and secret stay on the
+    server too: the receivers read them from the store, and the browser
+    never needs them.
 
         Attributes:
             github_username (str): Used as a token-free public-repos fallback when no GitHub token is set.
@@ -61,13 +61,6 @@ class SettingsResponse:
                 `POST /api/v1/connections/github` can work at all.
             github_o_auth_connected (bool): Whether a GitHub account is linked through the GitHub App's user
                 sign-in. The access and refresh tokens are never returned.
-            webhook_token (str): Identifies this user in a webhook URL
-                (`/api/webhooks/{provider}/{webhookToken}`). Generated on
-                first visit to Settings and stable after that.
-            webhook_secret (str): Pasted into the forge's own webhook "Secret" field, used to
-                verify the signature header on incoming webhook deliveries
-                (`X-Hub-Signature-256` on GitHub, `X-Forgejo-Signature` on
-                Forgejo). Never appears in the webhook URL itself.
             renovate_rebase_label (str): The label Renovate's own rebase/retry trigger listens for on
                 a repo (Renovate's own `rebaseLabel` config option — genuinely
                 per-repo configurable, so this is a user-set override rather
@@ -131,8 +124,6 @@ class SettingsResponse:
     forgejo_o_auth_connected: bool
     github_o_auth_configured: bool
     github_o_auth_connected: bool
-    webhook_token: str
-    webhook_secret: str
     renovate_rebase_label: str
     renovate_authors: list[str]
     forgejo_skipped_avatar_hosts: list[str]
@@ -169,10 +160,6 @@ class SettingsResponse:
         github_o_auth_configured = self.github_o_auth_configured
 
         github_o_auth_connected = self.github_o_auth_connected
-
-        webhook_token = self.webhook_token
-
-        webhook_secret = self.webhook_secret
 
         renovate_rebase_label = self.renovate_rebase_label
 
@@ -219,8 +206,6 @@ class SettingsResponse:
             "forgejoOAuthConnected": forgejo_o_auth_connected,
             "githubOAuthConfigured": github_o_auth_configured,
             "githubOAuthConnected": github_o_auth_connected,
-            "webhookToken": webhook_token,
-            "webhookSecret": webhook_secret,
             "renovateRebaseLabel": renovate_rebase_label,
             "renovateAuthors": renovate_authors,
             "forgejoSkippedAvatarHosts": forgejo_skipped_avatar_hosts,
@@ -262,10 +247,6 @@ class SettingsResponse:
         github_o_auth_configured = d.pop("githubOAuthConfigured")
 
         github_o_auth_connected = d.pop("githubOAuthConnected")
-
-        webhook_token = d.pop("webhookToken")
-
-        webhook_secret = d.pop("webhookSecret")
 
         renovate_rebase_label = d.pop("renovateRebaseLabel")
 
@@ -312,8 +293,6 @@ class SettingsResponse:
             forgejo_o_auth_connected=forgejo_o_auth_connected,
             github_o_auth_configured=github_o_auth_configured,
             github_o_auth_connected=github_o_auth_connected,
-            webhook_token=webhook_token,
-            webhook_secret=webhook_secret,
             renovate_rebase_label=renovate_rebase_label,
             renovate_authors=renovate_authors,
             forgejo_skipped_avatar_hosts=forgejo_skipped_avatar_hosts,
