@@ -57,6 +57,7 @@ from .forge_api_stats import ForgeApiStats
 from .forge_capabilities import ForgeCapabilities
 from .forge_error_kind import ForgeErrorKind
 from .forge_health import ForgeHealth
+from .forgejo_instance_check import ForgejoInstanceCheck
 from .get_image_forge import GetImageForge
 from .get_image_kind import GetImageKind
 from .get_image_width import GetImageWidth
@@ -150,7 +151,6 @@ from .timezone_response import TimezoneResponse
 from .update_request import UpdateRequest
 from .update_request_phase import UpdateRequestPhase
 from .verify_forgejo_instance_request import VerifyForgejoInstanceRequest
-from .verify_forgejo_instance_response import VerifyForgejoInstanceResponse
 from .version import Version
 from .web_authn_ceremony_options import WebAuthnCeremonyOptions
 from .webhook_ensure_request import WebhookEnsureRequest
@@ -213,6 +213,7 @@ __all__ = (
     "ForgeCapabilities",
     "ForgeErrorKind",
     "ForgeHealth",
+    "ForgejoInstanceCheck",
     "GetImageForge",
     "GetImageKind",
     "GetImageWidth",
@@ -306,7 +307,6 @@ __all__ = (
     "UpdateRequest",
     "UpdateRequestPhase",
     "VerifyForgejoInstanceRequest",
-    "VerifyForgejoInstanceResponse",
     "Version",
     "WebAuthnCeremonyOptions",
     "WebhookEnsureRequest",

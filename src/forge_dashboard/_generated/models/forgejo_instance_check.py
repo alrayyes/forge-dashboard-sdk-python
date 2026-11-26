@@ -14,12 +14,12 @@ from ..types import UNSET, Unset
 
 
 
-T = TypeVar("T", bound="VerifyForgejoInstanceResponse")
+T = TypeVar("T", bound="ForgejoInstanceCheck")
 
 
 
 @_attrs_define
-class VerifyForgejoInstanceResponse:
+class ForgejoInstanceCheck:
     """ 
         Attributes:
             instance_url (str):
@@ -51,13 +51,13 @@ class VerifyForgejoInstanceResponse:
         d = dict(src_dict)
         instance_url = d.pop("instanceUrl")
 
-        verify_forgejo_instance_response = cls(
+        forgejo_instance_check = cls(
             instance_url=instance_url,
         )
 
 
-        verify_forgejo_instance_response.additional_properties = d
-        return verify_forgejo_instance_response
+        forgejo_instance_check.additional_properties = d
+        return forgejo_instance_check
 
     @property
     def additional_keys(self) -> list[str]:
