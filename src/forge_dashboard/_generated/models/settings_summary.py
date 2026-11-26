@@ -24,8 +24,7 @@ T = TypeVar("T", bound="SettingsSummary")
 class SettingsSummary:
     """ The signed-in user's settings as `GET /api/v1/settings/summary` and the
     `get_settings` MCP tool return them: every field of
-    SettingsResponse except `webhookToken` and `webhookSecret`, which are
-    never part of it, plus `webhookConfigured`. No forge token appears,
+    SettingsResponse, plus `webhookConfigured`. No forge token appears,
     only whether one is set. Field meanings are those of the same-named
     SettingsResponse properties.
 
