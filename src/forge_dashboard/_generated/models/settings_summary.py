@@ -40,6 +40,7 @@ class SettingsSummary:
             forgejo_o_auth_connected (bool):
             github_o_auth_configured (bool):
             github_o_auth_connected (bool):
+            github_login (str):
             webhook_configured (bool): Whether this user's webhook token and secret exist. They are
                 created the first time the Settings page reads
                 `GET /api/v1/settings`, never by this read, so this is false for a
@@ -71,6 +72,7 @@ class SettingsSummary:
     forgejo_o_auth_connected: bool
     github_o_auth_configured: bool
     github_o_auth_connected: bool
+    github_login: str
     webhook_configured: bool
     renovate_rebase_label: str
     renovate_authors: list[str]
@@ -108,6 +110,8 @@ class SettingsSummary:
         github_o_auth_configured = self.github_o_auth_configured
 
         github_o_auth_connected = self.github_o_auth_connected
+
+        github_login = self.github_login
 
         webhook_configured = self.webhook_configured
 
@@ -154,6 +158,7 @@ class SettingsSummary:
             "forgejoOAuthConnected": forgejo_o_auth_connected,
             "githubOAuthConfigured": github_o_auth_configured,
             "githubOAuthConnected": github_o_auth_connected,
+            "githubLogin": github_login,
             "webhookConfigured": webhook_configured,
             "renovateRebaseLabel": renovate_rebase_label,
             "renovateAuthors": renovate_authors,
@@ -193,6 +198,8 @@ class SettingsSummary:
         github_o_auth_configured = d.pop("githubOAuthConfigured")
 
         github_o_auth_connected = d.pop("githubOAuthConnected")
+
+        github_login = d.pop("githubLogin")
 
         webhook_configured = d.pop("webhookConfigured")
 
@@ -241,6 +248,7 @@ class SettingsSummary:
             forgejo_o_auth_connected=forgejo_o_auth_connected,
             github_o_auth_configured=github_o_auth_configured,
             github_o_auth_connected=github_o_auth_connected,
+            github_login=github_login,
             webhook_configured=webhook_configured,
             renovate_rebase_label=renovate_rebase_label,
             renovate_authors=renovate_authors,

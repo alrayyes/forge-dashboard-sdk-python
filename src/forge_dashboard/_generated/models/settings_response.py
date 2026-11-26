@@ -61,6 +61,8 @@ class SettingsResponse:
                 `POST /api/v1/connections/github` can work at all.
             github_o_auth_connected (bool): Whether a GitHub account is linked through the GitHub App's user
                 sign-in. The access and refresh tokens are never returned.
+            github_login (str): The login of the linked GitHub account, or an empty string when none
+                is linked or GitHub can't be asked right now. Never a token.
             renovate_rebase_label (str): The label Renovate's own rebase/retry trigger listens for on
                 a repo (Renovate's own `rebaseLabel` config option — genuinely
                 per-repo configurable, so this is a user-set override rather
@@ -124,6 +126,7 @@ class SettingsResponse:
     forgejo_o_auth_connected: bool
     github_o_auth_configured: bool
     github_o_auth_connected: bool
+    github_login: str
     renovate_rebase_label: str
     renovate_authors: list[str]
     forgejo_skipped_avatar_hosts: list[str]
@@ -160,6 +163,8 @@ class SettingsResponse:
         github_o_auth_configured = self.github_o_auth_configured
 
         github_o_auth_connected = self.github_o_auth_connected
+
+        github_login = self.github_login
 
         renovate_rebase_label = self.renovate_rebase_label
 
@@ -206,6 +211,7 @@ class SettingsResponse:
             "forgejoOAuthConnected": forgejo_o_auth_connected,
             "githubOAuthConfigured": github_o_auth_configured,
             "githubOAuthConnected": github_o_auth_connected,
+            "githubLogin": github_login,
             "renovateRebaseLabel": renovate_rebase_label,
             "renovateAuthors": renovate_authors,
             "forgejoSkippedAvatarHosts": forgejo_skipped_avatar_hosts,
@@ -247,6 +253,8 @@ class SettingsResponse:
         github_o_auth_configured = d.pop("githubOAuthConfigured")
 
         github_o_auth_connected = d.pop("githubOAuthConnected")
+
+        github_login = d.pop("githubLogin")
 
         renovate_rebase_label = d.pop("renovateRebaseLabel")
 
@@ -293,6 +301,7 @@ class SettingsResponse:
             forgejo_o_auth_connected=forgejo_o_auth_connected,
             github_o_auth_configured=github_o_auth_configured,
             github_o_auth_connected=github_o_auth_connected,
+            github_login=github_login,
             renovate_rebase_label=renovate_rebase_label,
             renovate_authors=renovate_authors,
             forgejo_skipped_avatar_hosts=forgejo_skipped_avatar_hosts,
