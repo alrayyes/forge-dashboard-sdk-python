@@ -9,8 +9,8 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error import Error
+from ...models.forgejo_instance_check import ForgejoInstanceCheck
 from ...models.verify_forgejo_instance_request import VerifyForgejoInstanceRequest
-from ...models.verify_forgejo_instance_response import VerifyForgejoInstanceResponse
 from typing import cast
 
 
@@ -41,9 +41,9 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx2.Response) -> Error | VerifyForgejoInstanceResponse | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx2.Response) -> Error | ForgejoInstanceCheck | None:
     if response.status_code == 200:
-        response_200 = VerifyForgejoInstanceResponse.from_dict(response.json())
+        response_200 = ForgejoInstanceCheck.from_dict(response.json())
 
 
 
@@ -69,7 +69,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx2.Re
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx2.Response) -> Response[Error | VerifyForgejoInstanceResponse]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx2.Response) -> Response[Error | ForgejoInstanceCheck]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -83,7 +83,7 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: VerifyForgejoInstanceRequest,
 
-) -> Response[Error | VerifyForgejoInstanceResponse]:
+) -> Response[Error | ForgejoInstanceCheck]:
     """ Check that an address is a reachable Forgejo
 
      Asks `<instanceUrl>/api/v1/version`, which a Forgejo answers without a
@@ -100,7 +100,7 @@ def sync_detailed(
         httpx2.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Error | VerifyForgejoInstanceResponse]
+        Response[Error | ForgejoInstanceCheck]
      """
 
 
@@ -120,7 +120,7 @@ def sync(
     client: AuthenticatedClient,
     body: VerifyForgejoInstanceRequest,
 
-) -> Error | VerifyForgejoInstanceResponse | None:
+) -> Error | ForgejoInstanceCheck | None:
     """ Check that an address is a reachable Forgejo
 
      Asks `<instanceUrl>/api/v1/version`, which a Forgejo answers without a
@@ -137,7 +137,7 @@ def sync(
         httpx2.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Error | VerifyForgejoInstanceResponse
+        Error | ForgejoInstanceCheck
      """
 
 
@@ -152,7 +152,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: VerifyForgejoInstanceRequest,
 
-) -> Response[Error | VerifyForgejoInstanceResponse]:
+) -> Response[Error | ForgejoInstanceCheck]:
     """ Check that an address is a reachable Forgejo
 
      Asks `<instanceUrl>/api/v1/version`, which a Forgejo answers without a
@@ -169,7 +169,7 @@ async def asyncio_detailed(
         httpx2.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Error | VerifyForgejoInstanceResponse]
+        Response[Error | ForgejoInstanceCheck]
      """
 
 
@@ -189,7 +189,7 @@ async def asyncio(
     client: AuthenticatedClient,
     body: VerifyForgejoInstanceRequest,
 
-) -> Error | VerifyForgejoInstanceResponse | None:
+) -> Error | ForgejoInstanceCheck | None:
     """ Check that an address is a reachable Forgejo
 
      Asks `<instanceUrl>/api/v1/version`, which a Forgejo answers without a
@@ -206,7 +206,7 @@ async def asyncio(
         httpx2.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Error | VerifyForgejoInstanceResponse
+        Error | ForgejoInstanceCheck
      """
 
 
