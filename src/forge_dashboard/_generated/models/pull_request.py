@@ -324,6 +324,10 @@ class PullRequest:
             failing_ci (bool): True when CI is failing and not only because a workflow run is
                 held for approval: what the Failing CI quick filter lists, and
                 what the menu pill's Failed number counts. Always present.
+            green_behind_base (bool): True when this is a green dependency pull request that is behind
+                its base branch with something left to merge, and isn't a draft or
+                hidden: what the "behind the base branch" chip lists, and what the
+                Bots menu pill's `behind` number counts. Always present.
             needs_review (bool): True when a review is outstanding: the forge requires one, or a
                 reviewer was asked and hasn't answered, and the pull request
                 isn't a draft. Unreviewed with nobody asked, approved, changes
@@ -494,6 +498,7 @@ class PullRequest:
     status: None | PullRequestStatus
     ready_to_merge: bool
     failing_ci: bool
+    green_behind_base: bool
     needs_review: bool
     auto_update: AutoUpdate
     conflict_confirmed: bool | Unset = UNSET
@@ -654,6 +659,8 @@ class PullRequest:
 
         failing_ci = self.failing_ci
 
+        green_behind_base = self.green_behind_base
+
         needs_review = self.needs_review
 
         auto_update = self.auto_update.to_dict()
@@ -766,6 +773,7 @@ class PullRequest:
             "status": status,
             "readyToMerge": ready_to_merge,
             "failingCi": failing_ci,
+            "greenBehindBase": green_behind_base,
             "needsReview": needs_review,
             "autoUpdate": auto_update,
         })
@@ -1018,6 +1026,8 @@ class PullRequest:
 
         failing_ci = d.pop("failingCi")
 
+        green_behind_base = d.pop("greenBehindBase")
+
         needs_review = d.pop("needsReview")
 
         auto_update = AutoUpdate.from_dict(d.pop("autoUpdate"))
@@ -1184,6 +1194,7 @@ class PullRequest:
             status=status,
             ready_to_merge=ready_to_merge,
             failing_ci=failing_ci,
+            green_behind_base=green_behind_base,
             needs_review=needs_review,
             auto_update=auto_update,
             conflict_confirmed=conflict_confirmed,
