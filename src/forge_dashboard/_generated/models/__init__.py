@@ -58,6 +58,7 @@ from .forge_api_stats import ForgeApiStats
 from .forge_capabilities import ForgeCapabilities
 from .forge_error_kind import ForgeErrorKind
 from .forge_health import ForgeHealth
+from .forge_health_cause import ForgeHealthCause
 from .forgejo_instance_check import ForgejoInstanceCheck
 from .get_image_forge import GetImageForge
 from .get_image_kind import GetImageKind
@@ -215,6 +216,7 @@ __all__ = (
     "ForgeCapabilities",
     "ForgeErrorKind",
     "ForgeHealth",
+    "ForgeHealthCause",
     "ForgejoInstanceCheck",
     "GetImageForge",
     "GetImageKind",
