@@ -43,9 +43,12 @@ class ForgeHealth:
                 saved and no fetch from the forge has answered in time since the
                 app started. `reachable` is then false and errorKind is absent: it
                 is not in error, it has not been heard from. A first fetch that
-                passes its deadline, and a pass skipped behind it, leave this
-                entry as it is, and the late answer is dropped. The first fetch
-                that answers in time replaces it. When three passes in a row have
+                passes the scheduled deadline of three minutes, and a pass skipped
+                behind it, leave this entry as it is, and the late answer is
+                dropped. A refresh a person asked for stops waiting after one
+                minute, but the fetch runs on and this entry stays until it
+                answers. The first fetch that answers within the scheduled deadline
+                replaces it. When three passes in a row have
                 gone unanswered, counting deadline and skipped passes together,
                 the flag and the "starting" cause go, and errorKind is
                 "unreachable", with the saved rows and staleSince kept. While it is
@@ -56,11 +59,18 @@ class ForgeHealth:
                 the `starting` flag, and goes when that flag does: the rows are the
                 ones the last run saved and no fetch from the forge has answered in
                 time since the app started.
-                "slow" means the latest pass gave no answer in time (it hit its
-                deadline, or was skipped because the last fetch was still running)
-                and the last good rows are held, with the forge still reachable,
-                until three passes in a row have missed. Any later pass that does
-                not miss clears it, including one that holds a 5xx or does not ask
+                "slow" means the forge has not answered yet and is not counted as
+                down. Either a refresh a person asked for stopped waiting after one
+                minute and the fetch is still running, which counts as no miss, or
+                a fetch hit the scheduled deadline of three minutes and the forge
+                is held until three passes in a row have missed. The last good rows
+                are held and the forge is still reachable. A forge never read
+                before can be "slow" with no rows while its first fetch runs on.
+                It then has no `rowsReadAt`, and a client must not read the
+                missing rows as closed or gone, or offer actions for it.
+                A fetch that runs on is applied as soon as it answers. Otherwise
+                any later pass that does not miss clears the cause, including one
+                that holds a 5xx or does not ask
                 because the rate limit is spent or at its reserve. Absent when the
                 rows are current, and when the forge is shown as down (see
                 errorKind). A client words it, "slow to answer" or "starting up",
@@ -86,12 +96,12 @@ class ForgeHealth:
                 webhook refresh has made every repo of the forge current, even
                 while full refreshes keep failing. Absent when the data
                 is current, and for a forge that has never fetched successfully,
-                which has nothing to show. A forge that has not answered counts
-                as failed, so a hung forge does not hold back the others: after
-                three minutes in a scheduled refresh, after one minute in a
-                refresh a person asked for. A forge still answering the last
-                refresh is not asked again, and counts as failed too. A client
-                can say "unreachable, showing
+                which has nothing to show. A hung forge does not hold back the
+                others: a scheduled refresh waits three minutes for it and a
+                refresh a person asked for waits one. Only the three minutes count
+                against the forge. A fetch the person's refresh stopped waiting for
+                runs on up to that limit, and the forge is not asked again
+                meanwhile. A client can say "unreachable, showing
                 data from 3 minutes ago".
             error (str | Unset): A human-readable explanation of the last failure, if reachable is false. Mapped from
                 errorKind, not the raw underlying error text. Omitted when reachable.
