@@ -42,8 +42,8 @@ class QueuedAction:
                 `message` say why ("Already merged"). `failed`: either the action
                 ran and the forge refused, with the structured `code` and
                 `message` an immediate action would have answered, or it never
-                ran because the forge still didn't answer an hour after the
-                action first came due, with `code` `unknown`.
+                ran because the forge still didn't answer, or was still slow,
+                an hour after the action first came due, with `code` `unknown`.
             run_at (datetime.datetime): When the forge's budget comes back, which is when the server
                 looks again. If the budget is spent again by then, it moves to
                 the new reset instead of failing.
